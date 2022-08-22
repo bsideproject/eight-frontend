@@ -308,6 +308,7 @@ final class HomeVC: UIViewController {
     }
     
     private func resetInfoWindows() {
+        
         markers.forEach {
             $0.mapView = nil
         }
@@ -347,3 +348,4 @@ extension HomeVC: NMFMapViewTouchDelegate {
         updateBottomInfoView(isOpen: false)
     }
 }
+

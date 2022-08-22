@@ -12,9 +12,9 @@ import UIKit
 final class CommonNavigationView: UIView {
     //MARK: - Properties
     let backButton = UIButton().then {
-        $0.setImage(Images.Navigation.back.image, for: .normal)
-        $0.setImage(Images.Navigation.back.image, for: .highlighted)
+        $0.setImage(Images.Navigation.back.image)
     }
+    let rightButton = UIButton()
     let titleLabel = UILabel().then {
         $0.textAlignment = .center
         $0.textColor = Colors.gray001.color
@@ -38,12 +38,18 @@ final class CommonNavigationView: UIView {
     //MARK: - Make UI
     private func makeUI() {
         addSubview(backButton)
+        addSubview(rightButton)
         addSubview(titleLabel)
         addSubview(bottomLine)
         
         backButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(5)
+            $0.left.equalToSuperview().offset(5)
+            $0.size.equalTo(44)
+        }
+        rightButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-2)
             $0.size.equalTo(44)
         }
         titleLabel.snp.makeConstraints {

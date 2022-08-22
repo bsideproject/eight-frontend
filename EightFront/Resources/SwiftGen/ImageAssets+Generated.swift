@@ -42,6 +42,7 @@ internal enum Images {
   }
   internal enum Navigation {
     internal static let back = ImageAsset(name: "back")
+    internal static let post = ImageAsset(name: "post")
   }
   internal enum Report {
     internal static let addPhoto = ImageAsset(name: "add-photo")

@@ -7,8 +7,10 @@
 
 import UIKit
 
+//TODO: 더미데이타 모델 추후 서버 API 나올 시 교체
 struct CardsDataModel {
     let bgColor: UIColor
-    let name: String
+    let title: String
+    let subTitle: String
     let image: UIImage
 }
