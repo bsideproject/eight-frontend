@@ -9,13 +9,18 @@ import Then
 import SnapKit
 import UIKit
 import NMapsMap
+
+protocol SearchMapDelegate: AnyObject {
+    func fetch(location: CLLocation?)
+}
+
 //MARK: FindAddressVC
 final class SearchMapVC: UIViewController {
     //MARK: - Properties
-    var requestLocation: CLLocation?
+    weak var delegate: SearchMapDelegate?
     private let viewModel = SearchMapViewModel()
     let navigationView = CommonNavigationView().then {
-        $0.titleLabel.text = "지도정보수정"
+        $0.titleLabel.text = "위치 설정"
     }
     private lazy var mapView = NMFMapView().then {
         $0.addCameraDelegate(delegate: self)
@@ -28,21 +33,21 @@ final class SearchMapVC: UIViewController {
         $0.image = Images.Map.markerSelect.image
     }
     private let currentLocationButton = UIButton().then {
-        $0.layer.cornerRadius = 2
+        $0.layer.cornerRadius = 22
         $0.setImage(Images.currentLocation.image, for: .normal)
         $0.setImage(Images.currentLocation.image, for: .highlighted)
         $0.backgroundColor = .white
     }
     private lazy var bottomAddressView = BottomAddressView().then {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addressViewTapped))
-        $0.addGestureRecognizer(tapGesture)
+        $0.addressLabel.addGestureRecognizer(tapGesture)
     }
     
     //MARK: - Life Cycle
     init(requestLocation: CLLocation? = nil) {
         super.init(nibName: nil, bundle: nil)
         
-        self.requestLocation = requestLocation
+        viewModel.requestLocation = requestLocation
     }
     
     required init?(coder: NSCoder) {
@@ -72,8 +77,6 @@ final class SearchMapVC: UIViewController {
         view.addSubview(currentLocationButton)
         view.addSubview(bottomAddressView)
         
-        print(view.safeAreaInsets.top)
-        
         navigationView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.right.equalToSuperview()
@@ -81,7 +84,7 @@ final class SearchMapVC: UIViewController {
         }
         bottomAddressView.snp.makeConstraints {
             $0.left.right.bottom.equalToSuperview()
-            $0.height.equalTo(224)
+            $0.height.equalTo(236)
         }
         mapView.snp.makeConstraints {
             $0.top.equalTo(navigationView.snp.bottom)
@@ -90,34 +93,26 @@ final class SearchMapVC: UIViewController {
         }
         markerImageView.snp.makeConstraints {
             $0.centerX.equalTo(mapView.snp.centerX)
-            $0.centerY.equalTo(mapView.snp.centerY).offset(-30)
+            $0.centerY.equalTo(mapView.snp.centerY).offset(-16)
             $0.width.equalTo(26)
             $0.height.equalTo(32)
         }
         currentLocationButton.snp.makeConstraints {
-            $0.bottom.equalTo(mapView.snp.bottom).offset(-12)
+            $0.bottom.equalTo(mapView.snp.bottom).offset(-37)
             $0.right.equalToSuperview().offset(-16)
             $0.width.equalTo(44)
-            $0.height.equalTo(46)
+            $0.height.equalTo(44)
         }
     }
     
     //MARK: - Rx Binding..
     private func bind() {
-        viewModel.input
-            .requestAddress
-            .send(requestLocation)
-        
         currentLocationButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
-            .compactMap { LocationManager.shared.currentLocation?.coordinate }
+            .map { LocationManager.shared.currentLocation }
             .sink { [weak self] in
-                let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: $0.latitude,
-                                                                       lng: $0.longitude), zoomTo: 15.0)
-                cameraUpdate.animation = .easeIn
-                LocationManager.shared.currentAddress = nil
-                self?.mapView.moveCamera(cameraUpdate)
+                self?.moveMap(location: $0)
             }
             .store(in: &viewModel.bag)
         
@@ -131,24 +126,53 @@ final class SearchMapVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.dismiss(animated: true)
+                self?.navigationController?.popViewController(animated: true)
             }
             .store(in: &viewModel.bag)
+        
+        bottomAddressView.submitButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.delegate?.fetch(location: self?.viewModel.requestLocation)
+                self?.navigationController?.popViewController(animated: true)
+            }
+            .store(in: &viewModel.bag)
+        
+        moveMap(location: viewModel.requestLocation, zoomTo: 16, isAnimate: false)
     }
     
     @objc
     private func addressViewTapped() {
+        viewModel.isMove = false
         let searchBarVC = SearchBarVC()
         searchBarVC.delegate = self
         navigationController?.pushViewController(searchBarVC, animated: true)
     }
+    
+    private func moveMap(location: CLLocation?, zoomTo: Double = .zero, isAnimate: Bool = true) {
+        guard let location else { return }
+        LogUtil.d(location.coordinate)
+        
+        let latLng = NMGLatLng(lat: location.coordinate.latitude, lng: location.coordinate.longitude)
+        let cameraUpdate = zoomTo == .zero ? NMFCameraUpdate(scrollTo: latLng) : NMFCameraUpdate(scrollTo: latLng, zoomTo: zoomTo)
+        
+        cameraUpdate.animation = isAnimate ? .easeIn : .none
+        mapView.moveCamera(cameraUpdate)
+    }
 }
 
 extension SearchMapVC: NMFMapViewCameraDelegate {
+    func mapView(_ mapView: NMFMapView, cameraDidChangeByReason reason: Int, animated: Bool) {
+        guard reason == -1 else { return }
+        viewModel.isMove = true
+    }
+    
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        let location = CLLocation(latitude: mapView.latitude, longitude: mapView.longitude)
+        guard viewModel.isMove else { return }
         
-        viewModel.input.requestAddress.send(location)
+        let targetLocation = CLLocation(latitude: mapView.latitude, longitude: mapView.longitude)
+        viewModel.requestLocation = targetLocation
     }
 }
 
@@ -156,10 +180,9 @@ extension SearchMapVC: SearchBarDelegate {
     func fetch(coordinate: CLLocationCoordinate2D?) {
         guard let coordinate else { return }
         
-        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate.latitude,
-                                                               lng: coordinate.longitude), zoomTo: 15.0)
-        cameraUpdate.animation = .easeIn
-        LocationManager.shared.currentAddress = nil
-        self.mapView.moveCamera(cameraUpdate)
+        let targetLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        viewModel.requestLocation = targetLocation
+        
+        moveMap(location: targetLocation, zoomTo: 16.0, isAnimate: false)
     }
 }
