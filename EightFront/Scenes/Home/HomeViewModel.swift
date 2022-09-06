@@ -8,11 +8,17 @@
 import UIKit
 import Combine
 import Moya
+import NMapsMap
 import CombineMoya
 import CoreLocation
 
 //MARK: HomeViewModel
 final class HomeViewModel {
+    enum NaviType: String {
+        case naver = "naver"
+        case kakao = "kakao"
+        case tmap = "tmap"
+    }
     //MARK: - Properties
     var cancelBag = Set<AnyCancellable>()
     let input = Input()
@@ -44,10 +50,6 @@ final class HomeViewModel {
         
         input.requestAddress
             .sink {
-                if case let .failure(error) = $0 {
-                    LogUtil.d(error.localizedDescription)
-                }
-            } receiveValue: {
                 LocationManager.shared.addressUpdate(location: $0) { [weak self] address in
                     self?.addressString = address
                 }
@@ -63,7 +65,7 @@ extension HomeViewModel {
     }
     
     struct Input {
-        var requestAddress = CurrentValueSubject<CLLocation?, ErrorResult>.init(nil)
+        var requestAddress = CurrentValueSubject<CLLocation?, Never>.init(nil)
     }
     
     struct Output {
@@ -87,5 +89,36 @@ extension HomeViewModel {
                 LogUtil.d(responseData)
             }
             .store(in: &cancelBag)
+    }
+    
+    func requestURL(targetLocation location: CLLocation?) -> URL? {
+        guard let destinationLocation = location,
+              let type = NaviType(rawValue: DataManager.shared.setting?.naviType ?? "") else { return nil }
+        
+        var destinationURL: URL? = nil
+        var appstoreURL: URL? = nil
+        
+        let position = NMGLatLng(lat: destinationLocation.coordinate.latitude, lng: destinationLocation.coordinate.longitude)
+        
+        switch type {
+        case .tmap:
+            let urlString = "tmap://?rGoName=\("의류 수거함")&rGoX=\(position.lng)&rGoY=\(position.lat)"
+            let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            destinationURL = URL(string: encodedStr ?? "")
+            appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/431589174")
+        case .kakao:
+            destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR")
+            appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425")
+        case .naver:
+            let urlString = "nmap://navigation?dlat=\(position.lat)&dlng=\(position.lng)&dname=\("의류 수거함")&appname=com.oilpricewhere.wheregasoline"
+            
+            let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            destinationURL = URL(string: encodedStr ?? "")
+            appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728")
+        }
+        
+        guard let _destinationURL = destinationURL, let _appstoreURL = appstoreURL else { return nil }
+        
+        return UIApplication.shared.canOpenURL(_destinationURL) ? _destinationURL : _appstoreURL
     }
 }
