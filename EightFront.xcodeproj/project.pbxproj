@@ -43,7 +43,7 @@
 		E9460AF928E9DE2200932351 /* Fonts+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460AF828E9DE2200932351 /* Fonts+Generated.swift */; };
 		E9460AFC28E9E3E900932351 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460AFB28E9E3E900932351 /* HomeHeaderView.swift */; };
 		E9460AFE28E9E51D00932351 /* HomeSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460AFD28E9E51D00932351 /* HomeSearchView.swift */; };
-		E9460B0428EA056E00932351 /* HomeListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0328EA056E00932351 /* HomeListVC.swift */; };
+		E9460B0428EA056E00932351 /* HomeSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0328EA056E00932351 /* HomeSearchVC.swift */; };
 		E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0628EA0BBF00932351 /* ReportVC.swift */; };
 		E9460B0928EAADC300932351 /* HomeAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0828EAADC300932351 /* HomeAddressView.swift */; };
 		E9460B0D28EAC0B100932351 /* CommonNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0C28EAC0B100932351 /* CommonNavigationViewController.swift */; };
@@ -143,7 +143,7 @@
 		E9460AF828E9DE2200932351 /* Fonts+Generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fonts+Generated.swift"; sourceTree = "<group>"; };
 		E9460AFB28E9E3E900932351 /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
 		E9460AFD28E9E51D00932351 /* HomeSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSearchView.swift; sourceTree = "<group>"; };
-		E9460B0328EA056E00932351 /* HomeListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListVC.swift; sourceTree = "<group>"; };
+		E9460B0328EA056E00932351 /* HomeSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSearchVC.swift; sourceTree = "<group>"; };
 		E9460B0628EA0BBF00932351 /* ReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportVC.swift; sourceTree = "<group>"; };
 		E9460B0828EAADC300932351 /* HomeAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAddressView.swift; sourceTree = "<group>"; };
 		E9460B0C28EAC0B100932351 /* CommonNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonNavigationViewController.swift; sourceTree = "<group>"; };
@@ -386,8 +386,7 @@
 				E9460AFA28E9E2D900932351 /* View */,
 				E927FC9B28D3525700A91F11 /* HomeVC.swift */,
 				E9160C1B28E3177C007B1307 /* HomeViewModel.swift */,
-				E9460AFF28EA04D300932351 /* Search */,
-				E9460B0028EA04E600932351 /* List */,
+				E9460B0028EA04E600932351 /* Search */,
 				E9460B0528EA0B8F00932351 /* Report */,
 			);
 			path = Home;
@@ -423,12 +422,12 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
-		E9460B0028EA04E600932351 /* List */ = {
+		E9460B0028EA04E600932351 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				E9460B0328EA056E00932351 /* HomeListVC.swift */,
+				E9460B0328EA056E00932351 /* HomeSearchVC.swift */,
 			);
-			path = List;
+			path = Search;
 			sourceTree = "<group>";
 		};
 		E9460B0528EA0B8F00932351 /* Report */ = {
@@ -437,6 +436,7 @@
 				E96BC92128EB2D58002EBA7E /* View */,
 				E9460B0628EA0BBF00932351 /* ReportVC.swift */,
 				E95ACEA728F33BED00057900 /* ReportViewModel.swift */,
+				E9460AFF28EA04D300932351 /* Search */,
 				E98A04EC28F435A7009F055B /* Complete */,
 			);
 			path = Report;
@@ -716,7 +716,7 @@
 				E9BF49AD28D9F45F007BBC3D /* UIView+.swift in Sources */,
 				28A215E328E4592700DEDF8B /* LoginBottomSheetVC.swift in Sources */,
 				E9BFC40228E890A500951604 /* ApiResponse.swift in Sources */,
-				E9460B0428EA056E00932351 /* HomeListVC.swift in Sources */,
+				E9460B0428EA056E00932351 /* HomeSearchVC.swift in Sources */,
 				E98A04EB28F4185B009F055B /* NSMutableAttributedString+.swift in Sources */,
 				E9460B0928EAADC300932351 /* HomeAddressView.swift in Sources */,
 				E99929B828D882BF006FCFC7 /* MyPageVC.swift in Sources */,

@@ -135,7 +135,7 @@ extension CommonTextFieldView: UITextViewDelegate {
         guard textView.text.isEmpty else { return }
         
         textView.text = placeholder
-        textView.textColor = Colors.gray005.color
+        textView.textColor = Colors.gray006.color
         textView.font = Fonts.Pretendard.regular.font(size: 16)
     }
 }

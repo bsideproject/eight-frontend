@@ -51,10 +51,14 @@ internal enum Images {
     internal static let search = ImageAsset(name: "search")
   }
   internal enum Tabbar {
-    internal static let alarm = ImageAsset(name: "alarm")
-    internal static let feed = ImageAsset(name: "feed")
-    internal static let home = ImageAsset(name: "home")
-    internal static let myPage = ImageAsset(name: "my-page")
+    internal static let alarmNone = ImageAsset(name: "alarm-none")
+    internal static let alarmSelect = ImageAsset(name: "alarm-select")
+    internal static let feedNone = ImageAsset(name: "feed-none")
+    internal static let feedSelect = ImageAsset(name: "feed-select")
+    internal static let homeNone = ImageAsset(name: "home-none")
+    internal static let homeSelect = ImageAsset(name: "home-select")
+    internal static let myPageNone = ImageAsset(name: "my-page-none")
+    internal static let myPageSelect = ImageAsset(name: "my-page-select")
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

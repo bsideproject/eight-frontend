@@ -29,29 +29,29 @@ final class MainTabbarController: UITabBarController {
     //MARK: - Make UI
     private func makeUI() {
         tabBar.backgroundColor = .white
-        tabBar.tintColor = Colors.main.color
+        tabBar.tintColor = Colors.gray002.color
         tabBar.unselectedItemTintColor = Colors.gray006.color
         
         let homeVC = HomeVC()
         let homeNavi = CommonNavigationViewController(rootViewController: homeVC)
         homeNavi.tabBarItem.title = "홈"
-        homeNavi.tabBarItem.image = Images.Tabbar.home.image
-        homeNavi.tabBarItem.selectedImage = Images.Tabbar.home.image
+        homeNavi.tabBarItem.image = Images.Tabbar.homeNone.image
+        homeNavi.tabBarItem.selectedImage = Images.Tabbar.homeSelect.image.withRenderingMode(.alwaysOriginal)
         
         let tradeVC = TradeVC()
         tradeVC.tabBarItem.title = "피드"
-        tradeVC.tabBarItem.image = Images.Tabbar.feed.image
-        tradeVC.tabBarItem.selectedImage = Images.Tabbar.feed.image
+        tradeVC.tabBarItem.image = Images.Tabbar.feedNone.image
+        tradeVC.tabBarItem.selectedImage = Images.Tabbar.feedSelect.image.withRenderingMode(.alwaysOriginal)
         
         let noticeVC = NoticeVC()
         noticeVC.tabBarItem.title = "알림"
-        noticeVC.tabBarItem.image = Images.Tabbar.alarm.image
-        noticeVC.tabBarItem.selectedImage = Images.Tabbar.alarm.image
+        noticeVC.tabBarItem.image = Images.Tabbar.alarmNone.image
+        noticeVC.tabBarItem.selectedImage = Images.Tabbar.alarmSelect.image.withRenderingMode(.alwaysOriginal)
         
         let myPageVC = MyPageVC()
         myPageVC.tabBarItem.title = "마이페이지"
-        myPageVC.tabBarItem.image = Images.Tabbar.myPage.image
-        myPageVC.tabBarItem.selectedImage = Images.Tabbar.myPage.image
+        myPageVC.tabBarItem.image = Images.Tabbar.myPageNone.image
+        myPageVC.tabBarItem.selectedImage = Images.Tabbar.myPageSelect.image.withRenderingMode(.alwaysOriginal)
 
         viewControllers = [homeNavi, tradeVC, noticeVC, myPageVC]
     }
