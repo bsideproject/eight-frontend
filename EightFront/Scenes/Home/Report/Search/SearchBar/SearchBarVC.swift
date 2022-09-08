@@ -139,6 +139,14 @@ final class SearchBarVC: UIViewController {
                 self?.performDataSnapShot(pois: $0)
             }
             .store(in: &viewModel.bag)
+        
+        navigationView.backButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+            .store(in: &viewModel.bag)
     }
     
     @objc

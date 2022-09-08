@@ -32,7 +32,7 @@ final class HomeHeaderView: UIView {
     
     //MARK: - Make UI
     private func makeUI() {
-        backgroundColor = Colors.main.color
+        backgroundColor = Colors.gray002.color
         
         addSubview(addressView)
         addSubview(searchView)

@@ -20,7 +20,7 @@ final class HomeVC: UIViewController {
     //MARK: - Properties
     private let viewModel = HomeViewModel()
     private let statusView = UIView().then {
-        $0.backgroundColor = Colors.main.color
+        $0.backgroundColor = Colors.gray002.color
     }
     private lazy var headerView = HomeHeaderView().then {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(searchButtonTapped))
@@ -49,7 +49,7 @@ final class HomeVC: UIViewController {
     private let reportButton = UIButton().then {
         $0.layer.cornerRadius = 25
         $0.setImage(Images.Home.add.image)
-        $0.backgroundColor = Colors.main.color
+        $0.backgroundColor = Colors.gray002.color
     }
     private lazy var boxInfoView = BoxCollectionView().then {
         $0.layer.cornerRadius = 8
@@ -195,8 +195,8 @@ final class HomeVC: UIViewController {
     
     @objc
     func searchButtonTapped() {
-        let homeSearchVC = HomeSearchVC()
-        tabBarController?.navigationController?.pushViewController(homeSearchVC, animated: true)
+//        let homeSearchVC = HomeSearchVC()
+//        tabBarController?.navigationController?.pushViewController(homeSearchVC, animated: true)
     }
     
     private func reportButtonTapped() {

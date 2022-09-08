@@ -27,7 +27,9 @@ final class SearchMapVC: UIViewController {
         $0.positionMode = .direction
         $0.minZoomLevel = 10.0
         $0.maxZoomLevel = 18.0
-        $0.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
+        $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+        $0.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37,
+                                    northEastLat: 44.35, northEastLng: 132)
     }
     private let markerImageView = UIImageView().then {
         $0.image = Images.Map.markerSelect.image
@@ -84,12 +86,12 @@ final class SearchMapVC: UIViewController {
         }
         bottomAddressView.snp.makeConstraints {
             $0.left.right.bottom.equalToSuperview()
-            $0.height.equalTo(236)
+            $0.height.equalTo(239)
         }
         mapView.snp.makeConstraints {
             $0.top.equalTo(navigationView.snp.bottom)
             $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(bottomAddressView.snp.top)
+            $0.bottom.equalTo(bottomAddressView.snp.top).offset(10)
         }
         markerImageView.snp.makeConstraints {
             $0.centerX.equalTo(mapView.snp.centerX)
@@ -98,7 +100,7 @@ final class SearchMapVC: UIViewController {
             $0.height.equalTo(32)
         }
         currentLocationButton.snp.makeConstraints {
-            $0.bottom.equalTo(mapView.snp.bottom).offset(-37)
+            $0.bottom.equalTo(mapView.snp.bottom).offset(-17)
             $0.right.equalToSuperview().offset(-16)
             $0.width.equalTo(44)
             $0.height.equalTo(44)

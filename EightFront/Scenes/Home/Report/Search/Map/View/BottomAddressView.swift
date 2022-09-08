@@ -49,6 +49,8 @@ final class BottomAddressView: UIView {
     //MARK: - Make UI
     private func makeUI() {
         clipsToBounds = false
+        backgroundColor = .white
+        layer.cornerRadius = 8.0
         
         addSubview(titleLabel)
         addSubview(addressLabel)
@@ -56,11 +58,11 @@ final class BottomAddressView: UIView {
         addSubview(submitButton)
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(28)
+            $0.top.equalToSuperview().offset(24)
             $0.left.equalToSuperview().offset(16)
         }
         addressLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(9)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.left.right.equalToSuperview().inset(16)
             $0.height.equalTo(54)
         }
@@ -71,9 +73,13 @@ final class BottomAddressView: UIView {
             $0.height.equalTo(24)
         }
         submitButton.snp.makeConstraints {
-            $0.top.equalTo(addressLabel.snp.bottom).offset(16)
+            $0.top.equalTo(addressLabel.snp.bottom).offset(25)
             $0.left.right.equalToSuperview().inset(16)
             $0.height.equalTo(58)
         }
+        
+        layer.applyFigmaShadow(x: 0, y: -4,
+                               color: Colors.shadow001.color.withAlphaComponent(0.12),
+                               blur: 15.0, spread: -2.0)
     }
 }

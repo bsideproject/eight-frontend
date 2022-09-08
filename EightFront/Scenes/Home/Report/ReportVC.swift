@@ -183,7 +183,7 @@ final class ReportVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.dismiss(animated: true)
+                self?.navigationController?.popViewController(animated: true)
             }
             .store(in: &viewModel.bag)
         viewModel
