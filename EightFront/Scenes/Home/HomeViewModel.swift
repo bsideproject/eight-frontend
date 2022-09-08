@@ -17,7 +17,6 @@ final class HomeViewModel {
     enum NaviType: String {
         case naver = "naver"
         case kakao = "kakao"
-        case tmap = "tmap"
     }
     //MARK: - Properties
     var cancelBag = Set<AnyCancellable>()
@@ -101,11 +100,6 @@ extension HomeViewModel {
         let position = NMGLatLng(lat: destinationLocation.coordinate.latitude, lng: destinationLocation.coordinate.longitude)
         
         switch type {
-        case .tmap:
-            let urlString = "tmap://?rGoName=\("의류 수거함")&rGoX=\(position.lng)&rGoY=\(position.lat)"
-            let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-            destinationURL = URL(string: encodedStr ?? "")
-            appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/431589174")
         case .kakao:
             destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=FOOT")
             appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425")

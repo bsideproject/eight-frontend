@@ -136,14 +136,6 @@ final class HomeVC: UIViewController {
                 self?.reportButtonTapped()
             }
             .store(in: &viewModel.cancelBag)
-        // Home -> List
-        headerView.searchView.listButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.listButtonTapped()
-            }
-            .store(in: &viewModel.cancelBag)
         boxInfoView.fixButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
@@ -185,15 +177,10 @@ final class HomeVC: UIViewController {
                     newSetting.naviType = "kakao"
                     DataManager.shared.addNew(setting: newSetting)
                 }
-                let tmap = UIAlertAction(title: "티맵", style: .default) { _ in
-                    newSetting.naviType = "tmap"
-                    DataManager.shared.addNew(setting: newSetting)
-                }
                 let cancel = UIAlertAction(title: "취소", style: .cancel)
                 
                 alert.addAction(naver)
                 alert.addAction(kakao)
-                alert.addAction(tmap)
                 alert.addAction(cancel)
                 
                 self?.present(alert, animated: true)
@@ -208,13 +195,8 @@ final class HomeVC: UIViewController {
     
     @objc
     func searchButtonTapped() {
-        let searchVC = SearchBarVC()
-        navigationController?.pushViewController(searchVC, animated: true)
-    }
-    
-    private func listButtonTapped() {
-        let listVC = HomeListVC()
-        navigationController?.pushViewController(listVC, animated: true)
+        let homeSearchVC = HomeSearchVC()
+        tabBarController?.navigationController?.pushViewController(homeSearchVC, animated: true)
     }
     
     private func reportButtonTapped() {
