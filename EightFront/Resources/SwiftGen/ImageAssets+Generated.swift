@@ -60,6 +60,16 @@ internal enum Images {
     internal static let myPageNone = ImageAsset(name: "my-page-none")
     internal static let myPageSelect = ImageAsset(name: "my-page-select")
   }
+  internal enum Test {
+    internal static let cinema = ImageAsset(name: "cinema")
+    internal static let clown = ImageAsset(name: "clown")
+    internal static let hamburger = ImageAsset(name: "hamburger")
+    internal static let panda = ImageAsset(name: "panda")
+    internal static let poop = ImageAsset(name: "poop")
+    internal static let puppy = ImageAsset(name: "puppy")
+    internal static let robot = ImageAsset(name: "robot")
+    internal static let subway = ImageAsset(name: "subway")
+  }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
 
