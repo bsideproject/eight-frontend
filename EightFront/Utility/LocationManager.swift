@@ -88,7 +88,7 @@ final class LocationManager: NSObject {
     }
     
     func addressUpdate(location: CLLocation?, completion: @escaping (String?) -> ()) {
-        guard let location = location else { return }
+        guard let location else { return }
         let geocoder = CLGeocoder()
         
         geocoder.reverseGeocodeLocation(location) { placemarks, error in
