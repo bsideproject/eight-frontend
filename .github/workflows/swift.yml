@@ -1,0 +1,39 @@
+name: Gachisaja Swift-Builder
+
+on:
+  push:
+    branches: [ develop, main ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+    
+    steps:
+    - name: 👻Checkout Source Code👻
+      uses: actions/checkout@v2
+      
+    - name: Cache Pods...📀
+      uses: actions/cache@v2
+      with:
+        path: Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
+          
+    - name: Cache SPM...💾
+      uses: actions/cache@v2
+      with:
+        path: .build
+        key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+        restore-keys: |
+          ${{ runner.os }}-spm-
+          
+    - name: 🦁 Gachisaja Build Tests 🦁
+      run: |
+        pod install --repo-update --clean-install --project-directory=./
+        xcodebuild test -workspace ./Gachisaja-iOS.xcworkspace -scheme Gachisaja-iOSTests -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=latest'
+        xcpretty --test --color
+ 
