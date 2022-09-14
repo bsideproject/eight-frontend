@@ -5,10 +5,9 @@
 <img src="https://img.shields.io/badge/ios-16.0-yellow.svg" />
 <img src="https://img.shields.io/badge/licence-MIT-lightgrey.svg" /> 
 </p>
-
 <br>
-### ✍️ 아키텍처 패턴
 
+### ✍️ 아키텍처 패턴
 - **MVVM**
 
 ### ▶️ Branch Naming Rule
