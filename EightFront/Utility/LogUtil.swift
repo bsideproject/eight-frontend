@@ -18,15 +18,100 @@ final class LogUtil {
         case s = "[🔥]" // severe
     }
     
+    // error
+    public class func e( _ object: Any,// 1
+        filename: String = #file, // 2
+        line: Int = #line, // 3
+        column: Int = #column, // 4
+        funcName: String = #function) {
+        print("""
+            ------------------------------------------------------------------------------------
+            \(Date().toString) \(LogEvent.e.rawValue)[\(sourceFileName(filePath: filename))]
+            Line:\(line)
+            Column:\(column)
+            Function:\(funcName) ->
+            \(object)
+            ------------------------------------------------------------------------------------
+            """)
+    }
+    
+    // info
+    public class func i( _ object: Any,// 1
+        filename: String = #file, // 2
+        line: Int = #line, // 3
+        column: Int = #column, // 4
+        funcName: String = #function) {
+        print("""
+            ------------------------------------------------------------------------------------
+            \(Date().toString) \(LogEvent.i.rawValue)[\(sourceFileName(filePath: filename))]
+            Line:\(line)
+            Column:\(column)
+            Function:\(funcName) ->
+            \(object)
+            ------------------------------------------------------------------------------------
+            """)
+    }
+    
     // debug
-    static func d( _ object: Any,
-        filename: String = #file,
-        line: Int = #line,
-        column: Int = #column,
+    public class func d( _ object: Any,// 1
+        filename: String = #file, // 2
+        line: Int = #line, // 3
+        column: Int = #column, // 4
         funcName: String = #function) {
         print("""
             ------------------------------------------------------------------------------------
             \(Date().toString) \(LogEvent.d.rawValue)[\(sourceFileName(filePath: filename))]
+            Line:\(line)
+            Column:\(column)
+            Function:\(funcName) ->
+            \(object)
+            ------------------------------------------------------------------------------------
+            """)
+    }
+    
+    // verbose
+    public class func v( _ object: Any,// 1
+        filename: String = #file, // 2
+        line: Int = #line, // 3
+        column: Int = #column, // 4
+        funcName: String = #function) {
+        print("""
+            ------------------------------------------------------------------------------------
+            \(Date().toString) \(LogEvent.v.rawValue)[\(sourceFileName(filePath: filename))]
+            Line:\(line)
+            Column:\(column)
+            Function:\(funcName) ->
+            \(object)
+            ------------------------------------------------------------------------------------
+            """)
+    }
+    
+    // warning
+    public class func w( _ object: Any,// 1
+        filename: String = #file, // 2
+        line: Int = #line, // 3
+        column: Int = #column, // 4
+        funcName: String = #function) {
+        print("""
+            ------------------------------------------------------------------------------------
+            \(Date().toString) \(LogEvent.w.rawValue)[\(sourceFileName(filePath: filename))]
+            Line:\(line)
+            Column:\(column)
+            Function:\(funcName) ->
+            \(object)
+            ------------------------------------------------------------------------------------
+            """)
+    }
+    
+    // severe
+    public class func s( _ object: Any,// 1
+        filename: String = #file, // 2
+        line: Int = #line, // 3
+        column: Int = #column, // 4
+        funcName: String = #function) {
+        print("""
+            ------------------------------------------------------------------------------------
+            \(Date().toString) \(LogEvent.s.rawValue)[\(sourceFileName(filePath: filename))]
             Line:\(line)
             Column:\(column)
             Function:\(funcName) ->
