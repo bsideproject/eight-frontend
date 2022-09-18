@@ -1,0 +1,25 @@
+xcassets:
+  - inputs:
+    - Resources/Assets/Images.xcassets
+    outputs:
+    - templateName: swift5
+      params:
+        forceProvidesNamespaces: true
+        enumName: Images
+      output: Resources/SwiftGen/ImageAssets+Generated.swift
+  - inputs:
+    - Resources/Assets/Colors.xcassets
+    outputs:
+    - templateName: swift5
+      params:
+        forceProvidesNamespaces: true
+        enumName: Colors
+      output: Resources/SwiftGen/ColorAssets+Generated.swift
+      
+##fonts:
+##    inputs:
+##        - EightFront/Resources/Fonts/
+##    outputs:
+##        templateName: swift5
+##        enumName: Fonts
+##        output: Resources/Fonts+Generated.swift

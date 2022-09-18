@@ -14,10 +14,13 @@
 		E927FC9828D351E300A91F11 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E927FC9728D351E300A91F11 /* Date+.swift */; };
 		E927FC9A28D3523300A91F11 /* Formatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E927FC9928D3523300A91F11 /* Formatter+.swift */; };
 		E927FC9C28D3525700A91F11 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E927FC9B28D3525700A91F11 /* MainViewController.swift */; };
+		E927FCA628D71BDD00A91F11 /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = E927FCA528D71BDD00A91F11 /* swiftgen.yml */; };
+		E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E927FCAA28D7217A00A91F11 /* ColorAssets+Generated.swift */; };
+		E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E927FCAC28D7223300A91F11 /* ImageAssets+Generated.swift */; };
 		E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0828D34A050013E94F /* AppDelegate.swift */; };
 		E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0A28D34A050013E94F /* SceneDelegate.swift */; };
 		E975ED1028D34A050013E94F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E975ED0E28D34A050013E94F /* Main.storyboard */; };
-		E975ED1228D34A060013E94F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E975ED1128D34A060013E94F /* Assets.xcassets */; };
+		E975ED1228D34A060013E94F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E975ED1128D34A060013E94F /* Images.xcassets */; };
 		E975ED1528D34A060013E94F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E975ED1328D34A060013E94F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -27,11 +30,14 @@
 		E927FC9728D351E300A91F11 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		E927FC9928D3523300A91F11 /* Formatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Formatter+.swift"; sourceTree = "<group>"; };
 		E927FC9B28D3525700A91F11 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		E927FCA528D71BDD00A91F11 /* swiftgen.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; name = swiftgen.yml; path = EightFront/swiftgen.yml; sourceTree = SOURCE_ROOT; };
+		E927FCAA28D7217A00A91F11 /* ColorAssets+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ColorAssets+Generated.swift"; sourceTree = "<group>"; };
+		E927FCAC28D7223300A91F11 /* ImageAssets+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageAssets+Generated.swift"; sourceTree = "<group>"; };
 		E975ED0528D34A050013E94F /* EightFront.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EightFront.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E975ED0828D34A050013E94F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E975ED0A28D34A050013E94F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E975ED0F28D34A050013E94F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E975ED1128D34A060013E94F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E975ED1128D34A060013E94F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E975ED1428D34A060013E94F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E975ED1628D34A060013E94F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -136,7 +142,7 @@
 		E927FC8528D34F9B00A91F11 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				E975ED1128D34A060013E94F /* Assets.xcassets */,
+				E975ED1128D34A060013E94F /* Images.xcassets */,
 				E927FC8728D34FDA00A91F11 /* Colors.xcassets */,
 			);
 			path = Assets;
@@ -152,6 +158,9 @@
 		E927FC8928D34FED00A91F11 /* SwiftGen */ = {
 			isa = PBXGroup;
 			children = (
+				E927FCAC28D7223300A91F11 /* ImageAssets+Generated.swift */,
+				E927FCAA28D7217A00A91F11 /* ColorAssets+Generated.swift */,
+				E927FCA528D71BDD00A91F11 /* swiftgen.yml */,
 			);
 			path = SwiftGen;
 			sourceTree = "<group>";
@@ -264,7 +273,6 @@
 				E927FC6F28D34AD300A91F11 /* XCRemoteSwiftPackageReference "Moya" */,
 				E927FC7028D34B0600A91F11 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				E927FC7328D34B3A00A91F11 /* XCRemoteSwiftPackageReference "Then" */,
-				E927FC7628D34B9E00A91F11 /* XCRemoteSwiftPackageReference "SwiftGen" */,
 			);
 			productRefGroup = E975ED0628D34A050013E94F /* Products */;
 			projectDirPath = "";
@@ -281,8 +289,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E975ED1528D34A060013E94F /* LaunchScreen.storyboard in Resources */,
+				E927FCA628D71BDD00A91F11 /* swiftgen.yml in Resources */,
 				E927FC8828D34FDA00A91F11 /* Colors.xcassets in Resources */,
-				E975ED1228D34A060013E94F /* Assets.xcassets in Resources */,
+				E975ED1228D34A060013E94F /* Images.xcassets in Resources */,
 				E975ED1028D34A050013E94F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,9 +305,11 @@
 			files = (
 				E927FC9A28D3523300A91F11 /* Formatter+.swift in Sources */,
 				E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */,
+				E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */,
 				E927FC9628D351BA00A91F11 /* LogUtil.swift in Sources */,
 				E927FC9C28D3525700A91F11 /* MainViewController.swift in Sources */,
 				E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */,
+				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
 				E927FC9828D351E300A91F11 /* Date+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -557,14 +568,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 3.0.0;
-			};
-		};
-		E927FC7628D34B9E00A91F11 /* XCRemoteSwiftPackageReference "SwiftGen" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftGen/SwiftGen.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
