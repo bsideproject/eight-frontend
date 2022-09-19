@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  HomeViewController.swift
 //  EightFront
 //
 //  Created by wargi on 2022/09/15.
@@ -10,7 +10,7 @@ import NMapsMap
 import SnapKit
 import Then
 
-final class MainViewController: UIViewController {
+final class HomeViewController: UIViewController {
     let mapView = NMFMapView().then {
         $0.mapType = .navi
         $0.positionMode = .direction
@@ -27,6 +27,7 @@ final class MainViewController: UIViewController {
     }
     
     func makeUI() {
+        view.backgroundColor = .white
         view.addSubview(mapView)
         
         mapView.snp.makeConstraints {

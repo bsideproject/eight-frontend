@@ -1,5 +1,5 @@
 //
-//  initialViewController.swift
+//  MyPageViewController.swift
 //  EightFront
 //
 //  Created by wargi on 2022/09/19.
@@ -9,8 +9,8 @@ import Then
 import SnapKit
 import UIKit
 
-//MARK: initialViewController
-final class initialViewController: UIViewController {
+//MARK: 마이페이지 VC
+final class MyPageViewController: UIViewController {
     //MARK: - Properties
     
     //MARK: - Life Cycle
@@ -18,10 +18,16 @@ final class initialViewController: UIViewController {
         super.viewDidLoad()
         
         makeUI()
+        bind()
     }
     
     //MARK: - Make UI
     func makeUI() {
         view.backgroundColor = .white
+    }
+    
+    //MARK: - Rx Binding..
+    func bind() {
+        
     }
 }
