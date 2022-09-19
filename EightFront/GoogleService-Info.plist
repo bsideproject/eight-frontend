@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>627236967706-31vumakn9it7gs3soavkreesdfglrg4l.apps.googleusercontent.com</string>
+	<string>627236967706-9nkvvfd5u9reprbgsu8n0fel1cvh4loa.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.627236967706-31vumakn9it7gs3soavkreesdfglrg4l</string>
+	<string>com.googleusercontent.apps.627236967706-9nkvvfd5u9reprbgsu8n0fel1cvh4loa</string>
 	<key>API_KEY</key>
 	<string>AIzaSyA7SalqDCLYL02unRUhnNtuK9RK-St86Gc</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.bside.EightFront</string>
+	<string>com.front.eight.bside</string>
 	<key>PROJECT_ID</key>
 	<string>eight-front</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:627236967706:ios:befc30fef691409aa308a3</string>
+	<string>1:627236967706:ios:9df385167c3e9a4ca308a3</string>
+	<key>DATABASE_URL</key>
+	<string>https://eight-front-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

@@ -20,16 +20,16 @@
 		E927FCB028D7587300A91F11 /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = E927FCAF28D7587300A91F11 /* NMapsMap */; };
 		E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0828D34A050013E94F /* AppDelegate.swift */; };
 		E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0A28D34A050013E94F /* SceneDelegate.swift */; };
-		E975ED1028D34A050013E94F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E975ED0E28D34A050013E94F /* Main.storyboard */; };
 		E975ED1228D34A060013E94F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E975ED1128D34A060013E94F /* Images.xcassets */; };
 		E975ED1528D34A060013E94F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E975ED1328D34A060013E94F /* LaunchScreen.storyboard */; };
+		E99929AD28D87A06006FCFC7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E99929AC28D87A06006FCFC7 /* GoogleService-Info.plist */; };
 		E9EA25F728D8243C0078A069 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA25F628D8243C0078A069 /* SnapKit */; };
-		E9EA25FA28D8372E0078A069 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9EA25F928D8372E0078A069 /* GoogleService-Info.plist */; };
 		E9EA25FE28D838880078A069 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA25FD28D838880078A069 /* FirebaseAnalytics */; };
 		E9EA260028D838880078A069 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA25FF28D838880078A069 /* FirebaseAuth */; };
 		E9EA260228D838880078A069 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA260128D838880078A069 /* FirebaseDatabase */; };
 		E9EA260428D838880078A069 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA260328D838880078A069 /* FirebaseMessaging */; };
 		E9EA260628D838880078A069 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA260528D838880078A069 /* FirebaseStorage */; };
+		E9EA260B28D873EB0078A069 /* initialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EA260A28D873EB0078A069 /* initialViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,11 +44,12 @@
 		E975ED0528D34A050013E94F /* EightFront.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EightFront.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E975ED0828D34A050013E94F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E975ED0A28D34A050013E94F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E975ED0F28D34A050013E94F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E975ED1128D34A060013E94F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E975ED1428D34A060013E94F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E975ED1628D34A060013E94F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E9EA25F928D8372E0078A069 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E99929AC28D87A06006FCFC7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E9EA260728D83A250078A069 /* EightFront.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EightFront.entitlements; sourceTree = "<group>"; };
+		E9EA260A28D873EB0078A069 /* initialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = initialViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +84,7 @@
 		E927FC7828D34E0400A91F11 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				E9EA260A28D873EB0078A069 /* initialViewController.swift */,
 				E927FC9D28D3525A00A91F11 /* Main */,
 			);
 			path = Scenes;
@@ -116,7 +118,6 @@
 			children = (
 				E927FC8228D34F0700A91F11 /* Common */,
 				E927FC7F28D34E8500A91F11 /* Extensions */,
-				E9EA25F928D8372E0078A069 /* GoogleService-Info.plist */,
 				E975ED1628D34A060013E94F /* Info.plist */,
 			);
 			path = SupportFiles;
@@ -185,7 +186,6 @@
 		E927FC9328D3513300A91F11 /* Splash */ = {
 			isa = PBXGroup;
 			children = (
-				E975ED0E28D34A050013E94F /* Main.storyboard */,
 				E975ED1328D34A060013E94F /* LaunchScreen.storyboard */,
 			);
 			path = Splash;
@@ -226,6 +226,7 @@
 		E975ED0728D34A050013E94F /* EightFront */ = {
 			isa = PBXGroup;
 			children = (
+				E9EA260728D83A250078A069 /* EightFront.entitlements */,
 				E927FC7728D34DD900A91F11 /* AppDelegate */,
 				E927FC9428D3519700A91F11 /* Utility */,
 				E927FC7B28D34E2900A91F11 /* Services */,
@@ -233,6 +234,7 @@
 				E927FC7828D34E0400A91F11 /* Scenes */,
 				E927FC8428D34F8900A91F11 /* Resources */,
 				E927FC7E28D34E6900A91F11 /* SupportFiles */,
+				E99929AC28D87A06006FCFC7 /* GoogleService-Info.plist */,
 			);
 			path = EightFront;
 			sourceTree = "<group>";
@@ -316,10 +318,9 @@
 			files = (
 				E975ED1528D34A060013E94F /* LaunchScreen.storyboard in Resources */,
 				E927FCA628D71BDD00A91F11 /* swiftgen.yml in Resources */,
+				E99929AD28D87A06006FCFC7 /* GoogleService-Info.plist in Resources */,
 				E927FC8828D34FDA00A91F11 /* Colors.xcassets in Resources */,
 				E975ED1228D34A060013E94F /* Images.xcassets in Resources */,
-				E975ED1028D34A050013E94F /* Main.storyboard in Resources */,
-				E9EA25FA28D8372E0078A069 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +337,7 @@
 				E927FC9628D351BA00A91F11 /* LogUtil.swift in Sources */,
 				E927FC9C28D3525700A91F11 /* MainViewController.swift in Sources */,
 				E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */,
+				E9EA260B28D873EB0078A069 /* initialViewController.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
 				E927FC9828D351E300A91F11 /* Date+.swift in Sources */,
 			);
@@ -344,14 +346,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		E975ED0E28D34A050013E94F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E975ED0F28D34A050013E94F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E975ED1328D34A060013E94F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -482,24 +476,25 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = EightFront/EightFront.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3ZS2532XM8;
+				DEVELOPMENT_TEAM = XQ24HP64B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EightFront/SupportFiles/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EightFront;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bside.EightFront;
+				PRODUCT_BUNDLE_IDENTIFIER = com.front.eight.bside;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -515,24 +510,25 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = EightFront/EightFront.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3ZS2532XM8;
+				DEVELOPMENT_TEAM = XQ24HP64B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EightFront/SupportFiles/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EightFront;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bside.EightFront;
+				PRODUCT_BUNDLE_IDENTIFIER = com.front.eight.bside;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
