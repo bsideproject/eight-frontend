@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2841347728D8970800A758F2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2841347628D8970800A758F2 /* LocationManager.swift */; };
 		E927FC7228D34B0600A91F11 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E927FC7128D34B0600A91F11 /* Kingfisher */; };
 		E927FC7528D34B3A00A91F11 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E927FC7428D34B3A00A91F11 /* Then */; };
 		E927FC8828D34FDA00A91F11 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E927FC8728D34FDA00A91F11 /* Colors.xcassets */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2841347628D8970800A758F2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		E927FC8728D34FDA00A91F11 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		E927FC9528D351BA00A91F11 /* LogUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogUtil.swift; sourceTree = "<group>"; };
 		E927FC9728D351E300A91F11 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				E927FC9528D351BA00A91F11 /* LogUtil.swift */,
+				2841347628D8970800A758F2 /* LocationManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				E99929B628D882B5006FCFC7 /* NoticeViewController.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
 				E927FC9828D351E300A91F11 /* Date+.swift in Sources */,
+				2841347728D8970800A758F2 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,6 +524,8 @@
 				INFOPLIST_FILE = EightFront/SupportFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EightFront;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -554,6 +560,8 @@
 				INFOPLIST_FILE = EightFront/SupportFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EightFront;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

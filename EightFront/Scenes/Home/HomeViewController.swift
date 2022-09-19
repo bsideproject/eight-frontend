@@ -6,11 +6,13 @@
 //
 
 import UIKit
+
 import NMapsMap
 import SnapKit
 import Then
 
 final class HomeViewController: UIViewController {
+    
     let mapView = NMFMapView().then {
         $0.mapType = .navi
         $0.positionMode = .direction
@@ -24,14 +26,20 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         makeUI()
+        
+        LocationManager.shared.getCoordinate {
+            let (latitude, longitude) = ($0, $1)
+            LogUtil.d("latitude: \(latitude), longitude: \(longitude)")
+        }
     }
     
     func makeUI() {
         view.backgroundColor = .white
         view.addSubview(mapView)
-        
+
         mapView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
+
 }
