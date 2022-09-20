@@ -8,29 +8,23 @@
 import UIKit
 
 extension UIWindow {
-    
-    /**
-     rootVC
-     */
-    public var firstViewController: UIViewController? {
-        return self.firstViewControllerFrom(viewController: self.rootViewController)
+    // rootVC
+    var visibleViewController: UIViewController? {
+        return self.visibleViewControllerFrom()
     }
     
-    /**
-     rootVC를 가져오는 메서드
-     */
-    public func firstViewControllerFrom(viewController: UIViewController? = UIApplication.shared.windows.first?.rootViewController) -> UIViewController? {
+    // rootVC를 가져오는 메서드
+    private func visibleViewControllerFrom(viewController: UIViewController? = UIApplication.shared.windows.first?.rootViewController) -> UIViewController? {
         if let navigationViewController = viewController as? UINavigationController {
-            return self.firstViewControllerFrom(viewController: navigationViewController.visibleViewController)
+            return self.visibleViewControllerFrom(viewController: navigationViewController.visibleViewController)
         } else if let tabBarViewController = viewController as? UITabBarController {
-            return self.firstViewControllerFrom(viewController: tabBarViewController.selectedViewController)
+            return self.visibleViewControllerFrom(viewController: tabBarViewController.selectedViewController)
         } else {
             if let pvc = viewController?.presentedViewController {
-                return self.firstViewControllerFrom(viewController: pvc)
+                return self.visibleViewControllerFrom(viewController: pvc)
             } else {
                 return viewController
             }
         }
     }
-
 }
