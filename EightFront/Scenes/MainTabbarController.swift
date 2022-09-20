@@ -49,7 +49,7 @@ class MainTabbarController: UITabBarController {
         viewControllers = [homeVC, tradeVC, noticeVC, myPageVC]
     }
     
-    //MARK: 버전 체크
+    //MARK: - 버전 체크
     func appVersionCheck() {
         ref = Database.database().reference()
         guard let _ref = ref else { return }
@@ -113,7 +113,6 @@ class MainTabbarController: UITabBarController {
         
         refreshAlert.addAction(okAction)
         present(refreshAlert, animated: true, completion: nil)
-        
     }
     
     func optionalUpdateAlert(version:Int) {

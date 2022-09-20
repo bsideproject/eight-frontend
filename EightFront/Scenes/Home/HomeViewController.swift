@@ -13,7 +13,6 @@ import Then
 final class HomeViewController: UIViewController {
     //MARK: - Properties
     let mapView = NMFMapView().then {
-        $0.mapType = .navi
         $0.positionMode = .direction
         $0.minZoomLevel = 5.0
         $0.maxZoomLevel = 18.0

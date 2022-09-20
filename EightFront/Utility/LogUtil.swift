@@ -9,7 +9,6 @@ import Foundation
 
 final class LogUtil {
     enum LogEvent: String {
-        // TODO: 현재는 d만 사용하지만 혜령님이 추가하실 부분이 있다면, 추가해서 사용해주세요 :)
         case d = "[💬]" // debug
         case e = "[‼️]" // error
         case i = "[ℹ️]" // info
