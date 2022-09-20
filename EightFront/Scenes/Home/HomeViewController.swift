@@ -6,12 +6,15 @@
 //
 
 import UIKit
+
 import NMapsMap
 import SnapKit
 import Then
 
 final class HomeViewController: UIViewController {
+    
     //MARK: - Properties
+    
     let mapView = NMFMapView().then {
         $0.positionMode = .direction
         $0.minZoomLevel = 5.0
@@ -24,19 +27,26 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         makeUI()
+        
+        LocationManager.shared.coordinate {
+            let (latitude, longitude) = ($0, $1)
+            LogUtil.d("latitude: \(latitude), longitude: \(longitude)")
+        }
     }
     
     //MARK: - Make UI
     func makeUI() {
         view.backgroundColor = .white
         view.addSubview(mapView)
-        
+
         mapView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
+
     
     //MARK: - Binding..
+    
     func bind() {
         
     }

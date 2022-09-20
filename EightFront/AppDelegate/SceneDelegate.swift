@@ -24,15 +24,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidBecomeActive(_ scene: UIScene) {
         UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        // 앱 시작시 위치 추적 시작
+        LocationManager.shared.startUpdating()
+        
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
+        
+        // 앱 켜지면 위치 추적 시작
+        LocationManager.shared.stopUpdating()
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
+        
+        // 앱 백 그라운드로 진입시 위치 추적 멈춤
+        LocationManager.shared.stopUpdating()
     }
 }
 

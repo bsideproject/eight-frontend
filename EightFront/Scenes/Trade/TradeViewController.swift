@@ -5,9 +5,11 @@
 //  Created by wargi on 2022/09/19.
 //
 
+import UIKit
+
 import Then
 import SnapKit
-import UIKit
+
 
 //MARK: 중고거래 VC
 final class TradeViewController: UIViewController {
@@ -19,6 +21,7 @@ final class TradeViewController: UIViewController {
         
         makeUI()
         bind()
+        
     }
     
     //MARK: - Make UI
