@@ -26,7 +26,7 @@ final class MyPageViewController: UIViewController {
         view.backgroundColor = .white
     }
     
-    //MARK: - Rx Binding..
+    //MARK: - Binding..
     func bind() {
         
     }

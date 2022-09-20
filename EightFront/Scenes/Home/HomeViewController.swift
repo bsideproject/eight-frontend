@@ -11,6 +11,7 @@ import SnapKit
 import Then
 
 final class HomeViewController: UIViewController {
+    //MARK: - Properties
     let mapView = NMFMapView().then {
         $0.mapType = .navi
         $0.positionMode = .direction
@@ -26,6 +27,7 @@ final class HomeViewController: UIViewController {
         makeUI()
     }
     
+    //MARK: - Make UI
     func makeUI() {
         view.backgroundColor = .white
         view.addSubview(mapView)
@@ -33,5 +35,10 @@ final class HomeViewController: UIViewController {
         mapView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    //MARK: - Binding..
+    func bind() {
+        
     }
 }

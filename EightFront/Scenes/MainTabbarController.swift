@@ -9,9 +9,10 @@ import UIKit
 import Firebase
 
 class MainTabbarController: UITabBarController {
-    //MARK: - Initializer
+    //MARK: - Properties
     var ref: DatabaseReference?
-    
+
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -19,6 +20,7 @@ class MainTabbarController: UITabBarController {
         appVersionCheck()
     }
 
+    //MARK: - Make UI
     func makeUI() {
         tabBar.backgroundColor = .white
         tabBar.tintColor = .systemPurple
