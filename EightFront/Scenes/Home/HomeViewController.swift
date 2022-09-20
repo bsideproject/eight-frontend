@@ -13,8 +13,9 @@ import Then
 
 final class HomeViewController: UIViewController {
     
+    //MARK: - Properties
+    
     let mapView = NMFMapView().then {
-        $0.mapType = .navi
         $0.positionMode = .direction
         $0.minZoomLevel = 5.0
         $0.maxZoomLevel = 18.0
@@ -33,6 +34,7 @@ final class HomeViewController: UIViewController {
         }
     }
     
+    //MARK: - Make UI
     func makeUI() {
         view.backgroundColor = .white
         view.addSubview(mapView)
@@ -42,4 +44,10 @@ final class HomeViewController: UIViewController {
         }
     }
 
+    
+    //MARK: - Binding..
+    
+    func bind() {
+        
+    }
 }

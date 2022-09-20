@@ -8,8 +8,7 @@
 import Foundation
 
 final class LogUtil {
-    enum LogEvent: String {
-        // TODO: 현재는 d만 사용하지만 혜령님이 추가하실 부분이 있다면, 추가해서 사용해주세요 :)
+    private enum LogEvent: String {
         case d = "[💬]" // debug
         case e = "[‼️]" // error
         case i = "[ℹ️]" // info
@@ -19,7 +18,7 @@ final class LogUtil {
     }
     
     // error
-    public class func e( _ object: Any,// 1
+    static func e( _ object: Any,// 1
         filename: String = #file, // 2
         line: Int = #line, // 3
         column: Int = #column, // 4
@@ -36,7 +35,7 @@ final class LogUtil {
     }
     
     // info
-    public class func i( _ object: Any,// 1
+    static func i( _ object: Any,// 1
         filename: String = #file, // 2
         line: Int = #line, // 3
         column: Int = #column, // 4
@@ -53,7 +52,7 @@ final class LogUtil {
     }
     
     // debug
-    public class func d( _ object: Any,// 1
+    static func d( _ object: Any,// 1
         filename: String = #file, // 2
         line: Int = #line, // 3
         column: Int = #column, // 4
@@ -70,7 +69,7 @@ final class LogUtil {
     }
     
     // verbose
-    public class func v( _ object: Any,// 1
+    static func v( _ object: Any,// 1
         filename: String = #file, // 2
         line: Int = #line, // 3
         column: Int = #column, // 4
@@ -87,7 +86,7 @@ final class LogUtil {
     }
     
     // warning
-    public class func w( _ object: Any,// 1
+    static func w( _ object: Any,// 1
         filename: String = #file, // 2
         line: Int = #line, // 3
         column: Int = #column, // 4
