@@ -27,7 +27,7 @@ final class HomeViewController: UIViewController {
         
         makeUI()
         
-        LocationManager.shared.getCoordinate {
+        LocationManager.shared.coordinate {
             let (latitude, longitude) = ($0, $1)
             LogUtil.d("latitude: \(latitude), longitude: \(longitude)")
         }

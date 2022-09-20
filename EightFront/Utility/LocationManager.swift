@@ -8,17 +8,18 @@
 import UIKit
 import CoreLocation
 
-class LocationManager: NSObject {
+final class LocationManager: NSObject {
     
     // MARK: - Properties
     
     static let shared = LocationManager()
+    let utils = Common()
     
     var locationManager: CLLocationManager?
     var currentLocation: CLLocationCoordinate2D?
     
     // MARK: - Init
-    override init() {
+    private override init() {
         super.init()
         requestLocationAccess()
     }
@@ -26,12 +27,13 @@ class LocationManager: NSObject {
     // MARK: - Functions
     // 위치 권한
     func requestLocationAccess() {
+        
         if locationManager == nil {
             LogUtil.d("위치 권한 매니저")
             locationManager = CLLocationManager()
-            locationManager!.delegate = self
-            locationManager!.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager!.requestWhenInUseAuthorization()
+            locationManager?.delegate = self
+            locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager?.requestWhenInUseAuthorization()
         } else {
             LogUtil.e("위치 권한 매니저 오류")
         }
@@ -51,9 +53,10 @@ class LocationManager: NSObject {
         }
     }
     
-    func getCoordinate(completion: @escaping (CLLocationDegrees, CLLocationDegrees) -> Void){
+    func coordinate(completion: @escaping (CLLocationDegrees, CLLocationDegrees) -> Void){
         
         guard let currentLocation = locationManager?.location else {
+            LogUtil.d("locationManaer.location 옵셔널 오류")
             return
         }
         
@@ -78,7 +81,31 @@ extension LocationManager: CLLocationManagerDelegate {
             self.locationManager?.requestWhenInUseAuthorization()
         case .denied:
             LogUtil.d("GPS 권한 요청 거부됨")
-            self.locationManager?.requestWhenInUseAuthorization()
+            
+            // Todo: 지연 시간으로 alert를 띄우는 것 말고 좋은 방법이 없을지
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+                let alert = UIAlertController(title: "", message: "앱을 원활히 위해 위치 권한을 '허용'하러 갑니다.", preferredStyle: .alert)
+                let action = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+                    guard let self = self else { return }
+                    
+                    // 설정 화면으로 이동
+                    self.utils.goSettings()
+                    
+                    // 앱 종료
+                    self.utils.appExit()
+                }
+                
+                alert.addAction(action)
+                
+                // 최상단 VC 찾기
+                guard let firstViewController = UIApplication.shared.keyWindow?.rootViewController else {
+                    return
+                }
+                
+                // Alert 띄움
+                firstViewController.present(alert, animated: true)
+            }
+            
         default:
             LogUtil.d("LocationManager Default")
         }
@@ -86,7 +113,7 @@ extension LocationManager: CLLocationManagerDelegate {
     
     // 실패 했을경우 받은 알림
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("ERROR: 위치 정보를 가져오는데 실패했습니다.")
+        LogUtil.e("위치 정보 가져오는데 실패")
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2841347728D8970800A758F2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2841347628D8970800A758F2 /* LocationManager.swift */; };
+		2841347928D9D93700A758F2 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2841347828D9D93700A758F2 /* UIApplication+.swift */; };
+		2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2841347C28D9DA0F00A758F2 /* UIWindow+.swift */; };
+		2841347F28D9DFD900A758F2 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2841347E28D9DFD900A758F2 /* Common.swift */; };
 		E927FC7228D34B0600A91F11 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E927FC7128D34B0600A91F11 /* Kingfisher */; };
 		E927FC7528D34B3A00A91F11 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E927FC7428D34B3A00A91F11 /* Then */; };
 		E927FC8828D34FDA00A91F11 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E927FC8728D34FDA00A91F11 /* Colors.xcassets */; };
@@ -38,6 +41,9 @@
 
 /* Begin PBXFileReference section */
 		2841347628D8970800A758F2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		2841347828D9D93700A758F2 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
+		2841347C28D9DA0F00A758F2 /* UIWindow+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+.swift"; sourceTree = "<group>"; };
+		2841347E28D9DFD900A758F2 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Common.swift; path = EightFront/SupportFiles/Extensions/Common.swift; sourceTree = SOURCE_ROOT; };
 		E927FC8728D34FDA00A91F11 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		E927FC9528D351BA00A91F11 /* LogUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogUtil.swift; sourceTree = "<group>"; };
 		E927FC9728D351E300A91F11 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -139,6 +145,8 @@
 			children = (
 				E927FC9728D351E300A91F11 /* Date+.swift */,
 				E927FC9928D3523300A91F11 /* Formatter+.swift */,
+				2841347828D9D93700A758F2 /* UIApplication+.swift */,
+				2841347C28D9DA0F00A758F2 /* UIWindow+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -146,6 +154,7 @@
 		E927FC8228D34F0700A91F11 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2841347E28D9DFD900A758F2 /* Common.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -369,15 +378,18 @@
 			files = (
 				E927FC9A28D3523300A91F11 /* Formatter+.swift in Sources */,
 				E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */,
+				2841347928D9D93700A758F2 /* UIApplication+.swift in Sources */,
 				E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */,
 				E99929B428D882AD006FCFC7 /* TradeViewController.swift in Sources */,
 				E927FC9628D351BA00A91F11 /* LogUtil.swift in Sources */,
 				E927FC9C28D3525700A91F11 /* HomeViewController.swift in Sources */,
+				2841347F28D9DFD900A758F2 /* Common.swift in Sources */,
 				E99929AF28D88182006FCFC7 /* MainTabbarController.swift in Sources */,
 				E99929B828D882BF006FCFC7 /* MyPageViewController.swift in Sources */,
 				E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */,
 				E99929B628D882B5006FCFC7 /* NoticeViewController.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
+				2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */,
 				E927FC9828D351E300A91F11 /* Date+.swift in Sources */,
 				2841347728D8970800A758F2 /* LocationManager.swift in Sources */,
 			);
