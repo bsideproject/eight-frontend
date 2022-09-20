@@ -6,10 +6,8 @@
 //
 
 import UIKit
-
 import Then
 import SnapKit
-
 
 //MARK: 중고거래 VC
 final class TradeViewController: UIViewController {
@@ -21,16 +19,15 @@ final class TradeViewController: UIViewController {
         
         makeUI()
         bind()
-        
     }
     
     //MARK: - Make UI
-    func makeUI() {
+    private func makeUI() {
         view.backgroundColor = .white
     }
     
     //MARK: - Binding..
-    func bind() {
+    private func bind() {
         
     }
 }

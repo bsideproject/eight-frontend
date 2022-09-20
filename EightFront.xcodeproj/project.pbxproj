@@ -148,8 +148,8 @@
 			isa = PBXGroup;
 			children = (
 				E927FC9728D351E300A91F11 /* Date+.swift */,
-				E927FC9928D3523300A91F11 /* Formatter+.swift */,
 				E9BF49AC28D9F45F007BBC3D /* UIView+.swift */,
+				E927FC9928D3523300A91F11 /* Formatter+.swift */,
 				2841347C28D9DA0F00A758F2 /* UIWindow+.swift */,
 				2841347828D9D93700A758F2 /* UIApplication+.swift */,
 				E9BF49AE28D9F733007BBC3D /* UIControl+Combine.swift */,

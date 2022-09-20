@@ -14,7 +14,7 @@ final class LocationManager: NSObject {
     var locationManager: CLLocationManager?
     var currentLocation: CLLocationCoordinate2D?
     
-    // MARK: - Init
+    // MARK: - Initializer
     private override init() {
         super.init()
         requestLocationAccess()
@@ -54,7 +54,7 @@ final class LocationManager: NSObject {
     }
     
     private func requestLocationAlert() {
-        guard let rootVC = UIApplication.shared.keyWindow?.visibleViewController else { return }
+        guard let visibleVC = UIApplication.shared.keyWindow?.visibleViewController else { return }
         
         let alert = UIAlertController(title: "위치정보를 불러올 수 없습니다.",
                                       message: "위치정보를 사용해 주변 '의류수거함'의 정보를 불러오기 때문에 위치정보 권한이 필요합니다. 설정으로 이동하여 위치 정보 접근을 허용해 주세요.",
@@ -75,7 +75,7 @@ final class LocationManager: NSObject {
         alert.addAction(cancelAction)
         alert.addAction(openAction)
         
-        rootVC.present(alert, animated: true, completion: nil)
+        visibleVC.present(alert, animated: true, completion: nil)
     }
 }
 

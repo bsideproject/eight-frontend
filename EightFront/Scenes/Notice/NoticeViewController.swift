@@ -22,12 +22,12 @@ final class NoticeViewController: UIViewController {
     }
     
     //MARK: - Make UI
-    func makeUI() {
+    private func makeUI() {
         view.backgroundColor = .white
     }
     
     //MARK: - Binding..
-    func bind() {
+    private func bind() {
         
     }
 }
