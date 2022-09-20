@@ -22,7 +22,7 @@ final class LocationManager: NSObject {
     
     // MARK: - Functions
     // 위치 권한
-    func requestLocationAccess() {
+    private func requestLocationAccess() {
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.desiredAccuracy = kCLLocationAccuracyBest
