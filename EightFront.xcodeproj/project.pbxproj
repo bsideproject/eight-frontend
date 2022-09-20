@@ -27,6 +27,7 @@
 		E99929B428D882AD006FCFC7 /* TradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B328D882AD006FCFC7 /* TradeViewController.swift */; };
 		E99929B628D882B5006FCFC7 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B528D882B5006FCFC7 /* NoticeViewController.swift */; };
 		E99929B828D882BF006FCFC7 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B728D882BF006FCFC7 /* MyPageViewController.swift */; };
+		E99929BA28D88F9B006FCFC7 /* DBVersionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B928D88F9B006FCFC7 /* DBVersionData.swift */; };
 		E9EA25F728D8243C0078A069 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA25F628D8243C0078A069 /* SnapKit */; };
 		E9EA25FE28D838880078A069 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA25FD28D838880078A069 /* FirebaseAnalytics */; };
 		E9EA260028D838880078A069 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA25FF28D838880078A069 /* FirebaseAuth */; };
@@ -55,6 +56,7 @@
 		E99929B328D882AD006FCFC7 /* TradeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeViewController.swift; sourceTree = "<group>"; };
 		E99929B528D882B5006FCFC7 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		E99929B728D882BF006FCFC7 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		E99929B928D88F9B006FCFC7 /* DBVersionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBVersionData.swift; sourceTree = "<group>"; };
 		E9EA260728D83A250078A069 /* EightFront.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EightFront.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -144,6 +146,7 @@
 		E927FC8228D34F0700A91F11 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				E99929B928D88F9B006FCFC7 /* DBVersionData.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E927FC9A28D3523300A91F11 /* Formatter+.swift in Sources */,
+				E99929BA28D88F9B006FCFC7 /* DBVersionData.swift in Sources */,
 				E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */,
 				E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */,
 				E99929B428D882AD006FCFC7 /* TradeViewController.swift in Sources */,
@@ -529,7 +533,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.front.eight.bside;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -563,7 +567,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.front.eight.bside;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
