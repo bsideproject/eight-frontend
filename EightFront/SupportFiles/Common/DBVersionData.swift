@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DBVersionData: NSObject {
+final class DBVersionData: NSObject {
     //MARK: - Properties
     var lastest_version_code: String        /** 최신버전 코드     */
     var lastest_version_name: String        /** 최신버전 명      */

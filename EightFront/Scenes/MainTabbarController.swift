@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class MainTabbarController: UITabBarController {
+final class MainTabbarController: UITabBarController {
     //MARK: - Properties
     var ref: DatabaseReference?
 
