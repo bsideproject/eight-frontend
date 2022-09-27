@@ -14,7 +14,7 @@ import CombineCocoa
 
 final class HomeViewController: UIViewController {
     //MARK: - Properties
-    private var cancellables = Set<AnyCancellable>()
+    private let viewModel = HomeViewModel()
     private let mapView = NMFMapView().then {
         $0.positionMode = .direction
         $0.minZoomLevel = 8.0
@@ -28,6 +28,7 @@ final class HomeViewController: UIViewController {
         $0.setImage(UIImage(systemName: "location"), for: .highlighted)
         $0.backgroundColor = .white
     }
+    private var circle: NMFCircleOverlay?
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -62,11 +63,29 @@ final class HomeViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .compactMap { LocationManager.shared.currentLocation }
             .sink { [weak self] in
+                //TODO: 추후에 서버 API 내려오면 makeRadiusCircle() 메서드 위치 변경 예정
+                self?.makeRadiusCircle()
+                
                 let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: $0.latitude,
                                                                        lng: $0.longitude), zoomTo: 15.0)
                 cameraUpdate.animation = .easeIn
                 self?.mapView.moveCamera(cameraUpdate)
             }
-            .store(in: &cancellables)
+            .store(in: &viewModel.cancelBag)
+    }
+    
+    //TODO: 추후에 개발 API 내려오면 검색 위치 parameter(location)로 넘겨서 범위 재정립
+    private func makeRadiusCircle(location: CLLocation? = nil) {
+        guard let currentLocation = LocationManager.shared.currentLocation,
+              let radius = DataManager.shared.setting?.radius else { return }
+        
+        let center = NMGLatLng(from: currentLocation)
+        let newCircle = NMFCircleOverlay(center, radius: radius, fill: .clear)
+        newCircle.outlineColor = .systemGreen
+        newCircle.outlineWidth = 1
+        
+        circle?.mapView = nil
+        circle = newCircle
+        circle?.mapView = mapView
     }
 }

@@ -10,6 +10,10 @@
 		2841347728D8970800A758F2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2841347628D8970800A758F2 /* LocationManager.swift */; };
 		2841347928D9D93700A758F2 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2841347828D9D93700A758F2 /* UIApplication+.swift */; };
 		2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2841347C28D9DA0F00A758F2 /* UIWindow+.swift */; };
+		E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1428E2FBC4007B1307 /* DataModel.xcdatamodeld */; };
+		E9160C1828E30A60007B1307 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1728E30A60007B1307 /* DataModel.swift */; };
+		E9160C1A28E3145E007B1307 /* NewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1928E3145E007B1307 /* NewSetting.swift */; };
+		E9160C1C28E3177C007B1307 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1B28E3177C007B1307 /* HomeViewModel.swift */; };
 		E927FC7228D34B0600A91F11 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E927FC7128D34B0600A91F11 /* Kingfisher */; };
 		E927FC7528D34B3A00A91F11 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E927FC7428D34B3A00A91F11 /* Then */; };
 		E927FC8828D34FDA00A91F11 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E927FC8728D34FDA00A91F11 /* Colors.xcassets */; };
@@ -45,6 +49,10 @@
 		2841347628D8970800A758F2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		2841347828D9D93700A758F2 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2841347C28D9DA0F00A758F2 /* UIWindow+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+.swift"; sourceTree = "<group>"; };
+		E9160C1528E2FBC4007B1307 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		E9160C1728E30A60007B1307 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		E9160C1928E3145E007B1307 /* NewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSetting.swift; sourceTree = "<group>"; };
+		E9160C1B28E3177C007B1307 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E927FC8728D34FDA00A91F11 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		E927FC9528D351BA00A91F11 /* LogUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogUtil.swift; sourceTree = "<group>"; };
 		E927FC9728D351E300A91F11 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -167,6 +175,9 @@
 		E927FC8328D34F5A00A91F11 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E9160C1928E3145E007B1307 /* NewSetting.swift */,
+				E9160C1728E30A60007B1307 /* DataModel.swift */,
+				E9160C1428E2FBC4007B1307 /* DataModel.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -228,6 +239,7 @@
 		E927FC9D28D3525A00A91F11 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				E9160C1B28E3177C007B1307 /* HomeViewModel.swift */,
 				E927FC9B28D3525700A91F11 /* HomeViewController.swift */,
 			);
 			path = Home;
@@ -383,6 +395,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9160C1A28E3145E007B1307 /* NewSetting.swift in Sources */,
 				E927FC9A28D3523300A91F11 /* Formatter+.swift in Sources */,
 				E99929BA28D88F9B006FCFC7 /* DBVersionData.swift in Sources */,
 				E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */,
@@ -397,7 +410,10 @@
 				E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */,
 				E99929B628D882B5006FCFC7 /* NoticeViewController.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
+				E9160C1828E30A60007B1307 /* DataModel.swift in Sources */,
+				E9160C1C28E3177C007B1307 /* HomeViewModel.swift in Sources */,
 				2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */,
+				E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */,
 				E927FC9828D351E300A91F11 /* Date+.swift in Sources */,
 				2841347728D8970800A758F2 /* LocationManager.swift in Sources */,
 			);
@@ -542,7 +558,7 @@
 				DEVELOPMENT_TEAM = XQ24HP64B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EightFront/SupportFiles/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = EightFront;
+				INFOPLIST_KEY_CFBundleDisplayName = "드랍 더 옷";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
@@ -578,7 +594,7 @@
 				DEVELOPMENT_TEAM = XQ24HP64B3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EightFront/SupportFiles/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = EightFront;
+				INFOPLIST_KEY_CFBundleDisplayName = "드랍 더 옷";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
@@ -737,6 +753,19 @@
 			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		E9160C1428E2FBC4007B1307 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E9160C1528E2FBC4007B1307 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = E9160C1528E2FBC4007B1307 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E975ECFD28D34A050013E94F /* Project object */;
 }
