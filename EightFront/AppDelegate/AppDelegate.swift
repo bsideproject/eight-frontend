@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in }
         application.registerForRemoteNotifications()
         
+        DataManager.shared.fetchData()
+        
         return true
     }
     
