@@ -15,7 +15,15 @@ final class SearchMapViewModel {
     var bag = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
+    var isMove = false
     @Published var addressString: String?
+    var requestLocation: CLLocation? {
+        didSet {
+            LocationManager.shared.addressUpdate(location: requestLocation) { [weak self] address in
+                self?.addressString = address
+            }
+        }
+    }
     
     //MARK: Initializer
     init() {
@@ -24,17 +32,7 @@ final class SearchMapViewModel {
     
     //MARK: RxBinding..
     private func bind() {
-        input.requestAddress
-            .sink {
-                if case let .failure(error) = $0 {
-                    LogUtil.d(error.localizedDescription)
-                }
-            } receiveValue: {
-                LocationManager.shared.addressUpdate(location: $0) { [weak self] address in
-                    self?.addressString = address
-                }
-            }
-            .store(in: &bag)
+        
     }
 }
 
@@ -45,7 +43,7 @@ extension SearchMapViewModel {
     }
     
     struct Input {
-        var requestAddress = CurrentValueSubject<CLLocation?, ErrorResult>.init(nil)
+        
     }
     
     struct Output {
