@@ -9,6 +9,7 @@ import AuthenticationServices
 import Combine
 import UIKit
 import CombineCocoa
+import KakaoSDKUser
 
 final class LogtinBottomSheetVC: UIViewController {
     
@@ -16,11 +17,21 @@ final class LogtinBottomSheetVC: UIViewController {
     var cancelBag = Set<AnyCancellable>()
     private let bottomHeight: CGFloat = 500
     private var bottomSheetViewTopConstraint: NSLayoutConstraint!
-    // 애플
-    private lazy var appleLoginButton = ASAuthorizationAppleIDButton(
+    
+    // 애플 간편 로그인
+    private let appleLoginButton = ASAuthorizationAppleIDButton(
         authorizationButtonType: .signUp,
         authorizationButtonStyle: .whiteOutline
     )
+    // 카카오 간편 로그인
+    private let kakaoLoginButton = UIButton().then {
+        guard let buttonImage = UIImage(named: "kakao_login_medium_narrow") else {
+            LogUtil.e("카카오 로그인 버튼 이미지를 확인해주세요.")
+            return
+        }
+        $0.contentMode = .scaleAspectFit
+        $0.setImage(buttonImage, for: .normal)
+    }
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
     }
@@ -62,6 +73,15 @@ final class LogtinBottomSheetVC: UIViewController {
                 self?.appleLoginButtonTapped()
             }
             .store(in: &cancelBag)
+        
+        kakaoLoginButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.kakaoLoginButtonTapped()
+            }
+            .store(in: &cancelBag)
+        
     }
 
     // MARK: - Functions
@@ -71,6 +91,7 @@ final class LogtinBottomSheetVC: UIViewController {
         view.addSubview(bottomSheetView)
         view.addSubview(dismissIndicatorView)
         view.addSubview(appleLoginButton)
+        view.addSubview(kakaoLoginButton)
         
         dimmedBackView.alpha = 0.0
     
@@ -101,6 +122,15 @@ final class LogtinBottomSheetVC: UIViewController {
         appleLoginButton.snp.makeConstraints {
             $0.center.equalTo(bottomSheetView)
         }
+        
+        // TODO: 추후 디자인에 따라 이미지 크기 수정
+        kakaoLoginButton.snp.makeConstraints {
+            $0.top.equalTo(appleLoginButton.snp.bottom).offset(10)
+            $0.centerX.equalTo(bottomSheetView)
+            $0.height.equalTo(appleLoginButton.snp.height)
+            $0.width.equalTo(appleLoginButton.snp.width)
+        }
+        
     }
     
     // GestureRecognizer 세팅 작업
@@ -164,7 +194,7 @@ final class LogtinBottomSheetVC: UIViewController {
     }
     
     /// 애플 로그인
-    @objc private func appleLoginButtonTapped() {
+    private func appleLoginButtonTapped() {
         let request = ASAuthorizationAppleIDProvider().createRequest()
         request.requestedScopes = [.fullName, .email]
         
@@ -172,6 +202,23 @@ final class LogtinBottomSheetVC: UIViewController {
         controller.delegate = self
         controller.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
         controller.performRequests()
+    }
+    
+    private func kakaoLoginButtonTapped() {
+        /// 카카오톡 설치 여부 확인
+        if (UserApi.isKakaoTalkLoginAvailable()) {
+            UserApi.shared.loginWithKakaoTalk { oauthToken, error in
+                if let error = error {
+                    LogUtil.e(error)
+                } else {
+                    LogUtil.d("loginWithKakaoTalk() success.")
+                    
+                    // 간편 로그인 정보
+                    _ = oauthToken
+                    
+                }
+            }
+        }
     }
 }
 

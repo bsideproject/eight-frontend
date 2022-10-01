@@ -372,6 +372,7 @@
 				E9DFC5E928DA0E010074D32C /* XCRemoteSwiftPackageReference "CombineCocoa" */,
 				E9160C1F28E82B8F007B1307 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				E9160C2228E82C2F007B1307 /* XCRemoteSwiftPackageReference "Moya" */,
+				2806474628E82D6D000DED5B /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
 			);
 			productRefGroup = E975ED0628D34A050013E94F /* Products */;
 			projectDirPath = "";
@@ -651,6 +652,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2806474628E82D6D000DED5B /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk-rx";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		E9160C1F28E82B8F007B1307 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
