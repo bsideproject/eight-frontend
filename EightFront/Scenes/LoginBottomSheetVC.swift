@@ -93,18 +93,18 @@ final class LoginBottomSheetVC: UIViewController {
         emailTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
-            .map({ $0 ?? "" })
+            .compactMap{ $0 }
             .assign(to: \.emailInput, on: viewModel)
             .store(in: &cancelBag)
         
         passwordTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
-            .map({ $0 ?? "" })
+            .compactMap{ $0 }
             .assign(to: \.passwordInput, on: viewModel)
             .store(in: &cancelBag)
         
-        viewModel.isLoginButtonValid
+        viewModel.isValid
             .receive(on: DispatchQueue.main)
             .sink { [weak self] bool in
                 UIView.animate(withDuration: 0.25) {
