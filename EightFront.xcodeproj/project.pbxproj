@@ -15,6 +15,7 @@
 		E9160C1828E30A60007B1307 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1728E30A60007B1307 /* DataModel.swift */; };
 		E9160C1A28E3145E007B1307 /* NewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1928E3145E007B1307 /* NewSetting.swift */; };
 		E9160C1C28E3177C007B1307 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1B28E3177C007B1307 /* HomeViewModel.swift */; };
+		E9160C2128E82B8F007B1307 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = E9160C2028E82B8F007B1307 /* KakaoSDK */; };
 		E927FC7228D34B0600A91F11 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E927FC7128D34B0600A91F11 /* Kingfisher */; };
 		E927FC7528D34B3A00A91F11 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E927FC7428D34B3A00A91F11 /* Then */; };
 		E927FC8828D34FDA00A91F11 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E927FC8728D34FDA00A91F11 /* Colors.xcassets */; };
@@ -85,6 +86,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9EA260428D838880078A069 /* FirebaseMessaging in Frameworks */,
+				E9160C2128E82B8F007B1307 /* KakaoSDK in Frameworks */,
 				E927FC7228D34B0600A91F11 /* Kingfisher in Frameworks */,
 				E9EA260628D838880078A069 /* FirebaseStorage in Frameworks */,
 				E9EA260028D838880078A069 /* FirebaseAuth in Frameworks */,
@@ -331,6 +333,7 @@
 				E9EA260328D838880078A069 /* FirebaseMessaging */,
 				E9EA260528D838880078A069 /* FirebaseStorage */,
 				E9DFC5EA28DA0E010074D32C /* CombineCocoa */,
+				E9160C2028E82B8F007B1307 /* KakaoSDK */,
 			);
 			productName = EightFront;
 			productReference = E975ED0528D34A050013E94F /* EightFront.app */;
@@ -361,13 +364,14 @@
 			);
 			mainGroup = E975ECFC28D34A050013E94F;
 			packageReferences = (
-				E927FC6F28D34AD300A91F11 /* XCRemoteSwiftPackageReference "Moya" */,
 				E927FC7028D34B0600A91F11 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				E927FC7328D34B3A00A91F11 /* XCRemoteSwiftPackageReference "Then" */,
 				E927FCAE28D7587300A91F11 /* XCRemoteSwiftPackageReference "NMapsMap-SPM" */,
 				E9EA25F528D8243C0078A069 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				E9EA25FC28D838880078A069 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				E9DFC5E928DA0E010074D32C /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+				E9160C1F28E82B8F007B1307 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				E9160C2228E82C2F007B1307 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			productRefGroup = E975ED0628D34A050013E94F /* Products */;
 			projectDirPath = "";
@@ -647,12 +651,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		E927FC6F28D34AD300A91F11 /* XCRemoteSwiftPackageReference "Moya" */ = {
+		E9160C1F28E82B8F007B1307 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Moya/Moya.git";
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 13.0.0;
+				branch = master;
+				kind = branch;
+			};
+		};
+		E9160C2228E82C2F007B1307 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				branch = master;
+				kind = branch;
 			};
 		};
 		E927FC7028D34B0600A91F11 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
@@ -706,6 +718,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E9160C2028E82B8F007B1307 /* KakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9160C1F28E82B8F007B1307 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDK;
+		};
 		E927FC7128D34B0600A91F11 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E927FC7028D34B0600A91F11 /* XCRemoteSwiftPackageReference "Kingfisher" */;
