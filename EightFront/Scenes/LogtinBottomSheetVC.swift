@@ -1,5 +1,5 @@
 //
-//  BottomModalSheetView.swift
+//  LogtinBottomSheetVC.swift
 //  EightFront
 //
 //  Created by Jeongwan Kim on 2022/09/28.
@@ -8,37 +8,29 @@
 import AuthenticationServices
 import Combine
 import UIKit
-
 import CombineCocoa
 
-final class LogtinBottomSheetViewController: UIViewController {
+final class LogtinBottomSheetVC: UIViewController {
     
     // MARK: - Properties
-    
+    var cancelBag = Set<AnyCancellable>()
     private let bottomHeight: CGFloat = 500
-    
     private var bottomSheetViewTopConstraint: NSLayoutConstraint!
-    
     // 애플
     private lazy var appleLoginButton = ASAuthorizationAppleIDButton(
         authorizationButtonType: .signUp,
         authorizationButtonStyle: .whiteOutline
-    ).then {
-        $0.addTarget(self, action: #selector(appleLoginButtonTapped), for: .touchUpInside)
-    }
-    
-    private let dimmedBackView = UIView().then({
+    )
+    private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
-    })
-    
-    private let bottomSheetView = UIView().then({
+    }
+    private let bottomSheetView = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 27
         $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         $0.clipsToBounds = true
-    })
-
-    private let dismissIndicatorView = UIView().then{
+    }
+    private let dismissIndicatorView = UIView().then {
         $0.backgroundColor = .systemGray2
         $0.layer.cornerRadius = 3
     }
@@ -62,8 +54,14 @@ final class LogtinBottomSheetViewController: UIViewController {
     // MARK: - Bind
     
     private func bind() {
-//        appleLoginButton.controlEventPublisher(for: .touchUpInside)
-//            .receive(on: DispatchQueue.main)
+        // Apple Login
+        appleLoginButton
+            .controlEventPublisher(for: .touchUpInside)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.appleLoginButtonTapped()
+            }
+            .store(in: &cancelBag)
     }
 
     // MARK: - Functions
@@ -178,7 +176,7 @@ final class LogtinBottomSheetViewController: UIViewController {
 }
 
 // MARK: - ASAuthorizationControllerDelegate
-extension LogtinBottomSheetViewController: ASAuthorizationControllerDelegate {
+extension LogtinBottomSheetVC: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {

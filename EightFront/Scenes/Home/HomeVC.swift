@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  HomeVC.swift
 //  EightFront
 //
 //  Created by wargi on 2022/09/15.
@@ -12,7 +12,7 @@ import SnapKit
 import Then
 import CombineCocoa
 
-final class HomeViewController: UIViewController {
+final class HomeVC: UIViewController {
     //MARK: - Properties
     private let viewModel = HomeViewModel()
     private let mapView = NMFMapView().then {

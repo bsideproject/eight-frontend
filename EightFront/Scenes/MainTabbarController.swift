@@ -26,22 +26,22 @@ final class MainTabbarController: UITabBarController {
         tabBar.tintColor = .systemPurple
         tabBar.unselectedItemTintColor = .gray
         
-        let homeVC = HomeViewController()
+        let homeVC = HomeVC()
         homeVC.tabBarItem.title = "홈"
         homeVC.tabBarItem.image = UIImage(systemName: "house")
         homeVC.tabBarItem.selectedImage = UIImage(systemName: "house.fill")
         
-        let tradeVC = TradeViewController()
+        let tradeVC = TradeVC()
         tradeVC.tabBarItem.title = "중고거래"
         tradeVC.tabBarItem.image = UIImage(systemName: "person.3")
         tradeVC.tabBarItem.selectedImage = UIImage(systemName: "person.3.fill")
         
-        let noticeVC = NoticeViewController()
+        let noticeVC = NoticeVC()
         noticeVC.tabBarItem.title = "알림"
         noticeVC.tabBarItem.image = UIImage(systemName: "bell")
         noticeVC.tabBarItem.selectedImage = UIImage(systemName: "bell.fill")
         
-        let myPageVC = MyPageViewController()
+        let myPageVC = MyPageVC()
         myPageVC.tabBarItem.title = "마이페이지"
         myPageVC.tabBarItem.image = UIImage(systemName: "person")
         myPageVC.tabBarItem.selectedImage = UIImage(systemName: "person.fill")

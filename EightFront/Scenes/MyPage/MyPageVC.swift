@@ -1,16 +1,20 @@
 //
-//  NoticeViewController.swift
+//  MyPageVC.swift
 //  EightFront
 //
 //  Created by wargi on 2022/09/19.
 //
 
-import Then
-import SnapKit
+
+
 import UIKit
 
-//MARK: 알림 VC
-final class NoticeViewController: UIViewController {
+import Then
+import SnapKit
+
+//MARK: 마이페이지 VC
+final class MyPageVC: UIViewController {
+    
     //MARK: - Properties
     
     //MARK: - Life Cycle
@@ -19,6 +23,14 @@ final class NoticeViewController: UIViewController {
         
         makeUI()
         bind()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        let bottomSheetVC = LogtinBottomSheetVC()
+        bottomSheetVC.modalPresentationStyle = .overFullScreen
+        self.present(bottomSheetVC, animated: true)
     }
     
     //MARK: - Make UI
@@ -30,4 +42,6 @@ final class NoticeViewController: UIViewController {
     private func bind() {
         
     }
+    
 }
+

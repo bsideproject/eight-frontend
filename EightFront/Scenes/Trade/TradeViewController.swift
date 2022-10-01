@@ -1,5 +1,5 @@
 //
-//  TradeViewController.swift
+//  TradeVC.swift
 //  EightFront
 //
 //  Created by wargi on 2022/09/19.
@@ -10,7 +10,7 @@ import Then
 import SnapKit
 
 //MARK: 중고거래 VC
-final class TradeViewController: UIViewController {
+final class TradeVC: UIViewController {
     //MARK: - Properties
     
     //MARK: - Life Cycle
