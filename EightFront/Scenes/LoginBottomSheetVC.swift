@@ -1,5 +1,5 @@
 //
-//  LogtinBottomSheetVC.swift
+//  LoginBottomSheetVC.swift
 //  EightFront
 //
 //  Created by Jeongwan Kim on 2022/09/28.
@@ -11,19 +11,30 @@ import UIKit
 import CombineCocoa
 import KakaoSDKUser
 
-final class LogtinBottomSheetVC: UIViewController {
+final class LoginBottomSheetVC: UIViewController {
     
     // MARK: - Properties
     var cancelBag = Set<AnyCancellable>()
+    private let viewModel = LoginBottomSheetViewModel()
     private let bottomHeight: CGFloat = 500
     private var bottomSheetViewTopConstraint: NSLayoutConstraint!
     
-    // 애플 간편 로그인
+    private let emailTextField = UITextField().then {
+        $0.keyboardType = .emailAddress
+        $0.placeholder = "이메일을 입력해주세요."
+    }
+    private let passwordTextField = UITextField().then {
+        $0.isSecureTextEntry = true
+        $0.placeholder = "비밀번호를 입력해주세요."
+    }
+    private let loginButton = UIButton().then {
+        $0.setTitle("로그인", for: .normal)
+        $0.backgroundColor = .lightGray
+    }
     private let appleLoginButton = ASAuthorizationAppleIDButton(
         authorizationButtonType: .signUp,
         authorizationButtonStyle: .whiteOutline
     )
-    // 카카오 간편 로그인
     private let kakaoLoginButton = UIButton().then {
         guard let buttonImage = UIImage(named: "kakao_login_medium_narrow") else {
             LogUtil.e("카카오 로그인 버튼 이미지를 확인해주세요.")
@@ -47,7 +58,6 @@ final class LogtinBottomSheetVC: UIViewController {
     }
 
     // MARK: - Life Cycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,7 +65,6 @@ final class LogtinBottomSheetVC: UIViewController {
         bind()
         setupGestureRecognizer()
     }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -65,7 +74,6 @@ final class LogtinBottomSheetVC: UIViewController {
     // MARK: - Bind
     
     private func bind() {
-        // Apple Login
         appleLoginButton
             .controlEventPublisher(for: .touchUpInside)
             .receive(on: DispatchQueue.main)
@@ -82,6 +90,37 @@ final class LogtinBottomSheetVC: UIViewController {
             }
             .store(in: &cancelBag)
         
+        emailTextField
+            .textPublisher
+            .receive(on: DispatchQueue.main)
+            .map({ $0 ?? "" })
+            .assign(to: \.emailInput, on: viewModel)
+            .store(in: &cancelBag)
+        
+        passwordTextField
+            .textPublisher
+            .receive(on: DispatchQueue.main)
+            .map({ $0 ?? "" })
+            .assign(to: \.passwordInput, on: viewModel)
+            .store(in: &cancelBag)
+        
+        viewModel.isLoginButtonValid
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] bool in
+                UIView.animate(withDuration: 0.25) {
+                    self?.loginButton.backgroundColor = bool ? .systemBlue : .lightGray
+                    self?.loginButton.isEnabled = bool
+                }
+            }
+            .store(in: &cancelBag)
+        
+        loginButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink {
+                print("로그인 시도")
+            }
+            .store(in: &cancelBag)
     }
 
     // MARK: - Functions
@@ -90,6 +129,9 @@ final class LogtinBottomSheetVC: UIViewController {
         view.addSubview(dimmedBackView)
         view.addSubview(bottomSheetView)
         view.addSubview(dismissIndicatorView)
+        view.addSubview(emailTextField)
+        view.addSubview(passwordTextField)
+        view.addSubview(loginButton)
         view.addSubview(appleLoginButton)
         view.addSubview(kakaoLoginButton)
         
@@ -119,8 +161,26 @@ final class LogtinBottomSheetVC: UIViewController {
             $0.centerX.equalTo(bottomSheetView.snp.centerX)
         }
         
+        emailTextField.snp.makeConstraints {
+            $0.top.equalTo(bottomSheetView.snp.top).inset(30)
+            $0.centerX.equalTo(bottomSheetView)
+        }
+        
+        passwordTextField.snp.makeConstraints {
+            $0.top.equalTo(emailTextField.snp.bottom).offset(10)
+            $0.centerX.equalTo(emailTextField)
+        }
+        
+        loginButton.snp.makeConstraints {
+            $0.top.equalTo(passwordTextField.snp.bottom).offset(10)
+            $0.centerX.equalTo(emailTextField)
+            $0.width.equalTo(appleLoginButton.snp.width)
+            $0.height.equalTo(appleLoginButton.snp.height)
+        }
+        
         appleLoginButton.snp.makeConstraints {
-            $0.center.equalTo(bottomSheetView)
+            $0.top.equalTo(loginButton.snp.bottom).offset(10)
+            $0.centerX.equalTo(emailTextField)
         }
         
         // TODO: 추후 디자인에 따라 이미지 크기 수정
@@ -223,7 +283,7 @@ final class LogtinBottomSheetVC: UIViewController {
 }
 
 // MARK: - ASAuthorizationControllerDelegate
-extension LogtinBottomSheetVC: ASAuthorizationControllerDelegate {
+extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
