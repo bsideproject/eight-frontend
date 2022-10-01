@@ -5,14 +5,17 @@
 //  Created by Jeongwan Kim on 2022/09/28.
 //
 
-import UIKit
 import AuthenticationServices
+import Combine
+import UIKit
+
+import CombineCocoa
 
 final class LogtinBottomSheetViewController: UIViewController {
     
     // MARK: - Properties
     
-    let bottomHeight: CGFloat = 500
+    private let bottomHeight: CGFloat = 500
     
     private var bottomSheetViewTopConstraint: NSLayoutConstraint!
     
@@ -24,34 +27,29 @@ final class LogtinBottomSheetViewController: UIViewController {
         $0.addTarget(self, action: #selector(appleLoginButtonTapped), for: .touchUpInside)
     }
     
-    private let dimmedBackView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
-        return view
-    }()
+    private let dimmedBackView = UIView().then({
+        $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+    })
     
-    private let bottomSheetView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        
-        view.layer.cornerRadius = 27
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        view.clipsToBounds = true
-        
-        return view
-    }()
-    
-    
+    private let bottomSheetView = UIView().then({
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 27
+        $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        $0.clipsToBounds = true
+    })
+
     private let dismissIndicatorView = UIView().then{
         $0.backgroundColor = .systemGray2
         $0.layer.cornerRadius = 3
     }
 
-    // MARK: - View Life Cycle
+    // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         makeUI()
+        bind()
         setupGestureRecognizer()
     }
     
@@ -60,9 +58,16 @@ final class LogtinBottomSheetViewController: UIViewController {
         
         showBottomSheet()
     }
+    
+    // MARK: - Bind
+    
+    private func bind() {
+//        appleLoginButton.controlEventPublisher(for: .touchUpInside)
+//            .receive(on: DispatchQueue.main)
+    }
 
-    // MARK: - @Functions
-    // UI 세팅 작업
+    // MARK: - Functions
+    
     private func makeUI() {
         view.addSubview(dimmedBackView)
         view.addSubview(bottomSheetView)
@@ -71,32 +76,11 @@ final class LogtinBottomSheetViewController: UIViewController {
         
         dimmedBackView.alpha = 0.0
     
-        setupLayout()
-
-    }
-    
-    // GestureRecognizer 세팅 작업
-    private func setupGestureRecognizer() {
-        // 흐린 부분 탭할 때, 바텀시트를 내리는 TapGesture
-        let dimmedTap = UITapGestureRecognizer(target: self, action: #selector(dimmedViewTapped(_:)))
-        dimmedBackView.addGestureRecognizer(dimmedTap)
-        dimmedBackView.isUserInteractionEnabled = true
-        
-        // 스와이프 했을 때, 바텀시트를 내리는 swipeGesture
-        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(panGesture))
-        swipeGesture.direction = .down
-        view.addGestureRecognizer(swipeGesture)
-    }
-    
-    // 레이아웃 세팅
-    private func setupLayout() {
-        
         dimmedBackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
         // TODO: 추후 수정
-        
         let topConstant = view.safeAreaInsets.bottom + view.safeAreaLayoutGuide.layoutFrame.height
         bottomSheetViewTopConstraint = bottomSheetView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstant)
         
@@ -119,7 +103,19 @@ final class LogtinBottomSheetViewController: UIViewController {
         appleLoginButton.snp.makeConstraints {
             $0.center.equalTo(bottomSheetView)
         }
+    }
+    
+    // GestureRecognizer 세팅 작업
+    private func setupGestureRecognizer() {
+        // 흐린 부분 탭할 때, 바텀시트를 내리는 TapGesture
+        let dimmedTap = UITapGestureRecognizer(target: self, action: #selector(dimmedViewTapped(_:)))
+        dimmedBackView.addGestureRecognizer(dimmedTap)
+        dimmedBackView.isUserInteractionEnabled = true
         
+        // 스와이프 했을 때, 바텀시트를 내리는 swipeGesture
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(panGesture))
+        swipeGesture.direction = .down
+        view.addGestureRecognizer(swipeGesture)
     }
     
     // 바텀 시트 표출 애니메이션
@@ -179,11 +175,11 @@ final class LogtinBottomSheetViewController: UIViewController {
         controller.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
         controller.performRequests()
     }
-    
 }
 
-
+// MARK: - ASAuthorizationControllerDelegate
 extension LogtinBottomSheetViewController: ASAuthorizationControllerDelegate {
+    
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let user = credential.user
