@@ -6,12 +6,20 @@
 //
 
 import UIKit
+
 import Firebase
+import KakaoSDKAuth
+import KakaoSDKCommon
+import KakaoSDKUser
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        /// 카카오 SDK 초기화
+        KakaoSDK.initSDK(appKey: "7572c822344fe4b294ef4ec932bbee31")
         
         FirebaseApp.configure()
         
@@ -25,6 +33,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DataManager.shared.fetchData()
         
         return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        /// 카카오톡에서 서비스 앱으로 돌아왔을 때 카카오 로그인 처리를 정상적으로 완료하기 위한 메서드
+        /// https://developers.kakao.com/docs/latest/ko/kakaologin/ios
+        if (AuthApi.isKakaoTalkLoginUrl(url)) {
+            return AuthController.handleOpenUrl(url: url)
+        }
+        
+        return false
     }
     
     // MARK: UISceneSession Lifecycle
