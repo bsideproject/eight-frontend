@@ -166,7 +166,7 @@ final class LogtinBottomSheetViewController: UIViewController {
     }
     
     /// 애플 로그인
-    @objc private func appleLoginButtonTapped() {
+    private func appleLoginButtonTapped() {
         let request = ASAuthorizationAppleIDProvider().createRequest()
         request.requestedScopes = [.fullName, .email]
         

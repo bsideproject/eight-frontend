@@ -7,6 +7,8 @@
 
 import UIKit
 
+import KakaoSDKAuth
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -44,5 +46,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 앱 백 그라운드로 진입시 위치 추적 멈춤
         LocationManager.shared.stopUpdating()
     }
+    
+    /// 카카오톡에서 서비스 앱으로 돌아왔을 때 카카오 로그인 처리를 정상적으로 완료하기 위한 메서드
+    /// https://developers.kakao.com/docs/latest/ko/kakaologin/ios
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                _ = AuthController.handleOpenUrl(url: url)
+            }
+        }
+    }
+    
 }
 
