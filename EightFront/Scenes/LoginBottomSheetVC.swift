@@ -118,7 +118,7 @@ final class LoginBottomSheetVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink {
-                print("로그인 시도")
+                LogUtil.d("로그인 버튼 눌림")
             }
             .store(in: &cancelBag)
     }
