@@ -19,12 +19,22 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Images {
+  internal static let currentLocation = ImageAsset(name: "current-location")
+  internal static let homeAdd = ImageAsset(name: "home-add")
+  internal static let homeList = ImageAsset(name: "home-list")
+  internal static let homeSearch = ImageAsset(name: "home-search")
   internal enum KakaoLoginButton {
     internal static let bottomSheetView = ImageAsset(name: "bottomSheetView")
     internal static let largeNarrow = ImageAsset(name: "large_narrow")
     internal static let largeWide = ImageAsset(name: "large_wide")
     internal static let mediumNarrow = ImageAsset(name: "medium_narrow")
     internal static let mediumWide = ImageAsset(name: "medium_wide")
+  }
+  internal enum Tabbar {
+    internal static let alram = ImageAsset(name: "alram")
+    internal static let feed = ImageAsset(name: "feed")
+    internal static let home = ImageAsset(name: "home")
+    internal static let myPage = ImageAsset(name: "my-page")
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
