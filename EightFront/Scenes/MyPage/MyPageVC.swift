@@ -28,7 +28,7 @@ final class MyPageVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        let bottomSheetVC = LogtinBottomSheetVC()
+        let bottomSheetVC = LoginBottomSheetVC()
         bottomSheetVC.modalPresentationStyle = .overFullScreen
         self.present(bottomSheetVC, animated: true)
     }

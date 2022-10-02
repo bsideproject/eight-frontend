@@ -12,7 +12,6 @@ import KakaoSDKAuth
 import KakaoSDKCommon
 import KakaoSDKUser
 
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
