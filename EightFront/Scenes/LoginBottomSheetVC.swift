@@ -16,20 +16,33 @@ final class LoginBottomSheetVC: UIViewController {
     // MARK: - Properties
     var cancelBag = Set<AnyCancellable>()
     private let viewModel = LoginBottomSheetViewModel()
-    private let bottomHeight: CGFloat = 500
+    private let bottomHeight: CGFloat = 600
     private var bottomSheetViewTopConstraint: NSLayoutConstraint!
     
-    private let emailTextField = UITextField().then {
+    private let loginBottomSheetLabel = UILabel().then {
+        $0.text = "로그인"
+        $0.font = UIFont.systemFont(ofSize: 35, weight: .bold)
+    }
+    
+    private let emailTextField = UITextField().then{
         $0.keyboardType = .emailAddress
         $0.placeholder = "이메일을 입력해주세요."
+        $0.backgroundColor = UIColor(red: 226/255, green: 226/255, blue: 226/255, alpha: 1)
+        $0.layer.cornerRadius = 25
+        $0.setLeftPadding(16)
     }
+    
     private let passwordTextField = UITextField().then {
         $0.isSecureTextEntry = true
         $0.placeholder = "비밀번호를 입력해주세요."
+        $0.backgroundColor = UIColor(red: 226/255, green: 226/255, blue: 226/255, alpha: 1)
+        $0.layer.cornerRadius = 25
+        $0.setLeftPadding(16)
     }
     private let loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
         $0.backgroundColor = .lightGray
+        $0.layer.cornerRadius = 25
     }
     private let appleLoginButton = ASAuthorizationAppleIDButton(
         authorizationButtonType: .signUp,
@@ -47,10 +60,6 @@ final class LoginBottomSheetVC: UIViewController {
         $0.layer.cornerRadius = 27
         $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         $0.clipsToBounds = true
-    }
-    private let dismissIndicatorView = UIView().then {
-        $0.backgroundColor = .systemGray2
-        $0.layer.cornerRadius = 3
     }
 
     // MARK: - Life Cycle
@@ -104,7 +113,7 @@ final class LoginBottomSheetVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isValid in
                 UIView.animate(withDuration: 0.25) {
-                    self?.loginButton.backgroundColor = isValid ? .systemBlue : .lightGray
+                    self?.loginButton.backgroundColor = isValid ? .systemOrange : .lightGray
                     self?.loginButton.isEnabled = isValid
                 }
             }
@@ -124,7 +133,7 @@ final class LoginBottomSheetVC: UIViewController {
     private func makeUI() {
         view.addSubview(dimmedBackView)
         view.addSubview(bottomSheetView)
-        view.addSubview(dismissIndicatorView)
+        view.addSubview(loginBottomSheetLabel)
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
         view.addSubview(loginButton)
@@ -150,32 +159,31 @@ final class LoginBottomSheetVC: UIViewController {
             $0.bottom.equalToSuperview()
         }
         
-        dismissIndicatorView.snp.makeConstraints {
-            $0.width.equalTo(102)
-            $0.height.equalTo(7)
-            $0.top.equalTo(bottomSheetView.snp.top).inset(12)
-            $0.centerX.equalTo(bottomSheetView.snp.centerX)
+        loginBottomSheetLabel.snp.makeConstraints {
+            $0.top.equalTo(bottomSheetView.snp.top).inset(30)
+            $0.leading.equalTo(bottomSheetView.snp.leading).inset(30)
         }
         
         emailTextField.snp.makeConstraints {
-            $0.top.equalTo(bottomSheetView.snp.top).inset(30)
-            $0.centerX.equalTo(bottomSheetView)
+            $0.top.equalTo(loginBottomSheetLabel.snp.bottom).offset(30)
+            $0.horizontalEdges.equalTo(bottomSheetView).inset(30)
+            $0.height.equalTo(50)
         }
         
         passwordTextField.snp.makeConstraints {
             $0.top.equalTo(emailTextField.snp.bottom).offset(10)
-            $0.centerX.equalTo(emailTextField)
+            $0.horizontalEdges.equalTo(bottomSheetView).inset(30)
+            $0.height.equalTo(50)
         }
         
         loginButton.snp.makeConstraints {
-            $0.top.equalTo(passwordTextField.snp.bottom).offset(10)
-            $0.centerX.equalTo(emailTextField)
-            $0.width.equalTo(appleLoginButton.snp.width)
-            $0.height.equalTo(appleLoginButton.snp.height)
+            $0.top.equalTo(passwordTextField.snp.bottom).offset(30)
+            $0.horizontalEdges.equalTo(bottomSheetView).inset(30)
+            $0.height.equalTo(50)
         }
         
         appleLoginButton.snp.makeConstraints {
-            $0.top.equalTo(loginButton.snp.bottom).offset(10)
+            $0.top.equalTo(loginButton.snp.bottom).offset(30)
             $0.centerX.equalTo(emailTextField)
         }
         
