@@ -23,30 +23,31 @@ final class MainTabbarController: UITabBarController {
     //MARK: - Make UI
     func makeUI() {
         tabBar.backgroundColor = .white
-        tabBar.tintColor = .systemPurple
-        tabBar.unselectedItemTintColor = .gray
+        tabBar.tintColor = Colors.main.color
+        tabBar.unselectedItemTintColor = Colors.gray006.color
         
         let homeVC = HomeVC()
-        homeVC.tabBarItem.title = "홈"
-        homeVC.tabBarItem.image = UIImage(systemName: "house")
-        homeVC.tabBarItem.selectedImage = UIImage(systemName: "house.fill")
+        let homeNavi = UINavigationController(rootViewController: homeVC)
+        homeNavi.tabBarItem.title = "홈"
+        homeNavi.tabBarItem.image = Images.Tabbar.home.image
+        homeNavi.tabBarItem.selectedImage = Images.Tabbar.home.image
         
         let tradeVC = TradeVC()
-        tradeVC.tabBarItem.title = "중고거래"
-        tradeVC.tabBarItem.image = UIImage(systemName: "person.3")
-        tradeVC.tabBarItem.selectedImage = UIImage(systemName: "person.3.fill")
+        tradeVC.tabBarItem.title = "피드"
+        tradeVC.tabBarItem.image = Images.Tabbar.feed.image
+        tradeVC.tabBarItem.selectedImage = Images.Tabbar.feed.image
         
         let noticeVC = NoticeVC()
         noticeVC.tabBarItem.title = "알림"
-        noticeVC.tabBarItem.image = UIImage(systemName: "bell")
-        noticeVC.tabBarItem.selectedImage = UIImage(systemName: "bell.fill")
+        noticeVC.tabBarItem.image = Images.Tabbar.alram.image
+        noticeVC.tabBarItem.selectedImage = Images.Tabbar.alram.image
         
         let myPageVC = MyPageVC()
         myPageVC.tabBarItem.title = "마이페이지"
-        myPageVC.tabBarItem.image = UIImage(systemName: "person")
-        myPageVC.tabBarItem.selectedImage = UIImage(systemName: "person.fill")
+        myPageVC.tabBarItem.image = Images.Tabbar.myPage.image
+        myPageVC.tabBarItem.selectedImage = Images.Tabbar.myPage.image
 
-        viewControllers = [homeVC, tradeVC, noticeVC, myPageVC]
+        viewControllers = [homeNavi, tradeVC, noticeVC, myPageVC]
     }
     
     //MARK: - 버전 체크

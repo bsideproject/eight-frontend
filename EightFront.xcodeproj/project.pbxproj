@@ -47,6 +47,7 @@
 		E9460AFE28E9E51D00932351 /* HomeSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460AFD28E9E51D00932351 /* HomeSearchView.swift */; };
 		E9460B0228EA04FA00932351 /* HomeSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0128EA04FA00932351 /* HomeSearchVC.swift */; };
 		E9460B0428EA056E00932351 /* HomeListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0328EA056E00932351 /* HomeListVC.swift */; };
+		E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0628EA0BBF00932351 /* ReportVC.swift */; };
 		E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0828D34A050013E94F /* AppDelegate.swift */; };
 		E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0A28D34A050013E94F /* SceneDelegate.swift */; };
 		E975ED1228D34A060013E94F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E975ED1128D34A060013E94F /* Images.xcassets */; };
@@ -124,6 +125,7 @@
 		E9460AFD28E9E51D00932351 /* HomeSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSearchView.swift; sourceTree = "<group>"; };
 		E9460B0128EA04FA00932351 /* HomeSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSearchVC.swift; sourceTree = "<group>"; };
 		E9460B0328EA056E00932351 /* HomeListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListVC.swift; sourceTree = "<group>"; };
+		E9460B0628EA0BBF00932351 /* ReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportVC.swift; sourceTree = "<group>"; };
 		E975ED0528D34A050013E94F /* EightFront.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EightFront.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E975ED0828D34A050013E94F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E975ED0A28D34A050013E94F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -334,6 +336,7 @@
 				E927FC9B28D3525700A91F11 /* HomeVC.swift */,
 				E9460AFF28EA04D300932351 /* Search */,
 				E9460B0028EA04E600932351 /* List */,
+				E9460B0528EA0B8F00932351 /* Report */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -370,6 +373,14 @@
 				E9460B0328EA056E00932351 /* HomeListVC.swift */,
 			);
 			path = List;
+			sourceTree = "<group>";
+		};
+		E9460B0528EA0B8F00932351 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				E9460B0628EA0BBF00932351 /* ReportVC.swift */,
+			);
+			path = Report;
 			sourceTree = "<group>";
 		};
 		E975ECFC28D34A050013E94F = {
@@ -566,6 +577,7 @@
 				E99929B828D882BF006FCFC7 /* MyPageVC.swift in Sources */,
 				E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */,
 				E99AC31228E88AA800AF1F84 /* ClothesAPI.swift in Sources */,
+				E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */,
 				E99929B628D882B5006FCFC7 /* NoticeVC.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
 				E9160C1828E30A60007B1307 /* DataModel.swift in Sources */,
