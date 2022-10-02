@@ -28,6 +28,8 @@
 		E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E927FCAA28D7217A00A91F11 /* ColorAssets+Generated.swift */; };
 		E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E927FCAC28D7223300A91F11 /* ImageAssets+Generated.swift */; };
 		E927FCB028D7587300A91F11 /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = E927FCAF28D7587300A91F11 /* NMapsMap */; };
+		E92DA3BD28E95FD10054EFFA /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = E92DA3BC28E95FD10054EFFA /* Toast */; };
+		E92DA3C028E9601A0054EFFA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E92DA3BF28E9601A0054EFFA /* Lottie */; };
 		E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0828D34A050013E94F /* AppDelegate.swift */; };
 		E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0A28D34A050013E94F /* SceneDelegate.swift */; };
 		E975ED1228D34A060013E94F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E975ED1128D34A060013E94F /* Images.xcassets */; };
@@ -101,9 +103,11 @@
 				E9EA260428D838880078A069 /* FirebaseMessaging in Frameworks */,
 				E927FC7228D34B0600A91F11 /* Kingfisher in Frameworks */,
 				E9EA260628D838880078A069 /* FirebaseStorage in Frameworks */,
+				E92DA3BD28E95FD10054EFFA /* Toast in Frameworks */,
 				E9EA260028D838880078A069 /* FirebaseAuth in Frameworks */,
 				E9EA25F728D8243C0078A069 /* SnapKit in Frameworks */,
 				E927FCB028D7587300A91F11 /* NMapsMap in Frameworks */,
+				E92DA3C028E9601A0054EFFA /* Lottie in Frameworks */,
 				E9BFC3F728E88DCB00951604 /* KakaoSDKAuth in Frameworks */,
 				E9EA25FE28D838880078A069 /* FirebaseAnalytics in Frameworks */,
 				E9BFC3F928E88DCB00951604 /* KakaoSDKUser in Frameworks */,
@@ -358,6 +362,8 @@
 				E9BFC3F828E88DCB00951604 /* KakaoSDKUser */,
 				E9BFC3FB28E88DF800951604 /* CombineMoya */,
 				E9BFC3FD28E88DF800951604 /* Moya */,
+				E92DA3BC28E95FD10054EFFA /* Toast */,
+				E92DA3BF28E9601A0054EFFA /* Lottie */,
 			);
 			productName = EightFront;
 			productReference = E975ED0528D34A050013E94F /* EightFront.app */;
@@ -396,6 +402,8 @@
 				E9DFC5E928DA0E010074D32C /* XCRemoteSwiftPackageReference "CombineCocoa" */,
 				E9BFC3F528E88DCB00951604 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				E9BFC3FA28E88DF800951604 /* XCRemoteSwiftPackageReference "Moya" */,
+				E92DA3BB28E95FD10054EFFA /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				E92DA3BE28E9601A0054EFFA /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = E975ED0628D34A050013E94F /* Products */;
 			projectDirPath = "";
@@ -704,6 +712,22 @@
 				minimumVersion = 3.16.0;
 			};
 		};
+		E92DA3BB28E95FD10054EFFA /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		E92DA3BE28E9601A0054EFFA /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		E9BFC3F528E88DCB00951604 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
@@ -761,6 +785,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E927FCAE28D7587300A91F11 /* XCRemoteSwiftPackageReference "NMapsMap-SPM" */;
 			productName = NMapsMap;
+		};
+		E92DA3BC28E95FD10054EFFA /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E92DA3BB28E95FD10054EFFA /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
+		E92DA3BF28E9601A0054EFFA /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E92DA3BE28E9601A0054EFFA /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 		E9BFC3F628E88DCB00951604 /* KakaoSDKAuth */ = {
 			isa = XCSwiftPackageProductDependency;
