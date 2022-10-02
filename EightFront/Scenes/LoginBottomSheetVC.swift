@@ -104,12 +104,12 @@ final class LoginBottomSheetVC: UIViewController {
             .assign(to: \.passwordInput, on: viewModel)
             .store(in: &cancelBag)
         
-        viewModel.isValid
+        viewModel.isLoginButtonValid
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] bool in
+            .sink { [weak self] isValid in
                 UIView.animate(withDuration: 0.25) {
-                    self?.loginButton.backgroundColor = bool ? .systemBlue : .lightGray
-                    self?.loginButton.isEnabled = bool
+                    self?.loginButton.backgroundColor = isValid ? .systemBlue : .lightGray
+                    self?.loginButton.isEnabled = isValid
                 }
             }
             .store(in: &cancelBag)
