@@ -17,7 +17,6 @@
 		E9160C1828E30A60007B1307 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1728E30A60007B1307 /* DataModel.swift */; };
 		E9160C1A28E3145E007B1307 /* NewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1928E3145E007B1307 /* NewSetting.swift */; };
 		E9160C1C28E3177C007B1307 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1B28E3177C007B1307 /* HomeViewModel.swift */; };
-		E9160C2128E82B8F007B1307 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = E9160C2028E82B8F007B1307 /* KakaoSDK */; };
 		E927FC7228D34B0600A91F11 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E927FC7128D34B0600A91F11 /* Kingfisher */; };
 		E927FC7528D34B3A00A91F11 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E927FC7428D34B3A00A91F11 /* Then */; };
 		E927FC8828D34FDA00A91F11 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E927FC8728D34FDA00A91F11 /* Colors.xcassets */; };
@@ -39,7 +38,14 @@
 		E99929B628D882B5006FCFC7 /* NoticeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B528D882B5006FCFC7 /* NoticeVC.swift */; };
 		E99929B828D882BF006FCFC7 /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B728D882BF006FCFC7 /* MyPageVC.swift */; };
 		E99929BA28D88F9B006FCFC7 /* DBVersionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B928D88F9B006FCFC7 /* DBVersionData.swift */; };
+		E99AC31028E88A6000AF1F84 /* CoordinatesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99AC30F28E88A6000AF1F84 /* CoordinatesResponse.swift */; };
+		E99AC31228E88AA800AF1F84 /* ClothesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99AC31128E88AA800AF1F84 /* ClothesAPI.swift */; };
 		E9BF49AD28D9F45F007BBC3D /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BF49AC28D9F45F007BBC3D /* UIView+.swift */; };
+		E9BFC3F728E88DCB00951604 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E9BFC3F628E88DCB00951604 /* KakaoSDKAuth */; };
+		E9BFC3F928E88DCB00951604 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = E9BFC3F828E88DCB00951604 /* KakaoSDKUser */; };
+		E9BFC3FC28E88DF800951604 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = E9BFC3FB28E88DF800951604 /* CombineMoya */; };
+		E9BFC3FE28E88DF800951604 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E9BFC3FD28E88DF800951604 /* Moya */; };
+		E9BFC40228E890A500951604 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BFC40128E890A500951604 /* ApiResponse.swift */; };
 		E9DFC5EB28DA0E010074D32C /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E9DFC5EA28DA0E010074D32C /* CombineCocoa */; };
 		E9EA25F728D8243C0078A069 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA25F628D8243C0078A069 /* SnapKit */; };
 		E9EA25FE28D838880078A069 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA25FD28D838880078A069 /* FirebaseAnalytics */; };
@@ -80,7 +86,10 @@
 		E99929B528D882B5006FCFC7 /* NoticeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeVC.swift; sourceTree = "<group>"; };
 		E99929B728D882BF006FCFC7 /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
 		E99929B928D88F9B006FCFC7 /* DBVersionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBVersionData.swift; sourceTree = "<group>"; };
+		E99AC30F28E88A6000AF1F84 /* CoordinatesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatesResponse.swift; sourceTree = "<group>"; };
+		E99AC31128E88AA800AF1F84 /* ClothesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothesAPI.swift; sourceTree = "<group>"; };
 		E9BF49AC28D9F45F007BBC3D /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		E9BFC40128E890A500951604 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
 		E9EA260728D83A250078A069 /* EightFront.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EightFront.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,15 +99,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9EA260428D838880078A069 /* FirebaseMessaging in Frameworks */,
-				E9160C2128E82B8F007B1307 /* KakaoSDK in Frameworks */,
 				E927FC7228D34B0600A91F11 /* Kingfisher in Frameworks */,
 				E9EA260628D838880078A069 /* FirebaseStorage in Frameworks */,
 				E9EA260028D838880078A069 /* FirebaseAuth in Frameworks */,
 				E9EA25F728D8243C0078A069 /* SnapKit in Frameworks */,
 				E927FCB028D7587300A91F11 /* NMapsMap in Frameworks */,
+				E9BFC3F728E88DCB00951604 /* KakaoSDKAuth in Frameworks */,
 				E9EA25FE28D838880078A069 /* FirebaseAnalytics in Frameworks */,
+				E9BFC3F928E88DCB00951604 /* KakaoSDKUser in Frameworks */,
 				E9EA260228D838880078A069 /* FirebaseDatabase in Frameworks */,
+				E9BFC3FC28E88DF800951604 /* CombineMoya in Frameworks */,
 				E9DFC5EB28DA0E010074D32C /* CombineCocoa in Frameworks */,
+				E9BFC3FE28E88DF800951604 /* Moya in Frameworks */,
 				E927FC7528D34B3A00A91F11 /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,6 +153,8 @@
 		E927FC7C28D34E5500A91F11 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E9BFC40128E890A500951604 /* ApiResponse.swift */,
+				E99AC30F28E88A6000AF1F84 /* CoordinatesResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -148,6 +162,7 @@
 		E927FC7D28D34E5D00A91F11 /* APIs */ = {
 			isa = PBXGroup;
 			children = (
+				E99AC31128E88AA800AF1F84 /* ClothesAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -339,7 +354,10 @@
 				E9EA260328D838880078A069 /* FirebaseMessaging */,
 				E9EA260528D838880078A069 /* FirebaseStorage */,
 				E9DFC5EA28DA0E010074D32C /* CombineCocoa */,
-				E9160C2028E82B8F007B1307 /* KakaoSDK */,
+				E9BFC3F628E88DCB00951604 /* KakaoSDKAuth */,
+				E9BFC3F828E88DCB00951604 /* KakaoSDKUser */,
+				E9BFC3FB28E88DF800951604 /* CombineMoya */,
+				E9BFC3FD28E88DF800951604 /* Moya */,
 			);
 			productName = EightFront;
 			productReference = E975ED0528D34A050013E94F /* EightFront.app */;
@@ -376,9 +394,8 @@
 				E9EA25F528D8243C0078A069 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				E9EA25FC28D838880078A069 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				E9DFC5E928DA0E010074D32C /* XCRemoteSwiftPackageReference "CombineCocoa" */,
-				E9160C1F28E82B8F007B1307 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
-				E9160C2228E82C2F007B1307 /* XCRemoteSwiftPackageReference "Moya" */,
-				2806474628E82D6D000DED5B /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
+				E9BFC3F528E88DCB00951604 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				E9BFC3FA28E88DF800951604 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			productRefGroup = E975ED0628D34A050013E94F /* Products */;
 			projectDirPath = "";
@@ -420,10 +437,13 @@
 				E927FC9628D351BA00A91F11 /* LogUtil.swift in Sources */,
 				E927FC9C28D3525700A91F11 /* HomeVC.swift in Sources */,
 				E99929AF28D88182006FCFC7 /* MainTabbarController.swift in Sources */,
+				E99AC31028E88A6000AF1F84 /* CoordinatesResponse.swift in Sources */,
 				E9BF49AD28D9F45F007BBC3D /* UIView+.swift in Sources */,
 				28A215E328E4592700DEDF8B /* LoginBottomSheetVC.swift in Sources */,
+				E9BFC40228E890A500951604 /* ApiResponse.swift in Sources */,
 				E99929B828D882BF006FCFC7 /* MyPageVC.swift in Sources */,
 				E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */,
+				E99AC31228E88AA800AF1F84 /* ClothesAPI.swift in Sources */,
 				E99929B628D882B5006FCFC7 /* NoticeVC.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
 				E9160C1828E30A60007B1307 /* DataModel.swift in Sources */,
@@ -660,30 +680,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2806474628E82D6D000DED5B /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kakao/kakao-ios-sdk-rx";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		E9160C1F28E82B8F007B1307 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		E9160C2228E82C2F007B1307 /* XCRemoteSwiftPackageReference "Moya" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Moya/Moya";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		E927FC7028D34B0600A91F11 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -706,6 +702,22 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 3.16.0;
+			};
+		};
+		E9BFC3F528E88DCB00951604 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		E9BFC3FA28E88DF800951604 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.0;
 			};
 		};
 		E9DFC5E928DA0E010074D32C /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
@@ -735,11 +747,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E9160C2028E82B8F007B1307 /* KakaoSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9160C1F28E82B8F007B1307 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
-			productName = KakaoSDK;
-		};
 		E927FC7128D34B0600A91F11 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E927FC7028D34B0600A91F11 /* XCRemoteSwiftPackageReference "Kingfisher" */;
@@ -754,6 +761,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E927FCAE28D7587300A91F11 /* XCRemoteSwiftPackageReference "NMapsMap-SPM" */;
 			productName = NMapsMap;
+		};
+		E9BFC3F628E88DCB00951604 /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9BFC3F528E88DCB00951604 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		E9BFC3F828E88DCB00951604 /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9BFC3F528E88DCB00951604 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
+		};
+		E9BFC3FB28E88DF800951604 /* CombineMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9BFC3FA28E88DF800951604 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = CombineMoya;
+		};
+		E9BFC3FD28E88DF800951604 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9BFC3FA28E88DF800951604 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
 		};
 		E9DFC5EA28DA0E010074D32C /* CombineCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
