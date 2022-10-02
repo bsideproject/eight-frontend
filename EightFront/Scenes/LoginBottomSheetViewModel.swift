@@ -15,8 +15,6 @@ class LoginBottomSheetViewModel {
     
     lazy var isLoginButtonValid: AnyPublisher<Bool, Never> = Publishers
         .CombineLatest($emailInput, $passwordInput)
-        .map({
-            return $0 == "" || $1 == "" ? false : true
-        })
+        .map { $0 == "" || $1 == "" ? false : true }
         .eraseToAnyPublisher()
 }

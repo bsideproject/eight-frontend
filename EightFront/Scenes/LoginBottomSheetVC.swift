@@ -36,12 +36,8 @@ final class LoginBottomSheetVC: UIViewController {
         authorizationButtonStyle: .whiteOutline
     )
     private let kakaoLoginButton = UIButton().then {
-        guard let buttonImage = UIImage(named: "kakao_login_medium_narrow") else {
-            LogUtil.e("카카오 로그인 버튼 이미지를 확인해주세요.")
-            return
-        }
         $0.contentMode = .scaleAspectFit
-        $0.setImage(buttonImage, for: .normal)
+        $0.setImage(Images.KakaoLoginButton.mediumNarrow.image, for: .normal)
     }
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
@@ -93,14 +89,14 @@ final class LoginBottomSheetVC: UIViewController {
         emailTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
-            .compactMap{ $0 }
+            .compactMap { $0 }
             .assign(to: \.emailInput, on: viewModel)
             .store(in: &cancelBag)
         
         passwordTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
-            .compactMap{ $0 }
+            .compactMap { $0 }
             .assign(to: \.passwordInput, on: viewModel)
             .store(in: &cancelBag)
         
