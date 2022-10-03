@@ -1,5 +1,5 @@
 //
-//  SearchView.swift
+//  HomeSearchView.swift
 //  EightFront
 //
 //  Created by wargi on 2022/10/03.
@@ -13,7 +13,7 @@ import UIKit
 final class HomeSearchView: UIView {
     //MARK: - Properties
     let searchImageView = UIImageView().then {
-        $0.image = Images.homeSearch.image
+        $0.image = Images.Home.search.image
     }
     let placeholderLabel = UILabel().then {
         $0.text = "수거함 위치를 검색해보세요."
@@ -21,8 +21,8 @@ final class HomeSearchView: UIView {
         $0.font = Fonts.Pretendard.regular.font(size: 12)
     }
     let listButton = UIButton().then {
-        $0.setImage(Images.homeSearch.image, for: .normal)
-        $0.setImage(Images.homeSearch.image, for: .highlighted)
+        $0.setImage(Images.Home.list.image, for: .normal)
+        $0.setImage(Images.Home.list.image, for: .highlighted)
     }
     
     //MARK: - Initializer
@@ -46,17 +46,16 @@ final class HomeSearchView: UIView {
         
         searchImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().offset(10)
+            $0.left.equalToSuperview().offset(10)
             $0.size.equalTo(20)
         }
         placeholderLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(searchImageView.snp.leading).offset(7)
+            $0.left.equalTo(searchImageView.snp.right).offset(7)
         }
         listButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().offset(-11)
-            $0.size.equalTo(20)
+            $0.top.right.bottom.equalToSuperview()
+            $0.width.equalTo(44)
         }
     }
 }
