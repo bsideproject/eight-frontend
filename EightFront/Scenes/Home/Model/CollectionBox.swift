@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+/// 의류수거함 정보
+struct CollectionBox {
+    
+}

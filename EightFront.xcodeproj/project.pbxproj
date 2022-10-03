@@ -52,6 +52,9 @@
 		E9460B0D28EAC0B100932351 /* HomeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0C28EAC0B100932351 /* HomeNavigationController.swift */; };
 		E9460B0F28EAC69300932351 /* NaverMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0E28EAC69300932351 /* NaverMapMarker.swift */; };
 		E9460B1228EACA9900932351 /* CollectionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B1128EACA9900932351 /* CollectionBox.swift */; };
+		E96BC92028EB2988002EBA7E /* FindAddressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC91F28EB2988002EBA7E /* FindAddressVC.swift */; };
+		E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */; };
+		E96BC92528EB2E7E002EBA7E /* FindAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92428EB2E7E002EBA7E /* FindAddressViewModel.swift */; };
 		E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0828D34A050013E94F /* AppDelegate.swift */; };
 		E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0A28D34A050013E94F /* SceneDelegate.swift */; };
 		E975ED1228D34A060013E94F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E975ED1128D34A060013E94F /* Images.xcassets */; };
@@ -134,6 +137,9 @@
 		E9460B0C28EAC0B100932351 /* HomeNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationController.swift; sourceTree = "<group>"; };
 		E9460B0E28EAC69300932351 /* NaverMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapMarker.swift; sourceTree = "<group>"; };
 		E9460B1128EACA9900932351 /* CollectionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionBox.swift; sourceTree = "<group>"; };
+		E96BC91F28EB2988002EBA7E /* FindAddressVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAddressVC.swift; sourceTree = "<group>"; };
+		E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomAddressView.swift; sourceTree = "<group>"; };
+		E96BC92428EB2E7E002EBA7E /* FindAddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAddressViewModel.swift; sourceTree = "<group>"; };
 		E975ED0528D34A050013E94F /* EightFront.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EightFront.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E975ED0828D34A050013E94F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E975ED0A28D34A050013E94F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -390,7 +396,10 @@
 		E9460B0528EA0B8F00932351 /* Report */ = {
 			isa = PBXGroup;
 			children = (
+				E96BC92128EB2D58002EBA7E /* View */,
 				E9460B0628EA0BBF00932351 /* ReportVC.swift */,
+				E96BC91F28EB2988002EBA7E /* FindAddressVC.swift */,
+				E96BC92428EB2E7E002EBA7E /* FindAddressViewModel.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -401,6 +410,14 @@
 				E9460B1128EACA9900932351 /* CollectionBox.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		E96BC92128EB2D58002EBA7E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		E975ECFC28D34A050013E94F = {
@@ -582,6 +599,7 @@
 				E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */,
 				E9460AFC28E9E3E900932351 /* HomeHeaderView.swift in Sources */,
 				28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */,
+				E96BC92028EB2988002EBA7E /* FindAddressVC.swift in Sources */,
 				E99929B428D882AD006FCFC7 /* TradeVC.swift in Sources */,
 				2806474A28E86AFF000DED5B /* UIButton+.swift in Sources */,
 				E927FC9628D351BA00A91F11 /* LogUtil.swift in Sources */,
@@ -601,9 +619,11 @@
 				E99AC31228E88AA800AF1F84 /* ClothesAPI.swift in Sources */,
 				E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */,
 				E99929B628D882B5006FCFC7 /* NoticeVC.swift in Sources */,
+				E96BC92528EB2E7E002EBA7E /* FindAddressViewModel.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
 				E9460B0D28EAC0B100932351 /* HomeNavigationController.swift in Sources */,
 				E9160C1828E30A60007B1307 /* DataModel.swift in Sources */,
+				E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */,
 				E9160C1C28E3177C007B1307 /* HomeViewModel.swift in Sources */,
 				2806474828E866E0000DED5B /* LoginBottomSheetViewModel.swift in Sources */,
 				2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */,
