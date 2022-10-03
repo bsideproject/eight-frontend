@@ -14,8 +14,10 @@ import SnapKit
 
 //MARK: 마이페이지 VC
 final class MyPageVC: UIViewController {
-    
     //MARK: - Properties
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
     
     //MARK: - Life Cycle
     override func viewDidLoad() {

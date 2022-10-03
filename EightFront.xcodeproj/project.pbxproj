@@ -48,13 +48,17 @@
 		E9460B0228EA04FA00932351 /* HomeSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0128EA04FA00932351 /* HomeSearchVC.swift */; };
 		E9460B0428EA056E00932351 /* HomeListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0328EA056E00932351 /* HomeListVC.swift */; };
 		E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0628EA0BBF00932351 /* ReportVC.swift */; };
+		E9460B0928EAADC300932351 /* HomeAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0828EAADC300932351 /* HomeAddressView.swift */; };
+		E9460B0D28EAC0B100932351 /* HomeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0C28EAC0B100932351 /* HomeNavigationController.swift */; };
+		E9460B0F28EAC69300932351 /* NaverMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0E28EAC69300932351 /* NaverMapMarker.swift */; };
+		E9460B1228EACA9900932351 /* CollectionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B1128EACA9900932351 /* CollectionBox.swift */; };
 		E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0828D34A050013E94F /* AppDelegate.swift */; };
 		E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0A28D34A050013E94F /* SceneDelegate.swift */; };
 		E975ED1228D34A060013E94F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E975ED1128D34A060013E94F /* Images.xcassets */; };
 		E975ED1528D34A060013E94F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E975ED1328D34A060013E94F /* LaunchScreen.storyboard */; };
 		E99929AD28D87A06006FCFC7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E99929AC28D87A06006FCFC7 /* GoogleService-Info.plist */; };
 		E99929AF28D88182006FCFC7 /* MainTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929AE28D88182006FCFC7 /* MainTabbarController.swift */; };
-		E99929B428D882AD006FCFC7 /* TradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B328D882AD006FCFC7 /* TradeViewController.swift */; };
+		E99929B428D882AD006FCFC7 /* TradeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B328D882AD006FCFC7 /* TradeVC.swift */; };
 		E99929B628D882B5006FCFC7 /* NoticeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B528D882B5006FCFC7 /* NoticeVC.swift */; };
 		E99929B828D882BF006FCFC7 /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B728D882BF006FCFC7 /* MyPageVC.swift */; };
 		E99929BA28D88F9B006FCFC7 /* DBVersionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B928D88F9B006FCFC7 /* DBVersionData.swift */; };
@@ -126,6 +130,10 @@
 		E9460B0128EA04FA00932351 /* HomeSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSearchVC.swift; sourceTree = "<group>"; };
 		E9460B0328EA056E00932351 /* HomeListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListVC.swift; sourceTree = "<group>"; };
 		E9460B0628EA0BBF00932351 /* ReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportVC.swift; sourceTree = "<group>"; };
+		E9460B0828EAADC300932351 /* HomeAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAddressView.swift; sourceTree = "<group>"; };
+		E9460B0C28EAC0B100932351 /* HomeNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationController.swift; sourceTree = "<group>"; };
+		E9460B0E28EAC69300932351 /* NaverMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapMarker.swift; sourceTree = "<group>"; };
+		E9460B1128EACA9900932351 /* CollectionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionBox.swift; sourceTree = "<group>"; };
 		E975ED0528D34A050013E94F /* EightFront.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EightFront.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E975ED0828D34A050013E94F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E975ED0A28D34A050013E94F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -134,7 +142,7 @@
 		E975ED1628D34A060013E94F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E99929AC28D87A06006FCFC7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E99929AE28D88182006FCFC7 /* MainTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarController.swift; sourceTree = "<group>"; };
-		E99929B328D882AD006FCFC7 /* TradeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeViewController.swift; sourceTree = "<group>"; };
+		E99929B328D882AD006FCFC7 /* TradeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeVC.swift; sourceTree = "<group>"; };
 		E99929B528D882B5006FCFC7 /* NoticeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeVC.swift; sourceTree = "<group>"; };
 		E99929B728D882BF006FCFC7 /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
 		E99929B928D88F9B006FCFC7 /* DBVersionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBVersionData.swift; sourceTree = "<group>"; };
@@ -331,9 +339,11 @@
 		E927FC9D28D3525A00A91F11 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				E9460B1028EACA8900932351 /* Model */,
 				E9460AFA28E9E2D900932351 /* View */,
-				E9160C1B28E3177C007B1307 /* HomeViewModel.swift */,
 				E927FC9B28D3525700A91F11 /* HomeVC.swift */,
+				E9160C1B28E3177C007B1307 /* HomeViewModel.swift */,
+				E9460B0C28EAC0B100932351 /* HomeNavigationController.swift */,
 				E9460AFF28EA04D300932351 /* Search */,
 				E9460B0028EA04E600932351 /* List */,
 				E9460B0528EA0B8F00932351 /* Report */,
@@ -354,7 +364,9 @@
 			isa = PBXGroup;
 			children = (
 				E9460AFB28E9E3E900932351 /* HomeHeaderView.swift */,
+				E9460B0828EAADC300932351 /* HomeAddressView.swift */,
 				E9460AFD28E9E51D00932351 /* HomeSearchView.swift */,
+				E9460B0E28EAC69300932351 /* NaverMapMarker.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -381,6 +393,14 @@
 				E9460B0628EA0BBF00932351 /* ReportVC.swift */,
 			);
 			path = Report;
+			sourceTree = "<group>";
+		};
+		E9460B1028EACA8900932351 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E9460B1128EACA9900932351 /* CollectionBox.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		E975ECFC28D34A050013E94F = {
@@ -419,7 +439,7 @@
 		E99929B028D88249006FCFC7 /* Trade */ = {
 			isa = PBXGroup;
 			children = (
-				E99929B328D882AD006FCFC7 /* TradeViewController.swift */,
+				E99929B328D882AD006FCFC7 /* TradeVC.swift */,
 			);
 			path = Trade;
 			sourceTree = "<group>";
@@ -562,30 +582,34 @@
 				E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */,
 				E9460AFC28E9E3E900932351 /* HomeHeaderView.swift in Sources */,
 				28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */,
-				E99929B428D882AD006FCFC7 /* TradeViewController.swift in Sources */,
+				E99929B428D882AD006FCFC7 /* TradeVC.swift in Sources */,
 				2806474A28E86AFF000DED5B /* UIButton+.swift in Sources */,
 				E927FC9628D351BA00A91F11 /* LogUtil.swift in Sources */,
 				E927FC9C28D3525700A91F11 /* HomeVC.swift in Sources */,
 				E9460AF928E9DE2200932351 /* Fonts+Generated.swift in Sources */,
 				E99929AF28D88182006FCFC7 /* MainTabbarController.swift in Sources */,
+				E9460B1228EACA9900932351 /* CollectionBox.swift in Sources */,
 				E99AC31028E88A6000AF1F84 /* CoordinatesResponse.swift in Sources */,
 				E9460AFE28E9E51D00932351 /* HomeSearchView.swift in Sources */,
 				E9BF49AD28D9F45F007BBC3D /* UIView+.swift in Sources */,
 				28A215E328E4592700DEDF8B /* LoginBottomSheetVC.swift in Sources */,
 				E9BFC40228E890A500951604 /* ApiResponse.swift in Sources */,
 				E9460B0428EA056E00932351 /* HomeListVC.swift in Sources */,
+				E9460B0928EAADC300932351 /* HomeAddressView.swift in Sources */,
 				E99929B828D882BF006FCFC7 /* MyPageVC.swift in Sources */,
 				E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */,
 				E99AC31228E88AA800AF1F84 /* ClothesAPI.swift in Sources */,
 				E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */,
 				E99929B628D882B5006FCFC7 /* NoticeVC.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
+				E9460B0D28EAC0B100932351 /* HomeNavigationController.swift in Sources */,
 				E9160C1828E30A60007B1307 /* DataModel.swift in Sources */,
 				E9160C1C28E3177C007B1307 /* HomeViewModel.swift in Sources */,
 				2806474828E866E0000DED5B /* LoginBottomSheetViewModel.swift in Sources */,
 				2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */,
 				E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */,
 				E927FC9828D351E300A91F11 /* Date+.swift in Sources */,
+				E9460B0F28EAC69300932351 /* NaverMapMarker.swift in Sources */,
 				2841347728D8970800A758F2 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -740,8 +764,10 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -782,8 +808,10 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

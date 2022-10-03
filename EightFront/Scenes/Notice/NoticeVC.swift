@@ -12,6 +12,9 @@ import UIKit
 //MARK: 알림 VC
 final class NoticeVC: UIViewController {
     //MARK: - Properties
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
     
     //MARK: - Life Cycle
     override func viewDidLoad() {

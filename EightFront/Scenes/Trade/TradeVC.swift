@@ -12,6 +12,9 @@ import SnapKit
 //MARK: 중고거래 VC
 final class TradeVC: UIViewController {
     //MARK: - Properties
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
