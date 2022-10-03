@@ -9,6 +9,7 @@ import UIKit
 import Combine
 import Moya
 import CombineMoya
+import CoreLocation
 
 //MARK: HomeViewModel
 final class HomeViewModel {
@@ -17,6 +18,7 @@ final class HomeViewModel {
     let input = Input()
     let output = Output()
     let clothesProvider = MoyaProvider<ClothesAPI>()
+    @Published var addressString: String?
     
     //MARK: Initializer
     init() {
@@ -25,18 +27,35 @@ final class HomeViewModel {
     
     //MARK: RxBinding..
     func bind() {
+        LocationManager.shared.$currentAddress
+            .compactMap { $0 }
+            .sink { [weak self] in
+                self?.addressString = $0
+            }
+            .store(in: &cancelBag)
         
+        input.requestAddress
+            .sink {
+                if case let .failure(error) = $0 {
+                    LogUtil.d(error.localizedDescription)
+                }
+            } receiveValue: {
+                LocationManager.shared.addressUpdate(location: $0) { [weak self] address in
+                    self?.addressString = address
+                }
+            }
+            .store(in: &cancelBag)
     }
 }
 
 //MARK: - I/O & Error
 extension HomeViewModel {
     enum ErrorResult: Error {
-        case someError
+        case notFoundAddress
     }
     
     struct Input {
-        
+        var requestAddress = CurrentValueSubject<CLLocation?, ErrorResult>.init(nil)
     }
     
     struct Output {

@@ -27,7 +27,7 @@ final class MainTabbarController: UITabBarController {
         tabBar.unselectedItemTintColor = Colors.gray006.color
         
         let homeVC = HomeVC()
-        let homeNavi = UINavigationController(rootViewController: homeVC)
+        let homeNavi = HomeNavigationController(rootViewController: homeVC)
         homeNavi.tabBarItem.title = "홈"
         homeNavi.tabBarItem.image = Images.Tabbar.home.image
         homeNavi.tabBarItem.selectedImage = Images.Tabbar.home.image
@@ -39,8 +39,8 @@ final class MainTabbarController: UITabBarController {
         
         let noticeVC = NoticeVC()
         noticeVC.tabBarItem.title = "알림"
-        noticeVC.tabBarItem.image = Images.Tabbar.alram.image
-        noticeVC.tabBarItem.selectedImage = Images.Tabbar.alram.image
+        noticeVC.tabBarItem.image = Images.Tabbar.alarm.image
+        noticeVC.tabBarItem.selectedImage = Images.Tabbar.alarm.image
         
         let myPageVC = MyPageVC()
         myPageVC.tabBarItem.title = "마이페이지"
