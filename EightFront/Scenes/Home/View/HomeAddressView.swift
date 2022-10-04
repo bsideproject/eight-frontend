@@ -16,7 +16,7 @@ final class HomeAddressView: UIView {
         $0.textAlignment = .center
         $0.font = Fonts.Pretendard.medium.font(size: 14)
     }
-    let detailImageView = UIImageView().then {
+    private let detailImageView = UIImageView().then {
         $0.image = Images.Home.detail.image
     }
     
@@ -32,7 +32,7 @@ final class HomeAddressView: UIView {
     }
     
     //MARK: - Make UI
-    func makeUI() {
+    private func makeUI() {
         addSubview(addressLabel)
         addSubview(detailImageView)
         

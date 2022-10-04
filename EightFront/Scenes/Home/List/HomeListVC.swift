@@ -9,7 +9,6 @@ import Then
 import SnapKit
 import UIKit
 import Combine
-
 //MARK: HomeListVC
 final class HomeListVC: UIViewController {
     //MARK: - Properties
@@ -23,12 +22,12 @@ final class HomeListVC: UIViewController {
     }
     
     //MARK: - Make UI
-    func makeUI() {
+    private func makeUI() {
         view.backgroundColor = .white
     }
     
     //MARK: - Rx Binding..
-    func bind() {
+    private func bind() {
         
     }
 }

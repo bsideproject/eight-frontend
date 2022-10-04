@@ -8,7 +8,6 @@
 import UIKit
 import Then
 import SnapKit
-
 //MARK: 중고거래 VC
 final class TradeVC: UIViewController {
     //MARK: - Properties

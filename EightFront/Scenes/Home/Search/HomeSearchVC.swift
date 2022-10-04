@@ -9,7 +9,6 @@ import Then
 import SnapKit
 import UIKit
 import Combine
-
 //MARK: HomeSearchVC
 final class HomeSearchVC: UIViewController {
     //MARK: - Properties
@@ -23,12 +22,12 @@ final class HomeSearchVC: UIViewController {
     }
     
     //MARK: - Make UI
-    func makeUI() {
+    private func makeUI() {
         view.backgroundColor = .white
     }
     
     //MARK: - Rx Binding..
-    func bind() {
+    private func bind() {
         
     }
 }

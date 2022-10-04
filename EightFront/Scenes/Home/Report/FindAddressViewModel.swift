@@ -23,7 +23,7 @@ final class FindAddressViewModel {
     }
     
     //MARK: RxBinding..
-    func bind() {
+    private func bind() {
         input.requestAddress
             .sink {
                 if case let .failure(error) = $0 {

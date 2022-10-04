@@ -8,7 +8,6 @@
 import Then
 import SnapKit
 import UIKit
-
 //MARK: 알림 VC
 final class NoticeVC: UIViewController {
     //MARK: - Properties

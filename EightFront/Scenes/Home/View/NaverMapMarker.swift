@@ -7,7 +7,7 @@
 
 import NMapsMap
 //MARK: Naver Map Marker View
-class NaverMapMarker: NMFMarker {
+final class NaverMapMarker: NMFMarker {
     //MARK: - Properties
     var isSelected: Bool = false { didSet { updatedLayout() } }
     private var markerView = CustomAnnotationView(frame: CGRect(x: 0, y: 0, width: 24, height: 30))
@@ -28,7 +28,7 @@ class NaverMapMarker: NMFMarker {
 }
 
 //MARK: 지도에서 실질적으로 표시 되는 뷰
-class CustomAnnotationView: UIView {
+final class CustomAnnotationView: UIView {
     enum MarkerType {
         case selected
         case none

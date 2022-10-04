@@ -27,7 +27,7 @@ final class BottomAddressView: UIView {
     }
     
     //MARK: - Make UI
-    func makeUI() {
+    private func makeUI() {
         addSubview(addressLabel)
         
         addressLabel.snp.makeConstraints {

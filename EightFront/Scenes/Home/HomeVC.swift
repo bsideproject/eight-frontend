@@ -13,6 +13,10 @@ import Then
 import TMapSDK
 import CombineCocoa
 
+protocol MainMapViewDelegate: AnyObject {
+    func marker(didTapMarker: NMGLatLng, info: CollectionBox?)
+}
+
 final class HomeVC: UIViewController {
     //MARK: - Properties
     private let viewModel = HomeViewModel()
@@ -33,9 +37,9 @@ final class HomeVC: UIViewController {
         return .lightContent
     }
     //MARK: MapView
-    var markers = [NaverMapMarker]()
-    weak var mapDelegate: MainMapViewDelegate?
-    var selectedMarker: NaverMapMarker? = nil {
+    private var markers = [NaverMapMarker]()
+    private weak var mapDelegate: MainMapViewDelegate?
+    private var selectedMarker: NaverMapMarker? = nil {
         willSet {
             selectedMarker?.isSelected = false
             newValue?.isSelected = true
@@ -165,14 +169,14 @@ final class HomeVC: UIViewController {
     }
     
     //MARK: - Map Methods
-    func moveMap(location: CLLocation?) {
+    private func moveMap(location: CLLocation?) {
         guard let coordinate = location?.coordinate else { return }
         let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
         
         mapView.moveCamera(NMFCameraUpdate(scrollTo: latLng))
     }
     
-    func showMarker(box: CollectionBox?) {
+    private func showMarker(box: CollectionBox?) {
         resetInfoWindows()
         
         let position = NMGLatLng(lat: mapView.latitude, lng: mapView.longitude)
@@ -197,15 +201,11 @@ final class HomeVC: UIViewController {
         markers.append(marker)
     }
     
-    func resetInfoWindows() {
+    private func resetInfoWindows() {
         markers.forEach {
             $0.mapView = nil
         }
 
         markers = []
     }
-}
-
-protocol MainMapViewDelegate: AnyObject {
-    func marker(didTapMarker: NMGLatLng, info: CollectionBox?)
 }

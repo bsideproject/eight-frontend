@@ -49,7 +49,7 @@
 		E9460B0428EA056E00932351 /* HomeListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0328EA056E00932351 /* HomeListVC.swift */; };
 		E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0628EA0BBF00932351 /* ReportVC.swift */; };
 		E9460B0928EAADC300932351 /* HomeAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0828EAADC300932351 /* HomeAddressView.swift */; };
-		E9460B0D28EAC0B100932351 /* HomeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0C28EAC0B100932351 /* HomeNavigationController.swift */; };
+		E9460B0D28EAC0B100932351 /* CommonNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0C28EAC0B100932351 /* CommonNavigationViewController.swift */; };
 		E9460B0F28EAC69300932351 /* NaverMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0E28EAC69300932351 /* NaverMapMarker.swift */; };
 		E9460B1228EACA9900932351 /* CollectionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B1128EACA9900932351 /* CollectionBox.swift */; };
 		E96BC92028EB2988002EBA7E /* FindAddressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC91F28EB2988002EBA7E /* FindAddressVC.swift */; };
@@ -134,7 +134,7 @@
 		E9460B0328EA056E00932351 /* HomeListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListVC.swift; sourceTree = "<group>"; };
 		E9460B0628EA0BBF00932351 /* ReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportVC.swift; sourceTree = "<group>"; };
 		E9460B0828EAADC300932351 /* HomeAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAddressView.swift; sourceTree = "<group>"; };
-		E9460B0C28EAC0B100932351 /* HomeNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationController.swift; sourceTree = "<group>"; };
+		E9460B0C28EAC0B100932351 /* CommonNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonNavigationViewController.swift; sourceTree = "<group>"; };
 		E9460B0E28EAC69300932351 /* NaverMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapMarker.swift; sourceTree = "<group>"; };
 		E9460B1128EACA9900932351 /* CollectionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionBox.swift; sourceTree = "<group>"; };
 		E96BC91F28EB2988002EBA7E /* FindAddressVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAddressVC.swift; sourceTree = "<group>"; };
@@ -264,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				E99929B928D88F9B006FCFC7 /* DBVersionData.swift */,
+				E9460B0C28EAC0B100932351 /* CommonNavigationViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -349,7 +350,6 @@
 				E9460AFA28E9E2D900932351 /* View */,
 				E927FC9B28D3525700A91F11 /* HomeVC.swift */,
 				E9160C1B28E3177C007B1307 /* HomeViewModel.swift */,
-				E9460B0C28EAC0B100932351 /* HomeNavigationController.swift */,
 				E9460AFF28EA04D300932351 /* Search */,
 				E9460B0028EA04E600932351 /* List */,
 				E9460B0528EA0B8F00932351 /* Report */,
@@ -621,7 +621,7 @@
 				E99929B628D882B5006FCFC7 /* NoticeVC.swift in Sources */,
 				E96BC92528EB2E7E002EBA7E /* FindAddressViewModel.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
-				E9460B0D28EAC0B100932351 /* HomeNavigationController.swift in Sources */,
+				E9460B0D28EAC0B100932351 /* CommonNavigationViewController.swift in Sources */,
 				E9160C1828E30A60007B1307 /* DataModel.swift in Sources */,
 				E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */,
 				E9160C1C28E3177C007B1307 /* HomeViewModel.swift in Sources */,

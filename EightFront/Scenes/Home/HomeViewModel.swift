@@ -17,7 +17,7 @@ final class HomeViewModel {
     var cancelBag = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
-    let clothesProvider = MoyaProvider<ClothesAPI>()
+    private let clothesProvider = MoyaProvider<ClothesAPI>()
     @Published var addressString: String?
     
     //MARK: Initializer
@@ -26,7 +26,7 @@ final class HomeViewModel {
     }
     
     //MARK: RxBinding..
-    func bind() {
+    private func bind() {
         LocationManager.shared.$currentAddress
             .compactMap { $0 }
             .sink { [weak self] in
@@ -65,7 +65,7 @@ extension HomeViewModel {
 
 //MARK: - Method
 extension HomeViewModel {
-    func requestCoordinates() {
+    private func requestCoordinates() {
         clothesProvider.requestPublisher(.coordinates)
             .sink { completion in
                 switch completion {

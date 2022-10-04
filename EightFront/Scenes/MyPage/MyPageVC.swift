@@ -5,13 +5,9 @@
 //  Created by wargi on 2022/09/19.
 //
 
-
-
 import UIKit
-
 import Then
 import SnapKit
-
 //MARK: 마이페이지 VC
 final class MyPageVC: UIViewController {
     //MARK: - Properties

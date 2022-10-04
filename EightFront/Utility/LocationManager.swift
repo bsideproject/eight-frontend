@@ -11,7 +11,7 @@ import CoreLocation
 final class LocationManager: NSObject {
     // MARK: - Properties
     static let shared = LocationManager()
-    var locationManager: CLLocationManager?
+    private var locationManager: CLLocationManager?
     @Published var currentAddress: String?
     var currentLocation: CLLocation? {
         didSet {

@@ -12,7 +12,7 @@ import UIKit
 final class HomeHeaderView: UIView {
     //MARK: - Properties
     let addressView = HomeAddressView()
-    let alarmButton = UIButton().then {
+    private let alarmButton = UIButton().then {
         $0.setImage(Images.Home.alarm.image, for: .normal)
         $0.setImage(Images.Home.alarm.image, for: .highlighted)
     }
@@ -32,7 +32,7 @@ final class HomeHeaderView: UIView {
     }
     
     //MARK: - Make UI
-    func makeUI() {
+    private func makeUI() {
         backgroundColor = Colors.main.color
         
         addSubview(addressView)

@@ -13,15 +13,15 @@ import NMapsMap
 final class FindAddressVC: UIViewController {
     //MARK: - Properties
     var requestLocation: CLLocation?
-    let viewModel = FindAddressViewModel()
-    lazy var mapView = NMFMapView().then {
+    private let viewModel = FindAddressViewModel()
+    private lazy var mapView = NMFMapView().then {
         $0.addCameraDelegate(delegate: self)
         $0.positionMode = .direction
         $0.minZoomLevel = 10.0
         $0.maxZoomLevel = 18.0
         $0.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
     }
-    let markerImageView = UIImageView().then {
+    private let markerImageView = UIImageView().then {
         $0.image = Images.Map.marker.image
     }
     private let currentLocationButton = UIButton().then {
@@ -51,7 +51,7 @@ final class FindAddressVC: UIViewController {
     }
     
     //MARK: - Make UI
-    func makeUI() {
+    private func makeUI() {
         view.backgroundColor = .white
         
         view.addSubview(mapView)
@@ -82,7 +82,7 @@ final class FindAddressVC: UIViewController {
     }
     
     //MARK: - Rx Binding..
-    func bind() {
+    private func bind() {
         viewModel.input
             .requestAddress
             .send(requestLocation)
