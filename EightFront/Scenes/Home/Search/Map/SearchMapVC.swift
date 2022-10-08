@@ -1,5 +1,5 @@
 //
-//  FindAddressVC.swift
+//  SearchMapVC.swift
 //  EightFront
 //
 //  Created by wargi on 2022/10/03.
@@ -10,10 +10,10 @@ import SnapKit
 import UIKit
 import NMapsMap
 //MARK: FindAddressVC
-final class FindAddressVC: UIViewController {
+final class SearchMapVC: UIViewController {
     //MARK: - Properties
     var requestLocation: CLLocation?
-    private let viewModel = FindAddressViewModel()
+    private let viewModel = SearchMapViewModel()
     private lazy var mapView = NMFMapView().then {
         $0.addCameraDelegate(delegate: self)
         $0.positionMode = .direction
@@ -108,7 +108,7 @@ final class FindAddressVC: UIViewController {
     }
 }
 
-extension FindAddressVC: NMFMapViewCameraDelegate {
+extension SearchMapVC: NMFMapViewCameraDelegate {
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         let location = CLLocation(latitude: mapView.latitude, longitude: mapView.longitude)
         

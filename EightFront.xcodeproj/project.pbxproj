@@ -45,16 +45,21 @@
 		E9460AF928E9DE2200932351 /* Fonts+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460AF828E9DE2200932351 /* Fonts+Generated.swift */; };
 		E9460AFC28E9E3E900932351 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460AFB28E9E3E900932351 /* HomeHeaderView.swift */; };
 		E9460AFE28E9E51D00932351 /* HomeSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460AFD28E9E51D00932351 /* HomeSearchView.swift */; };
-		E9460B0228EA04FA00932351 /* HomeSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0128EA04FA00932351 /* HomeSearchVC.swift */; };
 		E9460B0428EA056E00932351 /* HomeListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0328EA056E00932351 /* HomeListVC.swift */; };
 		E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0628EA0BBF00932351 /* ReportVC.swift */; };
 		E9460B0928EAADC300932351 /* HomeAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0828EAADC300932351 /* HomeAddressView.swift */; };
 		E9460B0D28EAC0B100932351 /* CommonNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0C28EAC0B100932351 /* CommonNavigationViewController.swift */; };
 		E9460B0F28EAC69300932351 /* NaverMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0E28EAC69300932351 /* NaverMapMarker.swift */; };
 		E9460B1228EACA9900932351 /* CollectionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B1128EACA9900932351 /* CollectionBox.swift */; };
-		E96BC92028EB2988002EBA7E /* FindAddressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC91F28EB2988002EBA7E /* FindAddressVC.swift */; };
+		E9494A5B28F05CAB005285C0 /* SearchBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A5A28F05CAB005285C0 /* SearchBarVC.swift */; };
+		E9494A5F28F060A5005285C0 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A5E28F060A5005285C0 /* CustomNavigationView.swift */; };
+		E9494A6228F067DB005285C0 /* SearchBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A6128F067DB005285C0 /* SearchBarViewModel.swift */; };
+		E9494A6528F068A4005285C0 /* ResponsePOI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A6428F068A4005285C0 /* ResponsePOI.swift */; };
+		E9494A6928F07203005285C0 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A6828F07203005285C0 /* SearchResultCell.swift */; };
+		E9494A6B28F072E8005285C0 /* UIReusable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A6A28F072E8005285C0 /* UIReusable+.swift */; };
+		E96BC92028EB2988002EBA7E /* SearchMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC91F28EB2988002EBA7E /* SearchMapVC.swift */; };
 		E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */; };
-		E96BC92528EB2E7E002EBA7E /* FindAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92428EB2E7E002EBA7E /* FindAddressViewModel.swift */; };
+		E96BC92528EB2E7E002EBA7E /* SearchMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92428EB2E7E002EBA7E /* SearchMapViewModel.swift */; };
 		E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0828D34A050013E94F /* AppDelegate.swift */; };
 		E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E975ED0A28D34A050013E94F /* SceneDelegate.swift */; };
 		E975ED1228D34A060013E94F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E975ED1128D34A060013E94F /* Images.xcassets */; };
@@ -130,16 +135,21 @@
 		E9460AF828E9DE2200932351 /* Fonts+Generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fonts+Generated.swift"; sourceTree = "<group>"; };
 		E9460AFB28E9E3E900932351 /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
 		E9460AFD28E9E51D00932351 /* HomeSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSearchView.swift; sourceTree = "<group>"; };
-		E9460B0128EA04FA00932351 /* HomeSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSearchVC.swift; sourceTree = "<group>"; };
 		E9460B0328EA056E00932351 /* HomeListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListVC.swift; sourceTree = "<group>"; };
 		E9460B0628EA0BBF00932351 /* ReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportVC.swift; sourceTree = "<group>"; };
 		E9460B0828EAADC300932351 /* HomeAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAddressView.swift; sourceTree = "<group>"; };
 		E9460B0C28EAC0B100932351 /* CommonNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonNavigationViewController.swift; sourceTree = "<group>"; };
 		E9460B0E28EAC69300932351 /* NaverMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapMarker.swift; sourceTree = "<group>"; };
 		E9460B1128EACA9900932351 /* CollectionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionBox.swift; sourceTree = "<group>"; };
-		E96BC91F28EB2988002EBA7E /* FindAddressVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAddressVC.swift; sourceTree = "<group>"; };
+		E9494A5A28F05CAB005285C0 /* SearchBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarVC.swift; sourceTree = "<group>"; };
+		E9494A5E28F060A5005285C0 /* CustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
+		E9494A6128F067DB005285C0 /* SearchBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewModel.swift; sourceTree = "<group>"; };
+		E9494A6428F068A4005285C0 /* ResponsePOI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsePOI.swift; sourceTree = "<group>"; };
+		E9494A6828F07203005285C0 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		E9494A6A28F072E8005285C0 /* UIReusable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIReusable+.swift"; sourceTree = "<group>"; };
+		E96BC91F28EB2988002EBA7E /* SearchMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapVC.swift; sourceTree = "<group>"; };
 		E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomAddressView.swift; sourceTree = "<group>"; };
-		E96BC92428EB2E7E002EBA7E /* FindAddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAddressViewModel.swift; sourceTree = "<group>"; };
+		E96BC92428EB2E7E002EBA7E /* SearchMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapViewModel.swift; sourceTree = "<group>"; };
 		E975ED0528D34A050013E94F /* EightFront.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EightFront.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E975ED0828D34A050013E94F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E975ED0A28D34A050013E94F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -256,6 +266,7 @@
 				2841347828D9D93700A758F2 /* UIApplication+.swift */,
 				2806474928E86AFF000DED5B /* UIButton+.swift */,
 				28F20CF928E93BA600CEE89D /* UITextField+.swift */,
+				E9494A6A28F072E8005285C0 /* UIReusable+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -265,6 +276,7 @@
 			children = (
 				E99929B928D88F9B006FCFC7 /* DBVersionData.swift */,
 				E9460B0C28EAC0B100932351 /* CommonNavigationViewController.swift */,
+				E9494A5E28F060A5005285C0 /* CustomNavigationView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -380,7 +392,8 @@
 		E9460AFF28EA04D300932351 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				E9460B0128EA04FA00932351 /* HomeSearchVC.swift */,
+				E9494A6028F067B8005285C0 /* SearchBar */,
+				E9494A5C28F06079005285C0 /* Map */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -398,8 +411,6 @@
 			children = (
 				E96BC92128EB2D58002EBA7E /* View */,
 				E9460B0628EA0BBF00932351 /* ReportVC.swift */,
-				E96BC91F28EB2988002EBA7E /* FindAddressVC.swift */,
-				E96BC92428EB2E7E002EBA7E /* FindAddressViewModel.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -410,6 +421,42 @@
 				E9460B1128EACA9900932351 /* CollectionBox.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		E9494A5C28F06079005285C0 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				E96BC91F28EB2988002EBA7E /* SearchMapVC.swift */,
+				E96BC92428EB2E7E002EBA7E /* SearchMapViewModel.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		E9494A6028F067B8005285C0 /* SearchBar */ = {
+			isa = PBXGroup;
+			children = (
+				E9494A6328F06892005285C0 /* Model */,
+				E9494A6728F071DD005285C0 /* View */,
+				E9494A5A28F05CAB005285C0 /* SearchBarVC.swift */,
+				E9494A6128F067DB005285C0 /* SearchBarViewModel.swift */,
+			);
+			path = SearchBar;
+			sourceTree = "<group>";
+		};
+		E9494A6328F06892005285C0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E9494A6428F068A4005285C0 /* ResponsePOI.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E9494A6728F071DD005285C0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E9494A6828F07203005285C0 /* SearchResultCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		E96BC92128EB2D58002EBA7E /* View */ = {
@@ -593,22 +640,26 @@
 				E9160C1A28E3145E007B1307 /* NewSetting.swift in Sources */,
 				E927FC9A28D3523300A91F11 /* Formatter+.swift in Sources */,
 				E99929BA28D88F9B006FCFC7 /* DBVersionData.swift in Sources */,
+				E9494A5F28F060A5005285C0 /* CustomNavigationView.swift in Sources */,
 				E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */,
 				2841347928D9D93700A758F2 /* UIApplication+.swift in Sources */,
-				E9460B0228EA04FA00932351 /* HomeSearchVC.swift in Sources */,
 				E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */,
 				E9460AFC28E9E3E900932351 /* HomeHeaderView.swift in Sources */,
 				28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */,
-				E96BC92028EB2988002EBA7E /* FindAddressVC.swift in Sources */,
+				E96BC92028EB2988002EBA7E /* SearchMapVC.swift in Sources */,
+				E9494A6B28F072E8005285C0 /* UIReusable+.swift in Sources */,
 				E99929B428D882AD006FCFC7 /* TradeVC.swift in Sources */,
 				2806474A28E86AFF000DED5B /* UIButton+.swift in Sources */,
 				E927FC9628D351BA00A91F11 /* LogUtil.swift in Sources */,
 				E927FC9C28D3525700A91F11 /* HomeVC.swift in Sources */,
 				E9460AF928E9DE2200932351 /* Fonts+Generated.swift in Sources */,
 				E99929AF28D88182006FCFC7 /* MainTabbarController.swift in Sources */,
+				E9494A5B28F05CAB005285C0 /* SearchBarVC.swift in Sources */,
 				E9460B1228EACA9900932351 /* CollectionBox.swift in Sources */,
 				E99AC31028E88A6000AF1F84 /* CoordinatesResponse.swift in Sources */,
+				E9494A6528F068A4005285C0 /* ResponsePOI.swift in Sources */,
 				E9460AFE28E9E51D00932351 /* HomeSearchView.swift in Sources */,
+				E9494A6228F067DB005285C0 /* SearchBarViewModel.swift in Sources */,
 				E9BF49AD28D9F45F007BBC3D /* UIView+.swift in Sources */,
 				28A215E328E4592700DEDF8B /* LoginBottomSheetVC.swift in Sources */,
 				E9BFC40228E890A500951604 /* ApiResponse.swift in Sources */,
@@ -619,8 +670,9 @@
 				E99AC31228E88AA800AF1F84 /* ClothesAPI.swift in Sources */,
 				E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */,
 				E99929B628D882B5006FCFC7 /* NoticeVC.swift in Sources */,
-				E96BC92528EB2E7E002EBA7E /* FindAddressViewModel.swift in Sources */,
+				E96BC92528EB2E7E002EBA7E /* SearchMapViewModel.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
+				E9494A6928F07203005285C0 /* SearchResultCell.swift in Sources */,
 				E9460B0D28EAC0B100932351 /* CommonNavigationViewController.swift in Sources */,
 				E9160C1828E30A60007B1307 /* DataModel.swift in Sources */,
 				E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */,
@@ -780,8 +832,11 @@
 				INFOPLIST_FILE = EightFront/SupportFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "드랍 더 옷";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "사용자의 중고 의류 사진을 업로드하기 위해 카메라에 접근하는 것에 동의합니다.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 인근의 헌 옷 수거함 위치를 빠르게 찾기 위해 위치 정보 제공에 동의합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 인근의 헌 옷 수거함 위치를 빠르게 찾기 위해 위치 정보 제공에 동의합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사용자의 중고 의류 사진을 업로드하기 위해 사진 앱에 접근하는 것에 동의합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사용자의 중고 의류 사진을 업로드하기 위해 사진 앱에 접근하는 것에 동의합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
@@ -824,8 +879,11 @@
 				INFOPLIST_FILE = EightFront/SupportFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "드랍 더 옷";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "내 위치를 확인하기 위해 위치 권한이 필요합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "사용자의 중고 의류 사진을 업로드하기 위해 카메라에 접근하는 것에 동의합니다.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 인근의 헌 옷 수거함 위치를 빠르게 찾기 위해 위치 정보 제공에 동의합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 인근의 헌 옷 수거함 위치를 빠르게 찾기 위해 위치 정보 제공에 동의합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사용자의 중고 의류 사진을 업로드하기 위해 사진 앱에 접근하는 것에 동의합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사용자의 중고 의류 사진을 업로드하기 위해 사진 앱에 접근하는 것에 동의합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;

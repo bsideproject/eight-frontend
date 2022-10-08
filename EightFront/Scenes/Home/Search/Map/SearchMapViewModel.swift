@@ -10,7 +10,7 @@ import Combine
 import CoreLocation
 
 //MARK: FindAddressViewModel
-final class FindAddressViewModel {
+final class SearchMapViewModel {
     //MARK: - Properties
     var cancelBag = Set<AnyCancellable>()
     let input = Input()
@@ -39,7 +39,7 @@ final class FindAddressViewModel {
 }
 
 //MARK: - I/O & Error
-extension FindAddressViewModel {
+extension SearchMapViewModel {
     enum ErrorResult: Error {
         case someError
     }
@@ -54,5 +54,5 @@ extension FindAddressViewModel {
 }
 
 //MARK: - Method
-extension FindAddressViewModel {
+extension SearchMapViewModel {
 }
