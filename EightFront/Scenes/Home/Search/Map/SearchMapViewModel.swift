@@ -1,5 +1,5 @@
 //
-//  FindAddressViewModel.swift
+//  SearchMapViewModel.swift
 //  EightFront
 //
 //  Created by wargi on 2022/10/03.
@@ -12,7 +12,7 @@ import CoreLocation
 //MARK: FindAddressViewModel
 final class SearchMapViewModel {
     //MARK: - Properties
-    var cancelBag = Set<AnyCancellable>()
+    var bag = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
     @Published var addressString: String?
@@ -34,7 +34,7 @@ final class SearchMapViewModel {
                     self?.addressString = address
                 }
             }
-            .store(in: &cancelBag)
+            .store(in: &bag)
     }
 }
 
