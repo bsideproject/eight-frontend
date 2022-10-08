@@ -35,7 +35,9 @@ internal enum Images {
     internal static let mediumWide = ImageAsset(name: "medium_wide")
   }
   internal enum Map {
-    internal static let marker = ImageAsset(name: "marker")
+    internal static let boxThumnail = ImageAsset(name: "box-thumnail")
+    internal static let markerNone = ImageAsset(name: "marker-none")
+    internal static let markerSelect = ImageAsset(name: "marker-select")
   }
   internal enum Navigation {
     internal static let back = ImageAsset(name: "back")

@@ -57,6 +57,8 @@
 		E9494A6528F068A4005285C0 /* ResponsePOI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A6428F068A4005285C0 /* ResponsePOI.swift */; };
 		E9494A6928F07203005285C0 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A6828F07203005285C0 /* SearchResultCell.swift */; };
 		E9494A6B28F072E8005285C0 /* UIReusable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A6A28F072E8005285C0 /* UIReusable+.swift */; };
+		E9494A6D28F1C816005285C0 /* BoxCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A6C28F1C816005285C0 /* BoxCollectionView.swift */; };
+		E9494A6F28F1DF15005285C0 /* UILayer+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A6E28F1DF15005285C0 /* UILayer+.swift */; };
 		E96BC92028EB2988002EBA7E /* SearchMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC91F28EB2988002EBA7E /* SearchMapVC.swift */; };
 		E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */; };
 		E96BC92528EB2E7E002EBA7E /* SearchMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92428EB2E7E002EBA7E /* SearchMapViewModel.swift */; };
@@ -147,6 +149,8 @@
 		E9494A6428F068A4005285C0 /* ResponsePOI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsePOI.swift; sourceTree = "<group>"; };
 		E9494A6828F07203005285C0 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		E9494A6A28F072E8005285C0 /* UIReusable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIReusable+.swift"; sourceTree = "<group>"; };
+		E9494A6C28F1C816005285C0 /* BoxCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxCollectionView.swift; sourceTree = "<group>"; };
+		E9494A6E28F1DF15005285C0 /* UILayer+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILayer+.swift"; sourceTree = "<group>"; };
 		E96BC91F28EB2988002EBA7E /* SearchMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapVC.swift; sourceTree = "<group>"; };
 		E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomAddressView.swift; sourceTree = "<group>"; };
 		E96BC92428EB2E7E002EBA7E /* SearchMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapViewModel.swift; sourceTree = "<group>"; };
@@ -265,6 +269,7 @@
 				2841347C28D9DA0F00A758F2 /* UIWindow+.swift */,
 				2841347828D9D93700A758F2 /* UIApplication+.swift */,
 				2806474928E86AFF000DED5B /* UIButton+.swift */,
+				E9494A6E28F1DF15005285C0 /* UILayer+.swift */,
 				28F20CF928E93BA600CEE89D /* UITextField+.swift */,
 				E9494A6A28F072E8005285C0 /* UIReusable+.swift */,
 			);
@@ -385,6 +390,7 @@
 				E9460B0828EAADC300932351 /* HomeAddressView.swift */,
 				E9460AFD28E9E51D00932351 /* HomeSearchView.swift */,
 				E9460B0E28EAC69300932351 /* NaverMapMarker.swift */,
+				E9494A6C28F1C816005285C0 /* BoxCollectionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -652,6 +658,7 @@
 				2806474A28E86AFF000DED5B /* UIButton+.swift in Sources */,
 				E927FC9628D351BA00A91F11 /* LogUtil.swift in Sources */,
 				E927FC9C28D3525700A91F11 /* HomeVC.swift in Sources */,
+				E9494A6F28F1DF15005285C0 /* UILayer+.swift in Sources */,
 				E9460AF928E9DE2200932351 /* Fonts+Generated.swift in Sources */,
 				E99929AF28D88182006FCFC7 /* MainTabbarController.swift in Sources */,
 				E9494A5B28F05CAB005285C0 /* SearchBarVC.swift in Sources */,
@@ -673,6 +680,7 @@
 				E96BC92528EB2E7E002EBA7E /* SearchMapViewModel.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
 				E9494A6928F07203005285C0 /* SearchResultCell.swift in Sources */,
+				E9494A6D28F1C816005285C0 /* BoxCollectionView.swift in Sources */,
 				E9460B0D28EAC0B100932351 /* CommonNavigationViewController.swift in Sources */,
 				E9160C1828E30A60007B1307 /* DataModel.swift in Sources */,
 				E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */,

@@ -12,4 +12,14 @@ extension UIButton {
         setImage(image, for: .normal)
         setImage(image, for: .highlighted)
     }
+    
+    func setTitle(_ title: String?) {
+        setTitle(title, for: .normal)
+        setTitle(title, for: .highlighted)
+    }
+    
+    func setTitleColor(_ color: UIColor?) {
+        setTitleColor(color, for: .normal)
+        setTitleColor(color, for: .highlighted)
+    }
 }
