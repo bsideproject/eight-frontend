@@ -42,9 +42,9 @@ final class CustomAnnotationView: UIView {
         }
     }
     var mapMarkerImageView = UIImageView().then {
-        $0.frame = CGRect(x: 0, y: 0, width: 24, height: 30)
+        $0.frame = CGRect(x: 0, y: 0, width: 26, height: 32)
         $0.layer.masksToBounds = true
-        $0.image = Images.Map.marker.image
+        $0.image = Images.Map.markerNone.image
     }
     
     //MARK: - Initializer
@@ -66,9 +66,9 @@ final class CustomAnnotationView: UIView {
     fileprivate func fetchMarkerImage(type: MarkerType) -> UIImage {
         switch type {
         case .selected:
-            return Images.Map.marker.image
+            return Images.Map.markerSelect.image
         case .none:
-            return Images.Map.marker.image
+            return Images.Map.markerNone.image
         }
     }
 }
