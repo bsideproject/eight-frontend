@@ -37,6 +37,9 @@ internal enum Images {
   internal enum Map {
     internal static let marker = ImageAsset(name: "marker")
   }
+  internal enum Navigation {
+    internal static let back = ImageAsset(name: "back")
+  }
   internal enum Tabbar {
     internal static let alarm = ImageAsset(name: "alarm")
     internal static let feed = ImageAsset(name: "feed")

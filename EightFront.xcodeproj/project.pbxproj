@@ -52,7 +52,7 @@
 		E9460B0F28EAC69300932351 /* NaverMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B0E28EAC69300932351 /* NaverMapMarker.swift */; };
 		E9460B1228EACA9900932351 /* CollectionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460B1128EACA9900932351 /* CollectionBox.swift */; };
 		E9494A5B28F05CAB005285C0 /* SearchBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A5A28F05CAB005285C0 /* SearchBarVC.swift */; };
-		E9494A5F28F060A5005285C0 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A5E28F060A5005285C0 /* CustomNavigationView.swift */; };
+		E9494A5F28F060A5005285C0 /* CommonNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A5E28F060A5005285C0 /* CommonNavigationView.swift */; };
 		E9494A6228F067DB005285C0 /* SearchBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A6128F067DB005285C0 /* SearchBarViewModel.swift */; };
 		E9494A6528F068A4005285C0 /* ResponsePOI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A6428F068A4005285C0 /* ResponsePOI.swift */; };
 		E9494A6928F07203005285C0 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9494A6828F07203005285C0 /* SearchResultCell.swift */; };
@@ -142,7 +142,7 @@
 		E9460B0E28EAC69300932351 /* NaverMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapMarker.swift; sourceTree = "<group>"; };
 		E9460B1128EACA9900932351 /* CollectionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionBox.swift; sourceTree = "<group>"; };
 		E9494A5A28F05CAB005285C0 /* SearchBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarVC.swift; sourceTree = "<group>"; };
-		E9494A5E28F060A5005285C0 /* CustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
+		E9494A5E28F060A5005285C0 /* CommonNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonNavigationView.swift; sourceTree = "<group>"; };
 		E9494A6128F067DB005285C0 /* SearchBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewModel.swift; sourceTree = "<group>"; };
 		E9494A6428F068A4005285C0 /* ResponsePOI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsePOI.swift; sourceTree = "<group>"; };
 		E9494A6828F07203005285C0 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
@@ -276,7 +276,7 @@
 			children = (
 				E99929B928D88F9B006FCFC7 /* DBVersionData.swift */,
 				E9460B0C28EAC0B100932351 /* CommonNavigationViewController.swift */,
-				E9494A5E28F060A5005285C0 /* CustomNavigationView.swift */,
+				E9494A5E28F060A5005285C0 /* CommonNavigationView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -640,7 +640,7 @@
 				E9160C1A28E3145E007B1307 /* NewSetting.swift in Sources */,
 				E927FC9A28D3523300A91F11 /* Formatter+.swift in Sources */,
 				E99929BA28D88F9B006FCFC7 /* DBVersionData.swift in Sources */,
-				E9494A5F28F060A5005285C0 /* CustomNavigationView.swift in Sources */,
+				E9494A5F28F060A5005285C0 /* CommonNavigationView.swift in Sources */,
 				E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */,
 				2841347928D9D93700A758F2 /* UIApplication+.swift in Sources */,
 				E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */,
