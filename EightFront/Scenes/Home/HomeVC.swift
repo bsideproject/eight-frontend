@@ -10,7 +10,6 @@ import Combine
 import NMapsMap
 import SnapKit
 import Then
-import TMapSDK
 import CombineCocoa
 
 protocol MainMapViewDelegate: AnyObject {
@@ -27,35 +26,35 @@ final class HomeVC: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(searchButtonTapped))
         $0.searchView.addGestureRecognizer(tapGesture)
     }
-    private let reportButton = UIButton().then {
-        $0.layer.cornerRadius = 27
-        $0.setImage(Images.Home.add.image, for: .normal)
-        $0.setImage(Images.Home.add.image, for: .highlighted)
-        $0.backgroundColor = Colors.main.color
-    }
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
     //MARK: MapView
     private var markers = [NaverMapMarker]()
     private weak var mapDelegate: MainMapViewDelegate?
-    private var selectedMarker: NaverMapMarker? = nil {
-        willSet {
-            selectedMarker?.isSelected = false
-            newValue?.isSelected = true
-        }
-    }
-    private let mapView = NMFMapView().then {
+    private lazy var mapView = NMFMapView().then {
+        $0.touchDelegate = self
+        $0.addCameraDelegate(delegate: self)
         $0.positionMode = .direction
         $0.minZoomLevel = 10.0
         $0.maxZoomLevel = 18.0
         $0.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
     }
     private let currentLocationButton = UIButton().then {
-        $0.layer.cornerRadius = 2
+        $0.layer.cornerRadius = 22
         $0.setImage(Images.currentLocation.image, for: .normal)
         $0.setImage(Images.currentLocation.image, for: .highlighted)
         $0.backgroundColor = .white
+    }
+    private let reportButton = UIButton().then {
+        $0.layer.cornerRadius = 27
+        $0.setImage(Images.Home.add.image, for: .normal)
+        $0.setImage(Images.Home.add.image, for: .highlighted)
+        $0.backgroundColor = Colors.main.color
+    }
+    private lazy var boxInfoView = BoxCollectionView().then {
+        $0.layer.cornerRadius = 8
     }
     
     //MARK: - Life Cycle
@@ -80,7 +79,8 @@ final class HomeVC: UIViewController {
         view.addSubview(mapView)
         view.addSubview(currentLocationButton)
         view.addSubview(reportButton)
-
+        tabBarController?.view.addSubview(boxInfoView)
+        
         statusView.snp.makeConstraints {
             $0.top.left.right.equalToSuperview()
             $0.height.equalTo(view.safeAreaLayoutGuide)
@@ -96,16 +96,19 @@ final class HomeVC: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         currentLocationButton.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-12)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-18)
             $0.right.equalToSuperview().offset(-16)
-            $0.width.equalTo(44)
-            $0.height.equalTo(46)
+            $0.size.equalTo(44)
         }
         reportButton.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-18)
-            $0.left.equalToSuperview().offset(15)
-            $0.width.equalTo(54)
-            $0.height.equalTo(54)
+            $0.bottom.equalTo(currentLocationButton.snp.top).offset(-14)
+            $0.right.equalTo(currentLocationButton.snp.right)
+            $0.size.equalTo(50)
+        }
+        boxInfoView.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(224)
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(224)
         }
         
         view.addShadow(views: [currentLocationButton, reportButton])
@@ -143,7 +146,22 @@ final class HomeVC: UIViewController {
                 self?.listButtonTapped()
             }
             .store(in: &viewModel.cancelBag)
-        
+        boxInfoView.fixButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                guard let selectedMarker = self?.viewModel.selectedMarker else { return }
+                
+                let targetLocation = CLLocation(latitude: selectedMarker.position.lat,
+                                                longitude: selectedMarker.position.lng)
+                let reportVC = ReportVC(isDelete: false,
+                                        location: targetLocation)
+                
+                let navi = CommonNavigationViewController(rootViewController: reportVC)
+                navi.modalPresentationStyle = .fullScreen
+                self?.present(navi, animated: true)
+            }
+            .store(in: &viewModel.cancelBag)
         viewModel.$addressString
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
@@ -153,7 +171,7 @@ final class HomeVC: UIViewController {
     
     @objc
     func searchButtonTapped() {
-        let searchVC = HomeSearchVC()
+        let searchVC = SearchBarVC()
         navigationController?.pushViewController(searchVC, animated: true)
     }
     
@@ -163,9 +181,10 @@ final class HomeVC: UIViewController {
     }
     
     private func reportButtonTapped() {
-        let reportVC = FindAddressVC(requestLocation: LocationManager.shared.currentLocation)
-        reportVC.modalPresentationStyle = .fullScreen
-        present(reportVC, animated: true)
+//        let reportVC = ReportVC(isDelete: false)
+//        let navi = CommonNavigationViewController(rootViewController: reportVC)
+//        navi.modalPresentationStyle = .fullScreen
+//        present(navi, animated: true)
     }
     
     //MARK: - Map Methods
@@ -187,25 +206,69 @@ final class HomeVC: UIViewController {
         marker.userInfo = ["box": box]
         
         marker.touchHandler = { [weak self] overlay -> Bool in
-            self?.selectedMarker = marker
+            self?.viewModel.selectedMarker = marker
             
-            let cameraUpdate = NMFCameraUpdate(scrollTo: marker.position)
+            let cameraUpdate = NMFCameraUpdate(scrollTo: marker.position, zoomTo: 16.0)
             cameraUpdate.animation = .easeIn
             self?.mapView.moveCamera(cameraUpdate)
             self?.mapDelegate?.marker(didTapMarker: position, info: box)
+            self?.updateBottomInfoView(isOpen: true)
             
             return true
         }
         
-        
         markers.append(marker)
+    }
+    
+    private func updateBottomInfoView(isOpen: Bool) {
+        guard isOpen != viewModel.isOpenBottomInfoView else { return }
+        viewModel.isOpenBottomInfoView.toggle()
+        
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut)
+        let viewBottom: CGFloat = isOpen ? 0 : 224
+        
+        boxInfoView.snp.updateConstraints {
+            $0.bottom.equalToSuperview().offset(viewBottom)
+        }
+        
+        currentLocationButton.snp.remakeConstraints {
+            $0.bottom.equalTo(isOpen ? boxInfoView.snp.top : view.safeAreaLayoutGuide).offset(-18)
+            $0.right.equalToSuperview().offset(-16)
+            $0.size.equalTo(44)
+        }
+        
+        animator.addAnimations { [weak self] in
+            self?.view.layoutIfNeeded()
+            self?.tabBarController?.view.layoutIfNeeded()
+        }
+        
+        animator.startAnimation()
     }
     
     private func resetInfoWindows() {
         markers.forEach {
             $0.mapView = nil
         }
-
+        
         markers = []
+    }
+    
+    private func deselection() {
+        viewModel.selectedMarker?.isSelected = false
+        viewModel.selectedMarker = nil
+    }
+}
+
+extension HomeVC: NMFMapViewCameraDelegate {
+    func mapView(_ mapView: NMFMapView, cameraDidChangeByReason reason: Int, animated: Bool) {
+        guard animated && reason == -1 else { return }
+        
+    }
+}
+
+extension HomeVC: NMFMapViewTouchDelegate {
+    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+        deselection()
+        updateBottomInfoView(isOpen: false)
     }
 }
