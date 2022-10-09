@@ -9,14 +9,7 @@ import UIKit
 import QuartzCore
 
 extension CALayer {
-    func applyFigmaShadow(
-        color: UIColor,
-        alpha: Float,
-        x: CGFloat,
-        y: CGFloat,
-        blur: CGFloat,
-        spread: CGFloat
-    ) {
+    func applyFigmaShadow(x: CGFloat, y: CGFloat, color: UIColor, alpha: Float = 1.0, blur: CGFloat, spread: CGFloat) {
         masksToBounds = false
         shadowColor = color.cgColor
         shadowOpacity = alpha

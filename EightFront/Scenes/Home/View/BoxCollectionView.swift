@@ -103,7 +103,8 @@ final class BoxCollectionView: UIView {
             $0.height.equalTo(50)
         }
         
-        layer.applySketchShadow(color: Colors.shadow001.color, alpha: 1.0,
-                                x: 0, y: -4, blur: 15.0, spread: -2.0)
+        layer.applyFigmaShadow(x: 0, y: -4,
+                               color: Colors.shadow001.color.withAlphaComponent(0.12),
+                               blur: 15.0, spread: -2.0)
     }
 }

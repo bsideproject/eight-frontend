@@ -35,12 +35,18 @@ internal enum Images {
     internal static let mediumWide = ImageAsset(name: "medium_wide")
   }
   internal enum Map {
+    internal static let boxEdit = ImageAsset(name: "box-edit")
     internal static let boxThumnail = ImageAsset(name: "box-thumnail")
     internal static let markerNone = ImageAsset(name: "marker-none")
     internal static let markerSelect = ImageAsset(name: "marker-select")
   }
   internal enum Navigation {
     internal static let back = ImageAsset(name: "back")
+  }
+  internal enum Report {
+    internal static let checkboxNone = ImageAsset(name: "checkbox-none")
+    internal static let checkboxSelect = ImageAsset(name: "checkbox-select")
+    internal static let search = ImageAsset(name: "search")
   }
   internal enum Tabbar {
     internal static let alarm = ImageAsset(name: "alarm")
