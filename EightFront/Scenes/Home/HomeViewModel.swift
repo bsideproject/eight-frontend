@@ -19,6 +19,14 @@ final class HomeViewModel {
     let output = Output()
     private let clothesProvider = MoyaProvider<ClothesAPI>()
     @Published var addressString: String?
+    weak var selectedMarker: NaverMapMarker? {
+        willSet {
+            selectedMarker?.isSelected = false
+            newValue?.isSelected = true
+        }
+    }
+    var isOpenBottomInfoView: Bool = false
+    
     
     //MARK: Initializer
     init() {
