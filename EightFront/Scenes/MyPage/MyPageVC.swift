@@ -8,7 +8,10 @@
 import UIKit
 import Then
 import SnapKit
+
 //MARK: 마이페이지 VC
+
+
 final class MyPageVC: UIViewController {
     //MARK: - Properties
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -24,8 +27,8 @@ final class MyPageVC: UIViewController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         let bottomSheetVC = LoginBottomSheetVC()
         bottomSheetVC.modalPresentationStyle = .overFullScreen
         self.present(bottomSheetVC, animated: true)
@@ -42,4 +45,3 @@ final class MyPageVC: UIViewController {
     }
     
 }
-

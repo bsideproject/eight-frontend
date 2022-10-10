@@ -11,42 +11,47 @@ import UIKit
 import CombineCocoa
 import KakaoSDKUser
 
+private enum PretendardFonts {
+    case Headline
+    case Title
+    case Subheader
+    case Subheader2
+    case Menu
+    case Body1
+    case Body2
+    case Caption1
+    case Caption2
+    
+    var font: UIFont {
+        switch self {
+        case .Headline:
+            return Fonts.Pretendard.regular.font(size: 24)
+        case .Title:
+            return Fonts.Pretendard.medium.font(size: 20)
+        case .Subheader:
+            return Fonts.Pretendard.regular.font(size: 16)
+        case .Subheader2:
+            return Fonts.Pretendard.medium.font(size: 16)
+        case .Menu:
+            return Fonts.Pretendard.medium.font(size: 14)
+        case .Body1:
+            return Fonts.Pretendard.regular.font(size: 14)
+        case .Body2:
+            return Fonts.Pretendard.medium.font(size: 14)
+        case .Caption1:
+            return Fonts.Pretendard.regular.font(size: 12)
+        case .Caption2:
+            return Fonts.Pretendard.regular.font(size: 10)
+        }
+    }
+}
+
 final class LoginBottomSheetVC: UIViewController {
     // MARK: - Properties
     private let viewModel = LoginBottomSheetViewModel()
-    private let bottomHeight: CGFloat = 600
-    private var bottomSheetViewTopConstraint: NSLayoutConstraint!
-    private let loginBottomSheetLabel = UILabel().then {
-        $0.text = "로그인"
-        $0.font = UIFont.systemFont(ofSize: 35, weight: .bold)
-    }
-    private let emailTextField = UITextField().then{
-        $0.keyboardType = .emailAddress
-        $0.placeholder = "이메일을 입력해주세요."
-        $0.backgroundColor = UIColor(red: 226/255, green: 226/255, blue: 226/255, alpha: 1)
-        $0.layer.cornerRadius = 25
-        $0.setLeftPadding(16)
-    }
-    private let passwordTextField = UITextField().then {
-        $0.isSecureTextEntry = true
-        $0.placeholder = "비밀번호를 입력해주세요."
-        $0.backgroundColor = UIColor(red: 226/255, green: 226/255, blue: 226/255, alpha: 1)
-        $0.layer.cornerRadius = 25
-        $0.setLeftPadding(16)
-    }
-    private let loginButton = UIButton().then {
-        $0.setTitle("로그인", for: .normal)
-        $0.backgroundColor = .lightGray
-        $0.layer.cornerRadius = 25
-    }
-    private let appleLoginButton = ASAuthorizationAppleIDButton(
-        authorizationButtonType: .signUp,
-        authorizationButtonStyle: .whiteOutline
-    )
-    private let kakaoLoginButton = UIButton().then {
-        $0.contentMode = .scaleAspectFit
-        $0.setImage(Images.KakaoLoginButton.mediumNarrow.image, for: .normal)
-    }
+    private let bottomHeight: CGFloat = 279
+//    private var bottomSheetViewTopConstraint: NSLayoutConstraint!
+    
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
     }
@@ -56,7 +61,38 @@ final class LoginBottomSheetVC: UIViewController {
         $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         $0.clipsToBounds = true
     }
-
+    private let loginBottomSheetTitleLabel = UILabel().then {
+        $0.font = PretendardFonts.Title.font
+        $0.textColor = Colors.gray001.color
+        $0.text = "로그인이 필요해요."
+        $0.textAlignment = .center
+    }
+    private let loginBottomSheetSubtitleLabel = UILabel().then {
+        $0.font = PretendardFonts.Caption1.font
+        $0.textColor = Colors.gray001.color
+        $0.text = "SNS로 간편하게 시작하세요!"
+        $0.textAlignment = .center
+    }
+    private let appleLoginButton = ASAuthorizationAppleIDButton(
+        authorizationButtonType: .signUp,
+        authorizationButtonStyle: .black
+    )
+    private let kakaoLoginButton = UIButton().then {
+        $0.contentMode = .scaleAspectFit
+        $0.setImage(Images.KakaoLoginButton.largeWide.image, for: .normal)
+    }
+    // TODO: 디자인 시안에서 폰트 설정 안돼있음
+    private let emailLoginButton = UIButton().then {
+        $0.setTitle("이메일로 로그인하기", for: .normal)
+        $0.setTitleColor(Colors.gray005.color, for: .normal)
+        $0.titleLabel?.font = Fonts.Pretendard.regular.font(size: 12)
+    }
+    private let emailSignUpButton = UIButton().then {
+        $0.setTitle("계정이 없다면? 회원가입", for: .normal)
+        $0.setTitleColor(Colors.gray005.color, for: .normal)
+        $0.titleLabel?.font = Fonts.Pretendard.regular.font(size: 12)
+    }
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,14 +101,18 @@ final class LoginBottomSheetVC: UIViewController {
         bind()
         setupGestureRecognizer()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        showBottomSheet()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         showBottomSheet()
     }
     
     // MARK: - Bind
-    
     private func bind() {
         appleLoginButton
             .controlEventPublisher(for: .touchUpInside)
@@ -90,106 +130,77 @@ final class LoginBottomSheetVC: UIViewController {
             }
             .store(in: &viewModel.cancelBag)
         
-        emailTextField
-            .textPublisher
-            .receive(on: DispatchQueue.main)
-            .compactMap { $0 }
-            .assign(to: \.emailInput, on: viewModel)
-            .store(in: &viewModel.cancelBag)
-        
-        passwordTextField
-            .textPublisher
-            .receive(on: DispatchQueue.main)
-            .compactMap { $0 }
-            .assign(to: \.passwordInput, on: viewModel)
-            .store(in: &viewModel.cancelBag)
-        
-        viewModel.isLoginButtonValid
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isValid in
-                UIView.animate(withDuration: 0.25) {
-                    self?.loginButton.backgroundColor = isValid ? .systemOrange : .lightGray
-                    self?.loginButton.isEnabled = isValid
-                }
-            }
-            .store(in: &viewModel.cancelBag)
-        
-        loginButton
+        emailLoginButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
-            .sink {
-                LogUtil.d("로그인 버튼 눌림")
-            }
-            .store(in: &viewModel.cancelBag)
+            .sink { [weak self] in
+                self?.emailLoginButtonTapped()
+            }.store(in: &viewModel.cancelBag)
+        
     }
-
+    
     // MARK: - Functions
     
     private func makeUI() {
         view.addSubview(dimmedBackView)
         view.addSubview(bottomSheetView)
-        view.addSubview(loginBottomSheetLabel)
-        view.addSubview(emailTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(loginButton)
+        view.addSubview(loginBottomSheetTitleLabel)
+        view.addSubview(loginBottomSheetSubtitleLabel)
         view.addSubview(appleLoginButton)
         view.addSubview(kakaoLoginButton)
+        view.addSubview(emailLoginButton)
+        view.addSubview(emailSignUpButton)
         
         dimmedBackView.alpha = 0.0
-    
         dimmedBackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-        // TODO: 추후 수정
-        let topConstant = view.safeAreaInsets.bottom + view.safeAreaLayoutGuide.layoutFrame.height
-        bottomSheetViewTopConstraint = bottomSheetView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstant)
-        
-        NSLayoutConstraint.activate([
-            bottomSheetViewTopConstraint
-        ])
+        // 최상단으로 부터 떨어진 거리
+        let topConstant = (view.safeAreaInsets.bottom + view.safeAreaLayoutGuide.layoutFrame.height)-bottomHeight
         
         bottomSheetView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(topConstant)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
         
-        loginBottomSheetLabel.snp.makeConstraints {
-            $0.top.equalTo(bottomSheetView.snp.top).inset(30)
-            $0.leading.equalTo(bottomSheetView.snp.leading).inset(30)
+        loginBottomSheetTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(bottomSheetView).inset(28)
+            $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
-        emailTextField.snp.makeConstraints {
-            $0.top.equalTo(loginBottomSheetLabel.snp.bottom).offset(30)
-            $0.horizontalEdges.equalTo(bottomSheetView).inset(30)
-            $0.height.equalTo(50)
-        }
-        
-        passwordTextField.snp.makeConstraints {
-            $0.top.equalTo(emailTextField.snp.bottom).offset(10)
-            $0.horizontalEdges.equalTo(bottomSheetView).inset(30)
-            $0.height.equalTo(50)
-        }
-        
-        loginButton.snp.makeConstraints {
-            $0.top.equalTo(passwordTextField.snp.bottom).offset(30)
-            $0.horizontalEdges.equalTo(bottomSheetView).inset(30)
-            $0.height.equalTo(50)
+        loginBottomSheetSubtitleLabel.snp.makeConstraints {
+            $0.top.equalTo(bottomSheetView).inset(80)
+            $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
         appleLoginButton.snp.makeConstraints {
-            $0.top.equalTo(loginButton.snp.bottom).offset(30)
-            $0.centerX.equalTo(emailTextField)
+            $0.top.equalTo(bottomSheetView).inset(106)
+            $0.width.equalTo(343)
+            $0.height.equalTo(48)
+            $0.centerX.equalTo(bottomSheetView)
         }
         
         // TODO: 추후 디자인에 따라 이미지 크기 수정
         kakaoLoginButton.snp.makeConstraints {
-            $0.top.equalTo(appleLoginButton.snp.bottom).offset(10)
+            $0.top.equalTo(bottomSheetView).inset(162)
+            $0.width.equalTo(343)
+            $0.height.equalTo(48)
             $0.centerX.equalTo(bottomSheetView)
-            $0.height.equalTo(appleLoginButton.snp.height)
-            $0.width.equalTo(appleLoginButton.snp.width)
         }
         
+        emailLoginButton.snp.makeConstraints {
+            $0.top.equalTo(bottomSheetView).inset(232)
+            $0.height.equalTo(14)
+            $0.leading.equalToSuperview().inset(71)
+        }
+        
+        emailSignUpButton.snp.makeConstraints {
+            $0.top.equalTo(bottomSheetView).inset(232)
+            $0.height.equalTo(14)
+            $0.trailing.equalToSuperview().inset(51)
+        }
     }
     
     // GestureRecognizer 세팅 작업
@@ -207,34 +218,28 @@ final class LoginBottomSheetVC: UIViewController {
     
     // 바텀 시트 표출 애니메이션
     private func showBottomSheet() {
-        let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
-        let bottomPadding: CGFloat = view.safeAreaInsets.bottom
-        
-        bottomSheetViewTopConstraint.constant = (safeAreaHeight + bottomPadding) - bottomHeight
-        
-        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn, animations: {
+        let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeIn)
+        animator.addAnimations {
             self.dimmedBackView.alpha = 0.5
             self.view.layoutIfNeeded()
-        }, completion: nil)
+        }
+        animator.startAnimation()
     }
     
     // 바텀 시트 사라지는 애니메이션
     private func hideBottomSheetAndGoBack() {
-        let safeAreaHeight = view.safeAreaLayoutGuide.layoutFrame.height
-        let bottomPadding = view.safeAreaInsets.bottom
-        bottomSheetViewTopConstraint.constant = safeAreaHeight + bottomPadding
-        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn, animations: {
+        let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeIn)
+        animator.addAnimations {
             self.dimmedBackView.alpha = 0.0
             self.view.layoutIfNeeded()
-        }) { _ in
-            if self.presentingViewController != nil {
-                self.dismiss(animated: false, completion: nil)
+            if self.presentationController != nil {
+                self.dismiss(animated: false)
             }
         }
+        animator.startAnimation()
     }
     
     // MARK: - Actions
-    
     // UITapGestureRecognizer 연결 함수 부분
     @objc private func dimmedViewTapped(_ tapRecognizer: UITapGestureRecognizer) {
         hideBottomSheetAndGoBack()
@@ -263,6 +268,7 @@ final class LoginBottomSheetVC: UIViewController {
         controller.performRequests()
     }
     
+    // 카카오 로그인
     private func kakaoLoginButtonTapped() {
         /// 카카오톡 설치 여부 확인
         if (UserApi.isKakaoTalkLoginAvailable()) {
@@ -271,7 +277,6 @@ final class LoginBottomSheetVC: UIViewController {
                     LogUtil.e(error)
                 } else {
                     LogUtil.d("loginWithKakaoTalk() success.")
-                    
                     // 간편 로그인 정보
                     _ = oauthToken
                     
@@ -279,6 +284,11 @@ final class LoginBottomSheetVC: UIViewController {
             }
         }
     }
+    
+    private func emailLoginButtonTapped() {
+        LogUtil.d("이메일 회원가입으로 이동")
+    }
+    
 }
 
 // MARK: - ASAuthorizationControllerDelegate
