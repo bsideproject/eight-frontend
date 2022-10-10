@@ -45,6 +45,7 @@ internal enum Images {
   }
   internal enum Report {
     internal static let addPhoto = ImageAsset(name: "add-photo")
+    internal static let checkComplete = ImageAsset(name: "check-complete")
     internal static let checkboxNone = ImageAsset(name: "checkbox-none")
     internal static let checkboxSelect = ImageAsset(name: "checkbox-select")
     internal static let search = ImageAsset(name: "search")

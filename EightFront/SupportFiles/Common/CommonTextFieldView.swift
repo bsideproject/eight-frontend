@@ -22,6 +22,12 @@ final class CommonTextFieldView: UIView {
     let contentTextField = UITextField().then {
         $0.textColor = Colors.gray001.color
         $0.font = Fonts.Pretendard.regular.font(size: 16)
+        $0.smartDashesType = .no
+        $0.smartQuotesType = .no
+        $0.spellCheckingType = .no
+        $0.autocorrectionType = .no
+        $0.smartInsertDeleteType = .no
+        $0.returnKeyType = .search
         $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
     lazy var contentTextView = UITextView().then {

@@ -2,6 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <false/>
+        <key>UISceneConfigurations</key>
+        <dict>
+            <key>UIWindowSceneSessionRoleApplication</key>
+            <array>
+                <dict>
+                    <key>UISceneConfigurationName</key>
+                    <string>Default Configuration</string>
+                    <key>UISceneDelegateClassName</key>
+                    <string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+                </dict>
+            </array>
+        </dict>
+    </dict>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -15,33 +32,19 @@
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
+		<string>kakaokompassauth</string>
+		<string>nmap</string>
+		<string>tmap</string>
+		<string>kakaomap</string>
 	</array>
 	<key>NMFClientId</key>
 	<string>prn8wuv8op</string>
-	<key>UIApplicationSceneManifest</key>
-	<dict>
-		<key>UIApplicationSupportsMultipleScenes</key>
-		<false/>
-		<key>UISceneConfigurations</key>
-		<dict>
-			<key>UIWindowSceneSessionRoleApplication</key>
-			<array>
-				<dict>
-					<key>UISceneConfigurationName</key>
-					<string>Default Configuration</string>
-					<key>UISceneDelegateClassName</key>
-					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
-				</dict>
-			</array>
-		</dict>
-	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>com.bside.eight</string>
 		<string>fetch</string>
 		<string>processing</string>
-		<string>push-to-talk</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
