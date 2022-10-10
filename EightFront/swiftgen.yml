@@ -16,10 +16,12 @@ xcassets:
         enumName: Colors
       output: Resources/SwiftGen/ColorAssets+Generated.swift
       
-##fonts:
-##    inputs:
-##        - EightFront/Resources/Fonts/
-##    outputs:
-##        templateName: swift5
-##        enumName: Fonts
-##        output: Resources/Fonts+Generated.swift
+fonts:
+    inputs:
+        - Resources/Fonts/
+    outputs:
+        templateName: swift5
+        params:
+          forceProvidesNamespaces: true
+          enumName: Fonts
+        output: Resources/SwiftGen/Fonts+Generated.swift

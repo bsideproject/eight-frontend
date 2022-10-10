@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 class LoginBottomSheetViewModel {
-    
+    var cancelBag = Set<AnyCancellable>()
     @Published var emailInput: String = ""
     @Published var passwordInput: String = ""
     

@@ -19,12 +19,40 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Images {
+  internal static let currentLocation = ImageAsset(name: "current-location")
+  internal enum Home {
+    internal static let add = ImageAsset(name: "add")
+    internal static let alarm = ImageAsset(name: "alarm")
+    internal static let detail = ImageAsset(name: "detail")
+    internal static let list = ImageAsset(name: "list")
+    internal static let search = ImageAsset(name: "search")
+  }
   internal enum KakaoLoginButton {
     internal static let bottomSheetView = ImageAsset(name: "bottomSheetView")
     internal static let largeNarrow = ImageAsset(name: "large_narrow")
     internal static let largeWide = ImageAsset(name: "large_wide")
     internal static let mediumNarrow = ImageAsset(name: "medium_narrow")
     internal static let mediumWide = ImageAsset(name: "medium_wide")
+  }
+  internal enum Map {
+    internal static let boxEdit = ImageAsset(name: "box-edit")
+    internal static let boxThumnail = ImageAsset(name: "box-thumnail")
+    internal static let markerNone = ImageAsset(name: "marker-none")
+    internal static let markerSelect = ImageAsset(name: "marker-select")
+  }
+  internal enum Navigation {
+    internal static let back = ImageAsset(name: "back")
+  }
+  internal enum Report {
+    internal static let checkboxNone = ImageAsset(name: "checkbox-none")
+    internal static let checkboxSelect = ImageAsset(name: "checkbox-select")
+    internal static let search = ImageAsset(name: "search")
+  }
+  internal enum Tabbar {
+    internal static let alarm = ImageAsset(name: "alarm")
+    internal static let feed = ImageAsset(name: "feed")
+    internal static let home = ImageAsset(name: "home")
+    internal static let myPage = ImageAsset(name: "my-page")
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

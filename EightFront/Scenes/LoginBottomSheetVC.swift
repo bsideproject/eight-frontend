@@ -12,18 +12,14 @@ import CombineCocoa
 import KakaoSDKUser
 
 final class LoginBottomSheetVC: UIViewController {
-    
     // MARK: - Properties
-    var cancelBag = Set<AnyCancellable>()
     private let viewModel = LoginBottomSheetViewModel()
     private let bottomHeight: CGFloat = 600
     private var bottomSheetViewTopConstraint: NSLayoutConstraint!
-    
     private let loginBottomSheetLabel = UILabel().then {
         $0.text = "로그인"
         $0.font = UIFont.systemFont(ofSize: 35, weight: .bold)
     }
-    
     private let emailTextField = UITextField().then{
         $0.keyboardType = .emailAddress
         $0.placeholder = "이메일을 입력해주세요."
@@ -31,7 +27,6 @@ final class LoginBottomSheetVC: UIViewController {
         $0.layer.cornerRadius = 25
         $0.setLeftPadding(16)
     }
-    
     private let passwordTextField = UITextField().then {
         $0.isSecureTextEntry = true
         $0.placeholder = "비밀번호를 입력해주세요."
@@ -85,7 +80,7 @@ final class LoginBottomSheetVC: UIViewController {
             .sink { [weak self] _ in
                 self?.appleLoginButtonTapped()
             }
-            .store(in: &cancelBag)
+            .store(in: &viewModel.cancelBag)
         
         kakaoLoginButton
             .tapPublisher
@@ -93,21 +88,21 @@ final class LoginBottomSheetVC: UIViewController {
             .sink { [weak self] _ in
                 self?.kakaoLoginButtonTapped()
             }
-            .store(in: &cancelBag)
+            .store(in: &viewModel.cancelBag)
         
         emailTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .assign(to: \.emailInput, on: viewModel)
-            .store(in: &cancelBag)
+            .store(in: &viewModel.cancelBag)
         
         passwordTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .assign(to: \.passwordInput, on: viewModel)
-            .store(in: &cancelBag)
+            .store(in: &viewModel.cancelBag)
         
         viewModel.isLoginButtonValid
             .receive(on: DispatchQueue.main)
@@ -117,7 +112,7 @@ final class LoginBottomSheetVC: UIViewController {
                     self?.loginButton.isEnabled = isValid
                 }
             }
-            .store(in: &cancelBag)
+            .store(in: &viewModel.cancelBag)
         
         loginButton
             .tapPublisher
@@ -125,7 +120,7 @@ final class LoginBottomSheetVC: UIViewController {
             .sink {
                 LogUtil.d("로그인 버튼 눌림")
             }
-            .store(in: &cancelBag)
+            .store(in: &viewModel.cancelBag)
     }
 
     // MARK: - Functions

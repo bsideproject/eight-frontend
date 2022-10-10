@@ -9,6 +9,7 @@ import UIKit
 import Combine
 import Moya
 import CombineMoya
+import CoreLocation
 
 //MARK: HomeViewModel
 final class HomeViewModel {
@@ -16,7 +17,16 @@ final class HomeViewModel {
     var cancelBag = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
-    let clothesProvider = MoyaProvider<ClothesAPI>()
+    private let clothesProvider = MoyaProvider<ClothesAPI>()
+    @Published var addressString: String?
+    weak var selectedMarker: NaverMapMarker? {
+        willSet {
+            selectedMarker?.isSelected = false
+            newValue?.isSelected = true
+        }
+    }
+    var isOpenBottomInfoView: Bool = false
+    
     
     //MARK: Initializer
     init() {
@@ -24,19 +34,36 @@ final class HomeViewModel {
     }
     
     //MARK: RxBinding..
-    func bind() {
+    private func bind() {
+        LocationManager.shared.$currentAddress
+            .compactMap { $0 }
+            .sink { [weak self] in
+                self?.addressString = $0
+            }
+            .store(in: &cancelBag)
         
+        input.requestAddress
+            .sink {
+                if case let .failure(error) = $0 {
+                    LogUtil.d(error.localizedDescription)
+                }
+            } receiveValue: {
+                LocationManager.shared.addressUpdate(location: $0) { [weak self] address in
+                    self?.addressString = address
+                }
+            }
+            .store(in: &cancelBag)
     }
 }
 
 //MARK: - I/O & Error
 extension HomeViewModel {
     enum ErrorResult: Error {
-        case someError
+        case notFoundAddress
     }
     
     struct Input {
-        
+        var requestAddress = CurrentValueSubject<CLLocation?, ErrorResult>.init(nil)
     }
     
     struct Output {
@@ -46,7 +73,7 @@ extension HomeViewModel {
 
 //MARK: - Method
 extension HomeViewModel {
-    func requestCoordinates() {
+    private func requestCoordinates() {
         clothesProvider.requestPublisher(.coordinates)
             .sink { completion in
                 switch completion {

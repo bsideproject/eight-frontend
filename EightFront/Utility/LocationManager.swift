@@ -11,8 +11,17 @@ import CoreLocation
 final class LocationManager: NSObject {
     // MARK: - Properties
     static let shared = LocationManager()
-    var locationManager: CLLocationManager?
-    var currentLocation: CLLocationCoordinate2D?
+    private var locationManager: CLLocationManager?
+    @Published var currentAddress: String?
+    var currentLocation: CLLocation? {
+        didSet {
+            if currentAddress == nil && currentLocation != nil {
+                addressUpdate(location: currentLocation) { [weak self] address in
+                    self?.currentAddress = address
+                }
+            }
+        }
+    }
     
     // MARK: - Initializer
     private override init() {
@@ -77,6 +86,27 @@ final class LocationManager: NSObject {
         
         visibleVC.present(alert, animated: true, completion: nil)
     }
+    
+    func addressUpdate(location: CLLocation?, completion: @escaping (String?) -> ()) {
+        guard let location = location else { return }
+        let geocoder = CLGeocoder()
+        
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            if let _ = error { return }
+            
+            var currentPlacemark: CLPlacemark?
+            // 에러가 없고, 주소 정보가 있으며 주소가 공백이지 않을 시
+            if error == nil, let p = placemarks, !p.isEmpty {
+                currentPlacemark = p.last
+            } else {
+                currentPlacemark = nil
+            }
+            
+            var addressString = currentPlacemark?.locality ?? ""
+            addressString += addressString.count > 0 ? " " + (currentPlacemark?.name ?? "") : currentPlacemark?.name ?? ""
+            completion(addressString)
+        }
+    }
 }
 
 // MARK: - CLLocationManagerDelegate
@@ -115,6 +145,6 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentLocation = locations.last?.coordinate
+        currentLocation = locations.last
     }
 }

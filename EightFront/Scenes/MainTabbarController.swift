@@ -10,7 +10,7 @@ import Firebase
 
 final class MainTabbarController: UITabBarController {
     //MARK: - Properties
-    var ref: DatabaseReference?
+    private var ref: DatabaseReference?
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -21,36 +21,37 @@ final class MainTabbarController: UITabBarController {
     }
 
     //MARK: - Make UI
-    func makeUI() {
+    private func makeUI() {
         tabBar.backgroundColor = .white
-        tabBar.tintColor = .systemPurple
-        tabBar.unselectedItemTintColor = .gray
+        tabBar.tintColor = Colors.main.color
+        tabBar.unselectedItemTintColor = Colors.gray006.color
         
         let homeVC = HomeVC()
-        homeVC.tabBarItem.title = "홈"
-        homeVC.tabBarItem.image = UIImage(systemName: "house")
-        homeVC.tabBarItem.selectedImage = UIImage(systemName: "house.fill")
+        let homeNavi = CommonNavigationViewController(rootViewController: homeVC)
+        homeNavi.tabBarItem.title = "홈"
+        homeNavi.tabBarItem.image = Images.Tabbar.home.image
+        homeNavi.tabBarItem.selectedImage = Images.Tabbar.home.image
         
         let tradeVC = TradeVC()
-        tradeVC.tabBarItem.title = "중고거래"
-        tradeVC.tabBarItem.image = UIImage(systemName: "person.3")
-        tradeVC.tabBarItem.selectedImage = UIImage(systemName: "person.3.fill")
+        tradeVC.tabBarItem.title = "피드"
+        tradeVC.tabBarItem.image = Images.Tabbar.feed.image
+        tradeVC.tabBarItem.selectedImage = Images.Tabbar.feed.image
         
         let noticeVC = NoticeVC()
         noticeVC.tabBarItem.title = "알림"
-        noticeVC.tabBarItem.image = UIImage(systemName: "bell")
-        noticeVC.tabBarItem.selectedImage = UIImage(systemName: "bell.fill")
+        noticeVC.tabBarItem.image = Images.Tabbar.alarm.image
+        noticeVC.tabBarItem.selectedImage = Images.Tabbar.alarm.image
         
         let myPageVC = MyPageVC()
         myPageVC.tabBarItem.title = "마이페이지"
-        myPageVC.tabBarItem.image = UIImage(systemName: "person")
-        myPageVC.tabBarItem.selectedImage = UIImage(systemName: "person.fill")
+        myPageVC.tabBarItem.image = Images.Tabbar.myPage.image
+        myPageVC.tabBarItem.selectedImage = Images.Tabbar.myPage.image
 
-        viewControllers = [homeVC, tradeVC, noticeVC, myPageVC]
+        viewControllers = [homeNavi, tradeVC, noticeVC, myPageVC]
     }
     
     //MARK: - 버전 체크
-    func appVersionCheck() {
+    private func appVersionCheck() {
         ref = Database.database().reference()
         guard let _ref = ref else { return }
         
@@ -74,7 +75,7 @@ final class MainTabbarController: UITabBarController {
         })
     }
     
-    func checkUpdateVersion(dbdata: DBVersionData){
+    private func checkUpdateVersion(dbdata: DBVersionData){
         let appLastestVersion = dbdata.lastest_version_code
         let appMinimumVersion = dbdata.minimum_version_code
         let appLastestVersionName = dbdata.lastest_version_name
@@ -98,7 +99,7 @@ final class MainTabbarController: UITabBarController {
         #endif
     }
     
-    func forceUdpateAlert() {
+    private func forceUdpateAlert() {
         let msg = "최신 버전의 앱으로 업데이트해주세요."
         let refreshAlert = UIAlertController(title: "업데이트 알림", message: msg, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
@@ -115,7 +116,7 @@ final class MainTabbarController: UITabBarController {
         present(refreshAlert, animated: true, completion: nil)
     }
     
-    func optionalUpdateAlert(version:Int) {
+    private func optionalUpdateAlert(version:Int) {
         let msg = "새로운 버전이 출시되었습니다.\n업데이트를 하지 않는 경우 서비스 이용에 제한이 있을 수 있습니다. 업데이트를 진행하시겠습니까?"
         let refreshAlert = UIAlertController(title: "업데이트", message: msg, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "지금 업데이트 하기", style: .default) { _ in
