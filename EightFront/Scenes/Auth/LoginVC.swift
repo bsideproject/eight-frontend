@@ -12,6 +12,14 @@ final class LoginVC: UIViewController {
     // MARK: Properties
     
     // MARK: Life Cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
+        navigationItem.title = "로그인"
+        navigationController?.navigationBar.topItem?.title = "로그인"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()

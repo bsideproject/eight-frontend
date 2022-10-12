@@ -11,10 +11,16 @@ import UIKit
 import CombineCocoa
 import KakaoSDKUser
 
+protocol LoginDelegate {
+    func emailSignIn()
+}
+
 final class LoginBottomSheetVC: UIViewController {
     // MARK: - Properties
     private let viewModel = LoginBottomSheetViewModel()
     private let bottomHeight: CGFloat = 279
+    
+    var delegate: LoginDelegate?
     
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
@@ -251,7 +257,7 @@ final class LoginBottomSheetVC: UIViewController {
     
     private func emailLoginButtonTapped() {
         dismiss(animated: true) { [weak self] in
-            LogUtil.d("이메일 회원가입으로 이동")
+            self?.delegate?.emailSignIn()
         }
     }
 }

@@ -31,6 +31,7 @@ final class MyPageVC: UIViewController {
         super.viewDidAppear(animated)
         let bottomSheetVC = LoginBottomSheetVC()
         bottomSheetVC.modalPresentationStyle = .overFullScreen
+        bottomSheetVC.delegate = self
         self.present(bottomSheetVC, animated: true)
     }
     
@@ -44,4 +45,12 @@ final class MyPageVC: UIViewController {
         
     }
     
+}
+
+extension MyPageVC: LoginDelegate {
+    func emailSignIn() {
+        guard let visibleVC = UIApplication.shared.keyWindow?.visibleViewController else { return }
+        let loginVC = LoginVC()
+        visibleVC.navigationController?.pushViewController(loginVC, animated: true)
+    }
 }
