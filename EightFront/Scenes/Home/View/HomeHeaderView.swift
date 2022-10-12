@@ -12,9 +12,8 @@ import UIKit
 final class HomeHeaderView: UIView {
     //MARK: - Properties
     let addressView = HomeAddressView()
-    private let alarmButton = UIButton().then {
-        $0.setImage(Images.Home.alarm.image, for: .normal)
-        $0.setImage(Images.Home.alarm.image, for: .highlighted)
+    let alarmButton = UIButton().then {
+        $0.setImage(Images.Home.alarm.image)
     }
     lazy var searchView = HomeSearchView().then {
         $0.layer.cornerRadius = 2.0

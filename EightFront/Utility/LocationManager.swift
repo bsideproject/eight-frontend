@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import TMapSDK
 
 final class LocationManager: NSObject {
     // MARK: - Properties
@@ -27,6 +28,7 @@ final class LocationManager: NSObject {
     private override init() {
         super.init()
         requestLocationAccess()
+        TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "219c2c34-cdd2-45d3-867b-e08c2ea97810")
     }
     
     // MARK: - Functions
@@ -88,23 +90,21 @@ final class LocationManager: NSObject {
     }
     
     func addressUpdate(location: CLLocation?, completion: @escaping (String?) -> ()) {
-        guard let location else { return }
-        let geocoder = CLGeocoder()
+        guard let targetPoint = location?.coordinate else { return }
         
-        geocoder.reverseGeocodeLocation(location) { placemarks, error in
-            if let _ = error { return }
-            
-            var currentPlacemark: CLPlacemark?
-            // 에러가 없고, 주소 정보가 있으며 주소가 공백이지 않을 시
-            if error == nil, let p = placemarks, !p.isEmpty {
-                currentPlacemark = p.last
-            } else {
-                currentPlacemark = nil
+        let pathData = TMapPathData()
+                
+        pathData.reverseGeocoding(targetPoint, addressType: "A10") { result, error in
+            if let result = result {
+                LogUtil.d(result)
+                
+                if let city = result["city_do"] as? String,
+                   let gu = result["gu_gun"] as? String,
+                   let roadName = result["roadName"] as? String,
+                   let buildingNumber = result["buildingIndex"] as? String {
+                    completion("\(city) \(gu) \(roadName) \(buildingNumber)")
+                }
             }
-            
-            var addressString = currentPlacemark?.locality ?? ""
-            addressString += addressString.count > 0 ? " " + (currentPlacemark?.name ?? "") : currentPlacemark?.name ?? ""
-            completion(addressString)
         }
     }
 }
@@ -146,5 +146,11 @@ extension LocationManager: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = locations.last
+    }
+}
+
+extension LocationManager: TMapTapiDelegate {
+    func SKTMapApikeySucceed() {
+        LogUtil.d("APIKEY 인증 성공")
     }
 }
