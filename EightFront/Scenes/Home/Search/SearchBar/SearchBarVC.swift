@@ -23,12 +23,32 @@ final class SearchBarVC: UIViewController {
     }
     weak var delegate: SearchBarDelegate?
     private let viewModel = SearchBarViewModel()
-    lazy var searchBar = UISearchBar().then {
-        self.navigationItem.titleView = $0
+    let navigationView = CommonNavigationView().then {
+        $0.titleLabel.text = "주소 검색"
+    }
+    lazy var introduceLabel = UILabel().then {
+        $0.numberOfLines = 2
+        $0.font = Fonts.Pretendard.regular.font(size: 20)
+        let attrString = NSMutableAttributedString(string: "변경하실 의류 수거함\n주소를 입력해주세요")
+        $0.attributedText = attrString.apply(word: "의류 수거함",
+                                             attrs: [.font: Fonts.Pretendard.semiBold.font(size: 20)])
+    }
+    let addressTitleLabel = UILabel().then {
+        $0.text = "의류 수거함 주소"
+        $0.font = Fonts.Pretendard.semiBold.font(size: 16)
+    }
+    let searchBarView = CommonTextFieldView(isTitleHidden: true)
+    let speratorView = UIView().then {
+        $0.backgroundColor = Colors.gray008.color
     }
     lazy var searchResultTableView = UITableView().then {
         $0.delegate = self
+        $0.separatorStyle = .none
+        $0.separatorColor = .clear
         $0.keyboardDismissMode = .onDrag
+        $0.alwaysBounceVertical = false
+        $0.alwaysBounceHorizontal = false
+        $0.showsHorizontalScrollIndicator = false
         SearchResultCell.register($0)
     }
     var dataSource: UITableViewDiffableDataSource<Section, ResponsePOI>?
@@ -44,24 +64,52 @@ final class SearchBarVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        view.endEditing(true)
     }
     
     //MARK: - Make UI
     private func makeUI() {
         view.backgroundColor = .white
         
-        navigationController?.navigationBar.barTintColor = .white
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Images.Navigation.back.image,
-                                                           style: .done,
-                                                           target: self,
-                                                           action: #selector(backButtonTouched))
-        
+        view.addSubview(navigationView)
+        view.addSubview(introduceLabel)
+        view.addSubview(addressTitleLabel)
+        view.addSubview(searchBarView)
+        view.addSubview(speratorView)
         view.addSubview(searchResultTableView)
         
-        searchResultTableView.snp.makeConstraints {
+        navigationView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.left.right.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(47)
+        }
+        introduceLabel.snp.makeConstraints {
+            $0.top.equalTo(navigationView.snp.bottom).offset(24)
+            $0.left.right.equalToSuperview().inset(16)
+        }
+        addressTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(introduceLabel.snp.bottom).offset(25)
+            $0.left.right.equalToSuperview().inset(16)
+        }
+        searchBarView.snp.makeConstraints {
+            $0.top.equalTo(addressTitleLabel.snp.bottom).offset(8)
+            $0.left.right.equalToSuperview().inset(16)
+            $0.height.equalTo(54)
+        }
+        speratorView.snp.makeConstraints {
+            $0.top.equalTo(searchBarView.snp.bottom).offset(23)
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(16)
+        }
+        searchResultTableView.snp.makeConstraints {
+            $0.top.equalTo(speratorView.snp.bottom)
+            $0.left.bottom.right.equalToSuperview()
         }
         
         performDataSource()
@@ -69,13 +117,13 @@ final class SearchBarVC: UIViewController {
     
     //MARK: - Rx Binding..
     private func bind() {
-        searchBar
-            .textDidChangePublisher
+        searchBarView
+            .contentTextField
+            .returnPublisher
             .receive(on: DispatchQueue.global())
             .debounce(for: 0.5, scheduler: RunLoop.main)
             .sink { [weak self] in
-                LogUtil.d($0)
-                self?.viewModel.input.requestPOI.send($0)
+                self?.viewModel.input.requestPOI.send(self?.searchBarView.contentTextField.text)
             }
             .store(in: &viewModel.bag)
         
@@ -105,7 +153,8 @@ extension SearchBarVC: UITableViewDelegate {
         dataSource = UITableViewDiffableDataSource<Section, ResponsePOI>(tableView: searchResultTableView, cellProvider: { tableView, indexPath, poi in
             let cell = tableView.dequeueReusableCell(withType: SearchResultCell.self, for: indexPath)
             
-            cell.keywordLabel.text = poi.name
+            cell.titleLabel.text = poi.name
+            cell.subTitleLabel.text = poi.address
             
             return cell
         })
@@ -115,13 +164,12 @@ extension SearchBarVC: UITableViewDelegate {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ResponsePOI>()
         snapshot.appendSections([.search])
         
-        LogUtil.d(pois)
         snapshot.appendItems(pois)
         self.dataSource?.apply(snapshot, animatingDifferences: false)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 90
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

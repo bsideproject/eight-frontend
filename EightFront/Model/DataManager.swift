@@ -1,5 +1,5 @@
 //
-//  DataModel.swift
+//  DataManager.swift
 //  EightFront
 //
 //  Created by wargi on 2022/09/27.
@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class DataManager {
+final class DataManager {
     static let shared = DataManager()
     private init() {}
     
@@ -29,14 +29,14 @@ class DataManager {
         if let setting = try? mainContext.fetch(settingRequest).first {
             self.setting = setting
         } else {
-            let newSetting = NewSetting()
+            let newSetting = NewSetting(naviType: "naver")
             addNew(setting: newSetting)
         }
     }
     
     func addNew(setting: NewSetting) {
         let newSetting = Setting(context: mainContext)
-        newSetting.radius = setting.radius
+        newSetting.naviType = setting.naviType
         self.setting = newSetting
         
         saveContext()

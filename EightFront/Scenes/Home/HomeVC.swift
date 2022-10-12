@@ -43,14 +43,12 @@ final class HomeVC: UIViewController {
     }
     private let currentLocationButton = UIButton().then {
         $0.layer.cornerRadius = 22
-        $0.setImage(Images.currentLocation.image, for: .normal)
-        $0.setImage(Images.currentLocation.image, for: .highlighted)
+        $0.setImage(Images.currentLocation.image)
         $0.backgroundColor = .white
     }
     private let reportButton = UIButton().then {
-        $0.layer.cornerRadius = 27
-        $0.setImage(Images.Home.add.image, for: .normal)
-        $0.setImage(Images.Home.add.image, for: .highlighted)
+        $0.layer.cornerRadius = 25
+        $0.setImage(Images.Home.add.image)
         $0.backgroundColor = Colors.main.color
     }
     private lazy var boxInfoView = BoxCollectionView().then {
@@ -121,10 +119,10 @@ final class HomeVC: UIViewController {
         currentLocationButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
-            .compactMap { LocationManager.shared.currentLocation?.coordinate }
+            .compactMap { LocationManager.shared.currentLocation }
             .sink { [weak self] in
-                let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: $0.latitude,
-                                                                       lng: $0.longitude), zoomTo: 15.0)
+                let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: $0.coordinate.latitude,
+                                                                       lng: $0.coordinate.longitude), zoomTo: 15.0)
                 cameraUpdate.animation = .easeIn
                 LocationManager.shared.currentAddress = nil
                 self?.mapView.moveCamera(cameraUpdate)
@@ -157,9 +155,48 @@ final class HomeVC: UIViewController {
                 let reportVC = ReportVC(isDelete: false,
                                         location: targetLocation)
                 
-                let navi = CommonNavigationViewController(rootViewController: reportVC)
-                navi.modalPresentationStyle = .fullScreen
-                self?.present(navi, animated: true)
+                self?.tabBarController?.navigationController?.pushViewController(reportVC, animated: true)
+            }
+            .store(in: &viewModel.cancelBag)
+        boxInfoView.navigationButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                guard let selectedMarker = self?.viewModel.selectedMarker else { return }
+                
+                let targetLocation = CLLocation(latitude: selectedMarker.position.lat,
+                                                longitude: selectedMarker.position.lng)
+                self?.requestDirection(location: targetLocation)
+            }
+            .store(in: &viewModel.cancelBag)
+        headerView.alarmButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                var newSetting = NewSetting(naviType: "")
+                let alert = UIAlertController(title: "연동할 내비게이션을 선택해주세요.",
+                                              message: nil  ,
+                                              preferredStyle: .actionSheet)
+                let naver = UIAlertAction(title: "네이버맵", style: .default) { _ in
+                    newSetting.naviType = "naver"
+                    DataManager.shared.addNew(setting: newSetting)
+                }
+                let kakao = UIAlertAction(title: "카카오맵", style: .default) { _ in
+                    newSetting.naviType = "kakao"
+                    DataManager.shared.addNew(setting: newSetting)
+                }
+                let tmap = UIAlertAction(title: "티맵", style: .default) { _ in
+                    newSetting.naviType = "tmap"
+                    DataManager.shared.addNew(setting: newSetting)
+                }
+                let cancel = UIAlertAction(title: "취소", style: .cancel)
+                
+                alert.addAction(naver)
+                alert.addAction(kakao)
+                alert.addAction(tmap)
+                alert.addAction(cancel)
+                
+                self?.present(alert, animated: true)
             }
             .store(in: &viewModel.cancelBag)
         viewModel.$addressString
@@ -256,6 +293,13 @@ final class HomeVC: UIViewController {
     private func deselection() {
         viewModel.selectedMarker?.isSelected = false
         viewModel.selectedMarker = nil
+    }
+    
+    func requestDirection(location: CLLocation?) {
+        guard let location,
+              let requestURL = viewModel.requestURL(targetLocation: location) else { return }
+                
+        UIApplication.shared.open(requestURL, options: [:], completionHandler: nil)
     }
 }
 
