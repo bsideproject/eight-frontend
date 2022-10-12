@@ -95,7 +95,7 @@ final class ReportCompletedVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.dismiss(animated: true)
+                self?.navigationController?.popToRootViewController(animated: true)
             }
             .store(in: &bag)
     }

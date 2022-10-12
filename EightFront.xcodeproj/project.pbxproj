@@ -65,6 +65,7 @@
 		E95ACEAC28F35E2A00057900 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ACEAB28F35E2A00057900 /* PhotoCollectionViewCell.swift */; };
 		E95ACEAE28F35E4200057900 /* AddPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ACEAD28F35E4200057900 /* AddPhotoCollectionViewCell.swift */; };
 		E95ACEB028F3626700057900 /* ImagePickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ACEAF28F3626700057900 /* ImagePickerManager.swift */; };
+		E95FBF6428F70105002CA5A9 /* Pretendard+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95FBF6328F70105002CA5A9 /* Pretendard+.swift */; };
 		E96BC92028EB2988002EBA7E /* SearchMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC91F28EB2988002EBA7E /* SearchMapVC.swift */; };
 		E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */; };
 		E96BC92528EB2E7E002EBA7E /* SearchMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92428EB2E7E002EBA7E /* SearchMapViewModel.swift */; };
@@ -165,6 +166,7 @@
 		E95ACEAB28F35E2A00057900 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		E95ACEAD28F35E4200057900 /* AddPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		E95ACEAF28F3626700057900 /* ImagePickerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerManager.swift; sourceTree = "<group>"; };
+		E95FBF6328F70105002CA5A9 /* Pretendard+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pretendard+.swift"; sourceTree = "<group>"; };
 		E96BC91F28EB2988002EBA7E /* SearchMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapVC.swift; sourceTree = "<group>"; };
 		E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomAddressView.swift; sourceTree = "<group>"; };
 		E96BC92428EB2E7E002EBA7E /* SearchMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapViewModel.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 				E9494A6E28F1DF15005285C0 /* UILayer+.swift */,
 				28F20CF928E93BA600CEE89D /* UITextField+.swift */,
 				E9494A6A28F072E8005285C0 /* UIReusable+.swift */,
+				E95FBF6328F70105002CA5A9 /* Pretendard+.swift */,
 				E98A04EA28F4185B009F055B /* NSMutableAttributedString+.swift */,
 			);
 			path = Extensions;
@@ -738,6 +741,7 @@
 				E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */,
 				E927FC9828D351E300A91F11 /* Date+.swift in Sources */,
 				E9460B0F28EAC69300932351 /* NaverMapMarker.swift in Sources */,
+				E95FBF6428F70105002CA5A9 /* Pretendard+.swift in Sources */,
 				2841347728D8970800A758F2 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

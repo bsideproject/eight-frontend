@@ -19,6 +19,12 @@ final class MainTabbarController: UITabBarController {
         makeUI()
         appVersionCheck()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = true
+    }
 
     //MARK: - Make UI
     private func makeUI() {

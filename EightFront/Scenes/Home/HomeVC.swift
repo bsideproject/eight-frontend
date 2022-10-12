@@ -155,9 +155,7 @@ final class HomeVC: UIViewController {
                 let reportVC = ReportVC(isDelete: false,
                                         location: targetLocation)
                 
-                let navi = CommonNavigationViewController(rootViewController: reportVC)
-                navi.modalPresentationStyle = .fullScreen
-                self?.present(navi, animated: true)
+                self?.tabBarController?.navigationController?.pushViewController(reportVC, animated: true)
             }
             .store(in: &viewModel.cancelBag)
         boxInfoView.navigationButton
