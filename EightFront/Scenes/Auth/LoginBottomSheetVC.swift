@@ -11,46 +11,10 @@ import UIKit
 import CombineCocoa
 import KakaoSDKUser
 
-private enum PretendardFonts {
-    case Headline
-    case Title
-    case Subheader
-    case Subheader2
-    case Menu
-    case Body1
-    case Body2
-    case Caption1
-    case Caption2
-    
-    var font: UIFont {
-        switch self {
-        case .Headline:
-            return Fonts.Pretendard.regular.font(size: 24)
-        case .Title:
-            return Fonts.Pretendard.medium.font(size: 20)
-        case .Subheader:
-            return Fonts.Pretendard.regular.font(size: 16)
-        case .Subheader2:
-            return Fonts.Pretendard.medium.font(size: 16)
-        case .Menu:
-            return Fonts.Pretendard.medium.font(size: 14)
-        case .Body1:
-            return Fonts.Pretendard.regular.font(size: 14)
-        case .Body2:
-            return Fonts.Pretendard.medium.font(size: 14)
-        case .Caption1:
-            return Fonts.Pretendard.regular.font(size: 12)
-        case .Caption2:
-            return Fonts.Pretendard.regular.font(size: 10)
-        }
-    }
-}
-
 final class LoginBottomSheetVC: UIViewController {
     // MARK: - Properties
     private let viewModel = LoginBottomSheetViewModel()
     private let bottomHeight: CGFloat = 279
-//    private var bottomSheetViewTopConstraint: NSLayoutConstraint!
     
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
@@ -62,13 +26,13 @@ final class LoginBottomSheetVC: UIViewController {
         $0.clipsToBounds = true
     }
     private let loginBottomSheetTitleLabel = UILabel().then {
-        $0.font = PretendardFonts.Title.font
+        $0.font = Fonts.Templates.title.font
         $0.textColor = Colors.gray001.color
         $0.text = "로그인이 필요해요."
         $0.textAlignment = .center
     }
     private let loginBottomSheetSubtitleLabel = UILabel().then {
-        $0.font = PretendardFonts.Caption1.font
+        $0.font = Fonts.Templates.caption1.font
         $0.textColor = Colors.gray001.color
         $0.text = "SNS로 간편하게 시작하세요!"
         $0.textAlignment = .center
@@ -286,9 +250,10 @@ final class LoginBottomSheetVC: UIViewController {
     }
     
     private func emailLoginButtonTapped() {
-        LogUtil.d("이메일 회원가입으로 이동")
+        dismiss(animated: true) { [weak self] in
+            LogUtil.d("이메일 회원가입으로 이동")
+        }
     }
-    
 }
 
 // MARK: - ASAuthorizationControllerDelegate
