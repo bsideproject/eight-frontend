@@ -107,10 +107,10 @@ extension HomeViewModel {
             destinationURL = URL(string: encodedStr ?? "")
             appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/431589174")
         case .kakao:
-            destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR")
+            destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=FOOT")
             appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425")
         case .naver:
-            let urlString = "nmap://navigation?dlat=\(position.lat)&dlng=\(position.lng)&dname=\("의류 수거함")&appname=com.oilpricewhere.wheregasoline"
+            let urlString = "nmap://route/walk?dlat=\(position.lat)&dlng=\(position.lng)&dname=\("의류 수거함")&appname=com.front.eight.bside"
             
             let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             destinationURL = URL(string: encodedStr ?? "")
