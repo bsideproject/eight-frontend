@@ -49,8 +49,12 @@ final class MyPageVC: UIViewController {
 
 extension MyPageVC: LoginDelegate {
     func emailSignIn() {
-        guard let visibleVC = UIApplication.shared.keyWindow?.visibleViewController else { return }
         let loginVC = LoginVC()
-        visibleVC.navigationController?.pushViewController(loginVC, animated: true)
+        navigationController?.pushViewController(loginVC, animated: true)
+    }
+    
+    func emailSignUp() {
+        let termsVC = TermsVC()
+        navigationController?.pushViewController(termsVC, animated: true)
     }
 }

@@ -13,6 +13,7 @@ import KakaoSDKUser
 
 protocol LoginDelegate {
     func emailSignIn()
+    func emailSignUp()
 }
 
 final class LoginBottomSheetVC: UIViewController {
@@ -105,6 +106,13 @@ final class LoginBottomSheetVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.emailLoginButtonTapped()
+            }.store(in: &viewModel.cancelBag)
+        
+        emailSignUpButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.emailSignUpButtonTapped()
             }.store(in: &viewModel.cancelBag)
         
     }
@@ -258,6 +266,12 @@ final class LoginBottomSheetVC: UIViewController {
     private func emailLoginButtonTapped() {
         dismiss(animated: true) { [weak self] in
             self?.delegate?.emailSignIn()
+        }
+    }
+    
+    private func emailSignUpButtonTapped() {
+        dismiss(animated: true) { [weak self] in
+            self?.delegate?.emailSignUp()
         }
     }
 }
