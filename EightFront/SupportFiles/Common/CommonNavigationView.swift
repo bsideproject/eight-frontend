@@ -17,6 +17,7 @@ final class CommonNavigationView: UIView {
     }
     let titleLabel = UILabel().then {
         $0.textAlignment = .center
+        $0.textColor = Colors.gray001.color
         $0.font = Fonts.Pretendard.medium.font(size: 16)
     }
     let bottomLine = UIView().then {

@@ -19,6 +19,7 @@ final class BottomAddressView: UIView {
         $0.textAlignment = .center
         $0.backgroundColor = Colors.gray008.color
         $0.font = Fonts.Templates.subheader.font
+        $0.textColor = Colors.gray001.color
         $0.clipsToBounds = true
         $0.isUserInteractionEnabled = true
         $0.layer.cornerRadius = 4
