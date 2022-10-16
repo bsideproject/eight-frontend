@@ -10,6 +10,7 @@ import Combine
 import UIKit
 import CombineCocoa
 import KakaoSDKUser
+import Moya
 
 protocol LoginDelegate {
     func emailSignIn()
@@ -18,6 +19,8 @@ protocol LoginDelegate {
 
 final class LoginBottomSheetVC: UIViewController {
     // MARK: - Properties
+    
+    private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = LoginBottomSheetViewModel()
     private let bottomHeight: CGFloat = 279
     
@@ -250,7 +253,7 @@ final class LoginBottomSheetVC: UIViewController {
     private func kakaoLoginButtonTapped() {
         /// 카카오톡 설치 여부 확인
         if (UserApi.isKakaoTalkLoginAvailable()) {
-            UserApi.shared.loginWithKakaoTalk { oauthToken, error in
+            UserApi.shared.loginWithKakaoTalk { [weak self] oauthToken, error in
                 if let error = error {
                     LogUtil.e(error)
                 } else {
@@ -259,11 +262,14 @@ final class LoginBottomSheetVC: UIViewController {
                     
                     guard let oauthToken else { return }
                     
-                    LogUtil.d("""
-                              oauthToken >\(oauthToken) \n
-                              scopesscopes >\(oauthToken.scopes?[0])
-                              """)
-                    
+                    self?.authProvider.request(.login("kakao", oauthToken.accessToken, "02243C59825226808D739FF4D5FE4A4B0D0109C750E0420321F1946671F40D93")) { response in
+                        switch response {
+                        case .success(let result):
+                            LogUtil.d("result > \(result)")
+                        case .failure(let error):
+                            LogUtil.e("error > \(error.localizedDescription)")
+                        }
+                    }
                 }
             }
         }
