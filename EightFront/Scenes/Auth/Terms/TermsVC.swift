@@ -9,27 +9,27 @@ import UIKit
 
 import SnapKit
 
-class TermsVC: UIViewController {
+final class TermsVC: UIViewController {
     
     // MARK: - properties
     
     let viewModel = TermsViewModel()
     
-    let navigationView = CommonNavigationView().then {
+    private let navigationView = CommonNavigationView().then {
         $0.titleLabel.text = "회원가입"
     }
-    let titleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.text = "약관동의"
         $0.font = Fonts.Templates.title.font
         $0.textColor = Colors.gray001.color
     }
-    let subTitleLabel = UILabel().then {
+    private let subTitleLabel = UILabel().then {
         $0.text = "필수항목 및 선택항목 약관에 동의해 주세요."
         $0.font = Fonts.Templates.body2.font
         $0.textColor = Colors.gray001.color
     }
     
-    let nextButton = UIButton().then { 
+    private let nextButton = UIButton().then {
         $0.setTitle("다음", for: .normal)
         $0.setTitleColor(UIColor.white, for: .disabled)
         $0.backgroundColor = Colors.gray006.color
@@ -48,7 +48,7 @@ class TermsVC: UIViewController {
     
     // MARK: - MakeUI
     
-    func makeUI() {
+    private func makeUI() {
         view.backgroundColor = .white
         
         view.addSubview(navigationView)

@@ -10,7 +10,7 @@ import Combine
 
 import CombineCocoa
 
-class EmailSignUpVC: UIViewController {
+final class EmailSignUpVC: UIViewController {
     
     // MARK: - Properties
     let viewModel = EmailSignUpViewModel()
@@ -26,7 +26,6 @@ class EmailSignUpVC: UIViewController {
     }
     let emailTextField = CommonTextFieldView(placeholder: "이메일 주소를 입력해 주세요.", contentTrailing: 6).then {
         $0.contentTextField.keyboardType = .emailAddress
-        
     }
     let emailVaildCheckButton = UIButton().then {
         $0.setTitle("인증", for: .normal)
@@ -34,6 +33,12 @@ class EmailSignUpVC: UIViewController {
         $0.setTitleColor(Colors.point.color, for: .disabled)
         $0.backgroundColor = Colors.gray006.color
         $0.layer.cornerRadius = 4
+    }
+    let emailValidLabel = UILabel().then {
+        $0.text = "이메일 인증이 완료되었어요."
+        $0.textColor = .blue
+        $0.font = UIFont.systemFont(ofSize: 10)
+        $0.isHidden = true
     }
     
     // 닉네임
@@ -43,7 +48,13 @@ class EmailSignUpVC: UIViewController {
     }
     let nickNameTextFieldView = CommonTextFieldView(placeholder: "25자 이내의 닉네임을 입력해주세요.").then { _ in
     }
-    
+    let nicknameValidLabel = UILabel().then {
+        $0.text = "닉네임이 중복 되었어요."
+        $0.textColor = .red
+        $0.font = UIFont.systemFont(ofSize: 10)
+        $0.isHidden = true
+    }
+
     // 비밀번호
     let passwordLabel = UILabel().then {
         $0.text = "비밀번호"
@@ -51,6 +62,12 @@ class EmailSignUpVC: UIViewController {
     }
     let passwordTextFieldView = CommonTextFieldView(placeholder: "8~16자의 영문, 숫자로 조합해주세요.").then {
         $0.contentTextField.isSecureTextEntry = true
+    }
+    let passwordValidLabel = UILabel().then {
+        $0.text = "닉네임이 중복 되었어요."
+        $0.textColor = .red
+        $0.font = UIFont.systemFont(ofSize: 10)
+        $0.isHidden = true
     }
     
     // 비밀번호 확인
@@ -60,6 +77,12 @@ class EmailSignUpVC: UIViewController {
     }
     let passwordConfirmTextFieldView = CommonTextFieldView(placeholder: "입력하신 비밀번호를 한번 더 입력해주세요.").then {
         $0.contentTextField.isSecureTextEntry = true
+    }
+    let passwordConfirmValidLabel = UILabel().then {
+        $0.text = "비밀번호가 일치하지 않습니다."
+        $0.textColor = .red
+        $0.font = UIFont.systemFont(ofSize: 10)
+        $0.isHidden = true
     }
     
     // 회원가입 버튼
@@ -88,12 +111,20 @@ class EmailSignUpVC: UIViewController {
         view.addSubview(emailLabel)
         view.addSubview(emailTextField)
         view.addSubview(emailVaildCheckButton)
+        view.addSubview(emailValidLabel)
+        
         view.addSubview(nickNameLabel)
         view.addSubview(nickNameTextFieldView)
+        view.addSubview(nicknameValidLabel)
+        
         view.addSubview(passwordLabel)
         view.addSubview(passwordTextFieldView)
+        view.addSubview(passwordValidLabel)
+        
         view.addSubview(passwordConfirmLabel)
         view.addSubview(passwordConfirmTextFieldView)
+        view.addSubview(passwordConfirmValidLabel)
+        
         view.addSubview(signUpButton)
         
         navigationBar.snp.makeConstraints {
@@ -117,6 +148,10 @@ class EmailSignUpVC: UIViewController {
             $0.width.equalTo(64)
             $0.height.equalTo(46)
         }
+        emailValidLabel.snp.makeConstraints {
+            $0.top.equalTo(emailTextField.snp.bottom).offset(4)
+            $0.leading.equalToSuperview().inset(16)
+        }
         nickNameLabel.snp.makeConstraints {
             $0.top.equalTo(emailVaildCheckButton.snp.bottom).offset(28)
             $0.horizontalEdges.equalToSuperview().inset(16)
@@ -125,6 +160,10 @@ class EmailSignUpVC: UIViewController {
             $0.top.equalTo(nickNameLabel.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(46)
+        }
+        nicknameValidLabel.snp.makeConstraints {
+            $0.top.equalTo(nickNameTextFieldView.snp.bottom).offset(4)
+            $0.leading.equalToSuperview().inset(16)
         }
         passwordLabel.snp.makeConstraints {
             $0.top.equalTo(nickNameTextFieldView.snp.bottom).offset(28)
@@ -135,6 +174,10 @@ class EmailSignUpVC: UIViewController {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(46)
         }
+        passwordValidLabel.snp.makeConstraints {
+            $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(4)
+            $0.leading.equalToSuperview().inset(16)
+        }
         passwordConfirmLabel.snp.makeConstraints {
             $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(28)
             $0.horizontalEdges.equalToSuperview().inset(16)
@@ -144,6 +187,10 @@ class EmailSignUpVC: UIViewController {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(46)
         }
+        passwordConfirmValidLabel.snp.makeConstraints {
+            $0.top.equalTo(passwordConfirmTextFieldView.snp.bottom).offset(4)
+            $0.leading.equalToSuperview().inset(16)
+        }
         signUpButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.horizontalEdges.equalToSuperview().inset(16)
@@ -152,6 +199,7 @@ class EmailSignUpVC: UIViewController {
     }
     
     private func bind() {
+        
         emailTextField.contentTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
@@ -180,6 +228,12 @@ class EmailSignUpVC: UIViewController {
             .assign(to: \.passwordConfirmInput, on: viewModel)
             .store(in: &viewModel.cancelBag)
         
+        viewModel.isPasswordValid
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] valid in
+                self?.passwordConfirmValidLabel.isHidden = valid
+            }.store(in: &viewModel.cancelBag)
+        
         viewModel.isSignupButtonValid
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
@@ -187,6 +241,7 @@ class EmailSignUpVC: UIViewController {
                 self?.signUpButton.isEnabled = valid ? true : false
                 self?.signUpButton.backgroundColor = valid ? Colors.gray001.color : Colors.gray006.color
             }.store(in: &viewModel.cancelBag)
+        
     }
     
     // MARK: - Actions

@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class LoginViewModel {
+final class LoginViewModel {
     var cancelBag = Set<AnyCancellable>()
     
     @Published var emailInput = ""
