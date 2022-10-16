@@ -1,5 +1,5 @@
 //
-//  HomeListVC.swift
+//  HomeSearchVC.swift
 //  EightFront
 //
 //  Created by wargi on 2022/10/03.
@@ -10,7 +10,7 @@ import SnapKit
 import UIKit
 import Combine
 //MARK: HomeListVC
-final class HomeListVC: UIViewController {
+final class HomeSearchVC: UIViewController {
     //MARK: - Properties
     
     //MARK: - Life Cycle

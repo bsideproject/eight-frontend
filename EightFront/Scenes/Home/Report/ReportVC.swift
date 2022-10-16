@@ -32,7 +32,7 @@ final class ReportVC: UIViewController {
     }
     private let questionLabel = UILabel().then {
         $0.text = "요청 내용"
-        $0.font = Fonts.Pretendard.semiBold.font(size: 16)
+        $0.font = Fonts.Templates.subheader3.font
     }
     private let questionView = CommonTextFieldView(isTitleHidden: true,
                                                    isTextView: true,
@@ -42,7 +42,7 @@ final class ReportVC: UIViewController {
     }
     private let photoLabel = UILabel().then {
         $0.text = "사진 첨부"
-        $0.font = Fonts.Pretendard.semiBold.font(size: 16)
+        $0.font = Fonts.Templates.subheader3.font
     }
     lazy var addPhotoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setupFlowLayout()).then {
         $0.delegate = self
@@ -63,7 +63,7 @@ final class ReportVC: UIViewController {
         guard let self = self else { return }
         $0.setTitle(self.isDelete ? "삭제 요청하기" : "등록하기")
         $0.setTitleColor(.white)
-        $0.titleLabel?.font = Fonts.Pretendard.regular.font(size: 16)
+        $0.titleLabel?.font = Fonts.Templates.subheader.font
         $0.backgroundColor = Colors.gray006.color
         $0.layer.cornerRadius = 4
     }

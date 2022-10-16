@@ -14,7 +14,7 @@ final class HomeAddressView: UIView {
     let addressLabel = UILabel().then {
         $0.textColor = .white
         $0.textAlignment = .center
-        $0.font = Fonts.Pretendard.medium.font(size: 14)
+        $0.font = Fonts.Templates.body2.font
     }
     private let detailImageView = UIImageView().then {
         $0.image = Images.Home.detail.image

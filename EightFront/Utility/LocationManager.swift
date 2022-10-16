@@ -27,6 +27,7 @@ final class LocationManager: NSObject {
     // MARK: - Initializer
     private override init() {
         super.init()
+        
         requestLocationAccess()
         TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "219c2c34-cdd2-45d3-867b-e08c2ea97810")
     }
@@ -50,18 +51,6 @@ final class LocationManager: NSObject {
     func stopUpdating() {
         LogUtil.d("위치 추적 종료")
         locationManager?.stopUpdatingLocation()
-    }
-    
-    func coordinate(completion: @escaping (CLLocationDegrees, CLLocationDegrees) -> Void) {
-        guard let currentLocation = locationManager?.location else {
-            LogUtil.d("locationManaer.location 옵셔널 오류")
-            return
-        }
-        
-        let latitude = currentLocation.coordinate.latitude
-        let longitude = currentLocation.coordinate.longitude
-        
-        completion(latitude, longitude)
     }
     
     private func requestLocationAlert() {

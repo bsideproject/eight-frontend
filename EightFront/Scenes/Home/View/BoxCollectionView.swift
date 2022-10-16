@@ -22,17 +22,17 @@ final class BoxCollectionView: UIView {
     let addressLabel = UILabel().then {
         $0.text = "주소"
         $0.numberOfLines = 1
-        $0.font = Fonts.Pretendard.regular.font(size: 14)
+        $0.font = Fonts.Templates.body1.font
     }
     let detailLabel = UILabel().then {
         $0.text = "상세주소"
         $0.numberOfLines = 1
-        $0.font = Fonts.Pretendard.regular.font(size: 14)
+        $0.font = Fonts.Templates.body1.font
     }
     let fixButton = UIButton().then {
         $0.setTitle("정보 수정")
         $0.setTitleColor(Colors.gray005.color)
-        $0.titleLabel?.font = Fonts.Pretendard.regular.font(size: 16)
+        $0.titleLabel?.font = Fonts.Templates.subheader.font
         $0.layer.borderColor = Colors.gray006.color.cgColor
         $0.layer.cornerRadius = 4
         $0.layer.borderWidth = 1
@@ -41,7 +41,7 @@ final class BoxCollectionView: UIView {
     let navigationButton = UIButton().then {
         $0.setTitle("경로 찾기")
         $0.setTitleColor(Colors.point.color)
-        $0.titleLabel?.font = Fonts.Pretendard.regular.font(size: 16)
+        $0.titleLabel?.font = Fonts.Templates.subheader.font
         $0.layer.backgroundColor = Colors.gray002.color.cgColor
         $0.layer.cornerRadius = 4
     }

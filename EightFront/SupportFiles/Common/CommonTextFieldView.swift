@@ -16,12 +16,12 @@ final class CommonTextFieldView: UIView {
     private var placeholder: String?
     let titleLabel = UILabel().then {
         $0.textColor = Colors.gray005.color
-        $0.font = Fonts.Pretendard.regular.font(size: 16)
+        $0.font = Fonts.Templates.subheader.font
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     let contentTextField = UITextField().then {
         $0.textColor = Colors.gray001.color
-        $0.font = Fonts.Pretendard.regular.font(size: 16)
+        $0.font = Fonts.Templates.subheader.font
         $0.smartDashesType = .no
         $0.smartQuotesType = .no
         $0.spellCheckingType = .no
@@ -33,7 +33,7 @@ final class CommonTextFieldView: UIView {
     lazy var contentTextView = UITextView().then {
         $0.delegate = self
         $0.textColor = Colors.gray005.color
-        $0.font = Fonts.Pretendard.regular.font(size: 16)
+        $0.font = Fonts.Templates.subheader.font
     }
     
     //MARK: - Initializer
@@ -126,7 +126,7 @@ extension CommonTextFieldView: UITextViewDelegate {
         
         textView.text = ""
         textView.textColor = Colors.gray001.color
-        textView.font = Fonts.Pretendard.regular.font(size: 16)
+        textView.font = Fonts.Templates.subheader.font
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -136,6 +136,6 @@ extension CommonTextFieldView: UITextViewDelegate {
         
         textView.text = placeholder
         textView.textColor = Colors.gray006.color
-        textView.font = Fonts.Pretendard.regular.font(size: 16)
+        textView.font = Fonts.Templates.subheader.font
     }
 }

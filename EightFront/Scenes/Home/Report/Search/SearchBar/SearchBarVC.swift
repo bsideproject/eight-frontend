@@ -35,7 +35,7 @@ final class SearchBarVC: UIViewController {
     }
     let addressTitleLabel = UILabel().then {
         $0.text = "의류 수거함 주소"
-        $0.font = Fonts.Pretendard.semiBold.font(size: 16)
+        $0.font = Fonts.Templates.subheader3.font
     }
     let searchBarView = CommonTextFieldView(isTitleHidden: true)
     let speratorView = UIView().then {

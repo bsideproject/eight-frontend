@@ -10,7 +10,8 @@ import NMapsMap
 final class NaverMapMarker: NMFMarker {
     //MARK: - Properties
     var isSelected: Bool = false { didSet { updatedLayout() } }
-    private var markerView = CustomAnnotationView(frame: CGRect(x: 0, y: 0, width: 26, height: 32))
+    private var markerView = CustomAnnotationView(frame: CGRect(x: 0, y: 0,
+                                                                width: 26, height: 32))
         
     init(type: CustomAnnotationView.MarkerType) {
         self.markerView.type = type

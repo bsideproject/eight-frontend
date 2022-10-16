@@ -18,7 +18,7 @@ final class HomeSearchView: UIView {
     private let placeholderLabel = UILabel().then {
         $0.text = "수거함 위치를 검색해보세요."
         $0.textColor = Colors.gray006.color
-        $0.font = Fonts.Pretendard.regular.font(size: 12)
+        $0.font = Fonts.Templates.caption1.font
     }
     let listButton = UIButton().then {
         $0.setImage(Images.Home.list.image, for: .normal)

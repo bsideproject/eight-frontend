@@ -13,18 +13,18 @@ final class SearchResultCell: UITableViewCell {
     //MARK: - Properties
     let titleLabel = UILabel().then {
         $0.textColor = Colors.gray001.color
-        $0.font = Fonts.Pretendard.regular.font(size: 14)
+        $0.font = Fonts.Templates.body1.font
     }
     let addressTitleLabel = UILabel().then {
         $0.text = "주소"
         $0.textColor = Colors.gray001.color
         $0.textAlignment = .center
         $0.backgroundColor = Colors.gray008.color
-        $0.font = Fonts.Pretendard.regular.font(size: 14)
+        $0.font = Fonts.Templates.body1.font
     }
     let subTitleLabel = UILabel().then {
         $0.textColor = Colors.gray005.color
-        $0.font = Fonts.Pretendard.regular.font(size: 14)
+        $0.font = Fonts.Templates.body1.font
     }
     let lineView = UIView().then {
         $0.backgroundColor = Colors.gray007.color

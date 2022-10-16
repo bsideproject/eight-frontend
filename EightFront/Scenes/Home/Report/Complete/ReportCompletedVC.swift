@@ -18,13 +18,13 @@ final class ReportCompletedVC: UIViewController {
     let titleLabel = UILabel().then {
         $0.textColor = Colors.gray001.color
         $0.textAlignment = .center
-        $0.font = Fonts.Pretendard.regular.font(size: 24)
+        $0.font = Fonts.Templates.headline.font
     }
     let subTitleLabel = UILabel().then {
         $0.text = "N건 이상 접수된 건은 삭제 완료 처리됩니다."
         $0.textColor = Colors.gray005.color
         $0.textAlignment = .center
-        $0.font = Fonts.Pretendard.regular.font(size: 16)
+        $0.font = Fonts.Templates.subheader.font
     }
     let completedButton = UIButton().then {
         $0.setImage(Images.Report.checkComplete.image)
@@ -34,7 +34,7 @@ final class ReportCompletedVC: UIViewController {
     let returnButton = UIButton().then {
         $0.setTitle("돌아가기")
         $0.setTitleColor(Colors.point.color)
-        $0.titleLabel?.font = Fonts.Pretendard.regular.font(size: 16)
+        $0.titleLabel?.font = Fonts.Templates.subheader.font
         $0.layer.backgroundColor = Colors.gray002.color.cgColor
         $0.layer.cornerRadius = 4
     }

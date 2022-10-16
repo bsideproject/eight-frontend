@@ -22,12 +22,12 @@ final class AgreePhotoView: UIView {
     let titleLabel = UILabel().then {
         $0.text = "이미지 저작권 동의(필수)"
         $0.textColor = Colors.gray005.color
-        $0.font = Fonts.Pretendard.regular.font(size: 12)
+        $0.font = Fonts.Templates.caption1.font
     }
     let descriptionLabel = UILabel().then {
         $0.text = "등록된 이미지는 제보 내용 확인을 위해 사용됩니다."
         $0.textColor = Colors.gray005.color
-        $0.font = Fonts.Pretendard.regular.font(size: 12)
+        $0.font = Fonts.Templates.caption1.font
     }
     
     //MARK: - Initializer

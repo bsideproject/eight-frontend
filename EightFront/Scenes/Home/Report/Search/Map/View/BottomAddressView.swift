@@ -18,7 +18,7 @@ final class BottomAddressView: UIView {
     let addressLabel = UILabel().then {
         $0.textAlignment = .center
         $0.backgroundColor = Colors.gray008.color
-        $0.font = Fonts.Pretendard.regular.font(size: 16)
+        $0.font = Fonts.Templates.subheader.font
         $0.clipsToBounds = true
         $0.isUserInteractionEnabled = true
         $0.layer.cornerRadius = 4
@@ -27,7 +27,7 @@ final class BottomAddressView: UIView {
     let submitButton = UIButton().then {
         $0.setTitle("등록하기")
         $0.setTitleColor(Colors.point.color)
-        $0.titleLabel?.font = Fonts.Pretendard.regular.font(size: 16)
+        $0.titleLabel?.font = Fonts.Templates.subheader.font
         $0.backgroundColor = Colors.gray002.color
         $0.layer.cornerRadius = 4
     }
