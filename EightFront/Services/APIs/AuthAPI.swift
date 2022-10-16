@@ -8,7 +8,7 @@
 import Foundation
 import Moya
 
-struct simpleSignUp: Codable {
+struct simpleSignUpRequest: Codable {
     var authId: String
     var authType: String
     var deviceID: String
@@ -21,7 +21,7 @@ struct simpleSignUp: Codable {
 }
 
 enum AuthAPI {
-    case login(_ authType: String?, _ authId: String?, _ deviceID: String?)
+    case login(param: simpleSignUpRequest)
 }
 
 enum simpleLoginType {
@@ -48,28 +48,10 @@ extension AuthAPI: TargetType {
         }
     }
     
-    var sampleData: Data {
-        switch self {
-        case .login(let authType, let authId, let deviceID):
-//            let authType = authType
-//            let authId = authId
-//            let deviceID = deviceID
-            
-            return Data(
-                    """
-                    {
-                        "authId": \(authType),
-                        "authType": \(authId),
-                        "deviceID": \(deviceID)
-                    }
-                    """.utf8)
-        }
-    }
-    
     var task: Moya.Task {
         switch self {
-        case .login:
-            return .requestParameters(parameters: [:], encoding: URLEncoding.queryString)
+        case .login(let param):
+            return .requestJSONEncodable(param)
         }
     }
 

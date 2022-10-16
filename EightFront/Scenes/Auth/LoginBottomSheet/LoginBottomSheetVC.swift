@@ -262,10 +262,15 @@ final class LoginBottomSheetVC: UIViewController {
                     
                     guard let oauthToken else { return }
                     
-                    self?.authProvider.request(.login("kakao", oauthToken.accessToken, "02243C59825226808D739FF4D5FE4A4B0D0109C750E0420321F1946671F40D93")) { response in
+                    self?.authProvider.request(
+                        .login(param: simpleSignUpRequest(authId: "kakao",
+                                                   authType: oauthToken.accessToken,
+                                                   deviceID: "02243C59825226808D739FF4D5FE4A4B0D0109C750E0420321F1946671F40D93"))
+                    ) { response in
                         switch response {
                         case .success(let result):
-                            LogUtil.d("result > \(result)")
+                            guard let data = try? result.map(SimpleSignUpResponse.self) else { return }
+                            LogUtil.d("간편 로그인 성공 : \(data)")
                         case .failure(let error):
                             LogUtil.e("error > \(error.localizedDescription)")
                         }
