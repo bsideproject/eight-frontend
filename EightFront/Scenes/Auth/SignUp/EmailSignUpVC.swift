@@ -1,0 +1,201 @@
+//
+//  EmailSignUpVC.swift
+//  EightFront
+//
+//  Created by Jeongwan Kim on 2022/10/15.
+//
+
+import UIKit
+import Combine
+
+import CombineCocoa
+
+class EmailSignUpVC: UIViewController {
+    
+    // MARK: - Properties
+    let viewModel = EmailSignUpViewModel()
+    
+    let navigationBar = CommonNavigationView().then {
+        $0.titleLabel.text = "회원가입"
+    }
+    
+    // 이메일
+    let emailLabel = UILabel().then {
+        $0.text = "이메일"
+        $0.font = Fonts.Templates.subheader2.font
+    }
+    let emailTextField = CommonTextFieldView(placeholder: "이메일 주소를 입력해 주세요.", contentTrailing: 6).then {
+        $0.contentTextField.keyboardType = .emailAddress
+        
+    }
+    let emailVaildCheckButton = UIButton().then {
+        $0.setTitle("인증", for: .normal)
+        $0.setTitleColor(UIColor.white, for: .normal)
+        $0.setTitleColor(Colors.point.color, for: .disabled)
+        $0.backgroundColor = Colors.gray006.color
+        $0.layer.cornerRadius = 4
+    }
+    
+    // 닉네임
+    let nickNameLabel = UILabel().then {
+        $0.text = "닉네임"
+        $0.font = Fonts.Templates.subheader2.font
+    }
+    let nickNameTextFieldView = CommonTextFieldView(placeholder: "25자 이내의 닉네임을 입력해주세요.").then { _ in
+    }
+    
+    // 비밀번호
+    let passwordLabel = UILabel().then {
+        $0.text = "비밀번호"
+        $0.font = Fonts.Templates.subheader2.font
+    }
+    let passwordTextFieldView = CommonTextFieldView(placeholder: "8~16자의 영문, 숫자로 조합해주세요.").then {
+        $0.contentTextField.isSecureTextEntry = true
+    }
+    
+    // 비밀번호 확인
+    let passwordConfirmLabel = UILabel().then {
+        $0.text = "비밀번호 확인"
+        $0.font = Fonts.Templates.subheader2.font
+    }
+    let passwordConfirmTextFieldView = CommonTextFieldView(placeholder: "입력하신 비밀번호를 한번 더 입력해주세요.").then {
+        $0.contentTextField.isSecureTextEntry = true
+    }
+    
+    // 회원가입 버튼
+    let signUpButton = UIButton().then {
+        $0.setTitle("회원가입", for: .normal)
+        $0.setTitleColor(UIColor.white, for: .disabled)
+        $0.setTitleColor(Colors.point.color, for: .normal)
+    }
+    // MARK: - Lift Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        makeUI()
+        bind()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    // MARK: - MakeUI
+    private func makeUI() {
+        view.backgroundColor = .white
+        
+        view.addSubview(navigationBar)
+        view.addSubview(emailLabel)
+        view.addSubview(emailTextField)
+        view.addSubview(emailVaildCheckButton)
+        view.addSubview(nickNameLabel)
+        view.addSubview(nickNameTextFieldView)
+        view.addSubview(passwordLabel)
+        view.addSubview(passwordTextFieldView)
+        view.addSubview(passwordConfirmLabel)
+        view.addSubview(passwordConfirmTextFieldView)
+        view.addSubview(signUpButton)
+        
+        navigationBar.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(47)
+        }
+        emailLabel.snp.makeConstraints {
+            $0.top.equalTo(navigationBar.snp.bottom).offset(32)
+            $0.leading.equalToSuperview().inset(16)
+        }
+        emailTextField.snp.makeConstraints {
+            $0.top.equalTo(emailLabel.snp.bottom).offset(8)
+            $0.leading.equalToSuperview().inset(16)
+            $0.width.equalTo(271)
+            $0.height.equalTo(46)
+        }
+        emailVaildCheckButton.snp.makeConstraints {
+            $0.top.equalTo(emailLabel.snp.bottom).offset(8)
+            $0.leading.equalTo(emailTextField.snp.trailing).offset(8)
+            $0.width.equalTo(64)
+            $0.height.equalTo(46)
+        }
+        nickNameLabel.snp.makeConstraints {
+            $0.top.equalTo(emailVaildCheckButton.snp.bottom).offset(28)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+        }
+        nickNameTextFieldView.snp.makeConstraints {
+            $0.top.equalTo(nickNameLabel.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(46)
+        }
+        passwordLabel.snp.makeConstraints {
+            $0.top.equalTo(nickNameTextFieldView.snp.bottom).offset(28)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+        }
+        passwordTextFieldView.snp.makeConstraints {
+            $0.top.equalTo(passwordLabel.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(46)
+        }
+        passwordConfirmLabel.snp.makeConstraints {
+            $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(28)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+        }
+        passwordConfirmTextFieldView.snp.makeConstraints {
+            $0.top.equalTo(passwordConfirmLabel.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(46)
+        }
+        signUpButton.snp.makeConstraints {
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(58)
+        }
+    }
+    
+    private func bind() {
+        emailTextField.contentTextField
+            .textPublisher
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .assign(to: \.emailInput, on: viewModel)
+            .store(in: &viewModel.cancelBag)
+        
+        nickNameTextFieldView.contentTextField
+            .textPublisher
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .assign(to: \.nicknameInput, on: viewModel)
+            .store(in: &viewModel.cancelBag)
+        
+        passwordTextFieldView.contentTextField
+            .textPublisher
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .assign(to: \.passwordInput, on: viewModel)
+            .store(in: &viewModel.cancelBag)
+        
+        passwordConfirmTextFieldView.contentTextField
+            .textPublisher
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .assign(to: \.passwordConfirmInput, on: viewModel)
+            .store(in: &viewModel.cancelBag)
+        
+        viewModel.isSignupButtonValid
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] valid in
+                self?.signUpButton.isEnabled = valid ? true : false
+                self?.signUpButton.backgroundColor = valid ? Colors.gray001.color : Colors.gray006.color
+            }.store(in: &viewModel.cancelBag)
+    }
+    
+    // MARK: - Actions
+    
+    // MARK: - Functions
+    
+    
+    
+    
+    
+}
+

@@ -15,9 +15,10 @@
 		28379E8828F846C300B2D4DD /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28379E8728F846C300B2D4DD /* LoginViewModel.swift */; };
 		28379E8A28F8550400B2D4DD /* TermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28379E8928F8550400B2D4DD /* TermsVC.swift */; };
 		28379E8C28F8594800B2D4DD /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28379E8B28F8594800B2D4DD /* TermsViewModel.swift */; };
-		28379E9228F85BAD00B2D4DD /* TermsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28379E9128F85BAD00B2D4DD /* TermsTableViewCell.swift */; };
 		2841347928D9D93700A758F2 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2841347828D9D93700A758F2 /* UIApplication+.swift */; };
 		2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2841347C28D9DA0F00A758F2 /* UIWindow+.swift */; };
+		288BFD6728FAF86F00A85F13 /* EmailSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6628FAF86F00A85F13 /* EmailSignUpVC.swift */; };
+		288BFD6D28FBAEAA00A85F13 /* EmailSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */; };
 		28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F20CF928E93BA600CEE89D /* UITextField+.swift */; };
 		E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1428E2FBC4007B1307 /* DataModel.xcdatamodeld */; };
 		E9160C1828E30A60007B1307 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1728E30A60007B1307 /* DataManager.swift */; };
@@ -127,9 +128,10 @@
 		28379E8728F846C300B2D4DD /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		28379E8928F8550400B2D4DD /* TermsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsVC.swift; sourceTree = "<group>"; };
 		28379E8B28F8594800B2D4DD /* TermsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewModel.swift; sourceTree = "<group>"; };
-		28379E9128F85BAD00B2D4DD /* TermsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsTableViewCell.swift; sourceTree = "<group>"; };
 		2841347828D9D93700A758F2 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2841347C28D9DA0F00A758F2 /* UIWindow+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+.swift"; sourceTree = "<group>"; };
+		288BFD6628FAF86F00A85F13 /* EmailSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpVC.swift; sourceTree = "<group>"; };
+		288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpViewModel.swift; sourceTree = "<group>"; };
 		28F20CF928E93BA600CEE89D /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		E9160C1528E2FBC4007B1307 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		E9160C1728E30A60007B1307 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -234,13 +236,11 @@
 		28379E7E28F718A400B2D4DD /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				288BFD6B28FAF98A00A85F13 /* SignUp */,
+				288BFD6A28FAF97B00A85F13 /* Login */,
+				288BFD6928FAF97400A85F13 /* Terms */,
+				288BFD6828FAF96600A85F13 /* LoginBottomSheet */,
 				28379E9028F85BA400B2D4DD /* View */,
-				28379E7F28F718A400B2D4DD /* LoginVC.swift */,
-				28379E8728F846C300B2D4DD /* LoginViewModel.swift */,
-				28379E8028F718A400B2D4DD /* LoginBottomSheetVC.swift */,
-				28379E8128F718A400B2D4DD /* LoginBottomSheetViewModel.swift */,
-				28379E8928F8550400B2D4DD /* TermsVC.swift */,
-				28379E8B28F8594800B2D4DD /* TermsViewModel.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -248,9 +248,44 @@
 		28379E9028F85BA400B2D4DD /* View */ = {
 			isa = PBXGroup;
 			children = (
-				28379E9128F85BAD00B2D4DD /* TermsTableViewCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		288BFD6828FAF96600A85F13 /* LoginBottomSheet */ = {
+			isa = PBXGroup;
+			children = (
+				28379E8028F718A400B2D4DD /* LoginBottomSheetVC.swift */,
+				28379E8128F718A400B2D4DD /* LoginBottomSheetViewModel.swift */,
+			);
+			path = LoginBottomSheet;
+			sourceTree = "<group>";
+		};
+		288BFD6928FAF97400A85F13 /* Terms */ = {
+			isa = PBXGroup;
+			children = (
+				28379E8928F8550400B2D4DD /* TermsVC.swift */,
+				28379E8B28F8594800B2D4DD /* TermsViewModel.swift */,
+			);
+			path = Terms;
+			sourceTree = "<group>";
+		};
+		288BFD6A28FAF97B00A85F13 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				28379E7F28F718A400B2D4DD /* LoginVC.swift */,
+				28379E8728F846C300B2D4DD /* LoginViewModel.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		288BFD6B28FAF98A00A85F13 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				288BFD6628FAF86F00A85F13 /* EmailSignUpVC.swift */,
+				288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */,
+			);
+			path = SignUp;
 			sourceTree = "<group>";
 		};
 		E927FC7728D34DD900A91F11 /* AppDelegate */ = {
@@ -265,8 +300,8 @@
 		E927FC7828D34E0400A91F11 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				28379E7E28F718A400B2D4DD /* Auth */,
 				E99929AE28D88182006FCFC7 /* MainTabbarController.swift */,
+				28379E7E28F718A400B2D4DD /* Auth */,
 				E927FC9D28D3525A00A91F11 /* Home */,
 				E99929B028D88249006FCFC7 /* Trade */,
 				E99929B128D88251006FCFC7 /* Notice */,
@@ -729,6 +764,7 @@
 				2841347928D9D93700A758F2 /* UIApplication+.swift in Sources */,
 				E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */,
 				28379E8A28F8550400B2D4DD /* TermsVC.swift in Sources */,
+				288BFD6728FAF86F00A85F13 /* EmailSignUpVC.swift in Sources */,
 				E9460AFC28E9E3E900932351 /* HomeHeaderView.swift in Sources */,
 				28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */,
 				E96BC92028EB2988002EBA7E /* SearchMapVC.swift in Sources */,
@@ -760,6 +796,7 @@
 				E98A04EB28F4185B009F055B /* NSMutableAttributedString+.swift in Sources */,
 				E9460B0928EAADC300932351 /* HomeAddressView.swift in Sources */,
 				E99929B828D882BF006FCFC7 /* MyPageVC.swift in Sources */,
+				288BFD6D28FBAEAA00A85F13 /* EmailSignUpViewModel.swift in Sources */,
 				E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */,
 				E99AC31228E88AA800AF1F84 /* ClothesAPI.swift in Sources */,
 				E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */,
@@ -778,7 +815,6 @@
 				E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */,
 				E9160C1C28E3177C007B1307 /* HomeViewModel.swift in Sources */,
 				2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */,
-				28379E9228F85BAD00B2D4DD /* TermsTableViewCell.swift in Sources */,
 				28379E8C28F8594800B2D4DD /* TermsViewModel.swift in Sources */,
 				E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */,
 				E927FC9828D351E300A91F11 /* Date+.swift in Sources */,

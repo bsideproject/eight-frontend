@@ -68,7 +68,6 @@ extension AppDelegate: MessagingDelegate {
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         
         LogUtil.d("[Log] deviceToken : \(deviceTokenString)")
-        
         Messaging.messaging().apnsToken = deviceToken
     }
     

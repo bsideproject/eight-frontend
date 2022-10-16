@@ -54,7 +54,9 @@ extension MyPageVC: LoginDelegate {
     }
     
     func emailSignUp() {
-        let termsVC = TermsVC()
-        navigationController?.pushViewController(termsVC, animated: true)
+//        let termsVC = TermsVC()
+//        navigationController?.pushViewController(termsVC, animated: true)
+        let emailSignUp = EmailSignUpVC()
+        navigationController?.pushViewController(emailSignUp, animated: true)
     }
 }

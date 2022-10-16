@@ -256,7 +256,13 @@ final class LoginBottomSheetVC: UIViewController {
                 } else {
                     LogUtil.d("loginWithKakaoTalk() success.")
                     // 간편 로그인 정보
-                    _ = oauthToken
+                    
+                    guard let oauthToken else { return }
+                    
+                    LogUtil.d("""
+                              oauthToken >\(oauthToken) \n
+                              scopesscopes >\(oauthToken.scopes?[0])
+                              """)
                     
                 }
             }
@@ -281,13 +287,19 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            let user = credential.user
             
-            LogUtil.d(user)
-            
-            if let email = credential.email {
-                LogUtil.d(email)
+            guard let identityToken = credential.identityToken,
+                  let authorizationCode = credential.authorizationCode else{
+                    return
             }
+            
+            guard let identityTorknStr = String(data: identityToken, encoding: .utf8),
+                  let authorizationCodeStr = String(data: authorizationCode, encoding: .utf8) else {
+                    return
+            }
+            
+            LogUtil.d("identityToken > \(identityTorknStr)")
+            LogUtil.d("authorizationCode > \(authorizationCodeStr)")
             
         }
     }
