@@ -14,15 +14,7 @@ final class LocationManager: NSObject {
     static let shared = LocationManager()
     private var locationManager: CLLocationManager?
     @Published var currentAddress: String?
-    var currentLocation: CLLocation? {
-        didSet {
-            if currentAddress == nil && currentLocation != nil {
-                addressUpdate(location: currentLocation) { [weak self] address in
-                    self?.currentAddress = address
-                }
-            }
-        }
-    }
+    @Published var currentLocation: CLLocation?
     
     // MARK: - Initializer
     private override init() {
