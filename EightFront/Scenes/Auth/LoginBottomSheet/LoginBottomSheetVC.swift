@@ -12,7 +12,7 @@ import CombineCocoa
 import KakaoSDKUser
 import Moya
 
-protocol LoginDelegate {
+protocol LoginDelegate: AnyObject {
     func emailSignIn()
     func emailSignUp()
 }
@@ -20,11 +20,11 @@ protocol LoginDelegate {
 final class LoginBottomSheetVC: UIViewController {
     // MARK: - Properties
     
-    private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = LoginBottomSheetViewModel()
+    private let authProvider = MoyaProvider<AuthAPI>()
     private let bottomHeight: CGFloat = 279
     
-    var delegate: LoginDelegate?
+    weak var delegate: LoginDelegate?
     
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
@@ -78,7 +78,7 @@ final class LoginBottomSheetVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        showBottomSheet()
+        //        showBottomSheet()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -94,7 +94,7 @@ final class LoginBottomSheetVC: UIViewController {
             .sink { [weak self] _ in
                 self?.appleLoginButtonTapped()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.bag)
         
         kakaoLoginButton
             .tapPublisher
@@ -102,21 +102,21 @@ final class LoginBottomSheetVC: UIViewController {
             .sink { [weak self] _ in
                 self?.kakaoLoginButtonTapped()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.bag)
         
         emailLoginButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.emailLoginButtonTapped()
-            }.store(in: &viewModel.cancelBag)
+            }.store(in: &viewModel.bag)
         
         emailSignUpButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.emailSignUpButtonTapped()
-            }.store(in: &viewModel.cancelBag)
+            }.store(in: &viewModel.bag)
         
     }
     
@@ -253,29 +253,31 @@ final class LoginBottomSheetVC: UIViewController {
     private func kakaoLoginButtonTapped() {
         /// 카카오톡 설치 여부 확인
         if (UserApi.isKakaoTalkLoginAvailable()) {
-            UserApi.shared.loginWithKakaoTalk { [weak self] oauthToken, error in
+            UserApi.shared.loginWithKakaoTalk { oauthToken, error in
+                
                 if let error = error {
-                    LogUtil.e(error)
-                } else {
-                    LogUtil.d("loginWithKakaoTalk() success.")
-                    // 간편 로그인 정보
-                    
-                    guard let oauthToken else { return }
-                    
-                    self?.authProvider.request(
-                        .login(param: simpleSignUpRequest(authId: "kakao",
-                                                   authType: oauthToken.accessToken,
-                                                   deviceID: "02243C59825226808D739FF4D5FE4A4B0D0109C750E0420321F1946671F40D93"))
-                    ) { response in
+                    LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
+                }
+                
+//                guard let fcmToken = NotificationCenter.default.value(forKey: "FCMToken") as? [String: String] else {
+//                    LogUtil.e("FCM 토큰을 받아오는데 실패 했습니다.")
+//                    return
+//                }
+                
+                self.authProvider.request(.login(
+                    param: simpleSignUpRequest(
+                        authId: oauthToken?.idToken ?? "",
+                        authType: simpleLoginType.kakao.rawValue,
+                        deviceID: "fcmToken"
+                    ))) { response in
                         switch response {
                         case .success(let result):
                             guard let data = try? result.map(SimpleSignUpResponse.self) else { return }
                             LogUtil.d("간편 로그인 성공 : \(data)")
                         case .failure(let error):
-                            LogUtil.e("error > \(error.localizedDescription)")
+                            LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
                         }
                     }
-                }
             }
         }
     }
@@ -301,17 +303,20 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
             
             guard let identityToken = credential.identityToken,
                   let authorizationCode = credential.authorizationCode else{
-                    return
+                return
             }
             
             guard let identityTorknStr = String(data: identityToken, encoding: .utf8),
                   let authorizationCodeStr = String(data: authorizationCode, encoding: .utf8) else {
-                    return
+                return
             }
             
-            LogUtil.d("identityToken > \(identityTorknStr)")
-            LogUtil.d("authorizationCode > \(authorizationCodeStr)")
-            
+            LogUtil.d(
+                """
+                identityToken > \(identityTorknStr)
+                authorizationCode > \(authorizationCodeStr)
+                """
+            )
         }
     }
     

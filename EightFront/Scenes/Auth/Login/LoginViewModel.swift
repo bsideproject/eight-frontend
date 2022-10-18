@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 final class LoginViewModel {
-    var cancelBag = Set<AnyCancellable>()
+    var bag = Set<AnyCancellable>()
     
     @Published var emailInput = ""
     @Published var passwordInput = ""

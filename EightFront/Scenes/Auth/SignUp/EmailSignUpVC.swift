@@ -205,34 +205,34 @@ final class EmailSignUpVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .assign(to: \.emailInput, on: viewModel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.bag)
         
         nickNameTextFieldView.contentTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .assign(to: \.nicknameInput, on: viewModel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.bag)
         
         passwordTextFieldView.contentTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .assign(to: \.passwordInput, on: viewModel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.bag)
         
         passwordConfirmTextFieldView.contentTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .assign(to: \.passwordConfirmInput, on: viewModel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.bag)
         
         viewModel.isPasswordValid
             .receive(on: DispatchQueue.main)
             .sink { [weak self] valid in
                 self?.passwordConfirmValidLabel.isHidden = valid
-            }.store(in: &viewModel.cancelBag)
+            }.store(in: &viewModel.bag)
         
         viewModel.isSignupButtonValid
             .receive(on: DispatchQueue.main)
@@ -240,7 +240,7 @@ final class EmailSignUpVC: UIViewController {
             .sink { [weak self] valid in
                 self?.signUpButton.isEnabled = valid ? true : false
                 self?.signUpButton.backgroundColor = valid ? Colors.gray001.color : Colors.gray006.color
-            }.store(in: &viewModel.cancelBag)
+            }.store(in: &viewModel.bag)
         
     }
     

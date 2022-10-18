@@ -10,7 +10,7 @@ import Combine
 
 final class TermsViewModel {
     
-    var cancelBag = Set<AnyCancellable>()
+    var bag = Set<AnyCancellable>()
     
     
     

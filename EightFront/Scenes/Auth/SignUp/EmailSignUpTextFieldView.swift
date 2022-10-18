@@ -16,18 +16,21 @@ class EmailSignUpTextFieldView: UIView {
         $0.font = Fonts.Templates.subheader2.font
     }
     
-    init(title: String?, placeHolder: String?, viewModel: EmailSignUpViewModel?) {
+    init(title: String?, placeHolder: String?) {
         super.init(frame: .zero)
-        self.titleLabel.text = title
-        self.commonTextField = CommonTextFieldView(placeholder: placeHolder)
-        self.viewModel = viewModel
+        configure(title: title, placeHolder: placeHolder)
         makeUI()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private func configure(title: String?, placeHolder: String?) {
+        self.titleLabel.text = title
+        self.commonTextField = CommonTextFieldView(placeholder: placeHolder)
+    }
+    
     private func makeUI() {
-        
         guard let commonTextField else { return }
         
         addSubview(titleLabel)

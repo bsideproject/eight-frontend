@@ -41,9 +41,7 @@ final class TermsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         makeUI()
-        
     }
     
     // MARK: - MakeUI

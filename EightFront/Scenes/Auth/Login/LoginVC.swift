@@ -22,11 +22,8 @@ final class LoginVC: UIViewController {
     private let logoImageView = UIImageView().then {
         $0.backgroundColor = .lightGray
     }
-    private let emailTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "이메일을 입력하세요.").then {_ in
-        
-    }
-    private let passwordTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "비밀번호를 입력하세요.").then { _ in
-    }
+    private let emailTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "이메일을 입력하세요.")
+    private let passwordTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "비밀번호를 입력하세요.")
     private let loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(UIColor.white, for: .disabled)
@@ -116,14 +113,14 @@ final class LoginVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .assign(to: \.emailInput, on: viewModel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.bag)
         
         passwordTextFieldView.contentTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .assign(to: \.passwordInput, on: viewModel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.bag)
         
         viewModel.isLoginButtonValid
             .receive(on: DispatchQueue.main)
@@ -134,21 +131,20 @@ final class LoginVC: UIViewController {
                     self?.loginButton.setTitleColor(Colors.point.color, for: .normal)
                 }
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.bag)
         
         signUpButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.signUpButtonTapped()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.bag)
     }
     
     // - MARK: Actions
     
     func signUpButtonTapped() {
-//        let vc = TermsVC()
-        let vc = EmailSignUpVC()
-        navigationController?.pushViewController(vc, animated: true)
+        let emailSignVC = EmailSignUpVC()
+        navigationController?.pushViewController(emailSignVC, animated: true)
     }
 }

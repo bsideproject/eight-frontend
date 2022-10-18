@@ -8,25 +8,13 @@
 import Foundation
 import Moya
 
-struct simpleSignUpRequest: Codable {
-    var authId: String
-    var authType: String
-    var deviceID: String
-    
-    init(authId: String, authType: String, deviceID: String) {
-        self.authId = authId
-        self.authType = authType
-        self.deviceID = deviceID
-    }
-}
-
 enum AuthAPI {
     case login(param: simpleSignUpRequest)
 }
 
-enum simpleLoginType {
-    case apple
-    case kakao
+enum simpleLoginType: String {
+    case apple = "apple"
+    case kakao = "kakao"
 }
 
 extension AuthAPI: TargetType {
