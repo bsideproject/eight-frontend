@@ -15,17 +15,14 @@ final class BoxCollectionView: UIView {
         $0.image = Images.Map.boxThumnail.image
     }
     let titleLabel = UILabel().then {
-        $0.text = "수거함 이름"
         $0.numberOfLines = 1
         $0.font = Fonts.Pretendard.semiBold.font(size: 20)
     }
     let addressLabel = UILabel().then {
-        $0.text = "주소"
         $0.numberOfLines = 1
         $0.font = Fonts.Templates.body1.font
     }
-    let detailLabel = UILabel().then {
-        $0.text = "상세주소"
+    let detailAddressLabel = UILabel().then {
         $0.numberOfLines = 1
         $0.font = Fonts.Templates.body1.font
     }
@@ -65,7 +62,7 @@ final class BoxCollectionView: UIView {
         addSubview(thumnailImageView)
         addSubview(titleLabel)
         addSubview(addressLabel)
-        addSubview(detailLabel)
+        addSubview(detailAddressLabel)
         addSubview(fixButton)
         addSubview(navigationButton)
         
@@ -86,7 +83,7 @@ final class BoxCollectionView: UIView {
             $0.top.equalTo(titleLabel.snp.bottom).offset(13)
             $0.left.right.equalTo(titleLabel)
         }
-        detailLabel.snp.makeConstraints {
+        detailAddressLabel.snp.makeConstraints {
             $0.top.equalTo(addressLabel.snp.bottom).offset(6)
             $0.left.right.equalTo(addressLabel)
         }
@@ -99,7 +96,7 @@ final class BoxCollectionView: UIView {
         navigationButton.snp.makeConstraints {
             $0.top.equalTo(fixButton)
             $0.left.equalTo(fixButton.snp.right).offset(6)
-            $0.right.equalTo(detailLabel.snp.right)
+            $0.right.equalTo(detailAddressLabel.snp.right)
             $0.height.equalTo(50)
         }
         
