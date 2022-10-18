@@ -5,4 +5,10 @@
 //  Created by wargi on 2022/10/26.
 //
 
-import Foundation
+import UIKit
+
+struct CardsDataModel {
+    let bgColor: UIColor
+    let name: String
+    let image: UIImage
+}
