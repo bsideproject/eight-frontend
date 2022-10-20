@@ -12,10 +12,10 @@ final class TermsViewModel {
     
     var bag = Set<AnyCancellable>()
     
-    @Published var isAllAgree: Bool = true
+    @Published var isAllAgree: Bool = false
     @Published var isPolicy: Bool = true
-    @Published var isPrivacy: Bool = true
-    @Published var isLocation: Bool = true
+    @Published var isPrivacy: Bool = false
+    @Published var isLocation: Bool = false
     
     lazy var isAllAgessValid: AnyPublisher<Bool, Never> = Publishers
         .CombineLatest3($isPolicy, $isPrivacy, $isLocation)

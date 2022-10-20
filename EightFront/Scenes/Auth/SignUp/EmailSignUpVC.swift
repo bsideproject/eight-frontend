@@ -24,7 +24,7 @@ final class EmailSignUpVC: UIViewController {
         $0.text = "이메일"
         $0.font = Fonts.Templates.subheader2.font
     }
-    let emailTextField = CommonTextFieldView(placeholder: "이메일 주소를 입력해 주세요.", contentTrailing: 6).then {
+    let emailTextField = CommonTextFieldView(placeholder: "이메일 주소를 입력해 주세요.", contentTrailing: 10).then {
         $0.contentTextField.keyboardType = .emailAddress
     }
     let emailVaildCheckButton = UIButton().then {
@@ -46,8 +46,7 @@ final class EmailSignUpVC: UIViewController {
         $0.text = "닉네임"
         $0.font = Fonts.Templates.subheader2.font
     }
-    let nickNameTextFieldView = CommonTextFieldView(placeholder: "25자 이내의 닉네임을 입력해주세요.").then { _ in
-    }
+    let nickNameTextFieldView = CommonTextFieldView(placeholder: "25자 이내의 닉네임을 입력해주세요.")
     let nicknameValidLabel = UILabel().then {
         $0.text = "닉네임이 중복 되었어요."
         $0.textColor = .red

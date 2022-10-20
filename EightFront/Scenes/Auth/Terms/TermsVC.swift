@@ -11,56 +11,12 @@ import UIKit
 import CombineCocoa
 import SnapKit
 
-
-class TermsView: UIView {
-    
-    var viewModel: TermsViewModel?
-    
-    let titleLabel = UILabel().then {
-        $0.text = ""
-        $0.font = Fonts.Templates.subheader.font
-    }
-    
-    let chkeckButton = UIButton().then {
-        $0.setImage(Images.Report.checkboxSelect.image, for: .normal)
-        $0.setImage(Images.Report.checkboxNone.image, for: .disabled)
-    }
-    
-    init(borderColor: UIColor? = .clear, title: String? = "") {
-        super.init(frame: .zero)
-        makeUI(borderColor: borderColor, title: title)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func makeUI(borderColor: UIColor? = .clear, title: String? = "") {
-        self.layer.borderColor = borderColor?.cgColor
-        self.layer.borderWidth = 1.0
-        self.layer.cornerRadius = 4
-        self.titleLabel.text = title
-        
-        addSubview(titleLabel)
-        addSubview(chkeckButton)
-        
-        titleLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(16)
-        }
-        
-        chkeckButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(16)
-        }
-    }
-}
-
 final class TermsVC: UIViewController {
     
     // MARK: - properties
     
     let viewModel = TermsViewModel()
+    let subject = PassthroughSubject<Bool, Never>()
     
     private let navigationView = CommonNavigationView().then {
         $0.titleLabel.text = "회원가입"
@@ -79,14 +35,22 @@ final class TermsVC: UIViewController {
     private let nextButton = UIButton().then {
         $0.setTitle("다음", for: .normal)
         $0.setTitleColor(UIColor.white, for: .disabled)
-        $0.backgroundColor = Colors.gray006.color
+        
         $0.layer.cornerRadius = 4
     }
     
-    private let allAgree = TermsView(borderColor: Colors.gray006.color, title: "전체 동의")
-    private let policy = TermsView(title: "이용약관 동의(필수)")
-    private let privacy = TermsView(title: "개인정보 수집 이용 동의(필수)")
-    private let location = TermsView(title: "위치기반 서비스 이용약관 동의(필수)")
+    private let allAgree = TermsView(borderColor: Colors.gray006.color, title: "전체 동의").then {
+        $0.chkeckButton.isEnabled = false
+    }
+    private let policy = TermsView(title: "이용약관 동의(필수)").then {
+        $0.chkeckButton.isEnabled = false
+    }
+    private let privacy = TermsView(title: "개인정보 수집 이용 동의(필수)").then {
+        $0.chkeckButton.isEnabled = false
+    }
+    private let location = TermsView(title: "위치기반 서비스 이용약관 동의(필수)").then {
+        $0.chkeckButton.isEnabled = false
+    }
     
     // MARK: - LifeCycle
     
@@ -150,21 +114,56 @@ final class TermsVC: UIViewController {
         }
     }
     
+    // MARK: Bind
+    
     private func bind() {
-                
-        viewModel.isAllAgessValid.receive(on: DispatchQueue.main)
-            .sink { [weak self] isValid in
-                self?.allAgree.chkeckButton.isEnabled = isValid
-                self?.policy.chkeckButton.isEnabled = isValid
-                self?.privacy.chkeckButton.isEnabled = isValid
-                self?.location.chkeckButton.isEnabled = isValid
-            }.store(in: &viewModel.bag)
         
-        viewModel.isAllAgessValid.receive(on: DispatchQueue.main)
+        nextButton.tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                let emailSignUpVC = EmailSignUpVC()
+                self?.navigationController?.pushViewController(emailSignUpVC, animated: true)
+            }
+            .store(in: &viewModel.bag)
+                
+        viewModel.isAllAgessValid
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] isValid in
                 self?.nextButton.isEnabled = isValid
                 self?.nextButton.setTitleColor(Colors.point.color, for: .normal)
-                self?.nextButton.backgroundColor = Colors.gray001.color
+                self?.nextButton.backgroundColor = isValid ? Colors.gray001.color : Colors.gray006.color
+            }.store(in: &viewModel.bag)
+        
+        viewModel.$isAllAgree
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] isValid in
+                self?.allAgree.chkeckButton.isEnabled = isValid
+                self?.allAgree.backgroundColor = isValid ? Colors.gray001.color : .white
+            }.store(in: &viewModel.bag)
+        
+        viewModel.$isPolicy
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] isValid in
+                self?.policy.chkeckButton.isEnabled = isValid
+                self?.policy.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
+            }.store(in: &viewModel.bag)
+        
+        viewModel.$isPrivacy
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] isValid in
+                self?.privacy.chkeckButton.isEnabled = isValid
+                self?.privacy.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
+            }.store(in: &viewModel.bag)
+        
+        viewModel.$isLocation
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] isValid in
+                self?.privacy.chkeckButton.isEnabled = isValid
+                self?.location.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
             }.store(in: &viewModel.bag)
     }
 }
