@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct simpleSignUpRequest: Codable {
+struct SimpleSignUpRequest: Codable {
     var authId: String
     var authType: String
     var deviceID: String

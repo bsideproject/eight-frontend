@@ -9,7 +9,7 @@ import Foundation
 import Moya
 
 enum AuthAPI {
-    case login(param: simpleSignUpRequest)
+    case login(param: SimpleSignUpRequest)
 }
 
 enum simpleLoginType: String {

@@ -22,7 +22,7 @@
 		288BFD7128FBC9C900A85F13 /* EmailSignUpTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7028FBC9C900A85F13 /* EmailSignUpTextFieldView.swift */; };
 		288BFD7328FBE79C00A85F13 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7228FBE79C00A85F13 /* AuthAPI.swift */; };
 		288BFD7528FBF11600A85F13 /* SimpleSignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7428FBF11600A85F13 /* SimpleSignUpResponse.swift */; };
-		288BFD7728FC43A400A85F13 /* simpleSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7628FC43A400A85F13 /* simpleSignUpRequest.swift */; };
+		288BFD7728FC43A400A85F13 /* SimpleSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */; };
 		28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F20CF928E93BA600CEE89D /* UITextField+.swift */; };
 		E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1428E2FBC4007B1307 /* DataModel.xcdatamodeld */; };
 		E9160C1828E30A60007B1307 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1728E30A60007B1307 /* DataManager.swift */; };
@@ -139,7 +139,7 @@
 		288BFD7028FBC9C900A85F13 /* EmailSignUpTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpTextFieldView.swift; sourceTree = "<group>"; };
 		288BFD7228FBE79C00A85F13 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		288BFD7428FBF11600A85F13 /* SimpleSignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSignUpResponse.swift; sourceTree = "<group>"; };
-		288BFD7628FC43A400A85F13 /* simpleSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = simpleSignUpRequest.swift; sourceTree = "<group>"; };
+		288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSignUpRequest.swift; sourceTree = "<group>"; };
 		28F20CF928E93BA600CEE89D /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		E9160C1528E2FBC4007B1307 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		E9160C1728E30A60007B1307 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -326,7 +326,7 @@
 				E99AC30F28E88A6000AF1F84 /* CoordinatesResponse.swift */,
 				E9BFC40128E890A500951604 /* ApiResponse.swift */,
 				288BFD7428FBF11600A85F13 /* SimpleSignUpResponse.swift */,
-				288BFD7628FC43A400A85F13 /* simpleSignUpRequest.swift */,
+				288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -827,6 +827,7 @@
 				E927FC9828D351E300A91F11 /* Date+.swift in Sources */,
 				E95FBF6C28FC1644002CA5A9 /* Pretendard+.swift in Sources */,
 				288BFD7728FC43A400A85F13 /* simpleSignUpRequest.swift in Sources */,
+				288BFD7728FC43A400A85F13 /* SimpleSignUpRequest.swift in Sources */,
 				E9460B0F28EAC69300932351 /* NaverMapMarker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

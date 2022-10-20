@@ -265,7 +265,7 @@ final class LoginBottomSheetVC: UIViewController {
 //                }
                 
                 self.authProvider.request(.login(
-                    param: simpleSignUpRequest(
+                    param: SimpleSignUpRequest(
                         authId: oauthToken?.idToken ?? "",
                         authType: simpleLoginType.kakao.rawValue,
                         deviceID: "fcmToken"

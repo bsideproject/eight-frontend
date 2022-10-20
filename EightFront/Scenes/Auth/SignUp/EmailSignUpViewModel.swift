@@ -13,11 +13,7 @@ final class EmailSignUpViewModel {
     var bag = Set<AnyCancellable>()
     
     @Published var emailInput: String = ""
-    @Published var nicknameInput: String = "" {
-        didSet {
-            print("닉네임 수정: \(nicknameInput)")
-        }
-    }
+    @Published var nicknameInput: String = ""
     @Published var passwordInput: String = ""
     @Published var passwordConfirmInput: String = ""
     
