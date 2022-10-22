@@ -11,15 +11,15 @@ import UIKit
 //MARK: StackContainerView
 final class StackContainerView: UIView, SwipeCardsDelegate {
     //MARK: - Properties
-    var numberOfCardsToShow: Int = 0
-    var cardsToBeVisible: Int = 3
-    var cardViews : [SwipeCardView] = []
-    var remainingcards: Int = 0
+    private var numberOfCardsToShow: Int = 0
+    private var cardsToBeVisible: Int = 3
+    private var cardViews : [SwipeCardView] = []
+    private var remainingcards: Int = 0
     
-    let horizontalInset: CGFloat = 10.0
-    let verticalInset: CGFloat = 10.0
+    private let horizontalInset: CGFloat = 10.0
+    private let verticalInset: CGFloat = 10.0
     
-    var visibleCards: [SwipeCardView] {
+    private var visibleCards: [SwipeCardView] {
         return subviews as? [SwipeCardView] ?? []
     }
     weak var dataSource: SwipeCardsDataSource? {
@@ -27,9 +27,11 @@ final class StackContainerView: UIView, SwipeCardsDelegate {
             reloadData()
         }
     }
-    //MARK: - Init
+    
+    //MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        
         backgroundColor = .clear
     }
     
@@ -39,15 +41,16 @@ final class StackContainerView: UIView, SwipeCardsDelegate {
     
     func reloadData() {
         removeAllCardViews()
+        
         guard let datasource = dataSource else { return }
+        
         setNeedsLayout()
         layoutIfNeeded()
         numberOfCardsToShow = datasource.numberOfCardsToShow()
         remainingcards = numberOfCardsToShow
         
-        for i in 0..<min(numberOfCardsToShow,cardsToBeVisible) {
+        for i in 0 ..< min(numberOfCardsToShow,cardsToBeVisible) {
             addCardView(cardView: datasource.card(at: i), atIndex: i )
-            
         }
     }
     
@@ -76,6 +79,7 @@ final class StackContainerView: UIView, SwipeCardsDelegate {
         for cardView in visibleCards {
             cardView.removeFromSuperview()
         }
+        
         cardViews = []
     }
     
@@ -83,25 +87,21 @@ final class StackContainerView: UIView, SwipeCardsDelegate {
         guard let datasource = dataSource else { return }
         view.removeFromSuperview()
         
+        let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeInOut)
+        
         if remainingcards > 0 {
             let newIndex = datasource.numberOfCardsToShow() - remainingcards
             addCardView(cardView: datasource.card(at: newIndex), atIndex: 2)
-            for (cardIndex, cardView) in visibleCards.reversed().enumerated() {
-                UIView.animate(withDuration: 0.2, animations: {
-                    cardView.center = self.center
-                    self.addCardFrame(index: cardIndex, cardView: cardView)
-                    self.layoutIfNeeded()
-                })
+        }
+        
+        for (cardIndex, cardView) in visibleCards.reversed().enumerated() {
+            animator.addAnimations {
+                cardView.center = self.center
+                self.addCardFrame(index: cardIndex, cardView: cardView)
+                self.layoutIfNeeded()
             }
             
-        } else {
-            for (cardIndex, cardView) in visibleCards.reversed().enumerated() {
-                UIView.animate(withDuration: 0.2, animations: {
-                    cardView.center = self.center
-                    self.addCardFrame(index: cardIndex, cardView: cardView)
-                    self.layoutIfNeeded()
-                })
-            }
+            animator.startAnimation()
         }
     }
 }

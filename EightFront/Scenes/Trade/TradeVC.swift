@@ -16,35 +16,49 @@ final class TradeVC: UIViewController {
     }
     
     private var viewModel = TradeViewModel()
-    var stackContainer: StackContainerView!
-    
-    
-    //MARK: - Life Cycle
-    override func loadView() {
-        view = UIView()
-        view.backgroundColor = UIColor(red:0.93, green:0.93, blue:0.93, alpha:1.0)
-        stackContainer = StackContainerView()
-        view.addSubview(stackContainer)
-        makeUI()
-        stackContainer.translatesAutoresizingMaskIntoConstraints = false
-        configureNavigationBarButtonItem()
+    private let stackContainer = StackContainerView()
+    private let navigationView = CommonNavigationView().then {
+        $0.titleLabel.text = "버릴까 말까"
+        $0.rightButton.setImage(Images.Navigation.post.image)
+    }
+    private let choiceLabel = UILabel().then {
+        $0.text = "나였다면?"
+        $0.textAlignment = .center
+        $0.font = Fonts.Pretendard.semiBold.font(size: 18)
     }
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        makeUI()
         bind()
     }
     
     //MARK: - Make UI
     private func makeUI() {
         view.backgroundColor = .white
+        view.addSubview(navigationView)
+        view.addSubview(stackContainer)
+        view.addSubview(choiceLabel)
+        
+        let cardWidth = UIScreen.main.bounds.width - 32
+        let cardHeight = cardWidth * 1.25
         
         stackContainer.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(-60)
-            $0.width.equalTo(300)
-            $0.height.equalTo(400)
+            $0.centerY.equalToSuperview().offset(-30)
+            $0.width.equalTo(cardWidth)
+            $0.height.equalTo(cardHeight)
+        }
+        navigationView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(47)
+        }
+        choiceLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-44)
         }
     }
     
@@ -53,13 +67,9 @@ final class TradeVC: UIViewController {
         stackContainer.dataSource = self
     }
     
-    func configureNavigationBarButtonItem() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetTapped))
-    }
-    
     //MARK: - Handlers
     @objc
-    func resetTapped() {
+    private func resetTapped() {
         stackContainer.reloadData()
     }
 }
