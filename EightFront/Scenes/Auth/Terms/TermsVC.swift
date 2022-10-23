@@ -112,7 +112,7 @@ final class TermsVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.checkButtonTapped(Terms.all)
+                self?.viewModel.checkButtonTapped(TermsViewModel.Terms.all)
             }
             .store(in: &viewModel.bag)
         
@@ -120,7 +120,7 @@ final class TermsVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.checkButtonTapped(Terms.policy)
+                self?.viewModel.checkButtonTapped(TermsViewModel.Terms.policy)
             }
             .store(in: &viewModel.bag)
         
@@ -128,7 +128,7 @@ final class TermsVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.checkButtonTapped(Terms.privacy)
+                self?.viewModel.checkButtonTapped(TermsViewModel.Terms.privacy)
             }
             .store(in: &viewModel.bag)
         
@@ -136,7 +136,7 @@ final class TermsVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.checkButtonTapped(Terms.location)
+                self?.viewModel.checkButtonTapped(TermsViewModel.Terms.location)
             }
             .store(in: &viewModel.bag)
         

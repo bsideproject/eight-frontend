@@ -8,27 +8,27 @@
 import Foundation
 import Combine
 
-enum Terms {
-    case all
-    case policy
-    case privacy
-    case location
+final class TermsViewModel {
     
-    var type: String {
-        switch self {
-        case .all :
-            return "all"
-        case .policy:
-            return "policy"
-        case .privacy:
-            return "privacy"
-        case .location:
-            return "location"
+    enum Terms {
+        case all
+        case policy
+        case privacy
+        case location
+        
+        var type: String {
+            switch self {
+            case .all :
+                return "all"
+            case .policy:
+                return "policy"
+            case .privacy:
+                return "privacy"
+            case .location:
+                return "location"
+            }
         }
     }
-}
-
-final class TermsViewModel {
     
     var bag = Set<AnyCancellable>()
     
