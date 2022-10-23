@@ -41,17 +41,11 @@ final class TermsViewModel {
         switch type {
         case .all:
             isAllAgree = !isAllAgree
-            if isAllAgree == true {
-                isAllAgree = true
-                isPolicy = true
-                isPrivacy = true
-                isLocation = true
-            } else if isAllAgree == false {
-                isAllAgree = false
-                isPolicy = false
-                isPrivacy = false
-                isLocation = false
-            }
+            
+            isPolicy = isAllAgree
+            isPrivacy = isAllAgree
+            isLocation = isAllAgree
+            
         case .policy:
             isPolicy = !isPolicy
         case .privacy:
@@ -60,10 +54,11 @@ final class TermsViewModel {
             isLocation = !isLocation
         }
         
-        if isPolicy == false || isPrivacy == false || isLocation == false {
-            isAllAgree = false
-        } else if isPolicy == true && isPrivacy == true && isLocation == true {
+        if isPolicy == true && isPrivacy == true && isLocation == true {
             isAllAgree = true
+        } else {
+            isAllAgree = false
         }
+        
     }
 }

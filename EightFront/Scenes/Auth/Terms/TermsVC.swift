@@ -184,6 +184,11 @@ final class TermsVC: UIViewController {
                 self?.location.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
                 self?.location.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
+        
+        
+        
+        
+        
     }
 }
 
