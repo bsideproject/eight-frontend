@@ -68,14 +68,12 @@ extension AppDelegate: MessagingDelegate {
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         
         LogUtil.d("[Log] deviceToken : \(deviceTokenString)")
-        
         Messaging.messaging().apnsToken = deviceToken
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         guard let token = fcmToken else { return }
         let dataDict: [String: String] = ["token": token]
-        
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
     }
 }
