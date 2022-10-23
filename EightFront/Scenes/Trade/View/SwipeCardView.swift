@@ -9,11 +9,41 @@ import UIKit
 
 final class SwipeCardView: UIView {
     //MARK: - Properties
-    var swipeView: UIView!
-    var shadowView: UIView!
-    var imageView: UIImageView!
+    let shadowView = UIView().then {
+        $0.backgroundColor = .clear
+        $0.layer.shadowColor = UIColor.black.cgColor
+        $0.layer.shadowOffset = CGSize(width: 0, height: 0)
+        $0.layer.shadowOpacity = 0.8
+        $0.layer.shadowRadius = 4.0
+    }
+    let swipeView = UIView().then {
+        $0.layer.cornerRadius = 8
+        $0.clipsToBounds = true
+    }
+    let bottomLineView = UIView().then {
+        $0.backgroundColor = Colors.gray001.color
+    }
+    var bottomTitleLabel = UILabel().then {
+        $0.textColor = Colors.point.color
+        $0.textAlignment = .left
+        $0.font = Fonts.Pretendard.semiBold.font(size: 18)
+    }
+    var bottomSubTitleLabel = UILabel().then {
+        $0.textColor = .white
+        $0.textAlignment = .left
+        $0.font = Fonts.Templates.body1.font
+    }
+    var imageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
+    let backgroundView = UIView().then {
+        $0.alpha = 0.0
+    }
+    let backgroundLabel = UILabel().then {
+        $0.textAlignment = .center
+        $0.font = Fonts.Pretendard.semiBold.font(size: 24)
+    }
     
-    var label = UILabel()
     var moreButton = UIButton()
     
     weak var delegate: SwipeCardsDelegate?
@@ -24,7 +54,8 @@ final class SwipeCardView: UIView {
     var dataSource : CardsDataModel? {
         didSet {
             swipeView.backgroundColor = dataSource?.bgColor
-            label.text = dataSource?.name
+            bottomTitleLabel.text = dataSource?.title
+            bottomSubTitleLabel.text = dataSource?.subTitle
             guard let image = dataSource?.image else { return }
             imageView.image = image
         }
@@ -33,101 +64,61 @@ final class SwipeCardView: UIView {
     //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        configureShadowView()
-        configureSwipeView()
-        configureLabelView()
-        configureImageView()
-        configureButton()
-        addPanGestureOnCards()
-        configureTapGesture()
+        
+        makeUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Configuration
-    
-    func configureShadowView() {
-        shadowView = UIView()
-        shadowView.backgroundColor = .clear
-        shadowView.layer.shadowColor = UIColor.black.cgColor
-        shadowView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        shadowView.layer.shadowOpacity = 0.8
-        shadowView.layer.shadowRadius = 4.0
+    //MARK: - Make UI
+    private func makeUI() {
+        self.isUserInteractionEnabled = true
+        
         addSubview(shadowView)
-        
-        shadowView.translatesAutoresizingMaskIntoConstraints = false
-        shadowView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        shadowView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        shadowView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        shadowView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-    }
-    
-    func configureSwipeView() {
-        swipeView = UIView()
-        swipeView.layer.cornerRadius = 15
-        swipeView.clipsToBounds = true
         shadowView.addSubview(swipeView)
-        
-        swipeView.translatesAutoresizingMaskIntoConstraints = false
-        swipeView.leftAnchor.constraint(equalTo: shadowView.leftAnchor).isActive = true
-        swipeView.rightAnchor.constraint(equalTo: shadowView.rightAnchor).isActive = true
-        swipeView.bottomAnchor.constraint(equalTo: shadowView.bottomAnchor).isActive = true
-        swipeView.topAnchor.constraint(equalTo: shadowView.topAnchor).isActive = true
-    }
-    
-    func configureLabelView() {
-        swipeView.addSubview(label)
-        label.backgroundColor = .white
-        label.textColor = .black
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.leftAnchor.constraint(equalTo: swipeView.leftAnchor).isActive = true
-        label.rightAnchor.constraint(equalTo: swipeView.rightAnchor).isActive = true
-        label.bottomAnchor.constraint(equalTo: swipeView.bottomAnchor).isActive = true
-        label.heightAnchor.constraint(equalToConstant: 85).isActive = true
-        
-    }
-    
-    func configureImageView() {
-        imageView = UIImageView()
+        swipeView.addSubview(bottomLineView)
+        swipeView.addSubview(bottomTitleLabel)
+        swipeView.addSubview(bottomSubTitleLabel)
         swipeView.addSubview(imageView)
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        swipeView.addSubview(backgroundView)
+        backgroundView.addSubview(backgroundLabel)
         
-        imageView.centerXAnchor.constraint(equalTo: swipeView.centerXAnchor).isActive = true
-        imageView.centerYAnchor.constraint(equalTo: swipeView.centerYAnchor, constant: -30).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-    }
-    
-    func configureButton() {
-        label.addSubview(moreButton)
-        moreButton.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(named: "plus-tab")?.withRenderingMode(.alwaysTemplate)
-        moreButton.setImage(image, for: .normal)
-        moreButton.tintColor = UIColor.red
+        shadowView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        swipeView.snp.makeConstraints {
+            $0.edges.equalTo(shadowView)
+        }
+        bottomLineView.snp.makeConstraints {
+            $0.left.bottom.right.equalTo(swipeView)
+            $0.height.equalTo(96)
+        }
+        bottomTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(bottomLineView.snp.top).offset(18)
+            $0.left.equalToSuperview().offset(24)
+            $0.right.equalToSuperview().offset(-16)
+        }
+        bottomSubTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(bottomTitleLabel.snp.bottom).offset(3)
+            $0.left.equalToSuperview().offset(24)
+            $0.right.equalToSuperview().offset(-16)
+        }
+        imageView.snp.makeConstraints {
+            $0.left.top.right.equalToSuperview()
+            $0.bottom.equalTo(bottomLineView.snp.top)
+        }
+        backgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        backgroundLabel.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
-        moreButton.rightAnchor.constraint(equalTo: label.rightAnchor, constant: -15).isActive = true
-        moreButton.centerYAnchor.constraint(equalTo: label.centerYAnchor).isActive = true
-        moreButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        moreButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-    }
-    
-    func configureTapGesture() {
+        addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture)))
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGesture)))
     }
-    
-    
-    func addPanGestureOnCards() {
-        self.isUserInteractionEnabled = true
-        addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture)))
-    }
-    
-    
     
     //MARK: - Handlers
     @objc func handlePanGesture(sender: UIPanGestureRecognizer) {
@@ -139,35 +130,46 @@ final class SwipeCardView: UIView {
         let distanceFromCenter = ((UIScreen.main.bounds.width / 2) - card.center.x)
         divisor = ((UIScreen.main.bounds.width / 2) / 0.61)
         
-        print(distanceFromCenter)
+        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut)
+        
         switch sender.state {
         case .ended:
-            if distanceFromCenter > 80 {
-                delegate?.swipeDidEnd(on: card)
-                UIView.animate(withDuration: 0.2) {
-                    card.center = CGPoint(x: centerOfParentContainer.x + point.x + 200, y: centerOfParentContainer.y + point.y + 75)
-//                    card.alpha = 0
+            if distanceFromCenter > 90 {
+                animator.addAnimations {
+                    card.center = CGPoint(x: centerOfParentContainer.x + point.x - 200, y: centerOfParentContainer.y + point.y)
                     self.layoutIfNeeded()
                 }
-                return
-            } else if distanceFromCenter < -80 {
-                delegate?.swipeDidEnd(on: card)
-                UIView.animate(withDuration: 0.2) {
-                    card.center = CGPoint(x: centerOfParentContainer.x + point.x - 200, y: centerOfParentContainer.y + point.y + 75)
-//                    card.alpha = 0
+                
+                animator.addCompletion { [weak self] _ in
+                    self?.delegate?.swipeDidEnd(on: card)
+                }
+            } else if distanceFromCenter < -90 {
+                animator.addAnimations {
+                    card.center = CGPoint(x: centerOfParentContainer.x + point.x + 200, y: centerOfParentContainer.y + point.y)
                     self.layoutIfNeeded()
                 }
-                return
+                
+                animator.addCompletion { [weak self] _ in
+                    self?.delegate?.swipeDidEnd(on: card)
+                }
+            } else {
+                animator.addAnimations {
+                    self.backgroundView.alpha = 0.0
+                    card.transform = .identity
+                    card.center = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+                    self.layoutIfNeeded()
+                }
             }
-            UIView.animate(withDuration: 0.3) {
-                card.transform = .identity
-                card.center = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
-                self.layoutIfNeeded()
-            }
+            
+            animator.startAnimation()
         case .changed:
             let rotation = tan(point.x / (self.frame.width * 2.0))
             card.transform = CGAffineTransform(rotationAngle: rotation)
             
+            backgroundLabel.text = distanceFromCenter < 0 ? "버릴래요😅" : "보관해요😉"
+            backgroundLabel.textColor = distanceFromCenter < 0 ? .black : .white
+            backgroundView.backgroundColor = distanceFromCenter < 0 ? Colors.point.color : Colors.gray001.color
+            backgroundView.alpha = abs(distanceFromCenter) / 50
         default:
             break
         }
