@@ -75,5 +75,6 @@ extension AppDelegate: MessagingDelegate {
         guard let token = fcmToken else { return }
         let dataDict: [String: String] = ["token": token]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+        UserDefaults.standard.set(token, forKey: "FCMToken")
     }
 }

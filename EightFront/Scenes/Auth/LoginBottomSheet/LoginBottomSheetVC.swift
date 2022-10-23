@@ -74,11 +74,11 @@ final class LoginBottomSheetVC: UIViewController {
         makeUI()
         bind()
         setupGestureRecognizer()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //        showBottomSheet()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -259,16 +259,16 @@ final class LoginBottomSheetVC: UIViewController {
                     LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
                 }
                 
-//                guard let fcmToken = NotificationCenter.default.value(forKey: "FCMToken") as? [String: String] else {
-//                    LogUtil.e("FCM 토큰을 받아오는데 실패 했습니다.")
-//                    return
-//                }
+                guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else {
+                    LogUtil.e("FCM Token 불러오기 실패: \(error?.localizedDescription)")
+                    return
+                }
                 
                 self.authProvider.request(.login(
                     param: SimpleSignUpRequest(
                         authId: oauthToken?.idToken ?? "",
                         authType: simpleLoginType.kakao.rawValue,
-                        deviceID: "fcmToken"
+                        deviceID: fcmToken
                     ))) { response in
                         switch response {
                         case .success(let result):
