@@ -29,9 +29,8 @@ final class EmailSignUpVC: UIViewController {
     }
     let emailVaildCheckButton = UIButton().then {
         $0.setTitle("인증", for: .normal)
-        $0.setTitleColor(UIColor.white, for: .normal)
-        $0.setTitleColor(Colors.point.color, for: .disabled)
-        $0.backgroundColor = Colors.gray006.color
+        $0.setTitleColor(UIColor.white, for: .disabled)
+        $0.setTitleColor(Colors.point.color, for: .normal)
         $0.layer.cornerRadius = 4
     }
     let emailValidLabel = UILabel().then {
@@ -46,7 +45,7 @@ final class EmailSignUpVC: UIViewController {
         $0.text = "닉네임"
         $0.font = Fonts.Templates.subheader2.font
     }
-    let nickNameTextFieldView = CommonTextFieldView(placeholder: "25자 이내의 닉네임을 입력해주세요.")
+    let nickNameTextFieldView = CommonTextFieldView(placeholder: "15자 이내의 닉네임을 입력해주세요.")
     let nicknameValidLabel = UILabel().then {
         $0.text = "닉네임이 중복 되었어요."
         $0.textColor = .red
@@ -63,10 +62,10 @@ final class EmailSignUpVC: UIViewController {
         $0.contentTextField.isSecureTextEntry = true
     }
     let passwordValidLabel = UILabel().then {
-        $0.text = "닉네임이 중복 되었어요."
+        $0.text = "8~16자의 영문, 숫자로 조합해 주세요."
         $0.textColor = .red
-        $0.font = UIFont.systemFont(ofSize: 10)
         $0.isHidden = true
+        $0.font = UIFont.systemFont(ofSize: 10)
     }
     
     // 비밀번호 확인
@@ -74,7 +73,7 @@ final class EmailSignUpVC: UIViewController {
         $0.text = "비밀번호 확인"
         $0.font = Fonts.Templates.subheader2.font
     }
-    let passwordConfirmTextFieldView = CommonTextFieldView(placeholder: "입력하신 비밀번호를 한번 더 입력해주세요.").then {
+    let passwordConfirmTextFieldView = CommonTextFieldView(placeholder: "입력하신 비밀번호를 한번 더 입력해 주세요.").then {
         $0.contentTextField.isSecureTextEntry = true
     }
     let passwordConfirmValidLabel = UILabel().then {
@@ -89,6 +88,7 @@ final class EmailSignUpVC: UIViewController {
         $0.setTitle("회원가입", for: .normal)
         $0.setTitleColor(UIColor.white, for: .disabled)
         $0.setTitleColor(Colors.point.color, for: .normal)
+        $0.layer.cornerRadius = 4
     }
     // MARK: - Lift Cycle
     
@@ -199,7 +199,9 @@ final class EmailSignUpVC: UIViewController {
     
     private func bind() {
         
-        emailTextField.contentTextField
+        // 이메일 입력
+        emailTextField
+            .contentTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
@@ -227,12 +229,39 @@ final class EmailSignUpVC: UIViewController {
             .assign(to: \.passwordConfirmInput, on: viewModel)
             .store(in: &viewModel.bag)
         
-        viewModel.isPasswordValid
+        /// 회원가입 버튼 클릭
+        signUpButton.tapPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] valid in
-                self?.passwordConfirmValidLabel.isHidden = valid
+            .sink { [weak self] _ in
+                self?.viewModel.signupButtonTapped()
             }.store(in: &viewModel.bag)
         
+        viewModel.isEmailValid
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isValid in
+                self?.emailVaildCheckButton.backgroundColor = isValid ? Colors.gray001.color : Colors.gray005.color
+                self?.emailVaildCheckButton.setTitleColor(isValid ? Colors.point.color : .white)
+            }.store(in: &viewModel.bag)
+        
+        viewModel.isNicknameValid
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isValid in
+                self?.nicknameValidLabel.isHidden = isValid
+            }.store(in: &viewModel.bag)
+        
+        viewModel.isPasswordValid
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isValid in
+                self?.passwordValidLabel.isHidden = isValid
+            }.store(in: &viewModel.bag)
+        
+        viewModel.isPasswordConfirmValid
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isValid in
+                self?.passwordConfirmValidLabel.isHidden = isValid
+            }.store(in: &viewModel.bag)
+
+        /// [이메일, 닉네임, 비밀번호, 비밀번호 확인]이 전부 입력 돼야 버튼 활성화
         viewModel.isSignupButtonValid
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }

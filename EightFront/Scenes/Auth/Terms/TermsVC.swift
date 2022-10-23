@@ -32,24 +32,14 @@ final class TermsVC: UIViewController {
         $0.textColor = Colors.gray001.color
     }
     
-    private let nextButton = UIButton().then {
-        $0.setTitle("다음", for: .normal)
-        $0.setTitleColor(UIColor.white, for: .disabled)
-        
-        $0.layer.cornerRadius = 4
-    }
+    private let allAgree = TermsView(borderColor: Colors.gray006.color, title: "전체 동의")
+    private let policy = TermsView(title: "이용약관 동의(필수)")
+    private let privacy = TermsView(title: "개인정보 수집 이용 동의(필수)")
+    private let location = TermsView(title: "위치기반 서비스 이용약관 동의(필수)")
     
-    private let allAgree = TermsView(borderColor: Colors.gray006.color, title: "전체 동의").then {
-        $0.chkeckButton.isEnabled = false
-    }
-    private let policy = TermsView(title: "이용약관 동의(필수)").then {
-        $0.chkeckButton.isEnabled = false
-    }
-    private let privacy = TermsView(title: "개인정보 수집 이용 동의(필수)").then {
-        $0.chkeckButton.isEnabled = false
-    }
-    private let location = TermsView(title: "위치기반 서비스 이용약관 동의(필수)").then {
-        $0.chkeckButton.isEnabled = false
+    private let nextButton = UIButton().then {
+        $0.setTitle("다음")
+        $0.layer.cornerRadius = 4
     }
     
     // MARK: - LifeCycle
@@ -118,6 +108,38 @@ final class TermsVC: UIViewController {
     
     private func bind() {
         
+        allAgree.chkeckButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.viewModel.checkButtonTapped(Terms.all)
+            }
+            .store(in: &viewModel.bag)
+        
+        policy.chkeckButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.viewModel.checkButtonTapped(Terms.policy)
+            }
+            .store(in: &viewModel.bag)
+        
+        privacy.chkeckButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.viewModel.checkButtonTapped(Terms.privacy)
+            }
+            .store(in: &viewModel.bag)
+        
+        location.chkeckButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.viewModel.checkButtonTapped(Terms.location)
+            }
+            .store(in: &viewModel.bag)
+        
         nextButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -125,45 +147,42 @@ final class TermsVC: UIViewController {
                 self?.navigationController?.pushViewController(emailSignUpVC, animated: true)
             }
             .store(in: &viewModel.bag)
-                
-        viewModel.isAllAgessValid
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isValid in
-                self?.nextButton.isEnabled = isValid
-                self?.nextButton.setTitleColor(Colors.point.color, for: .normal)
-                self?.nextButton.backgroundColor = isValid ? Colors.gray001.color : Colors.gray006.color
-            }.store(in: &viewModel.bag)
         
         viewModel.$isAllAgree
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] isValid in
-                self?.allAgree.chkeckButton.isEnabled = isValid
+                self?.allAgree.titleLabel.textColor = isValid ? Colors.point.color : Colors.gray005.color
                 self?.allAgree.backgroundColor = isValid ? Colors.gray001.color : .white
+                self?.allAgree.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image)
+                
+                self?.nextButton.backgroundColor = isValid ? Colors.gray001.color : Colors.gray005.color
+                self?.nextButton.setTitleColor(isValid ? Colors.point.color : .white)
+                self?.nextButton.isEnabled = isValid
             }.store(in: &viewModel.bag)
-        
+
         viewModel.$isPolicy
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] isValid in
-                self?.policy.chkeckButton.isEnabled = isValid
                 self?.policy.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
+                self?.policy.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
-        
+
         viewModel.$isPrivacy
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] isValid in
-                self?.privacy.chkeckButton.isEnabled = isValid
                 self?.privacy.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
+                self?.privacy.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
-        
+
         viewModel.$isLocation
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] isValid in
-                self?.privacy.chkeckButton.isEnabled = isValid
                 self?.location.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
+                self?.location.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
     }
 }
