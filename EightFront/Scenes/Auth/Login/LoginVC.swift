@@ -125,11 +125,13 @@ final class LoginVC: UIViewController {
         viewModel.isLoginButtonValid
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isValid in
-                UIView.animate(withDuration: 0.25) {
+                let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeIn)
+                animator.addAnimations {
                     self?.loginButton.backgroundColor = isValid ? Colors.gray002.color : Colors.gray006.color
                     self?.loginButton.isEnabled = isValid
                     self?.loginButton.setTitleColor(Colors.point.color, for: .normal)
                 }
+                animator.startAnimation()
             }
             .store(in: &viewModel.bag)
         

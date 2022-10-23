@@ -272,7 +272,7 @@ final class LoginBottomSheetVC: UIViewController {
                     ))) { response in
                         switch response {
                         case .success(let result):
-                            guard let data = try? result.map(SimpleSignUpResponse.self) else { return }
+                            guard let data = try? result.map(ApiResponse.self) else { return }
                             LogUtil.d("간편 로그인 성공 : \(data)")
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")

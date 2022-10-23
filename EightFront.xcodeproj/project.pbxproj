@@ -21,7 +21,6 @@
 		288BFD6F28FBC17500A85F13 /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6E28FBC17500A85F13 /* TermsViewModel.swift */; };
 		288BFD7128FBC9C900A85F13 /* EmailSignUpTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7028FBC9C900A85F13 /* EmailSignUpTextFieldView.swift */; };
 		288BFD7328FBE79C00A85F13 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7228FBE79C00A85F13 /* AuthAPI.swift */; };
-		288BFD7528FBF11600A85F13 /* SimpleSignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7428FBF11600A85F13 /* SimpleSignUpResponse.swift */; };
 		288BFD7728FC43A400A85F13 /* SimpleSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */; };
 		289C11AE29017C0000AECF52 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C11AD29017C0000AECF52 /* TermsView.swift */; };
 		28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F20CF928E93BA600CEE89D /* UITextField+.swift */; };
@@ -139,7 +138,6 @@
 		288BFD6E28FBC17500A85F13 /* TermsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewModel.swift; sourceTree = "<group>"; };
 		288BFD7028FBC9C900A85F13 /* EmailSignUpTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpTextFieldView.swift; sourceTree = "<group>"; };
 		288BFD7228FBE79C00A85F13 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
-		288BFD7428FBF11600A85F13 /* SimpleSignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSignUpResponse.swift; sourceTree = "<group>"; };
 		288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSignUpRequest.swift; sourceTree = "<group>"; };
 		289C11AD29017C0000AECF52 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		28F20CF928E93BA600CEE89D /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
@@ -328,7 +326,6 @@
 			children = (
 				E99AC30F28E88A6000AF1F84 /* CoordinatesResponse.swift */,
 				E9BFC40128E890A500951604 /* ApiResponse.swift */,
-				288BFD7428FBF11600A85F13 /* SimpleSignUpResponse.swift */,
 				288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */,
 			);
 			path = Model;
@@ -802,9 +799,8 @@
 				E9BFC40228E890A500951604 /* ApiResponse.swift in Sources */,
 				E9460B0428EA056E00932351 /* HomeSearchVC.swift in Sources */,
 				28379E8428F718A400B2D4DD /* LoginBottomSheetViewModel.swift in Sources */,
-				E9460B0428EA056E00932351 /* HomeListVC.swift in Sources */,
+				E9460B0428EA056E00932351 /* HomeSearchVC.swift in Sources */,
 				E98A04EB28F4185B009F055B /* NSMutableAttributedString+.swift in Sources */,
-				288BFD7528FBF11600A85F13 /* SimpleSignUpResponse.swift in Sources */,
 				288BFD7128FBC9C900A85F13 /* EmailSignUpTextFieldView.swift in Sources */,
 				E9460B0928EAADC300932351 /* HomeAddressView.swift in Sources */,
 				E99929B828D882BF006FCFC7 /* MyPageVC.swift in Sources */,
@@ -830,7 +826,7 @@
 				E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */,
 				E927FC9828D351E300A91F11 /* Date+.swift in Sources */,
 				E95FBF6C28FC1644002CA5A9 /* Pretendard+.swift in Sources */,
-				288BFD7728FC43A400A85F13 /* simpleSignUpRequest.swift in Sources */,
+				288BFD7728FC43A400A85F13 /* SimpleSignUpRequest.swift in Sources */,
 				288BFD7728FC43A400A85F13 /* SimpleSignUpRequest.swift in Sources */,
 				E9460B0F28EAC69300932351 /* NaverMapMarker.swift in Sources */,
 			);

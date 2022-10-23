@@ -12,7 +12,6 @@ final class TermsView: UIView {
     //MARK: - Properties
     
     let titleLabel = UILabel().then {
-        $0.text = ""
         $0.font = Fonts.Templates.subheader.font
         $0.textColor = Colors.gray005.color
     }
