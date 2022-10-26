@@ -94,6 +94,7 @@
 		E99929B828D882BF006FCFC7 /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B728D882BF006FCFC7 /* MyPageVC.swift */; };
 		E99929BA28D88F9B006FCFC7 /* DBVersionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99929B928D88F9B006FCFC7 /* DBVersionData.swift */; };
 		E99AC31228E88AA800AF1F84 /* ClothesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99AC31128E88AA800AF1F84 /* ClothesAPI.swift */; };
+		E9B074F5291639B300C8D9D2 /* ChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B074F4291639B300C8D9D2 /* ChoiceView.swift */; };
 		E9BF49AD28D9F45F007BBC3D /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BF49AC28D9F45F007BBC3D /* UIView+.swift */; };
 		E9BFC3F728E88DCB00951604 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E9BFC3F628E88DCB00951604 /* KakaoSDKAuth */; };
 		E9BFC3F928E88DCB00951604 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = E9BFC3F828E88DCB00951604 /* KakaoSDKUser */; };
@@ -107,6 +108,10 @@
 		E9EA260228D838880078A069 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA260128D838880078A069 /* FirebaseDatabase */; };
 		E9EA260428D838880078A069 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA260328D838880078A069 /* FirebaseMessaging */; };
 		E9EA260628D838880078A069 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = E9EA260528D838880078A069 /* FirebaseStorage */; };
+		E9EEA48D29168F500073001F /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA48C29168F500073001F /* CategoryCollectionViewCell.swift */; };
+		E9EEA48F2916955E0073001F /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA48E2916955E0073001F /* FilterView.swift */; };
+		E9EEA49129169C840073001F /* CategoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA49029169C840073001F /* CategoryResponse.swift */; };
+		E9EEA4932916A2610073001F /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA4922916A2610073001F /* UILabel+.swift */; };
 		E9EFE7BD290AD7B000EA514B /* CardDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7BB290AD7AF00EA514B /* CardDataModel.swift */; };
 		E9EFE7BE290AD7B000EA514B /* SwipeCardsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7BC290AD7AF00EA514B /* SwipeCardsDataSource.swift */; };
 		E9EFE7C2290AD7B700EA514B /* StackContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7C0290AD7B700EA514B /* StackContainerView.swift */; };
@@ -214,9 +219,14 @@
 		E99929B728D882BF006FCFC7 /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
 		E99929B928D88F9B006FCFC7 /* DBVersionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBVersionData.swift; sourceTree = "<group>"; };
 		E99AC31128E88AA800AF1F84 /* ClothesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothesAPI.swift; sourceTree = "<group>"; };
+		E9B074F4291639B300C8D9D2 /* ChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceView.swift; sourceTree = "<group>"; };
 		E9BF49AC28D9F45F007BBC3D /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		E9BFC40128E890A500951604 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
 		E9EA260728D83A250078A069 /* EightFront.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EightFront.entitlements; sourceTree = "<group>"; };
+		E9EEA48C29168F500073001F /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		E9EEA48E2916955E0073001F /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		E9EEA49029169C840073001F /* CategoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryResponse.swift; sourceTree = "<group>"; };
+		E9EEA4922916A2610073001F /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		E9EFE7BB290AD7AF00EA514B /* CardDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDataModel.swift; sourceTree = "<group>"; };
 		E9EFE7BC290AD7AF00EA514B /* SwipeCardsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCardsDataSource.swift; sourceTree = "<group>"; };
 		E9EFE7C0290AD7B700EA514B /* StackContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackContainerView.swift; sourceTree = "<group>"; };
@@ -307,6 +317,7 @@
 			children = (
 				E9008D422911584100F70B6B /* ReportRequest.swift */,
 				E9EFE7C6290AD89B00EA514B /* ClothingResponse.swift */,
+				E9EEA49029169C840073001F /* CategoryResponse.swift */,
 			);
 			path = ClothingBins;
 			sourceTree = "<group>";
@@ -402,6 +413,7 @@
 				E9494A6A28F072E8005285C0 /* UIReusable+.swift */,
 				E98A04EA28F4185B009F055B /* NSMutableAttributedString+.swift */,
 				E95FBF6B28FC1644002CA5A9 /* Pretendard+.swift */,
+				E9EEA4922916A2610073001F /* UILabel+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -664,6 +676,7 @@
 			children = (
 				E9EFE7BA290AD7AF00EA514B /* Model */,
 				E9EFE7BF290AD7B700EA514B /* View */,
+				E9EEA48B29168F3D0073001F /* Cell */,
 				E99929B328D882AD006FCFC7 /* TradeVC.swift */,
 				E9EFE7C4290AD7E200EA514B /* TradeViewModel.swift */,
 			);
@@ -686,6 +699,14 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
+		E9EEA48B29168F3D0073001F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				E9EEA48C29168F500073001F /* CategoryCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		E9EFE7BA290AD7AF00EA514B /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -700,6 +721,8 @@
 			children = (
 				E9EFE7C0290AD7B700EA514B /* StackContainerView.swift */,
 				E9EFE7C1290AD7B700EA514B /* SwipeCardView.swift */,
+				E9B074F4291639B300C8D9D2 /* ChoiceView.swift */,
+				E9EEA48E2916955E0073001F /* FilterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -831,6 +854,7 @@
 				E9460AFC28E9E3E900932351 /* HomeHeaderView.swift in Sources */,
 				28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */,
 				E96BC92028EB2988002EBA7E /* SearchMapVC.swift in Sources */,
+				E9EEA49129169C840073001F /* CategoryResponse.swift in Sources */,
 				28379E8328F718A400B2D4DD /* LoginBottomSheetVC.swift in Sources */,
 				E95FBF6928F70FDF002CA5A9 /* ImagePickerManager.swift in Sources */,
 				E9494A6B28F072E8005285C0 /* UIReusable+.swift in Sources */,
@@ -841,6 +865,7 @@
 				E927FC9C28D3525700A91F11 /* HomeVC.swift in Sources */,
 				E9EFE7C5290AD7E200EA514B /* TradeViewModel.swift in Sources */,
 				E9494A6F28F1DF15005285C0 /* UILayer+.swift in Sources */,
+				E9B074F5291639B300C8D9D2 /* ChoiceView.swift in Sources */,
 				E95ACEAC28F35E2A00057900 /* PhotoCollectionViewCell.swift in Sources */,
 				E9460AF928E9DE2200932351 /* Fonts+Generated.swift in Sources */,
 				E99929AF28D88182006FCFC7 /* MainTabbarController.swift in Sources */,
@@ -869,11 +894,14 @@
 				E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */,
 				E99AC31228E88AA800AF1F84 /* ClothesAPI.swift in Sources */,
 				E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */,
+				E9EEA4932916A2610073001F /* UILabel+.swift in Sources */,
 				E9EFE7C7290AD89B00EA514B /* ClothingResponse.swift in Sources */,
 				E99929B628D882B5006FCFC7 /* NoticeVC.swift in Sources */,
 				E96BC92528EB2E7E002EBA7E /* SearchMapViewModel.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
 				E9494A6928F07203005285C0 /* SearchResultCell.swift in Sources */,
+				E9EEA48F2916955E0073001F /* FilterView.swift in Sources */,
+				E9EEA48D29168F500073001F /* CategoryCollectionViewCell.swift in Sources */,
 				28379E8828F846C300B2D4DD /* LoginViewModel.swift in Sources */,
 				E9EFE7BE290AD7B000EA514B /* SwipeCardsDataSource.swift in Sources */,
 				E9494A6D28F1C816005285C0 /* BoxCollectionView.swift in Sources */,
