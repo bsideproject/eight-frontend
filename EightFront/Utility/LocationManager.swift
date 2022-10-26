@@ -77,8 +77,7 @@ final class LocationManager: NSObject {
                 
         pathData.reverseGeocoding(targetPoint, addressType: "A10") { result, error in
             if let result = result {
-                LogUtil.d(result)
-                
+                //TODO: 호출 많이되는 이유찾기
                 if let city = result["city_do"] as? String,
                    let gu = result["gu_gun"] as? String,
                    let roadName = result["roadName"] as? String,
