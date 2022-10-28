@@ -5,12 +5,12 @@
 //  Created by wargi on 2022/10/01.
 //
 
-import Foundation
+import UIKit
 import Moya
 
 enum ClothesAPI {
     case clothingBins(latitude: Double, longitude: Double)
-    case newReport(param: ReportRequest?)
+    case newReport(info: ReportRequest, images: [UIImage])
 }
 
 extension ClothesAPI: TargetType {
@@ -45,8 +45,24 @@ extension ClothesAPI: TargetType {
             ]
             
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-        case .newReport(let param):
+        case .newReport(let info, let images):
+            var fromData = [MultipartFormData]()
             
+            if let report = try? JSONEncoder().encode(info) {
+                fromData.append(MultipartFormData(provider: .data(report), name: "request"))
+            }
+            
+            images.first?.jpegData(compressionQuality: 0.3)
+            
+            for image in images {
+                guard let jpegData = image.jpegData(compressionQuality: 0.3) else { continue }
+                let name = UUID().uuidString
+                fromData.append(MultipartFormData(provider: .data(jpegData),
+                                                  name: name,
+                                                  fileName: "\(name).jpeg",
+                                                  mimeType: "image/jpeg"))
+            }
+            return .uploadMultipart(fromData)
         }
     }
     
