@@ -83,6 +83,31 @@ final class StackContainerView: UIView, SwipeCardsDelegate {
         cardViews = []
     }
     
+    func removeCardTapAnimation(isLeft: Bool = true) {
+        guard let card = visibleCards.last else { return }
+        
+        
+        var cardViewFrame = bounds
+        cardViewFrame.origin.x = isLeft ? -cardViewFrame.width : UIScreen.main.bounds.width + cardViewFrame.width
+        
+        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut)
+        
+        animator.addAnimations { [weak self] in
+            card.frame = cardViewFrame
+            let xFromCenter = (isLeft ? -UIScreen.main.bounds.width : UIScreen.main.bounds.width) - (cardViewFrame.maxX / 2)
+            let divisor = ((UIScreen.main.bounds.width / 2) / 0.61)
+            let angle = tan(xFromCenter / divisor)
+            card.transform = CGAffineTransform(rotationAngle: angle)
+            self?.layoutIfNeeded()
+        }
+        
+        animator.addCompletion { [weak self] _ in
+            self?.swipeDidEnd(on: card)
+        }
+        
+        animator.startAnimation()
+    }
+    
     func swipeDidEnd(on view: SwipeCardView) {
         guard let datasource = dataSource else { return }
         view.removeFromSuperview()

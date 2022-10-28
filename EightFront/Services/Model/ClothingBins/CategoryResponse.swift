@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct CategoryResponse: Decodable {
+    let name: String
+}
