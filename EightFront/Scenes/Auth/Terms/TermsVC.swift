@@ -112,7 +112,7 @@ final class TermsVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.checkButtonTapped(TermsViewModel.Terms.all)
+//                self?.viewModel.checkButtonTapped(TermsViewModel.Terms.all)
             }
             .store(in: &viewModel.bag)
         
@@ -148,13 +148,15 @@ final class TermsVC: UIViewController {
             }
             .store(in: &viewModel.bag)
         
-        viewModel.$isAllAgree
-            .receive(on: DispatchQueue.main)
-            .compactMap { $0 }
-            .sink { [weak self] isValid in
+        Publishers
+            .CombineLatest3(viewModel.$isPolicy, viewModel.$isPrivacy, viewModel.$isLocation)
+            .compactMap {
+                $0 && $1 && $2
+            }.sink { [weak self] isValid in
                 self?.allAgree.titleLabel.textColor = isValid ? Colors.point.color : Colors.gray005.color
                 self?.allAgree.backgroundColor = isValid ? Colors.gray001.color : .white
                 self?.allAgree.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image)
+                self?.allAgree.chkeckButton.layer.cornerRadius = 3
                 
                 self?.nextButton.backgroundColor = isValid ? Colors.gray001.color : Colors.gray005.color
                 self?.nextButton.setTitleColor(isValid ? Colors.point.color : .white)
@@ -184,10 +186,6 @@ final class TermsVC: UIViewController {
                 self?.location.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
                 self?.location.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
-        
-        
-        
-        
         
     }
 }

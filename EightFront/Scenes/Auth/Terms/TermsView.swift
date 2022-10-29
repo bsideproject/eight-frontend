@@ -18,6 +18,7 @@ final class TermsView: UIView {
     
     let chkeckButton = UIButton().then {
         $0.setImage(Images.Report.checkboxSelect.image, for: .normal)
+        $0.clipsToBounds = true
     }
     
     // MARK: - LifeCycle

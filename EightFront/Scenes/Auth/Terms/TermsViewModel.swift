@@ -11,15 +11,15 @@ import Combine
 final class TermsViewModel {
     
     enum Terms {
-        case all
+//        case all
         case policy
         case privacy
         case location
         
         var type: String {
             switch self {
-            case .all :
-                return "all"
+//            case .all :
+//                return "all"
             case .policy:
                 return "policy"
             case .privacy:
@@ -32,19 +32,19 @@ final class TermsViewModel {
     
     var bag = Set<AnyCancellable>()
     
-    @Published var isAllAgree: Bool = false
+//    @Published var isAllAgree: Bool = false
     @Published var isPolicy: Bool = false
     @Published var isPrivacy: Bool = false
     @Published var isLocation: Bool = false
     
     func checkButtonTapped(_ type: Terms) {
         switch type {
-        case .all:
-            isAllAgree = !isAllAgree
-            
-            isPolicy = isAllAgree
-            isPrivacy = isAllAgree
-            isLocation = isAllAgree
+//        case .all:
+//            isAllAgree = !isAllAgree
+//
+//            isPolicy = isAllAgree
+//            isPrivacy = isAllAgree
+//            isLocation = isAllAgree
             
         case .policy:
             isPolicy = !isPolicy
@@ -54,11 +54,10 @@ final class TermsViewModel {
             isLocation = !isLocation
         }
         
-        if isPolicy == true && isPrivacy == true && isLocation == true {
-            isAllAgree = true
-        } else {
-            isAllAgree = false
-        }
-        
+//        if isPolicy == true && isPrivacy == true && isLocation == true {
+//            isAllAgree = true
+//        } else {
+//            isAllAgree = false
+//        }
     }
 }

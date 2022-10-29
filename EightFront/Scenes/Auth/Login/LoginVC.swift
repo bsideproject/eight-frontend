@@ -146,7 +146,9 @@ final class LoginVC: UIViewController {
     // - MARK: Actions
     
     func signUpButtonTapped() {
-        let emailSignVC = EmailSignUpVC()
-        navigationController?.pushViewController(emailSignVC, animated: true)
+        let termsVC = TermsVC()
+        navigationController?.pushViewController(termsVC, animated: true)
+//        let emailSignVC = EmailSignUpVC()
+//        navigationController?.pushViewController(emailSignVC, animated: true)
     }
 }

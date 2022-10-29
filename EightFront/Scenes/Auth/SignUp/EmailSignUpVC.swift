@@ -24,7 +24,7 @@ final class EmailSignUpVC: UIViewController {
         $0.text = "이메일"
         $0.font = Fonts.Templates.subheader2.font
     }
-    let emailTextField = CommonTextFieldView(placeholder: "이메일 주소를 입력해 주세요.", contentTrailing: 10).then {
+    let emailTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "이메일 주소를 입력해 주세요.").then {
         $0.contentTextField.keyboardType = .emailAddress
     }
     let emailVaildCheckButton = UIButton().then {
@@ -41,11 +41,11 @@ final class EmailSignUpVC: UIViewController {
     }
     
     // 닉네임
-    let nickNameLabel = UILabel().then {
+    let nicknameLabel = UILabel().then {
         $0.text = "닉네임"
         $0.font = Fonts.Templates.subheader2.font
     }
-    let nickNameTextFieldView = CommonTextFieldView(placeholder: "15자 이내의 닉네임을 입력해주세요.")
+    let nicknameTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.")
     let nicknameValidLabel = UILabel().then {
         $0.text = "닉네임이 중복 되었어요."
         $0.textColor = .red
@@ -58,7 +58,7 @@ final class EmailSignUpVC: UIViewController {
         $0.text = "비밀번호"
         $0.font = Fonts.Templates.subheader2.font
     }
-    let passwordTextFieldView = CommonTextFieldView(placeholder: "8~16자의 영문, 숫자로 조합해주세요.").then {
+    let passwordTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "8~16자의 영문, 숫자로 조합해주세요.").then {
         $0.contentTextField.isSecureTextEntry = true
     }
     let passwordValidLabel = UILabel().then {
@@ -73,7 +73,7 @@ final class EmailSignUpVC: UIViewController {
         $0.text = "비밀번호 확인"
         $0.font = Fonts.Templates.subheader2.font
     }
-    let passwordConfirmTextFieldView = CommonTextFieldView(placeholder: "입력하신 비밀번호를 한번 더 입력해 주세요.").then {
+    let passwordConfirmTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "입력하신 비밀번호를 한번 더 입력해 주세요.").then {
         $0.contentTextField.isSecureTextEntry = true
     }
     let passwordConfirmValidLabel = UILabel().then {
@@ -98,8 +98,10 @@ final class EmailSignUpVC: UIViewController {
         bind()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 회원가입 창 진입 시 이메일 텍스트 필드 포커스 온
+        emailTextFieldView.contentTextField.becomeFirstResponder()
     }
     
     // MARK: - MakeUI
@@ -108,12 +110,12 @@ final class EmailSignUpVC: UIViewController {
         
         view.addSubview(navigationBar)
         view.addSubview(emailLabel)
-        view.addSubview(emailTextField)
+        view.addSubview(emailTextFieldView)
         view.addSubview(emailVaildCheckButton)
         view.addSubview(emailValidLabel)
         
-        view.addSubview(nickNameLabel)
-        view.addSubview(nickNameTextFieldView)
+        view.addSubview(nicknameLabel)
+        view.addSubview(nicknameTextFieldView)
         view.addSubview(nicknameValidLabel)
         
         view.addSubview(passwordLabel)
@@ -135,7 +137,7 @@ final class EmailSignUpVC: UIViewController {
             $0.top.equalTo(navigationBar.snp.bottom).offset(32)
             $0.leading.equalToSuperview().inset(16)
         }
-        emailTextField.snp.makeConstraints {
+        emailTextFieldView.snp.makeConstraints {
             $0.top.equalTo(emailLabel.snp.bottom).offset(8)
             $0.leading.equalToSuperview().inset(16)
             $0.width.equalTo(271)
@@ -143,29 +145,29 @@ final class EmailSignUpVC: UIViewController {
         }
         emailVaildCheckButton.snp.makeConstraints {
             $0.top.equalTo(emailLabel.snp.bottom).offset(8)
-            $0.leading.equalTo(emailTextField.snp.trailing).offset(8)
+            $0.leading.equalTo(emailTextFieldView.snp.trailing).offset(8)
             $0.width.equalTo(64)
             $0.height.equalTo(46)
         }
         emailValidLabel.snp.makeConstraints {
-            $0.top.equalTo(emailTextField.snp.bottom).offset(4)
+            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(4)
             $0.leading.equalToSuperview().inset(16)
         }
-        nickNameLabel.snp.makeConstraints {
+        nicknameLabel.snp.makeConstraints {
             $0.top.equalTo(emailVaildCheckButton.snp.bottom).offset(28)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
-        nickNameTextFieldView.snp.makeConstraints {
-            $0.top.equalTo(nickNameLabel.snp.bottom).offset(8)
+        nicknameTextFieldView.snp.makeConstraints {
+            $0.top.equalTo(nicknameLabel.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(46)
         }
         nicknameValidLabel.snp.makeConstraints {
-            $0.top.equalTo(nickNameTextFieldView.snp.bottom).offset(4)
+            $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(4)
             $0.leading.equalToSuperview().inset(16)
         }
         passwordLabel.snp.makeConstraints {
-            $0.top.equalTo(nickNameTextFieldView.snp.bottom).offset(28)
+            $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(28)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         passwordTextFieldView.snp.makeConstraints {
@@ -199,7 +201,7 @@ final class EmailSignUpVC: UIViewController {
     
     private func bind() {
         // 이메일 입력
-        emailTextField
+        emailTextFieldView
             .contentTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
@@ -207,7 +209,7 @@ final class EmailSignUpVC: UIViewController {
             .assign(to: \.emailInput, on: viewModel)
             .store(in: &viewModel.bag)
         
-        nickNameTextFieldView.contentTextField
+        nicknameTextFieldView.contentTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
@@ -275,9 +277,26 @@ final class EmailSignUpVC: UIViewController {
     
     // MARK: - Functions
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     
-    
-    
-    
+}
+
+// MARK: - UITextFieldDelegate
+extension EmailSignUpVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTextFieldView.contentTextField:
+            nicknameTextFieldView.contentTextField.becomeFirstResponder()
+        case nicknameTextFieldView.contentTextField:
+            passwordTextFieldView.contentTextField.becomeFirstResponder()
+        case passwordTextFieldView.contentTextField:
+            passwordConfirmTextFieldView.contentTextField.becomeFirstResponder()
+        default:
+            textField.resignFirstResponder()
+        }
+        return true
+    }
 }
 

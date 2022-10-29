@@ -64,7 +64,7 @@ final class EmailSignUpViewModel {
     
     lazy var isSignupButtonValid: AnyPublisher<Bool, Never> = Publishers
         .CombineLatest4($emailInput, $nicknameInput, $passwordInput, $passwordConfirmInput)
-        .compactMap { $0.isEmpty || $1.isEmpty  || $2.isEmpty  || $3.isEmpty  ? false : true }
+        .compactMap { $0.isEmpty || $1.isEmpty  || $2.isEmpty || $3.isEmpty  ? false : true }
         .eraseToAnyPublisher()
     
     func signupButtonTapped() {
