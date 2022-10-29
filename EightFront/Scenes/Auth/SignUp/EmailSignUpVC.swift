@@ -26,6 +26,7 @@ final class EmailSignUpVC: UIViewController {
     }
     let emailTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "이메일 주소를 입력해 주세요.").then {
         $0.contentTextField.keyboardType = .emailAddress
+        $0.contentTextField.returnKeyType = .next
     }
     let emailVaildCheckButton = UIButton().then {
         $0.setTitle("인증", for: .normal)
@@ -45,7 +46,9 @@ final class EmailSignUpVC: UIViewController {
         $0.text = "닉네임"
         $0.font = Fonts.Templates.subheader2.font
     }
-    let nicknameTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.")
+    let nicknameTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.").then {
+        $0.contentTextField.returnKeyType = .next
+    }
     let nicknameValidLabel = UILabel().then {
         $0.text = "닉네임이 중복 되었어요."
         $0.textColor = .red
@@ -60,6 +63,7 @@ final class EmailSignUpVC: UIViewController {
     }
     let passwordTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "8~16자의 영문, 숫자로 조합해주세요.").then {
         $0.contentTextField.isSecureTextEntry = true
+        $0.contentTextField.returnKeyType = .next
     }
     let passwordValidLabel = UILabel().then {
         $0.text = "8~16자의 영문, 숫자로 조합해 주세요."
@@ -75,6 +79,7 @@ final class EmailSignUpVC: UIViewController {
     }
     let passwordConfirmTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "입력하신 비밀번호를 한번 더 입력해 주세요.").then {
         $0.contentTextField.isSecureTextEntry = true
+        $0.contentTextField.returnKeyType = .done
     }
     let passwordConfirmValidLabel = UILabel().then {
         $0.text = "비밀번호가 일치하지 않습니다."
@@ -96,6 +101,7 @@ final class EmailSignUpVC: UIViewController {
         super.viewDidLoad()
         makeUI()
         bind()
+        configureTextFieldDelegate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -199,6 +205,7 @@ final class EmailSignUpVC: UIViewController {
         }
     }
     
+    // MARK: - bind
     private func bind() {
         // 이메일 입력
         emailTextFieldView
@@ -273,10 +280,17 @@ final class EmailSignUpVC: UIViewController {
         
     }
     
+    // MARK: - Configure
+    private func configureTextFieldDelegate() {
+        emailTextFieldView.contentTextField.delegate = self
+        nicknameTextFieldView.contentTextField.delegate = self
+        passwordTextFieldView.contentTextField.delegate = self
+        passwordConfirmTextFieldView.contentTextField.delegate = self
+    }
+    
     // MARK: - Actions
     
     // MARK: - Functions
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
