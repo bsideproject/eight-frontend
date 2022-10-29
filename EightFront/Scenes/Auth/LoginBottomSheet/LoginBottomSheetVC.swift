@@ -86,42 +86,7 @@ final class LoginBottomSheetVC: UIViewController {
         showBottomSheet()
     }
     
-    // MARK: - Bind
-    private func bind() {
-        appleLoginButton
-            .controlEventPublisher(for: .touchUpInside)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.appleLoginButtonTapped()
-            }
-            .store(in: &viewModel.bag)
-        
-        kakaoLoginButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.kakaoLoginButtonTapped()
-            }
-            .store(in: &viewModel.bag)
-        
-        emailLoginButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.emailLoginButtonTapped()
-            }.store(in: &viewModel.bag)
-        
-        emailSignUpButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.emailSignUpButtonTapped()
-            }.store(in: &viewModel.bag)
-        
-    }
-    
-    // MARK: - Functions
-    
+    // MARK: - makeUI
     private func makeUI() {
         view.addSubview(dimmedBackView)
         view.addSubview(bottomSheetView)
@@ -184,6 +149,41 @@ final class LoginBottomSheetVC: UIViewController {
         }
     }
     
+    // MARK: - Bind
+    private func bind() {
+        appleLoginButton
+            .controlEventPublisher(for: .touchUpInside)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.appleLoginButtonTapped()
+            }
+            .store(in: &viewModel.bag)
+        
+        kakaoLoginButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.kakaoLoginButtonTapped()
+            }
+            .store(in: &viewModel.bag)
+        
+        emailLoginButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.emailLoginButtonTapped()
+            }.store(in: &viewModel.bag)
+        
+        emailSignUpButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.emailSignUpButtonTapped()
+            }.store(in: &viewModel.bag)
+        
+    }
+    
+    // MARK: - Functions
     // GestureRecognizer 세팅 작업
     private func setupGestureRecognizer() {
         // 흐린 부분 탭할 때, 바텀시트를 내리는 TapGesture

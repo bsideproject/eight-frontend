@@ -307,6 +307,8 @@ extension EmailSignUpVC: UITextFieldDelegate {
             passwordTextFieldView.contentTextField.becomeFirstResponder()
         case passwordTextFieldView.contentTextField:
             passwordConfirmTextFieldView.contentTextField.becomeFirstResponder()
+        case passwordConfirmTextFieldView.contentTextField:
+            print("회원가입 창에서 done 버튼 누름")
         default:
             textField.resignFirstResponder()
         }

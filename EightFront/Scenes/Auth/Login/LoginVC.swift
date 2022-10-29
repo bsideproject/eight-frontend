@@ -22,8 +22,12 @@ final class LoginVC: UIViewController {
     private let logoImageView = UIImageView().then {
         $0.backgroundColor = .lightGray
     }
-    private let emailTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "이메일을 입력하세요.")
-    private let passwordTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "비밀번호를 입력하세요.")
+    private let emailTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "이메일을 입력하세요.").then {
+        $0.contentTextField.returnKeyType = .next
+    }
+    private let passwordTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "비밀번호를 입력하세요.").then {
+        $0.contentTextField.returnKeyType = .done
+    }
     private let loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(UIColor.white, for: .disabled)
@@ -42,20 +46,29 @@ final class LoginVC: UIViewController {
         $0.setTitleColor(Colors.gray002.color)
     }
     
-    // MARK: Life Cycle
+    // MARK: - Life Cycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        emailTextFieldView.contentTextField.becomeFirstResponder()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
         bind()
+        configureTextFieldDelegate()
     }
     
-    // MARK: MakeUI
+    // MARK: - configure
+    
+    private func configureTextFieldDelegate() {
+        emailTextFieldView.contentTextField.delegate = self
+        passwordTextFieldView.contentTextField.delegate = self
+    }
+    
+    // MARK: - makeUI
     
     private func makeUI() {
         
@@ -104,10 +117,9 @@ final class LoginVC: UIViewController {
         }
     }
     
-    // MARK: Binding
+    // MARK: binding
     
     private func bind() {
-        
         emailTextFieldView.contentTextField
             .textPublisher
             .receive(on: DispatchQueue.main)
@@ -150,5 +162,19 @@ final class LoginVC: UIViewController {
         navigationController?.pushViewController(termsVC, animated: true)
 //        let emailSignVC = EmailSignUpVC()
 //        navigationController?.pushViewController(emailSignVC, animated: true)
+    }
+}
+
+extension LoginVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTextFieldView.contentTextField:
+            passwordTextFieldView.contentTextField.becomeFirstResponder()
+        case passwordTextFieldView.contentTextField:
+            print("비밀번호 입력 창에서 done 키 누름")
+        default:
+            textField.resignFirstResponder()
+        }
+        return true
     }
 }
