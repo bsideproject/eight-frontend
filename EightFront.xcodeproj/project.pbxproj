@@ -113,6 +113,7 @@
 		E9EEA49129169C840073001F /* CategoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA49029169C840073001F /* CategoryResponse.swift */; };
 		E9EEA4932916A2610073001F /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA4922916A2610073001F /* UILabel+.swift */; };
 		E9EEA4952916B33C0073001F /* CutOffPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA4942916B33C0073001F /* CutOffPopupView.swift */; };
+		E9EEA4992916BA790073001F /* ReportPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA4982916BA790073001F /* ReportPopupView.swift */; };
 		E9EFE7BD290AD7B000EA514B /* CardDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7BB290AD7AF00EA514B /* CardDataModel.swift */; };
 		E9EFE7BE290AD7B000EA514B /* SwipeCardsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7BC290AD7AF00EA514B /* SwipeCardsDataSource.swift */; };
 		E9EFE7C2290AD7B700EA514B /* StackContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7C0290AD7B700EA514B /* StackContainerView.swift */; };
@@ -229,6 +230,7 @@
 		E9EEA49029169C840073001F /* CategoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryResponse.swift; sourceTree = "<group>"; };
 		E9EEA4922916A2610073001F /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		E9EEA4942916B33C0073001F /* CutOffPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutOffPopupView.swift; sourceTree = "<group>"; };
+		E9EEA4982916BA790073001F /* ReportPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportPopupView.swift; sourceTree = "<group>"; };
 		E9EFE7BB290AD7AF00EA514B /* CardDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDataModel.swift; sourceTree = "<group>"; };
 		E9EFE7BC290AD7AF00EA514B /* SwipeCardsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCardsDataSource.swift; sourceTree = "<group>"; };
 		E9EFE7C0290AD7B700EA514B /* StackContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackContainerView.swift; sourceTree = "<group>"; };
@@ -721,6 +723,7 @@
 		E9EEA4972916B3570073001F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E9EEA4982916BA790073001F /* ReportPopupView.swift */,
 				E9EEA4942916B33C0073001F /* CutOffPopupView.swift */,
 			);
 			path = View;
@@ -866,6 +869,7 @@
 				E99929BA28D88F9B006FCFC7 /* DBVersionData.swift in Sources */,
 				E9494A5F28F060A5005285C0 /* CommonNavigationView.swift in Sources */,
 				E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */,
+				E9EEA4992916BA790073001F /* ReportPopupView.swift in Sources */,
 				2841347928D9D93700A758F2 /* UIApplication+.swift in Sources */,
 				E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */,
 				28379E8A28F8550400B2D4DD /* TermsVC.swift in Sources */,
