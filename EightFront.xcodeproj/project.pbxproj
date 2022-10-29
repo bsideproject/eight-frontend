@@ -112,6 +112,7 @@
 		E9EEA48F2916955E0073001F /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA48E2916955E0073001F /* FilterView.swift */; };
 		E9EEA49129169C840073001F /* CategoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA49029169C840073001F /* CategoryResponse.swift */; };
 		E9EEA4932916A2610073001F /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA4922916A2610073001F /* UILabel+.swift */; };
+		E9EEA4952916B33C0073001F /* CutOffPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA4942916B33C0073001F /* CutOffPopupView.swift */; };
 		E9EFE7BD290AD7B000EA514B /* CardDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7BB290AD7AF00EA514B /* CardDataModel.swift */; };
 		E9EFE7BE290AD7B000EA514B /* SwipeCardsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7BC290AD7AF00EA514B /* SwipeCardsDataSource.swift */; };
 		E9EFE7C2290AD7B700EA514B /* StackContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7C0290AD7B700EA514B /* StackContainerView.swift */; };
@@ -227,6 +228,7 @@
 		E9EEA48E2916955E0073001F /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		E9EEA49029169C840073001F /* CategoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryResponse.swift; sourceTree = "<group>"; };
 		E9EEA4922916A2610073001F /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
+		E9EEA4942916B33C0073001F /* CutOffPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutOffPopupView.swift; sourceTree = "<group>"; };
 		E9EFE7BB290AD7AF00EA514B /* CardDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDataModel.swift; sourceTree = "<group>"; };
 		E9EFE7BC290AD7AF00EA514B /* SwipeCardsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCardsDataSource.swift; sourceTree = "<group>"; };
 		E9EFE7C0290AD7B700EA514B /* StackContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackContainerView.swift; sourceTree = "<group>"; };
@@ -679,6 +681,7 @@
 				E9EEA48B29168F3D0073001F /* Cell */,
 				E99929B328D882AD006FCFC7 /* TradeVC.swift */,
 				E9EFE7C4290AD7E200EA514B /* TradeViewModel.swift */,
+				E9EEA4962916B3490073001F /* Detail */,
 			);
 			path = Trade;
 			sourceTree = "<group>";
@@ -705,6 +708,22 @@
 				E9EEA48C29168F500073001F /* CategoryCollectionViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		E9EEA4962916B3490073001F /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				E9EEA4972916B3570073001F /* View */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		E9EEA4972916B3570073001F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E9EEA4942916B33C0073001F /* CutOffPopupView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		E9EFE7BA290AD7AF00EA514B /* Model */ = {
@@ -890,6 +909,7 @@
 				288BFD7128FBC9C900A85F13 /* EmailSignUpTextFieldView.swift in Sources */,
 				E9460B0928EAADC300932351 /* HomeAddressView.swift in Sources */,
 				E99929B828D882BF006FCFC7 /* MyPageVC.swift in Sources */,
+				E9EEA4952916B33C0073001F /* CutOffPopupView.swift in Sources */,
 				288BFD6D28FBAEAA00A85F13 /* EmailSignUpViewModel.swift in Sources */,
 				E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */,
 				E99AC31228E88AA800AF1F84 /* ClothesAPI.swift in Sources */,
