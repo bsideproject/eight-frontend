@@ -19,20 +19,31 @@ final class EmailSignUpVC: UIViewController {
         $0.titleLabel.text = "회원가입"
     }
     
+    let scrollView = UIScrollView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    let contentView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     // 이메일
     let emailLabel = UILabel().then {
         $0.text = "이메일"
         $0.font = Fonts.Templates.subheader2.font
+        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     let emailTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "이메일 주소를 입력해 주세요.").then {
         $0.contentTextField.keyboardType = .emailAddress
         $0.contentTextField.returnKeyType = .next
+        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     let emailVaildCheckButton = UIButton().then {
         $0.setTitle("인증", for: .normal)
         $0.setTitleColor(UIColor.white, for: .disabled)
         $0.setTitleColor(Colors.point.color, for: .normal)
         $0.layer.cornerRadius = 4
+        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     let emailValidLabel = UILabel().then {
         $0.text = "이메일 인증이 완료되었어요."
@@ -48,6 +59,12 @@ final class EmailSignUpVC: UIViewController {
     }
     let nicknameTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.").then {
         $0.contentTextField.returnKeyType = .next
+    }
+    let nicknameVaildCheckButton = UIButton().then {
+        $0.setTitle("인증", for: .normal)
+        $0.setTitleColor(UIColor.white, for: .disabled)
+        $0.setTitleColor(Colors.point.color, for: .normal)
+        $0.layer.cornerRadius = 4
     }
     let nicknameValidLabel = UILabel().then {
         $0.text = "닉네임이 중복 되었어요."
@@ -95,8 +112,9 @@ final class EmailSignUpVC: UIViewController {
         $0.setTitleColor(Colors.point.color, for: .normal)
         $0.layer.cornerRadius = 4
     }
-    // MARK: - Lift Cycle
     
+    
+    // MARK: - Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
@@ -115,37 +133,53 @@ final class EmailSignUpVC: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(navigationBar)
-        view.addSubview(emailLabel)
-        view.addSubview(emailTextFieldView)
-        view.addSubview(emailVaildCheckButton)
-        view.addSubview(emailValidLabel)
-        
-        view.addSubview(nicknameLabel)
-        view.addSubview(nicknameTextFieldView)
-        view.addSubview(nicknameValidLabel)
-        
-        view.addSubview(passwordLabel)
-        view.addSubview(passwordTextFieldView)
-        view.addSubview(passwordValidLabel)
-        
-        view.addSubview(passwordConfirmLabel)
-        view.addSubview(passwordConfirmTextFieldView)
-        view.addSubview(passwordConfirmValidLabel)
-        
-        view.addSubview(signUpButton)
-        
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(emailLabel)
+        contentView.addSubview(emailTextFieldView)
+        contentView.addSubview(emailVaildCheckButton)
+        contentView.addSubview(emailValidLabel)
+
+        contentView.addSubview(nicknameLabel)
+        contentView.addSubview(nicknameTextFieldView)
+        contentView.addSubview(nicknameVaildCheckButton)
+        contentView.addSubview(nicknameValidLabel)
+
+        contentView.addSubview(passwordLabel)
+        contentView.addSubview(passwordTextFieldView)
+        contentView.addSubview(passwordValidLabel)
+
+        contentView.addSubview(passwordConfirmLabel)
+        contentView.addSubview(passwordConfirmTextFieldView)
+        contentView.addSubview(passwordConfirmValidLabel)
+
+        contentView.addSubview(signUpButton)
+
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(47)
         }
-        emailLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(32)
-            $0.leading.equalToSuperview().inset(16)
+        
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.trailing.leading.bottom.equalToSuperview()
         }
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView.snp.edges)
+            $0.width.equalTo(scrollView.snp.width)
+        }
+        
+        emailLabel.snp.makeConstraints {
+            $0.top.equalTo(contentView.snp.top).inset(32)
+            $0.trailing.equalTo(contentView.snp.trailing).inset(16)
+            $0.leading.equalTo(contentView.snp.leading).inset(16)
+        }
+        
         emailTextFieldView.snp.makeConstraints {
             $0.top.equalTo(emailLabel.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().inset(16)
+            $0.leading.equalTo(scrollView.snp.leading).inset(16)
             $0.width.equalTo(271)
             $0.height.equalTo(46)
         }
@@ -157,15 +191,22 @@ final class EmailSignUpVC: UIViewController {
         }
         emailValidLabel.snp.makeConstraints {
             $0.top.equalTo(emailTextFieldView.snp.bottom).offset(4)
-            $0.leading.equalToSuperview().inset(16)
+            $0.leading.equalTo(scrollView.snp.leading).inset(16)
         }
         nicknameLabel.snp.makeConstraints {
-            $0.top.equalTo(emailVaildCheckButton.snp.bottom).offset(28)
+            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(28)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         nicknameTextFieldView.snp.makeConstraints {
             $0.top.equalTo(nicknameLabel.snp.bottom).offset(8)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview().inset(16)
+            $0.width.equalTo(271)
+            $0.height.equalTo(46)
+        }
+        nicknameVaildCheckButton.snp.makeConstraints {
+            $0.top.equalTo(nicknameLabel.snp.bottom).offset(8)
+            $0.leading.equalTo(nicknameTextFieldView.snp.trailing).offset(8)
+            $0.width.equalTo(64)
             $0.height.equalTo(46)
         }
         nicknameValidLabel.snp.makeConstraints {
@@ -199,14 +240,24 @@ final class EmailSignUpVC: UIViewController {
             $0.leading.equalToSuperview().inset(16)
         }
         signUpButton.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(passwordConfirmValidLabel.snp.bottom).offset(100)
             $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalTo(contentView)
             $0.height.equalTo(58)
         }
     }
     
     // MARK: - bind
     private func bind() {
+        
+        navigationBar.backButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+            .store(in: &viewModel.bag)
+        
         // 이메일 입력
         emailTextFieldView
             .contentTextField
@@ -291,9 +342,9 @@ final class EmailSignUpVC: UIViewController {
     // MARK: - Actions
     
     // MARK: - Functions
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        self.scrollView.endEditing(true)
+//    }
     
 }
 

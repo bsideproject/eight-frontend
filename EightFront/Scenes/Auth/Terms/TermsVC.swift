@@ -108,6 +108,14 @@ final class TermsVC: UIViewController {
     
     private func bind() {
         
+        navigationView.backButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+            .store(in: &viewModel.bag)
+        
         allAgree.chkeckButton
             .tapPublisher
             .receive(on: DispatchQueue.main)

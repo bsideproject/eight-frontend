@@ -120,6 +120,15 @@ final class LoginVC: UIViewController {
     // MARK: binding
     
     private func bind() {
+        
+        navigationView.backButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+            .store(in: &viewModel.bag)
+        
         emailTextFieldView.contentTextField
             .textPublisher
             .receive(on: DispatchQueue.main)

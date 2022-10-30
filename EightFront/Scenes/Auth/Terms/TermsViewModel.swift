@@ -39,13 +39,6 @@ final class TermsViewModel {
     
     func checkButtonTapped(_ type: Terms) {
         switch type {
-//        case .all:
-//            isAllAgree = !isAllAgree
-//
-//            isPolicy = isAllAgree
-//            isPrivacy = isAllAgree
-//            isLocation = isAllAgree
-            
         case .policy:
             isPolicy = !isPolicy
         case .privacy:
@@ -53,11 +46,5 @@ final class TermsViewModel {
         case .location:
             isLocation = !isLocation
         }
-        
-//        if isPolicy == true && isPrivacy == true && isLocation == true {
-//            isAllAgree = true
-//        } else {
-//            isAllAgree = false
-//        }
     }
 }
