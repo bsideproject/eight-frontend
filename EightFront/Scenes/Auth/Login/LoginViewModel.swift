@@ -27,7 +27,8 @@ final class LoginViewModel {
     
     lazy var isPasswordValid: AnyPublisher<Bool, Never> = $passwordInput
         .compactMap {
-            let passwordRegEx =  "^[A-Za-z0-9].{7,15}"
+            // 영어 대문자, 소문자, 8~16자
+            let passwordRegEx =  "^[A-Za-z0-9!@+].{7,15}"
             let isPasswordValid = NSPredicate(format: "SELF MATCHES %@", passwordRegEx).evaluate(with: $0)
             return isPasswordValid
         }.eraseToAnyPublisher()

@@ -154,7 +154,6 @@ final class LoginVC: UIViewController {
                 self?.loginButton.setTitleColor(Colors.point.color, for: .normal)
             }.store(in: &viewModel.bag)
         
-        
         signUpButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in

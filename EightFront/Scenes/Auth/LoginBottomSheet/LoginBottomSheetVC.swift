@@ -266,7 +266,7 @@ final class LoginBottomSheetVC: UIViewController {
                 
                 self.authProvider.request(.login(
                     param: SimpleSignUpRequest(
-                        authId: oauthToken?.idToken ?? "",
+                        authId: oauthToken?.accessToken ?? "",
                         authType: simpleLoginType.kakao.rawValue,
                         deviceID: fcmToken
                     ))) { response in
@@ -311,12 +311,27 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
                 return
             }
             
-            LogUtil.d(
-                """
-                identityToken > \(identityTorknStr)
-                authorizationCode > \(authorizationCodeStr)
-                """
-            )
+            guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else { return }
+            
+            LogUtil.d("""
+            identityTorknStr: \(identityTorknStr)
+            authorizationCodeStr: \(authorizationCodeStr)
+            """)
+            
+//            self.authProvider.request(.login(
+//                param: SimpleSignUpRequest(
+//                    authId: oauthToken?.idToken ?? "",
+//                    authType: simpleLoginType.kakao.rawValue,
+//                    deviceID: fcmToken
+//                ))) { response in
+//                    switch response {
+//                    case .success(let result):
+//                        guard let data = try? result.map(ApiResponse.self) else { return }
+//                        LogUtil.d("간편 로그인 성공 : \(data)")
+//                    case .failure(let error):
+//                        LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
+//                    }
+//                }
         }
     }
     

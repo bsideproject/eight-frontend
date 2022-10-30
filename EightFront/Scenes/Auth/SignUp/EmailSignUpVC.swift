@@ -14,6 +14,7 @@ final class EmailSignUpVC: UIViewController {
     
     // MARK: - Properties
     private let viewModel = EmailSignUpViewModel()
+    private var keyHeight: CGFloat?
     
     private let navigationBar = CommonNavigationView().then {
         $0.titleLabel.text = "회원가입"
@@ -124,11 +125,14 @@ final class EmailSignUpVC: UIViewController {
         bind()
         configureTextFieldDelegate()
         keyboardHideRecognizer()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // 회원가입 창 진입 시 이메일 텍스트 필드 포커스 온
+        // 회원가입 창 진입 시 이메일 텍스트 필드 포커스
         emailTextFieldView.contentTextField.becomeFirstResponder()
     }
     
@@ -251,12 +255,10 @@ final class EmailSignUpVC: UIViewController {
             $0.bottom.equalTo(contentView)
             $0.height.equalTo(58)
         }
-        
         blackView.snp.makeConstraints {
             $0.bottom.equalTo(contentView)
             $0.horizontalEdges.equalTo(contentView)
         }
-        
     }
     
     // MARK: - bind
@@ -376,6 +378,24 @@ final class EmailSignUpVC: UIViewController {
     @objc private func keyboardHide() {
         self.view.endEditing(true)
     }
+    
+    @objc func keyboardWillShow(_ sender: Notification) {
+//        let userInfo:NSDictionary = sender.userInfo! as NSDictionary
+//        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+//        let keyboardRectangle = keyboardFrame.cgRectValue
+//        let keyboardHeight = keyboardRectangle.height
+//        keyHeight = keyboardHeight
+//
+//        self.view.frame.size.height -= keyboardHeight
+        self.blackView.frame = CGRect(x: 0, y: -100, width: self.scrollView.frame.size.width, height: self.scrollView.frame.size.height)
+
+    }
+
+    @objc func keyboardWillHide(_ sender: Notification) {
+//        self.view.frame.size.height += keyHeight!
+        self.blackView.frame = CGRect(x: 0, y: 0, width: self.scrollView.frame.size.width, height: self.scrollView.frame.size.height)
+    }
+
     
     // MARK: - Functions
     

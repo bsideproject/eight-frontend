@@ -32,6 +32,7 @@ final class EmailSignUpViewModel {
     lazy var isNicknameValid: AnyPublisher<Bool, Never> = $nicknameInput
         .compactMap {
             if $0.count > 0 {
+                // 2~16 글자
                 let nicknameRegEx = "^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]{1,15}"
                 let nicknameValid = NSPredicate(format:"SELF MATCHES %@", nicknameRegEx).evaluate(with: $0)
                 return nicknameValid
@@ -42,7 +43,7 @@ final class EmailSignUpViewModel {
     
     lazy var isPasswordValid: AnyPublisher<Bool, Never> = $passwordInput
         .compactMap {
-            let passwordRegEx =  "^[A-Za-z0-9].{7,15}"
+            let passwordRegEx =  "^[A-Za-z0-9!@+].{7,15}"
             let isPasswordValid = NSPredicate(format: "SELF MATCHES %@", passwordRegEx).evaluate(with: $0)
             return isPasswordValid
         }.eraseToAnyPublisher()
