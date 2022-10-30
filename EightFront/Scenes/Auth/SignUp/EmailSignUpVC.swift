@@ -35,6 +35,7 @@ final class EmailSignUpVC: UIViewController {
     private let emailTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "이메일 주소를 입력해 주세요.").then {
         $0.contentTextField.keyboardType = .emailAddress
         $0.contentTextField.returnKeyType = .next
+        $0.contentTextField.autocapitalizationType = .none
     }
     private let emailVaildCheckButton = UIButton().then {
         $0.setTitle("인증", for: .normal)
@@ -56,6 +57,7 @@ final class EmailSignUpVC: UIViewController {
     }
     private let nicknameTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.").then {
         $0.contentTextField.returnKeyType = .next
+        $0.contentTextField.autocapitalizationType = .none
     }
     private let nicknameVaildCheckButton = UIButton().then {
         $0.setTitle("인증", for: .normal)
@@ -253,7 +255,6 @@ final class EmailSignUpVC: UIViewController {
         blackView.snp.makeConstraints {
             $0.bottom.equalTo(contentView)
             $0.horizontalEdges.equalTo(contentView)
-//            $0.height.equalTo(keyHeight as! ConstraintRelatableTarget)
         }
         
     }
@@ -323,9 +324,7 @@ final class EmailSignUpVC: UIViewController {
         viewModel.isPasswordValid
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isValid in
-                
                 guard let passwordCount = self?.passwordTextFieldView.contentTextField.text?.count else { return }
-                
                 if passwordCount > 0 {
                     self?.passwordValidLabel.isHidden = isValid
                 } else {
@@ -337,9 +336,7 @@ final class EmailSignUpVC: UIViewController {
         viewModel.isPasswordConfirmValid
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isValid in
-                
                 guard let passwordConfirmCount = self?.passwordConfirmTextFieldView.contentTextField.text?.count else { return }
-                
                 if passwordConfirmCount > 0 {
                     self?.passwordConfirmValidLabel.isHidden = isValid
                 } else {

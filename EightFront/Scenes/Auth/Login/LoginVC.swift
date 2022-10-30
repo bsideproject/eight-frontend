@@ -24,9 +24,11 @@ final class LoginVC: UIViewController {
     }
     private let emailTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "이메일을 입력하세요.").then {
         $0.contentTextField.returnKeyType = .next
+        $0.contentTextField.autocapitalizationType = .none
     }
     private let passwordTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "비밀번호를 입력하세요.").then {
         $0.contentTextField.returnKeyType = .done
+        $0.contentTextField.isSecureTextEntry = true
     }
     private let loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
@@ -143,18 +145,15 @@ final class LoginVC: UIViewController {
             .assign(to: \.passwordInput, on: viewModel)
             .store(in: &viewModel.bag)
         
-        viewModel.isLoginButtonValid
+        Publishers.CombineLatest(viewModel.isEmailValid, viewModel.isPasswordValid)
             .receive(on: DispatchQueue.main)
+            .compactMap { $0 && $1 }
             .sink { [weak self] isValid in
-                let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeIn)
-                animator.addAnimations {
-                    self?.loginButton.backgroundColor = isValid ? Colors.gray002.color : Colors.gray006.color
-                    self?.loginButton.isEnabled = isValid
-                    self?.loginButton.setTitleColor(Colors.point.color, for: .normal)
-                }
-                animator.startAnimation()
-            }
-            .store(in: &viewModel.bag)
+                self?.loginButton.backgroundColor = isValid ? Colors.gray002.color : Colors.gray006.color
+                self?.loginButton.isEnabled = isValid
+                self?.loginButton.setTitleColor(Colors.point.color, for: .normal)
+            }.store(in: &viewModel.bag)
+        
         
         signUpButton.tapPublisher
             .receive(on: DispatchQueue.main)
