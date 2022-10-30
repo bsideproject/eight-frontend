@@ -13,39 +13,36 @@ import CombineCocoa
 final class EmailSignUpVC: UIViewController {
     
     // MARK: - Properties
-    let viewModel = EmailSignUpViewModel()
+    private let viewModel = EmailSignUpViewModel()
     
-    let navigationBar = CommonNavigationView().then {
+    private let navigationBar = CommonNavigationView().then {
         $0.titleLabel.text = "회원가입"
     }
     
-    let scrollView = UIScrollView().then {
+    private let scrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    let contentView = UIView().then {
+    private let contentView = UIView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     // 이메일
-    let emailLabel = UILabel().then {
+    private let emailLabel = UILabel().then {
         $0.text = "이메일"
         $0.font = Fonts.Templates.subheader2.font
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    let emailTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "이메일 주소를 입력해 주세요.").then {
+    private let emailTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "이메일 주소를 입력해 주세요.").then {
         $0.contentTextField.keyboardType = .emailAddress
         $0.contentTextField.returnKeyType = .next
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    let emailVaildCheckButton = UIButton().then {
+    private let emailVaildCheckButton = UIButton().then {
         $0.setTitle("인증", for: .normal)
         $0.setTitleColor(UIColor.white, for: .disabled)
         $0.setTitleColor(Colors.point.color, for: .normal)
         $0.layer.cornerRadius = 4
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    let emailValidLabel = UILabel().then {
+    private let emailValidLabel = UILabel().then {
         $0.text = "이메일 인증이 완료되었어요."
         $0.textColor = .blue
         $0.font = UIFont.systemFont(ofSize: 10)
@@ -53,20 +50,20 @@ final class EmailSignUpVC: UIViewController {
     }
     
     // 닉네임
-    let nicknameLabel = UILabel().then {
+    private let nicknameLabel = UILabel().then {
         $0.text = "닉네임"
         $0.font = Fonts.Templates.subheader2.font
     }
-    let nicknameTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.").then {
+    private let nicknameTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.").then {
         $0.contentTextField.returnKeyType = .next
     }
-    let nicknameVaildCheckButton = UIButton().then {
+    private let nicknameVaildCheckButton = UIButton().then {
         $0.setTitle("인증", for: .normal)
         $0.setTitleColor(UIColor.white, for: .disabled)
         $0.setTitleColor(Colors.point.color, for: .normal)
         $0.layer.cornerRadius = 4
     }
-    let nicknameValidLabel = UILabel().then {
+    private let nicknameValidLabel = UILabel().then {
         $0.text = "닉네임이 중복 되었어요."
         $0.textColor = .red
         $0.font = UIFont.systemFont(ofSize: 10)
@@ -74,15 +71,15 @@ final class EmailSignUpVC: UIViewController {
     }
 
     // 비밀번호
-    let passwordLabel = UILabel().then {
+    private let passwordLabel = UILabel().then {
         $0.text = "비밀번호"
         $0.font = Fonts.Templates.subheader2.font
     }
-    let passwordTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "8~16자의 영문, 숫자로 조합해주세요.").then {
+    private let passwordTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "8~16자의 영문, 숫자로 조합해주세요.").then {
         $0.contentTextField.isSecureTextEntry = true
         $0.contentTextField.returnKeyType = .next
     }
-    let passwordValidLabel = UILabel().then {
+    private let passwordValidLabel = UILabel().then {
         $0.text = "8~16자의 영문, 숫자로 조합해 주세요."
         $0.textColor = .red
         $0.isHidden = true
@@ -90,15 +87,15 @@ final class EmailSignUpVC: UIViewController {
     }
     
     // 비밀번호 확인
-    let passwordConfirmLabel = UILabel().then {
+    private let passwordConfirmLabel = UILabel().then {
         $0.text = "비밀번호 확인"
         $0.font = Fonts.Templates.subheader2.font
     }
-    let passwordConfirmTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "입력하신 비밀번호를 한번 더 입력해 주세요.").then {
+    private let passwordConfirmTextFieldView = CommonTextFieldView(isTitleHidden: true, placeholder: "입력하신 비밀번호를 한번 더 입력해 주세요.").then {
         $0.contentTextField.isSecureTextEntry = true
         $0.contentTextField.returnKeyType = .done
     }
-    let passwordConfirmValidLabel = UILabel().then {
+    private let passwordConfirmValidLabel = UILabel().then {
         $0.text = "비밀번호가 일치하지 않습니다."
         $0.textColor = .red
         $0.font = UIFont.systemFont(ofSize: 10)
@@ -106,11 +103,15 @@ final class EmailSignUpVC: UIViewController {
     }
     
     // 회원가입 버튼
-    let signUpButton = UIButton().then {
+    private let signUpButton = UIButton().then {
         $0.setTitle("회원가입", for: .normal)
         $0.setTitleColor(UIColor.white, for: .disabled)
         $0.setTitleColor(Colors.point.color, for: .normal)
         $0.layer.cornerRadius = 4
+    }
+    
+    private let blackView = UIView().then {
+        $0.backgroundColor = .yellow
     }
     
     
@@ -120,6 +121,7 @@ final class EmailSignUpVC: UIViewController {
         makeUI()
         bind()
         configureTextFieldDelegate()
+        keyboardHideRecognizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -135,6 +137,7 @@ final class EmailSignUpVC: UIViewController {
         view.addSubview(navigationBar)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
+        
         contentView.addSubview(emailLabel)
         contentView.addSubview(emailTextFieldView)
         contentView.addSubview(emailVaildCheckButton)
@@ -154,6 +157,7 @@ final class EmailSignUpVC: UIViewController {
         contentView.addSubview(passwordConfirmValidLabel)
 
         contentView.addSubview(signUpButton)
+        contentView.addSubview(blackView)
 
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -245,6 +249,13 @@ final class EmailSignUpVC: UIViewController {
             $0.bottom.equalTo(contentView)
             $0.height.equalTo(58)
         }
+        
+        blackView.snp.makeConstraints {
+            $0.bottom.equalTo(contentView)
+            $0.horizontalEdges.equalTo(contentView)
+//            $0.height.equalTo(keyHeight as! ConstraintRelatableTarget)
+        }
+        
     }
     
     // MARK: - bind
@@ -305,19 +316,35 @@ final class EmailSignUpVC: UIViewController {
         viewModel.isNicknameValid
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isValid in
-                self?.nicknameValidLabel.isHidden = isValid
+                self?.nicknameVaildCheckButton.backgroundColor = isValid ? Colors.gray001.color : Colors.gray005.color
+                self?.nicknameVaildCheckButton.setTitleColor(isValid ? Colors.point.color : .white)
             }.store(in: &viewModel.bag)
         
         viewModel.isPasswordValid
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isValid in
-                self?.passwordValidLabel.isHidden = isValid
+                
+                guard let passwordCount = self?.passwordTextFieldView.contentTextField.text?.count else { return }
+                
+                if passwordCount > 0 {
+                    self?.passwordValidLabel.isHidden = isValid
+                } else {
+                    self?.passwordValidLabel.isHidden = true
+                }
+                
             }.store(in: &viewModel.bag)
         
         viewModel.isPasswordConfirmValid
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isValid in
-                self?.passwordConfirmValidLabel.isHidden = isValid
+                
+                guard let passwordConfirmCount = self?.passwordConfirmTextFieldView.contentTextField.text?.count else { return }
+                
+                if passwordConfirmCount > 0 {
+                    self?.passwordConfirmValidLabel.isHidden = isValid
+                } else {
+                    self?.passwordConfirmValidLabel.isHidden = true
+                }
             }.store(in: &viewModel.bag)
 
         /// [이메일, 닉네임, 비밀번호, 비밀번호 확인]이 전부 입력 돼야 버튼 활성화
@@ -339,12 +366,21 @@ final class EmailSignUpVC: UIViewController {
         passwordConfirmTextFieldView.contentTextField.delegate = self
     }
     
+    private func keyboardHideRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(keyboardHide))
+        tap.numberOfTapsRequired = 1
+        tap.isEnabled = true
+        tap.cancelsTouchesInView = false
+        scrollView.addGestureRecognizer(tap)
+    }
+    
     // MARK: - Actions
     
+    @objc private func keyboardHide() {
+        self.view.endEditing(true)
+    }
+    
     // MARK: - Functions
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.scrollView.endEditing(true)
-//    }
     
 }
 

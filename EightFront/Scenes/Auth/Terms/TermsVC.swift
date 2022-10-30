@@ -116,35 +116,35 @@ final class TermsVC: UIViewController {
             }
             .store(in: &viewModel.bag)
         
-        allAgree.chkeckButton
+        allAgree.checkButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-//                self?.viewModel.checkButtonTapped(TermsViewModel.Terms.all)
+                self?.checkButtonTapped(TermsViewModel.Terms.all)
             }
             .store(in: &viewModel.bag)
         
-        policy.chkeckButton
+        policy.checkButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.checkButtonTapped(TermsViewModel.Terms.policy)
+                self?.checkButtonTapped(TermsViewModel.Terms.policy)
             }
             .store(in: &viewModel.bag)
         
-        privacy.chkeckButton
+        privacy.checkButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.checkButtonTapped(TermsViewModel.Terms.privacy)
+                self?.checkButtonTapped(TermsViewModel.Terms.privacy)
             }
             .store(in: &viewModel.bag)
         
-        location.chkeckButton
+        location.checkButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.checkButtonTapped(TermsViewModel.Terms.location)
+                self?.checkButtonTapped(TermsViewModel.Terms.location)
             }
             .store(in: &viewModel.bag)
         
@@ -163,8 +163,8 @@ final class TermsVC: UIViewController {
             }.sink { [weak self] isValid in
                 self?.allAgree.titleLabel.textColor = isValid ? Colors.point.color : Colors.gray005.color
                 self?.allAgree.backgroundColor = isValid ? Colors.gray001.color : .white
-                self?.allAgree.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image)
-                self?.allAgree.chkeckButton.layer.cornerRadius = 3
+                self?.allAgree.checkButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image)
+                self?.allAgree.checkButton.layer.cornerRadius = 3
                 
                 self?.nextButton.backgroundColor = isValid ? Colors.gray001.color : Colors.gray005.color
                 self?.nextButton.setTitleColor(isValid ? Colors.point.color : .white)
@@ -176,7 +176,7 @@ final class TermsVC: UIViewController {
             .compactMap { $0 }
             .sink { [weak self] isValid in
                 self?.policy.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
-                self?.policy.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
+                self?.policy.checkButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
 
         viewModel.$isPrivacy
@@ -184,7 +184,7 @@ final class TermsVC: UIViewController {
             .compactMap { $0 }
             .sink { [weak self] isValid in
                 self?.privacy.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
-                self?.privacy.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
+                self?.privacy.checkButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
 
         viewModel.$isLocation
@@ -192,9 +192,32 @@ final class TermsVC: UIViewController {
             .compactMap { $0 }
             .sink { [weak self] isValid in
                 self?.location.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
-                self?.location.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
+                self?.location.checkButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
         
+    }
+    
+    // MARK: - Functions
+    
+    private func checkButtonTapped(_ type: TermsViewModel.Terms) {
+        switch type {
+        case .policy:
+            viewModel.isPolicy.toggle()
+        case .privacy:
+            viewModel.isPrivacy.toggle()
+        case .location:
+            viewModel.isLocation.toggle()
+        default:
+            if viewModel.isPolicy || viewModel.isPrivacy || viewModel.isLocation {
+                viewModel.isPolicy = false
+                viewModel.isPrivacy = false
+                viewModel.isLocation = false
+            } else {
+                viewModel.isPolicy = true
+                viewModel.isPrivacy = true
+                viewModel.isLocation = true
+            }
+        }
     }
 }
 

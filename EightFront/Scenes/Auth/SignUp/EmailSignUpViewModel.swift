@@ -24,7 +24,7 @@ final class EmailSignUpViewModel {
                 let emailValid = NSPredicate(format:"SELF MATCHES %@", emailRegEx).evaluate(with: $0)
                 return emailValid
             } else {
-                return true
+                return false
             }
         }.eraseToAnyPublisher()
     
@@ -36,29 +36,21 @@ final class EmailSignUpViewModel {
                 let nicknameValid = NSPredicate(format:"SELF MATCHES %@", nicknameRegEx).evaluate(with: $0)
                 return nicknameValid
             } else {
-                return true
+                return false
             }
         }.eraseToAnyPublisher()
     
     lazy var isPasswordValid: AnyPublisher<Bool, Never> = $passwordInput
         .compactMap {
-            if $0.count > 0 {
-                let passwordRegEx =  "^[A-Za-z0-9].{7,15}"
-                let isPasswordValid = NSPredicate(format: "SELF MATCHES %@", passwordRegEx).evaluate(with: $0)
-                return isPasswordValid
-            } else {
-                return true
-            }
+            let passwordRegEx =  "^[A-Za-z0-9].{7,15}"
+            let isPasswordValid = NSPredicate(format: "SELF MATCHES %@", passwordRegEx).evaluate(with: $0)
+            return isPasswordValid
         }.eraseToAnyPublisher()
     
     lazy var isPasswordConfirmValid: AnyPublisher<Bool, Never> = Publishers
         .CombineLatest($passwordInput, $passwordConfirmInput)
         .compactMap {
-            if $1.count > 0 {
-                return $0 == $1 ? true : false
-            } else {
-                return true
-            }
+            return $0 == $1 ? true : false
         }
         .eraseToAnyPublisher()
     

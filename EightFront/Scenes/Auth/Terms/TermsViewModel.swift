@@ -10,16 +10,16 @@ import Combine
 
 final class TermsViewModel {
     
-    enum Terms {
-//        case all
+    enum Terms: CaseIterable {
+        case all
         case policy
         case privacy
         case location
         
         var type: String {
             switch self {
-//            case .all :
-//                return "all"
+            case .all:
+                return "all"
             case .policy:
                 return "policy"
             case .privacy:
@@ -32,19 +32,8 @@ final class TermsViewModel {
     
     var bag = Set<AnyCancellable>()
     
-//    @Published var isAllAgree: Bool = false
     @Published var isPolicy: Bool = false
     @Published var isPrivacy: Bool = false
     @Published var isLocation: Bool = false
     
-    func checkButtonTapped(_ type: Terms) {
-        switch type {
-        case .policy:
-            isPolicy = !isPolicy
-        case .privacy:
-            isPrivacy = !isPrivacy
-        case .location:
-            isLocation = !isLocation
-        }
-    }
 }
