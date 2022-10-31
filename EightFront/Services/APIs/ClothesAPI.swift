@@ -9,35 +9,37 @@ import Foundation
 import Moya
 
 enum ClothesAPI {
-    case coordinates
-    case coordinate
+    case clothingBins(latitude: Double, longitude: Double)
 }
 
 extension ClothesAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "http://118.67.133.14:8081/api")!
+        return URL(string: "https://www.droptheclothes.site/api")!
     }
     
     var path: String {
         switch self {
-        case .coordinates:
-            return "/coordinates"
-        case .coordinate:
-            return "/coordinate"
+        case .clothingBins:
+            return "/clothing-bins"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .coordinates, .coordinate:
+        case .clothingBins:
             return .get
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .coordinates, .coordinate:
-            return .requestParameters(parameters: [:], encoding: URLEncoding.queryString)
+        case .clothingBins(let lat, let lng):
+            let params: [String: Any] = [
+                "latitude": lat,
+                "longitude": lng
+            ]
+            
+            return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
         }
     }
     

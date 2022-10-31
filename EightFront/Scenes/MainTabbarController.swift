@@ -39,7 +39,7 @@ final class MainTabbarController: UITabBarController {
         homeNavi.tabBarItem.selectedImage = Images.Tabbar.homeSelect.image.withRenderingMode(.alwaysOriginal)
         
         let tradeVC = TradeVC()
-        tradeVC.tabBarItem.title = "피드"
+        tradeVC.tabBarItem.title = "버릴까 말까"
         tradeVC.tabBarItem.image = Images.Tabbar.feedNone.image
         tradeVC.tabBarItem.selectedImage = Images.Tabbar.feedSelect.image.withRenderingMode(.alwaysOriginal)
         

@@ -37,9 +37,16 @@ final class SearchBarVC: UIViewController {
         $0.text = "의류 수거함 주소"
         $0.font = Fonts.Templates.subheader3.font
     }
-    let searchBarView = CommonTextFieldView(isTitleHidden: true)
-    let speratorView = UIView().then {
-        $0.backgroundColor = Colors.gray008.color
+    let searchImageView = UIImageView().then {
+        $0.image = Images.Report.search.image.withRenderingMode(.alwaysTemplate)
+        $0.tintColor = Colors.gray005.color
+    }
+    let searchBarView = CommonTextFieldView(titleWidth: 5).then {
+        $0.contentTextField.clearButtonMode = .always
+        $0.contentTextField.attributedPlaceholder = NSAttributedString(string: "수거함 위치를 검색해보세요.", attributes: [
+            .foregroundColor: Colors.gray006.color,
+            .font: Fonts.Templates.caption1.font
+        ])
     }
     lazy var searchResultTableView = UITableView().then {
         $0.delegate = self
@@ -81,7 +88,7 @@ final class SearchBarVC: UIViewController {
         view.addSubview(introduceLabel)
         view.addSubview(addressTitleLabel)
         view.addSubview(searchBarView)
-        view.addSubview(speratorView)
+        view.addSubview(searchImageView)
         view.addSubview(searchResultTableView)
         
         navigationView.snp.makeConstraints {
@@ -102,13 +109,13 @@ final class SearchBarVC: UIViewController {
             $0.left.right.equalToSuperview().inset(16)
             $0.height.equalTo(54)
         }
-        speratorView.snp.makeConstraints {
-            $0.top.equalTo(searchBarView.snp.bottom).offset(23)
-            $0.left.right.equalToSuperview()
-            $0.height.equalTo(16)
+        searchImageView.snp.makeConstraints {
+            $0.size.equalTo(20)
+            $0.left.equalTo(searchBarView.snp.left).offset(10)
+            $0.centerY.equalTo(searchBarView)
         }
         searchResultTableView.snp.makeConstraints {
-            $0.top.equalTo(speratorView.snp.bottom)
+            $0.top.equalTo(searchBarView.snp.bottom).offset(8)
             $0.left.bottom.right.equalToSuperview()
         }
         
@@ -125,6 +132,15 @@ final class SearchBarVC: UIViewController {
             .sink { [weak self] in
                 self?.viewModel.input.requestPOI.send(self?.searchBarView.contentTextField.text)
             }
+            .store(in: &viewModel.bag)
+        searchBarView
+            .contentTextField
+            .textPublisher
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .map { $0.isEmpty }
+            .map { $0 ? Colors.gray005.color : Colors.gray002.color }
+            .assign(to: \.tintColor, on: searchImageView)
             .store(in: &viewModel.bag)
         
         viewModel
@@ -158,11 +174,23 @@ final class SearchBarVC: UIViewController {
 //MARK:- DiffDataSource
 extension SearchBarVC: UITableViewDelegate {
     private func performDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, ResponsePOI>(tableView: searchResultTableView, cellProvider: { tableView, indexPath, poi in
+        dataSource = UITableViewDiffableDataSource<Section, ResponsePOI>(tableView: searchResultTableView, cellProvider: { [weak self] tableView, indexPath, poi in
             let cell = tableView.dequeueReusableCell(withType: SearchResultCell.self, for: indexPath)
             
-            cell.titleLabel.text = poi.name
+            let attrString = NSMutableAttributedString(string: poi.name ?? "")
+            cell.titleLabel.attributedText = attrString.apply(word: self?.searchBarView.contentTextField.text ?? "",
+                                                              attrs: [.foregroundColor: Colors.gray001.color])
             cell.subTitleLabel.text = poi.address
+            
+            if let departure = LocationManager.shared.currentLocation,
+               let targetCoordinate = poi.coordinate {
+                let destination = CLLocation(latitude: targetCoordinate.latitude, longitude: targetCoordinate.longitude)
+                
+                let distance = departure.distance(from: destination)
+                let distanceString = distance < 1000 ? "\(Int(distance))m" : "\(Double(Int(distance * 100 / 1000)) / 10)km"
+                
+                cell.distanceLabel.text = distanceString
+            }
             
             return cell
         })
@@ -177,7 +205,7 @@ extension SearchBarVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
+        return 86
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

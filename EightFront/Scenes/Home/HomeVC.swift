@@ -12,10 +12,6 @@ import SnapKit
 import Then
 import CombineCocoa
 
-protocol MainMapViewDelegate: AnyObject {
-    func marker(didTapMarker: NMGLatLng, info: CollectionBox?)
-}
-
 final class HomeVC: UIViewController {
     //MARK: - Properties
     private let viewModel = HomeViewModel()
@@ -32,7 +28,6 @@ final class HomeVC: UIViewController {
     
     //MARK: MapView
     private var markers = [NaverMapMarker]()
-    private weak var mapDelegate: MainMapViewDelegate?
     private lazy var mapView = NMFMapView().then {
         $0.touchDelegate = self
         $0.addCameraDelegate(delegate: self)
@@ -53,6 +48,12 @@ final class HomeVC: UIViewController {
     }
     private lazy var boxInfoView = BoxCollectionView().then {
         $0.layer.cornerRadius = 8
+    }
+    private let refreshButton = UIButton().then {
+        $0.setTitle("여기에서 재검색")
+        $0.titleLabel?.font = Fonts.Templates.caption2.font
+        $0.layer.cornerRadius = 15
+        $0.backgroundColor = Colors.gray002.color
     }
     
     //MARK: - Life Cycle
@@ -77,6 +78,7 @@ final class HomeVC: UIViewController {
         view.addSubview(mapView)
         view.addSubview(currentLocationButton)
         view.addSubview(reportButton)
+        view.addSubview(refreshButton)
         tabBarController?.view.addSubview(boxInfoView)
         
         statusView.snp.makeConstraints {
@@ -88,6 +90,13 @@ final class HomeVC: UIViewController {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(101)
         }
+        refreshButton.snp.makeConstraints {
+            $0.width.equalTo(80)
+            $0.height.equalTo(30)
+            $0.top.equalTo(headerView.snp.bottom).offset(8)
+            $0.centerX.equalToSuperview()
+        }
+        
         mapView.snp.makeConstraints {
             $0.top.equalTo(headerView.snp.bottom)
             $0.left.right.equalToSuperview()
@@ -110,8 +119,6 @@ final class HomeVC: UIViewController {
         }
         
         view.addShadow(views: [currentLocationButton, reportButton])
-        
-        showMarker(box: nil)
     }
     
     //MARK: - Binding..
@@ -124,7 +131,6 @@ final class HomeVC: UIViewController {
                 let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: $0.coordinate.latitude,
                                                                        lng: $0.coordinate.longitude), zoomTo: 15.0)
                 cameraUpdate.animation = .easeIn
-                LocationManager.shared.currentAddress = nil
                 self?.mapView.moveCamera(cameraUpdate)
             }
             .store(in: &viewModel.cancelBag)
@@ -191,6 +197,36 @@ final class HomeVC: UIViewController {
             .compactMap { $0 }
             .assign(to: \.text, on: headerView.addressView.addressLabel)
             .store(in: &viewModel.cancelBag)
+        viewModel
+            .output
+            .requestClothingBins
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] boxes in
+                self?.showMarker(boxes: boxes?.boxes)
+            }
+            .store(in: &viewModel.cancelBag)
+        refreshButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                guard let lat = self?.mapView.latitude, let lng = self?.mapView.longitude else { return }
+                let location = CLLocation(latitude: lat, longitude: lng)
+                self?.viewModel.input.requestClothingBins.send(location)
+            }
+            .store(in: &viewModel.cancelBag)
+        
+        LocationManager.shared.$currentLocation
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] in
+                guard self?.viewModel.addressString == nil else { return }
+                self?.moveMap(location: $0)
+                LocationManager.shared.addressUpdate(location: $0) { address in
+                    self?.viewModel.addressString = address
+                }
+                self?.viewModel.input.requestClothingBins.send(LocationManager.shared.currentLocation)
+            }
+            .store(in: &viewModel.cancelBag)
     }
     
     @objc
@@ -214,29 +250,36 @@ final class HomeVC: UIViewController {
         mapView.moveCamera(NMFCameraUpdate(scrollTo: latLng))
     }
     
-    private func showMarker(box: CollectionBox?) {
+    private func showMarker(boxes: [CollectionBox]?) {
         resetInfoWindows()
         
-        let position = NMGLatLng(lat: mapView.latitude, lng: mapView.longitude)
-        let marker = NaverMapMarker(type: .none)
+        guard let boxes else { return }
         
-        marker.position = position
-        marker.mapView = mapView
-        marker.userInfo = ["box": box]
+        LogUtil.d(boxes)
         
-        marker.touchHandler = { [weak self] overlay -> Bool in
-            self?.viewModel.selectedMarker = marker
+        for box in boxes {
+            guard let lat = box.latitude, let lng = box.longitude else { continue }
+            let position = NMGLatLng(lat: lat, lng: lng)
+            let marker = NaverMapMarker(type: .none)
             
-            let cameraUpdate = NMFCameraUpdate(scrollTo: marker.position, zoomTo: 16.0)
-            cameraUpdate.animation = .easeIn
-            self?.mapView.moveCamera(cameraUpdate)
-            self?.mapDelegate?.marker(didTapMarker: position, info: box)
-            self?.updateBottomInfoView(isOpen: true)
+            marker.position = position
+            marker.mapView = mapView
+            marker.userInfo = ["box": box]
             
-            return true
+            marker.touchHandler = { [weak self] overlay -> Bool in
+                self?.viewModel.selectedMarker = marker
+                
+                let cameraUpdate = NMFCameraUpdate(scrollTo: marker.position, zoomTo: 16.0)
+                cameraUpdate.animation = .easeIn
+                self?.mapView.moveCamera(cameraUpdate)
+                self?.markerTapped(location: position, info: box)
+                self?.updateBottomInfoView(isOpen: true)
+                
+                return true
+            }
+            
+            markers.append(marker)
         }
-        
-        markers.append(marker)
     }
     
     private func updateBottomInfoView(isOpen: Bool) {
@@ -265,6 +308,7 @@ final class HomeVC: UIViewController {
     }
     
     private func resetInfoWindows() {
+        
         markers.forEach {
             $0.mapView = nil
         }
@@ -283,6 +327,12 @@ final class HomeVC: UIViewController {
                 
         UIApplication.shared.open(requestURL, options: [:], completionHandler: nil)
     }
+    
+    func markerTapped(location: NMGLatLng, info: CollectionBox?) {
+        boxInfoView.titleLabel.text = info?.name
+        boxInfoView.addressLabel.text = info?.address
+        boxInfoView.detailAddressLabel.text = info?.detailedAddress
+    }
 }
 
 extension HomeVC: NMFMapViewCameraDelegate {
@@ -298,3 +348,4 @@ extension HomeVC: NMFMapViewTouchDelegate {
         updateBottomInfoView(isOpen: false)
     }
 }
+

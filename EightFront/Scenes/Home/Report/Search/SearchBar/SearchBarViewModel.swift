@@ -71,7 +71,7 @@ extension SearchBarViewModel {
             for poi in result {
                 var roadAddress = poi.roadName ?? ""
                 roadAddress += poi.buildingNo1 == "" ? "" : " " + (poi.buildingNo1 ?? "")
-                roadAddress += poi.buildingNo2 == "" ? "" : "-" + (poi.buildingNo2 ?? "")
+                roadAddress += poi.buildingNo2 == "" || poi.buildingNo2 == "0" ? "" : "-" + (poi.buildingNo2 ?? "")
                 
                 let previousAddress = poi.detailAddrName ?? ""
                 

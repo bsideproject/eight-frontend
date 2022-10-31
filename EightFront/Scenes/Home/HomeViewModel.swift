@@ -54,6 +54,12 @@ final class HomeViewModel {
                 }
             }
             .store(in: &cancelBag)
+        
+        input.requestClothingBins
+            .sink { [weak self] in
+                self?.requestClothingBins(requestLocation: $0)
+            }
+            .store(in: &cancelBag)
     }
 }
 
@@ -65,17 +71,20 @@ extension HomeViewModel {
     
     struct Input {
         var requestAddress = CurrentValueSubject<CLLocation?, Never>.init(nil)
+        var requestClothingBins = CurrentValueSubject<CLLocation?, Never>.init(nil)
     }
     
     struct Output {
-        
+        var requestClothingBins = CurrentValueSubject<CollectionBoxes?, Never>.init(nil)
     }
 }
 
 //MARK: - Method
 extension HomeViewModel {
-    private func requestCoordinates() {
-        clothesProvider.requestPublisher(.coordinates)
+    private func requestClothingBins(requestLocation: CLLocation?) {
+        guard let location = requestLocation else { return }
+        clothesProvider.requestPublisher(.clothingBins(latitude: location.coordinate.latitude,
+                                                       longitude: location.coordinate.longitude))
             .sink { completion in
                 switch completion {
                 case .failure(let error):
@@ -83,9 +92,10 @@ extension HomeViewModel {
                 case .finished:
                     LogUtil.d("Successed")
                 }
-            } receiveValue: { response in
-                guard let responseData = try? response.map(CoordinatesResponse.self).data else { return }
-                LogUtil.d(responseData)
+            } receiveValue: { [weak self] response in
+                guard let responseData = try? response.map(ClothingResponse.self).data else { return }
+                
+                self?.output.requestClothingBins.send(responseData)
             }
             .store(in: &cancelBag)
     }
