@@ -136,8 +136,8 @@ final class EmailSignUpVC: UIViewController {
     private func makeUI() {
         view.backgroundColor = .white
         
-        view.addSubview(scrollView)
         view.addSubview(commonNavigationView)
+        view.addSubview(scrollView)
         
         scrollView.addSubview(contentView)
         
@@ -415,7 +415,6 @@ extension EmailSignUpVC: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         self.textField = textField
-        
         return true
     }
 }

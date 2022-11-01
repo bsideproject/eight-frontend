@@ -254,7 +254,32 @@ final class LoginBottomSheetVC: UIViewController {
         /// 카카오톡 설치 여부 확인
         if (UserApi.isKakaoTalkLoginAvailable()) {
             UserApi.shared.loginWithKakaoTalk { oauthToken, error in
+                if let error = error {
+                    LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
+                }
                 
+                guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else {
+                    LogUtil.e("FCM Token 불러오기 실패: \(error?.localizedDescription)")
+                    return
+                }
+                
+                self.authProvider.request(.login(
+                    param: SimpleSignUpRequest(
+                        authId: oauthToken?.accessToken ?? "",
+                        authType: simpleLoginType.kakao.rawValue,
+                        deviceID: fcmToken
+                    ))) { response in
+                        switch response {
+                        case .success(let result):
+                            guard let data = try? result.map(ApiResponse.self) else { return }
+                            LogUtil.d("간편 로그인 성공 : \(data)")
+                        case .failure(let error):
+                            LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
+                        }
+                    }
+            }
+        } else {
+            UserApi.shared.loginWithKakaoAccount { (oauthToken, error) in
                 if let error = error {
                     LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
                 }
@@ -318,20 +343,20 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
             authorizationCodeStr: \(authorizationCodeStr)
             """)
             
-//            self.authProvider.request(.login(
-//                param: SimpleSignUpRequest(
-//                    authId: oauthToken?.idToken ?? "",
-//                    authType: simpleLoginType.kakao.rawValue,
-//                    deviceID: fcmToken
-//                ))) { response in
-//                    switch response {
-//                    case .success(let result):
-//                        guard let data = try? result.map(ApiResponse.self) else { return }
-//                        LogUtil.d("간편 로그인 성공 : \(data)")
-//                    case .failure(let error):
-//                        LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
-//                    }
-//                }
+            //            self.authProvider.request(.login(
+            //                param: SimpleSignUpRequest(
+            //                    authId: oauthToken?.idToken ?? "",
+            //                    authType: simpleLoginType.kakao.rawValue,
+            //                    deviceID: fcmToken
+            //                ))) { response in
+            //                    switch response {
+            //                    case .success(let result):
+            //                        guard let data = try? result.map(ApiResponse.self) else { return }
+            //                        LogUtil.d("간편 로그인 성공 : \(data)")
+            //                    case .failure(let error):
+            //                        LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
+            //                    }
+            //                }
         }
     }
     
