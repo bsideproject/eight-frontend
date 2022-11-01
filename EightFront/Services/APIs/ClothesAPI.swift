@@ -10,6 +10,7 @@ import Moya
 
 enum ClothesAPI {
     case clothingBins(latitude: Double, longitude: Double)
+    case newReport(param: ReportRequest?)
 }
 
 extension ClothesAPI: TargetType {
@@ -21,6 +22,8 @@ extension ClothesAPI: TargetType {
         switch self {
         case .clothingBins:
             return "/clothing-bins"
+        case .newReport:
+            return "/clothing-bins/report/new"
         }
     }
     
@@ -28,6 +31,8 @@ extension ClothesAPI: TargetType {
         switch self {
         case .clothingBins:
             return .get
+        case .newReport:
+            return .post
         }
     }
     
@@ -40,6 +45,8 @@ extension ClothesAPI: TargetType {
             ]
             
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+        case .newReport(let param):
+            
         }
     }
     

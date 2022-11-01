@@ -24,6 +24,7 @@
 		288BFD7728FC43A400A85F13 /* SimpleSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */; };
 		289C11AE29017C0000AECF52 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C11AD29017C0000AECF52 /* TermsView.swift */; };
 		28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F20CF928E93BA600CEE89D /* UITextField+.swift */; };
+		E9008D432911584100F70B6B /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9008D422911584100F70B6B /* ReportRequest.swift */; };
 		E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1428E2FBC4007B1307 /* DataModel.xcdatamodeld */; };
 		E9160C1828E30A60007B1307 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1728E30A60007B1307 /* DataManager.swift */; };
 		E9160C1A28E3145E007B1307 /* NewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1928E3145E007B1307 /* NewSetting.swift */; };
@@ -146,6 +147,7 @@
 		288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSignUpRequest.swift; sourceTree = "<group>"; };
 		289C11AD29017C0000AECF52 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		28F20CF928E93BA600CEE89D /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
+		E9008D422911584100F70B6B /* ReportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
 		E9160C1528E2FBC4007B1307 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		E9160C1728E30A60007B1307 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		E9160C1928E3145E007B1307 /* NewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSetting.swift; sourceTree = "<group>"; };
@@ -300,6 +302,31 @@
 			path = SignUp;
 			sourceTree = "<group>";
 		};
+		E9008D3F291157E700F70B6B /* ClothingBins */ = {
+			isa = PBXGroup;
+			children = (
+				E9008D422911584100F70B6B /* ReportRequest.swift */,
+				E9EFE7C6290AD89B00EA514B /* ClothingResponse.swift */,
+			);
+			path = ClothingBins;
+			sourceTree = "<group>";
+		};
+		E9008D402911580100F70B6B /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E9BFC40128E890A500951604 /* ApiResponse.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		E9008D412911581E00F70B6B /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		E927FC7728D34DD900A91F11 /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,9 +361,9 @@
 		E927FC7C28D34E5500A91F11 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E9BFC40128E890A500951604 /* ApiResponse.swift */,
-				E9EFE7C6290AD89B00EA514B /* ClothingResponse.swift */,
-				288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */,
+				E9008D402911580100F70B6B /* Common */,
+				E9008D412911581E00F70B6B /* Auth */,
+				E9008D3F291157E700F70B6B /* ClothingBins */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -809,6 +836,7 @@
 				E9494A6B28F072E8005285C0 /* UIReusable+.swift in Sources */,
 				288BFD7328FBE79C00A85F13 /* AuthAPI.swift in Sources */,
 				E99929B428D882AD006FCFC7 /* TradeVC.swift in Sources */,
+				E9008D432911584100F70B6B /* ReportRequest.swift in Sources */,
 				2806474A28E86AFF000DED5B /* UIButton+.swift in Sources */,
 				E927FC9C28D3525700A91F11 /* HomeVC.swift in Sources */,
 				E9EFE7C5290AD7E200EA514B /* TradeViewModel.swift in Sources */,
