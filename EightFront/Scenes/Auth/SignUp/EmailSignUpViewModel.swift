@@ -56,16 +56,16 @@ final class EmailSignUpViewModel {
         .eraseToAnyPublisher()
     
     lazy var isSignupButtonValid: AnyPublisher<Bool, Never> = Publishers
-        .CombineLatest4($emailInput, $nicknameInput, $passwordInput, $passwordConfirmInput)
-        .compactMap { $0.isEmpty || $1.isEmpty  || $2.isEmpty || $3.isEmpty  ? false : true }
+        .CombineLatest3(isEmailValid, isPasswordValid, isPasswordConfirmValid)
+        .compactMap { $0 && $1 && $2 ? true : false }
         .eraseToAnyPublisher()
     
-    func signupButtonTapped() {
-        LogUtil.d("""
-            회원가입
-        email: \(emailInput)
-        nickName: \(nicknameInput)
-        passwordInput: \(passwordInput)
-        """)
-    }
+//    func signupButtonTapped() {
+//        LogUtil.d("""
+//            회원가입
+//        email: \(emailInput)
+//        nickName: \(nicknameInput)
+//        passwordInput: \(passwordInput)
+//        """)
+//    }
 }

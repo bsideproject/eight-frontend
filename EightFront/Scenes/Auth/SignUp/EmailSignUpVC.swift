@@ -104,8 +104,10 @@ final class EmailSignUpVC: UIViewController {
     // 회원가입 버튼
     private let signUpButton = UIButton().then {
         $0.setTitle("회원가입", for: .normal)
-        $0.setTitleColor(UIColor.white, for: .disabled)
         $0.setTitleColor(Colors.point.color, for: .normal)
+        $0.setTitleColor(UIColor.white, for: .disabled)
+        $0.setBackgroundColor(Colors.gray001.color, for: .normal)
+        $0.setBackgroundColor(Colors.gray006.color, for: .disabled)
         $0.layer.cornerRadius = 4
     }
     
@@ -303,7 +305,7 @@ final class EmailSignUpVC: UIViewController {
         signUpButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.viewModel.signupButtonTapped()
+                self?.signupButtonTapped()
             }.store(in: &viewModel.bag)
         
         viewModel.isEmailValid
@@ -349,7 +351,6 @@ final class EmailSignUpVC: UIViewController {
             .compactMap { $0 }
             .sink { [weak self] valid in
                 self?.signUpButton.isEnabled = valid ? true : false
-                self?.signUpButton.backgroundColor = valid ? Colors.gray001.color : Colors.gray006.color
             }.store(in: &viewModel.bag)
         
     }
@@ -389,6 +390,11 @@ final class EmailSignUpVC: UIViewController {
     
     @objc func keyboardWillHide(_ sender: Notification) {
         self.scrollView.contentInset = .zero
+    }
+    
+    func signupButtonTapped() {
+        let successVC = SignUpSuccessVC()
+        navigationController?.pushViewController(successVC, animated: true)
     }
     
     // MARK: - Functions
