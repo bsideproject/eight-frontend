@@ -23,6 +23,7 @@
 		288BFD7328FBE79C00A85F13 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7228FBE79C00A85F13 /* AuthAPI.swift */; };
 		288BFD7728FC43A400A85F13 /* SimpleSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */; };
 		289C11AE29017C0000AECF52 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C11AD29017C0000AECF52 /* TermsView.swift */; };
+		28D341232912B2EE00669E41 /* SignUpSuccessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D341222912B2EE00669E41 /* SignUpSuccessVC.swift */; };
 		28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F20CF928E93BA600CEE89D /* UITextField+.swift */; };
 		E9008D432911584100F70B6B /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9008D422911584100F70B6B /* ReportRequest.swift */; };
 		E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1428E2FBC4007B1307 /* DataModel.xcdatamodeld */; };
@@ -157,6 +158,7 @@
 		288BFD7228FBE79C00A85F13 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSignUpRequest.swift; sourceTree = "<group>"; };
 		289C11AD29017C0000AECF52 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
+		28D341222912B2EE00669E41 /* SignUpSuccessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpSuccessVC.swift; sourceTree = "<group>"; };
 		28F20CF928E93BA600CEE89D /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		E9008D422911584100F70B6B /* ReportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
 		E9160C1528E2FBC4007B1307 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 				288BFD6628FAF86F00A85F13 /* EmailSignUpVC.swift */,
 				288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */,
 				288BFD7028FBC9C900A85F13 /* EmailSignUpTextFieldView.swift */,
+				28D341222912B2EE00669E41 /* SignUpSuccessVC.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -932,6 +935,7 @@
 				E9460B0428EA056E00932351 /* HomeSearchVC.swift in Sources */,
 				28379E8428F718A400B2D4DD /* LoginBottomSheetViewModel.swift in Sources */,
 				E9460B0428EA056E00932351 /* HomeSearchVC.swift in Sources */,
+				28D341232912B2EE00669E41 /* SignUpSuccessVC.swift in Sources */,
 				E98A04EB28F4185B009F055B /* NSMutableAttributedString+.swift in Sources */,
 				288BFD7128FBC9C900A85F13 /* EmailSignUpTextFieldView.swift in Sources */,
 				E9460B0928EAADC300932351 /* HomeAddressView.swift in Sources */,
