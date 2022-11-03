@@ -1,5 +1,5 @@
 //
-//  TradeViewModel.swift
+//  PostsViewModel.swift
 //  EightFront
 //
 //  Created by wargi on 2022/10/26.
@@ -8,8 +8,8 @@
 import UIKit
 import Combine
 
-//MARK: TradeViewModel
-final class TradeViewModel {
+//MARK: 버릴까/말까 VM
+final class PostsViewModel {
     //MARK: - Properties
     var bag = Set<AnyCancellable>()
     let input = Input()
@@ -45,7 +45,7 @@ final class TradeViewModel {
 }
 
 //MARK: - I/O & Error
-extension TradeViewModel {
+extension PostsViewModel {
     enum ErrorResult: Error {
         case someError
     }
@@ -60,6 +60,6 @@ extension TradeViewModel {
 }
 
 //MARK: - Method
-extension TradeViewModel {
+extension PostsViewModel {
     
 }

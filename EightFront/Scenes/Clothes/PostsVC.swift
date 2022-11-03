@@ -1,5 +1,5 @@
 //
-//  TradeVC.swift
+//  PostsVC.swift
 //  EightFront
 //
 //  Created by wargi on 2022/09/19.
@@ -8,8 +8,8 @@
 import UIKit
 import Then
 import SnapKit
-//MARK: 중고거래 VC
-final class TradeVC: UIViewController {
+//MARK: 버릴까/말까 VC
+final class PostsVC: UIViewController {
     //MARK: - Properties
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
@@ -165,7 +165,7 @@ final class TradeVC: UIViewController {
     }
 }
 
-extension TradeVC: SwipeCardsDataSource {
+extension ClothesVC: SwipeCardsDataSource {
     func numberOfCardsToShow() -> Int {
         return viewModel.dummyData.count
     }
@@ -181,7 +181,7 @@ extension TradeVC: SwipeCardsDataSource {
     }   
 }
 
-extension TradeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension ClothesVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     private func setupFlowLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = .zero
