@@ -38,10 +38,11 @@ final class MyPageVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         let bottomSheetVC = LoginBottomSheetVC()
         bottomSheetVC.modalPresentationStyle = .overFullScreen
         bottomSheetVC.delegate = self
-        self.present(bottomSheetVC, animated: true)
+        self.present(bottomSheetVC, animated: false)
     }
     
     //MARK: - Make UI

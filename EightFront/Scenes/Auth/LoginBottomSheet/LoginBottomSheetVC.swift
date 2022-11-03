@@ -19,10 +19,11 @@ protocol LoginDelegate: AnyObject {
 
 final class LoginBottomSheetVC: UIViewController {
     // MARK: - Properties
-    
     private let viewModel = LoginBottomSheetViewModel()
     private let authProvider = MoyaProvider<AuthAPI>()
-    private let bottomHeight: CGFloat = 279
+    private var bottomHeight: CGFloat = 279
+    
+    private var bottomSheetViewTopConstraint: NSLayoutConstraint!
     
     weak var delegate: LoginDelegate?
     
@@ -102,11 +103,10 @@ final class LoginBottomSheetVC: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        // 최상단으로 부터 떨어진 거리
-        let topConstant = (view.safeAreaInsets.bottom + view.safeAreaLayoutGuide.layoutFrame.height)-bottomHeight
+        let topConstant = view.safeAreaInsets.bottom + view.safeAreaLayoutGuide.layoutFrame.height
         
         bottomSheetView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(topConstant)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(topConstant)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
@@ -191,14 +191,18 @@ final class LoginBottomSheetVC: UIViewController {
         dimmedBackView.addGestureRecognizer(dimmedTap)
         dimmedBackView.isUserInteractionEnabled = true
         
-        // 스와이프 했을 때, 바텀시트를 내리는 swipeGesture
-        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(panGesture))
-        swipeGesture.direction = .down
-        view.addGestureRecognizer(swipeGesture)
     }
     
     // 바텀 시트 표출 애니메이션
     private func showBottomSheet() {
+        
+        let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
+        let bottomPadding: CGFloat = view.safeAreaInsets.bottom
+        
+        bottomSheetView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset((safeAreaHeight + bottomPadding) - bottomHeight)
+        }
+        
         let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeIn)
         animator.addAnimations {
             self.dimmedBackView.alpha = 0.5
@@ -224,18 +228,6 @@ final class LoginBottomSheetVC: UIViewController {
     // UITapGestureRecognizer 연결 함수 부분
     @objc private func dimmedViewTapped(_ tapRecognizer: UITapGestureRecognizer) {
         hideBottomSheetAndGoBack()
-    }
-    
-    // UISwipeGestureRecognizer 연결 함수 부분
-    @objc func panGesture(_ recognizer: UISwipeGestureRecognizer) {
-        if recognizer.state == .ended {
-            switch recognizer.direction {
-            case .down:
-                hideBottomSheetAndGoBack()
-            default:
-                break
-            }
-        }
     }
     
     /// 애플 로그인
@@ -272,7 +264,8 @@ final class LoginBottomSheetVC: UIViewController {
                         switch response {
                         case .success(let result):
                             guard let data = try? result.map(ApiResponse.self) else { return }
-                            LogUtil.d("간편 로그인 성공 : \(data)")
+                            LogUtil.d("간편 로그인 성공 : \(data.code)")
+                            
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
                         }
