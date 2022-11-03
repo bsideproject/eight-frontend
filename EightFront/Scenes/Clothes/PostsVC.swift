@@ -15,7 +15,7 @@ final class PostsVC: UIViewController {
         return .darkContent
     }
     
-    private var viewModel = TradeViewModel()
+    private var viewModel = PostsViewModel()
     private let stackContainer = StackContainerView()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setupFlowLayout()).then {
         $0.delegate = self
@@ -61,6 +61,12 @@ final class PostsVC: UIViewController {
         makeUI()
         bind()
         configure()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = true
     }
     
     //MARK: - Make UI
@@ -165,7 +171,7 @@ final class PostsVC: UIViewController {
     }
 }
 
-extension ClothesVC: SwipeCardsDataSource {
+extension PostsVC: SwipeCardsDataSource {
     func numberOfCardsToShow() -> Int {
         return viewModel.dummyData.count
     }
@@ -181,7 +187,7 @@ extension ClothesVC: SwipeCardsDataSource {
     }   
 }
 
-extension ClothesVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension PostsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     private func setupFlowLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = .zero

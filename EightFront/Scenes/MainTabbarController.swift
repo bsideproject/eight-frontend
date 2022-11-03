@@ -38,10 +38,11 @@ final class MainTabbarController: UITabBarController {
         homeNavi.tabBarItem.image = Images.Tabbar.homeNone.image
         homeNavi.tabBarItem.selectedImage = Images.Tabbar.homeSelect.image.withRenderingMode(.alwaysOriginal)
         
-        let tradeVC = TradeVC()
-        tradeVC.tabBarItem.title = "버릴까 말까"
-        tradeVC.tabBarItem.image = Images.Tabbar.feedNone.image
-        tradeVC.tabBarItem.selectedImage = Images.Tabbar.feedSelect.image.withRenderingMode(.alwaysOriginal)
+        let postsVC = PostsVC()
+        let postsNavi = CommonNavigationViewController(rootViewController: postsVC)
+        postsNavi.tabBarItem.title = "버릴까 말까"
+        postsNavi.tabBarItem.image = Images.Tabbar.feedNone.image
+        postsNavi.tabBarItem.selectedImage = Images.Tabbar.feedSelect.image.withRenderingMode(.alwaysOriginal)
         
         let noticeVC = NoticeVC()
         noticeVC.tabBarItem.title = "알림"
@@ -53,7 +54,7 @@ final class MainTabbarController: UITabBarController {
         myPageVC.tabBarItem.image = Images.Tabbar.myPageNone.image
         myPageVC.tabBarItem.selectedImage = Images.Tabbar.myPageSelect.image.withRenderingMode(.alwaysOriginal)
 
-        viewControllers = [homeNavi, tradeVC, noticeVC, myPageVC]
+        viewControllers = [homeNavi, postsNavi, noticeVC, myPageVC]
     }
     
     //MARK: - 버전 체크

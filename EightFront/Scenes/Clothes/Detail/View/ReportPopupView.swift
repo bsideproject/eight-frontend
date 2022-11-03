@@ -10,9 +10,9 @@ import SnapKit
 import UIKit
 
 protocol ReportPopupViewDelegate: AnyObject {
-    func cancelTapped()
-    func reportTapped()
-    func cutoffTapped()
+    func cancelButtonTapped()
+    func moveReport()
+    func moveCutoff()
 }
 
 //MARK: 옵션 선택 팝업
@@ -91,16 +91,16 @@ final class ReportPopupView: UIView {
     
     @objc
     private func cancelButtonTapped() {
-        delegate?.cancelTapped()
+        delegate?.cancelButtonTapped()
     }
     
     @objc
     private func reportButtonTapped() {
-        delegate?.reportTapped()
+        delegate?.moveReport()
     }
     
     @objc
     private func cutoffButtonTapped() {
-        delegate?.cutoffTapped()
+        delegate?.moveCutoff()
     }
 }
