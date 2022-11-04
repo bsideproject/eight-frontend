@@ -131,6 +131,7 @@ final class PostsVC: UIViewController {
     }
     
     private func configure() {
+        stackContainer.delegate = self
         stackContainer.dataSource = self
         
         var tapGesture = UITapGestureRecognizer(target: self, action: #selector(storageTapped))
@@ -171,6 +172,7 @@ final class PostsVC: UIViewController {
     }
 }
 
+//MARK: - 카드 DataSources & Delegate
 extension PostsVC: SwipeCardsDataSource {
     func numberOfCardsToShow() -> Int {
         return viewModel.dummyData.count
@@ -185,6 +187,13 @@ extension PostsVC: SwipeCardsDataSource {
     func emptyView() -> UIView? {
         return nil
     }   
+}
+
+extension PostsVC: SwipeCardsDelegate {
+    func swipeDidSelect(view: SwipeCardView, at index: Int) {
+        let detailVC = DetailPostVC()
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
 extension PostsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {

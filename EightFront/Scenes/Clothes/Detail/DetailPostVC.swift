@@ -34,6 +34,8 @@ final class DetailPostVC: UIViewController {
     
     //MARK: - Make UI
     private func makeUI() {
+        view.backgroundColor = .white
+        
         view.addSubview(navigationView)
         
         navigationView.snp.makeConstraints {

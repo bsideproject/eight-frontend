@@ -15,5 +15,10 @@ protocol SwipeCardsDataSource: AnyObject {
 }
 
 protocol SwipeCardsDelegate: AnyObject {
+    func swipeDidSelect(view: SwipeCardView, at index: Int)
+}
+
+protocol SwipeCardDelegate: AnyObject {
     func swipeDidEnd(on view: SwipeCardView)
+    func swipeDidSelect(view: SwipeCardView)
 }

@@ -9,7 +9,7 @@ import Then
 import SnapKit
 import UIKit
 //MARK: StackContainerView
-final class StackContainerView: UIView, SwipeCardsDelegate {
+final class StackContainerView: UIView {
     //MARK: - Properties
     private var numberOfCardsToShow: Int = 0
     private var cardsToBeVisible: Int = 3
@@ -22,6 +22,7 @@ final class StackContainerView: UIView, SwipeCardsDelegate {
     private var visibleCards: [SwipeCardView] {
         return subviews as? [SwipeCardView] ?? []
     }
+    weak var delegate: SwipeCardsDelegate?
     weak var dataSource: SwipeCardsDataSource? {
         didSet {
             reloadData()
@@ -107,7 +108,9 @@ final class StackContainerView: UIView, SwipeCardsDelegate {
         
         animator.startAnimation()
     }
-    
+}
+
+extension StackContainerView: SwipeCardDelegate {
     func swipeDidEnd(on view: SwipeCardView) {
         guard let datasource = dataSource else { return }
         view.removeFromSuperview()
@@ -128,5 +131,11 @@ final class StackContainerView: UIView, SwipeCardsDelegate {
             
             animator.startAnimation()
         }
+    }
+    
+    func swipeDidSelect(view: SwipeCardView) {
+        guard let index = cardViews.firstIndex(of: view) else { return }
+        
+        delegate?.swipeDidSelect(view: view, at: index)
     }
 }
