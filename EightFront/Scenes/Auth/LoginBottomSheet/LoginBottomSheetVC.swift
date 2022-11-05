@@ -298,7 +298,7 @@ final class LoginBottomSheetVC: UIViewController {
                                 return
                             }
                             
-                            KeyChainManager.shared.createToken(data.accessToken ?? "")
+                            KeyChainManager.shared.createAccessToken(data.accessToken ?? "")
                             
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
