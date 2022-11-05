@@ -30,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         DataManager.shared.fetchData()
         
+        KeyChainManager.shared.readAccessToken()
+        
         return true
     }
     

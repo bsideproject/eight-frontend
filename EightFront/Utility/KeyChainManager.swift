@@ -41,10 +41,10 @@ final class KeyChainManager {
         
         let status: OSStatus = SecItemAdd(query as CFDictionary, nil)
         if status == errSecSuccess {
-            print(status)
-            return false
+            LogUtil.d("KeyChain AccessToken Create Success.")
+            return true
         } else {
-            print(status)
+            LogUtil.e("KeyChain AccessToken Create Faild")
             return false
         }
     }
@@ -63,13 +63,13 @@ final class KeyChainManager {
         var item: CFTypeRef?
         
          if SecItemCopyMatching(query as CFDictionary, &item) != errSecSuccess {
-             print("read failed")
+             LogUtil.e("KeyChain AccessToken Read Failed")
              return
          }
-         guard let existingItem = item as? [String: Any] else { return }
-         guard let data = existingItem[kSecValueData as String] as? Data else { return }
-         guard let accessToken = String(data: data, encoding: .utf8) else { return }
+         guard let existingItem = item as? [String: Any],
+               let data = existingItem[kSecValueData as String] as? Data,
+               let accessToken = String(data: data, encoding: .utf8) else { return }
          
-         print(accessToken)
+        LogUtil.d("accessToken: \(accessToken)")
     }
 }

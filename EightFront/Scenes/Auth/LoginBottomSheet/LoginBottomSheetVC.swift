@@ -12,11 +12,6 @@ import CombineCocoa
 import KakaoSDKUser
 import Moya
 
-protocol LoginDelegate: AnyObject {
-    func emailSignIn()
-    func emailSignUp()
-}
-
 final class LoginBottomSheetVC: UIViewController {
     // MARK: - Properties
     private let viewModel = LoginBottomSheetViewModel()
@@ -24,8 +19,6 @@ final class LoginBottomSheetVC: UIViewController {
     private var bottomHeight: CGFloat = 279
     
     private var bottomSheetViewTopConstraint: NSLayoutConstraint!
-    
-    weak var delegate: LoginDelegate?
     
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
@@ -293,12 +286,13 @@ final class LoginBottomSheetVC: UIViewController {
                     ))) { response in
                         switch response {
                         case .success(let result):
+                            
                             guard let data = try? result.map(SimpleLoginResponse.self).data else {
                                 LogUtil.d("Response Decoding 실패")
                                 return
                             }
                             
-                            KeyChainManager.shared.createAccessToken(data.accessToken ?? "")
+                            KeyChainManager.shared.createAccessToken(data.accessToken ?? "ac")
                             
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
@@ -309,14 +303,16 @@ final class LoginBottomSheetVC: UIViewController {
     }
     
     private func emailLoginButtonTapped() {
-        dismiss(animated: true) { [weak self] in
-            self?.delegate?.emailSignIn()
+        dismiss(animated: false) { 
+            let loginVC = LoginVC()
+            UIWindow().visibleViewController?.navigationController?.pushViewController(loginVC, animated: true)
         }
     }
     
     private func emailSignUpButtonTapped() {
-        dismiss(animated: true) { [weak self] in
-            self?.delegate?.emailSignUp()
+        dismiss(animated: false) {
+            let termsVC = TermsVC()
+            UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
         }
     }
 }
