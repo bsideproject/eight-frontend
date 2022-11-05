@@ -251,7 +251,7 @@ final class LoginBottomSheetVC: UIViewController {
                 }
                 
                 guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else {
-                    LogUtil.e("FCM Token 불러오기 실패: \(error?.localizedDescription)")
+                    LogUtil.e("FCM 토큰 실패")
                     return
                 }
                 
@@ -263,8 +263,11 @@ final class LoginBottomSheetVC: UIViewController {
                     ))) { response in
                         switch response {
                         case .success(let result):
-                            guard let data = try? result.map(ApiResponse.self) else { return }
-                            LogUtil.d("간편 로그인 성공 : \(data.code)")
+                            guard let data = try? result.map(SimpleLoginResponse.self).data else {
+                                LogUtil.d("Response Decoding 실패")
+                                return
+                            }
+                            LogUtil.d("간편 로그인 성공 : \(data)")
                             
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
@@ -278,7 +281,7 @@ final class LoginBottomSheetVC: UIViewController {
                 }
                 
                 guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else {
-                    LogUtil.e("FCM Token 불러오기 실패: \(error?.localizedDescription)")
+                    LogUtil.e("FCM 토큰 실패")
                     return
                 }
                 
@@ -290,8 +293,12 @@ final class LoginBottomSheetVC: UIViewController {
                     ))) { response in
                         switch response {
                         case .success(let result):
-                            guard let data = try? result.map(ApiResponse.self) else { return }
+                            guard let data = try? result.map(SimpleLoginResponse.self).data else {
+                                LogUtil.d("Response Decoding 실패")
+                                return
+                            }
                             LogUtil.d("간편 로그인 성공 : \(data)")
+                            
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
                         }
@@ -329,7 +336,10 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
                 return
             }
             
-            guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else { return }
+            guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else {
+                LogUtil.e("FCM 토큰 실패")
+                return
+            }
             
             LogUtil.d("""
             identityTorknStr: \(identityTorknStr)

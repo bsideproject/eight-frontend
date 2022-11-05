@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2806474A28E86AFF000DED5B /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2806474928E86AFF000DED5B /* UIButton+.swift */; };
+		280A942D291618BC00078A52 /* SimpleLoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280A942C291618BC00078A52 /* SimpleLoginResponse.swift */; };
 		28379E8228F718A400B2D4DD /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28379E7F28F718A400B2D4DD /* LoginVC.swift */; };
 		28379E8328F718A400B2D4DD /* LoginBottomSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28379E8028F718A400B2D4DD /* LoginBottomSheetVC.swift */; };
 		28379E8428F718A400B2D4DD /* LoginBottomSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28379E8128F718A400B2D4DD /* LoginBottomSheetViewModel.swift */; };
@@ -143,6 +144,7 @@
 
 /* Begin PBXFileReference section */
 		2806474928E86AFF000DED5B /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
+		280A942C291618BC00078A52 /* SimpleLoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleLoginResponse.swift; sourceTree = "<group>"; };
 		28379E7F28F718A400B2D4DD /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		28379E8028F718A400B2D4DD /* LoginBottomSheetVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginBottomSheetVC.swift; sourceTree = "<group>"; };
 		28379E8128F718A400B2D4DD /* LoginBottomSheetViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginBottomSheetViewModel.swift; sourceTree = "<group>"; };
@@ -390,6 +392,10 @@
 				E9008D402911580100F70B6B /* Common */,
 				E9008D412911581E00F70B6B /* Auth */,
 				E9008D3F291157E700F70B6B /* ClothingBins */,
+				E99AC30F28E88A6000AF1F84 /* CoordinatesResponse.swift */,
+				E9BFC40128E890A500951604 /* ApiResponse.swift */,
+				288BFD7628FC43A400A85F13 /* SimpleSignUpRequest.swift */,
+				280A942C291618BC00078A52 /* SimpleLoginResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -914,6 +920,7 @@
 				E9494A6F28F1DF15005285C0 /* UILayer+.swift in Sources */,
 				E9B074F5291639B300C8D9D2 /* ChoiceView.swift in Sources */,
 				E95ACEAC28F35E2A00057900 /* PhotoCollectionViewCell.swift in Sources */,
+				280A942D291618BC00078A52 /* SimpleLoginResponse.swift in Sources */,
 				E9460AF928E9DE2200932351 /* Fonts+Generated.swift in Sources */,
 				E99929AF28D88182006FCFC7 /* MainTabbarController.swift in Sources */,
 				E9494A5B28F05CAB005285C0 /* SearchBarVC.swift in Sources */,
