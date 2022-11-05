@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2806474A28E86AFF000DED5B /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2806474928E86AFF000DED5B /* UIButton+.swift */; };
 		280A942D291618BC00078A52 /* SimpleLoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280A942C291618BC00078A52 /* SimpleLoginResponse.swift */; };
+		280A942F29161F0200078A52 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280A942E29161F0200078A52 /* KeyChainManager.swift */; };
 		28379E8228F718A400B2D4DD /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28379E7F28F718A400B2D4DD /* LoginVC.swift */; };
 		28379E8328F718A400B2D4DD /* LoginBottomSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28379E8028F718A400B2D4DD /* LoginBottomSheetVC.swift */; };
 		28379E8428F718A400B2D4DD /* LoginBottomSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28379E8128F718A400B2D4DD /* LoginBottomSheetViewModel.swift */; };
@@ -145,6 +146,7 @@
 /* Begin PBXFileReference section */
 		2806474928E86AFF000DED5B /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		280A942C291618BC00078A52 /* SimpleLoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleLoginResponse.swift; sourceTree = "<group>"; };
+		280A942E29161F0200078A52 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		28379E7F28F718A400B2D4DD /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		28379E8028F718A400B2D4DD /* LoginBottomSheetVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginBottomSheetVC.swift; sourceTree = "<group>"; };
 		28379E8128F718A400B2D4DD /* LoginBottomSheetViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginBottomSheetViewModel.swift; sourceTree = "<group>"; };
@@ -522,6 +524,7 @@
 				E95FBF6628F70FDF002CA5A9 /* ImagePickerManager.swift */,
 				E95FBF6528F70FDF002CA5A9 /* LocationManager.swift */,
 				E95FBF6728F70FDF002CA5A9 /* LogUtil.swift */,
+				280A942E29161F0200078A52 /* KeyChainManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -908,6 +911,7 @@
 				E9EEA49B2916C0F80073001F /* DetailPostVC.swift in Sources */,
 				E96BC92028EB2988002EBA7E /* SearchMapVC.swift in Sources */,
 				E9EEA49129169C840073001F /* CategoryResponse.swift in Sources */,
+				280A942F29161F0200078A52 /* KeyChainManager.swift in Sources */,
 				28379E8328F718A400B2D4DD /* LoginBottomSheetVC.swift in Sources */,
 				E95FBF6928F70FDF002CA5A9 /* ImagePickerManager.swift in Sources */,
 				E9494A6B28F072E8005285C0 /* UIReusable+.swift in Sources */,

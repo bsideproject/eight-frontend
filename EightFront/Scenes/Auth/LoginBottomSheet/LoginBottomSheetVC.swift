@@ -297,7 +297,8 @@ final class LoginBottomSheetVC: UIViewController {
                                 LogUtil.d("Response Decoding 실패")
                                 return
                             }
-                            LogUtil.d("간편 로그인 성공 : \(data)")
+                            
+                            KeyChainManager.shared.createToken(data.accessToken ?? "")
                             
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
