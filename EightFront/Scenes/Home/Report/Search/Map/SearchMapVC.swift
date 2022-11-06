@@ -40,10 +40,7 @@ final class SearchMapVC: UIViewController {
         $0.setImage(Images.currentLocation.image, for: .highlighted)
         $0.backgroundColor = .white
     }
-    private lazy var bottomAddressView = BottomAddressView().then {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addressViewTapped))
-        $0.addressLabel.addGestureRecognizer(tapGesture)
-    }
+    private let bottomAddressView = BottomAddressView()
     
     //MARK: - Life Cycle
     init(requestLocation: CLLocation? = nil) {
@@ -129,6 +126,14 @@ final class SearchMapVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
+            }
+            .store(in: &viewModel.bag)
+        
+        bottomAddressView
+            .gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.addressViewTapped()
             }
             .store(in: &viewModel.bag)
         

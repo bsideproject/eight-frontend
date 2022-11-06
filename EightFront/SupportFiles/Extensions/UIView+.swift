@@ -8,6 +8,10 @@
 import UIKit
 
 extension UIView {
+    func gesture(_ event: GestureType = .tap) -> GesturePublisher {
+        GesturePublisher(view: self, event: event)
+    }
+    
     enum VerticalLocation {
         case bottom
         case top

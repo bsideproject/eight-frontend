@@ -126,22 +126,34 @@ final class PostsVC: UIViewController {
     
     //MARK: - Binding..
     private func bind() {
+        storageButton
+            .gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.storageTapped()
+            }
+            .store(in: &viewModel.bag)
         
+        throwButton
+            .gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.throwTapped()
+            }
+            .store(in: &viewModel.bag)
         
+        filterView
+            .gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.filterTapped()
+            }
+            .store(in: &viewModel.bag)
     }
     
     private func configure() {
         stackContainer.delegate = self
         stackContainer.dataSource = self
-        
-        var tapGesture = UITapGestureRecognizer(target: self, action: #selector(storageTapped))
-        storageButton.addGestureRecognizer(tapGesture)
-        
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(throwTapped))
-        throwButton.addGestureRecognizer(tapGesture)
-        
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(filterTapped))
-        throwButton.addGestureRecognizer(tapGesture)
         
         if !viewModel.dummyCategories.isEmpty {
             collectionView.selectItem(at: IndexPath(item: 0, section: 0),

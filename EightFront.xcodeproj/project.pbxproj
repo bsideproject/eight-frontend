@@ -117,6 +117,7 @@
 		E9EEA49B2916C0F80073001F /* DetailPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA49A2916C0F80073001F /* DetailPostVC.swift */; };
 		E9EEA49D2916C1090073001F /* DetailPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA49C2916C1090073001F /* DetailPostViewModel.swift */; };
 		E9EEA4A02916C2370073001F /* ReportPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA49F2916C2370073001F /* ReportPostVC.swift */; };
+		E9EEA4A22917CBED0073001F /* Gesture+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA4A12917CBED0073001F /* Gesture+.swift */; };
 		E9EFE7BD290AD7B000EA514B /* CardDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7BB290AD7AF00EA514B /* CardDataModel.swift */; };
 		E9EFE7BE290AD7B000EA514B /* SwipeCardsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7BC290AD7AF00EA514B /* SwipeCardsDataSource.swift */; };
 		E9EFE7C2290AD7B700EA514B /* StackContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7C0290AD7B700EA514B /* StackContainerView.swift */; };
@@ -237,6 +238,7 @@
 		E9EEA49A2916C0F80073001F /* DetailPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostVC.swift; sourceTree = "<group>"; };
 		E9EEA49C2916C1090073001F /* DetailPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostViewModel.swift; sourceTree = "<group>"; };
 		E9EEA49F2916C2370073001F /* ReportPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportPostVC.swift; sourceTree = "<group>"; };
+		E9EEA4A12917CBED0073001F /* Gesture+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gesture+.swift"; sourceTree = "<group>"; };
 		E9EFE7BB290AD7AF00EA514B /* CardDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDataModel.swift; sourceTree = "<group>"; };
 		E9EFE7BC290AD7AF00EA514B /* SwipeCardsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCardsDataSource.swift; sourceTree = "<group>"; };
 		E9EFE7C0290AD7B700EA514B /* StackContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackContainerView.swift; sourceTree = "<group>"; };
@@ -424,6 +426,7 @@
 				E98A04EA28F4185B009F055B /* NSMutableAttributedString+.swift */,
 				E95FBF6B28FC1644002CA5A9 /* Pretendard+.swift */,
 				E9EEA4922916A2610073001F /* UILabel+.swift */,
+				E9EEA4A12917CBED0073001F /* Gesture+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -915,6 +918,7 @@
 				288BFD6F28FBC17500A85F13 /* TermsViewModel.swift in Sources */,
 				E9494A6528F068A4005285C0 /* ResponsePOI.swift in Sources */,
 				E9EFE7C3290AD7B700EA514B /* SwipeCardView.swift in Sources */,
+				E9EEA4A22917CBED0073001F /* Gesture+.swift in Sources */,
 				E95FBF6A28F70FDF002CA5A9 /* LogUtil.swift in Sources */,
 				E9460AFE28E9E51D00932351 /* HomeSearchView.swift in Sources */,
 				E95ACEA628F332E000057900 /* AgreePhotoView.swift in Sources */,

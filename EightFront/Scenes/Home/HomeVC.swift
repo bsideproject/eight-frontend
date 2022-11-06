@@ -18,10 +18,7 @@ final class HomeVC: UIViewController {
     private let statusView = UIView().then {
         $0.backgroundColor = Colors.gray002.color
     }
-    private lazy var headerView = HomeHeaderView().then {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(searchButtonTapped))
-        $0.searchView.addGestureRecognizer(tapGesture)
-    }
+    private let headerView = HomeHeaderView()
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -134,6 +131,7 @@ final class HomeVC: UIViewController {
                 self?.mapView.moveCamera(cameraUpdate)
             }
             .store(in: &viewModel.cancelBag)
+        
         // Home -> Report
         reportButton
             .tapPublisher
@@ -142,6 +140,7 @@ final class HomeVC: UIViewController {
                 self?.reportButtonTapped()
             }
             .store(in: &viewModel.cancelBag)
+        
         boxInfoView.fixButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
@@ -156,6 +155,7 @@ final class HomeVC: UIViewController {
                 self?.tabBarController?.navigationController?.pushViewController(reportVC, animated: true)
             }
             .store(in: &viewModel.cancelBag)
+        
         boxInfoView.navigationButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
@@ -167,6 +167,15 @@ final class HomeVC: UIViewController {
                 self?.requestDirection(location: targetLocation)
             }
             .store(in: &viewModel.cancelBag)
+        
+        headerView
+            .gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.searchButtonTapped()
+            }
+            .store(in: &viewModel.cancelBag)
+        
         headerView.alarmButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
@@ -192,11 +201,13 @@ final class HomeVC: UIViewController {
                 self?.present(alert, animated: true)
             }
             .store(in: &viewModel.cancelBag)
+        
         viewModel.$addressString
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .assign(to: \.text, on: headerView.addressView.addressLabel)
             .store(in: &viewModel.cancelBag)
+        
         viewModel
             .output
             .requestClothingBins
@@ -205,6 +216,7 @@ final class HomeVC: UIViewController {
                 self?.showMarker(boxes: boxes?.boxes)
             }
             .store(in: &viewModel.cancelBag)
+        
         refreshButton
             .tapPublisher
             .receive(on: DispatchQueue.main)

@@ -55,10 +55,7 @@ final class ReportVC: UIViewController {
         AddPhotoCollectionViewCell.register($0)
         PhotoCollectionViewCell.register($0)
     }
-    private lazy var agreePhotoView = AgreePhotoView().then { [weak self] in
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self?.agreePhotoTapped))
-        $0.addGestureRecognizer(tapGesture)
-    }
+    private let agreePhotoView = AgreePhotoView()
     lazy var requestButton = UIButton().then { [weak self] in
         guard let self = self else { return }
         $0.setTitle(self.isDelete ? "삭제 요청하기" : "등록하기")
@@ -170,8 +167,13 @@ final class ReportVC: UIViewController {
     //MARK: - Rx Binding..
     private func bind() {
         if !isDelete {
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addressTapped))
-            addressView.addGestureRecognizer(tapGesture)
+            addressView
+                .gesture()
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    self?.addressTapped()
+                }
+                .store(in: &viewModel.bag)
         }
         
         viewModel.$addressString
@@ -179,6 +181,7 @@ final class ReportVC: UIViewController {
             .compactMap { $0 }
             .assign(to: \.text, on: addressView.contentTextField)
             .store(in: &viewModel.bag)
+        
         navigationView.backButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
@@ -186,6 +189,7 @@ final class ReportVC: UIViewController {
                 self?.navigationController?.popViewController(animated: true)
             }
             .store(in: &viewModel.bag)
+        
         viewModel
             .output
             .isRequest
@@ -196,6 +200,7 @@ final class ReportVC: UIViewController {
                 self?.requestButton.isUserInteractionEnabled = $0
             }
             .store(in: &viewModel.bag)
+        
         requestButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
@@ -205,6 +210,7 @@ final class ReportVC: UIViewController {
                 self.navigationController?.pushViewController(completedVC, animated: true)
             }
             .store(in: &viewModel.bag)
+        
         viewModel
             .output
             .updatedImages
@@ -213,6 +219,7 @@ final class ReportVC: UIViewController {
                 self?.addPhotoCollectionView.reloadData()
             }
             .store(in: &viewModel.bag)
+        
         detailView
             .contentTextField
             .textPublisher
@@ -220,6 +227,15 @@ final class ReportVC: UIViewController {
             .map { !$0.isEmpty }
             .sink { [weak self] in
                 self?.viewModel.input.isDetailAddress.send($0)
+            }
+            .store(in: &viewModel.bag)
+        
+        agreePhotoView
+            .gesture(.tap)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.agreePhotoView.isSelected.toggle()
+                self?.viewModel.input.isAgreePhoto.send(self?.agreePhotoView.isSelected ?? false)
             }
             .store(in: &viewModel.bag)
     }
@@ -262,13 +278,6 @@ final class ReportVC: UIViewController {
         let searchMapVC = SearchMapVC(requestLocation: viewModel.requestLocation)
         searchMapVC.delegate = self
         navigationController?.pushViewController(searchMapVC, animated: true)
-    }
-    
-    @objc
-    private func agreePhotoTapped() {
-        agreePhotoView.isSelected.toggle()
-        
-        viewModel.input.isAgreePhoto.send(agreePhotoView.isSelected)
     }
 }
 
