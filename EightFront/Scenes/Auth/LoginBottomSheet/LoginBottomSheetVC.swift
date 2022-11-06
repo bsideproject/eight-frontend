@@ -14,12 +14,28 @@ import Moya
 import JWTDecode
 
 final class LoginBottomSheetVC: UIViewController {
+    
+    enum signType {
+        case apple
+        case kakao
+        case email
+        
+        var type: String {
+            switch self {
+            case .apple:
+                return "apple"
+            case .kakao:
+                return "kakao"
+            case .email:
+                return "email"
+            }
+        }
+    }
+    
     // MARK: - Properties
     private let viewModel = LoginBottomSheetViewModel()
     private let authProvider = MoyaProvider<AuthAPI>()
     private var bottomHeight: CGFloat = 279
-    
-    private var bottomSheetViewTopConstraint: NSLayoutConstraint!
     
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
@@ -286,7 +302,7 @@ final class LoginBottomSheetVC: UIViewController {
                                 // 회원가입
                                 self.dismiss(animated: false) {
                                     let termsVC = TermsVC()
-                                    termsVC.type = "kakao"
+                                    termsVC.type = signType.kakao.type
                                     UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
                                 }
                             }
@@ -376,21 +392,6 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
             identityTorknStr: \(identityTorknStr)
             authorizationCodeStr: \(authorizationCodeStr)
             """)
-            
-            //            self.authProvider.request(.login(
-            //                param: SimpleSignUpRequest(
-            //                    authId: oauthToken?.idToken ?? "",
-            //                    authType: simpleLoginType.kakao.rawValue,
-            //                    deviceID: fcmToken
-            //                ))) { response in
-            //                    switch response {
-            //                    case .success(let result):
-            //                        guard let data = try? result.map(ApiResponse.self) else { return }
-            //                        LogUtil.d("간편 로그인 성공 : \(data)")
-            //                    case .failure(let error):
-            //                        LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
-            //                    }
-            //                }
         }
     }
     

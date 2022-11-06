@@ -59,13 +59,5 @@ final class EmailSignUpViewModel {
         .CombineLatest3(isEmailValid, isPasswordValid, isPasswordConfirmValid)
         .compactMap { $0 && $1 && $2 ? true : false }
         .eraseToAnyPublisher()
-    
-//    func signupButtonTapped() {
-//        LogUtil.d("""
-//            회원가입
-//        email: \(emailInput)
-//        nickName: \(nicknameInput)
-//        passwordInput: \(passwordInput)
-//        """)
-//    }
+
 }

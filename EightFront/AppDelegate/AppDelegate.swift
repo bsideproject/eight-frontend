@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         DataManager.shared.fetchData()
         
-        KeyChainManager.shared.readAccessToken()
+        KeyChainManager.shared.deleteAccessToken()
         
         return true
     }

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class MyPageViewModel {
+final class MyPageViewModel {
     
     enum MyPageMenus: CaseIterable {
         case myClothes

@@ -167,8 +167,6 @@ final class LoginVC: UIViewController {
     func signUpButtonTapped() {
         let termsVC = TermsVC()
         navigationController?.pushViewController(termsVC, animated: true)
-//        let emailSignVC = EmailSignUpVC()
-//        navigationController?.pushViewController(emailSignVC, animated: true)
     }
 }
 
@@ -178,7 +176,8 @@ extension LoginVC: UITextFieldDelegate {
         case emailTextFieldView.contentTextField:
             passwordTextFieldView.contentTextField.becomeFirstResponder()
         case passwordTextFieldView.contentTextField:
-            print("비밀번호 입력 창에서 done 키 누름")
+            // TODO: 해당 텍스트 필드에서 done 키 누를 시 로그인 API 호출되게 수정
+            LogUtil.d("비밀번호 입력 창에서 done 키 누름")
         default:
             textField.resignFirstResponder()
         }
