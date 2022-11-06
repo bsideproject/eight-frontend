@@ -224,7 +224,7 @@ final class HomeVC: UIViewController {
                 LocationManager.shared.addressUpdate(location: $0) { address in
                     self?.viewModel.addressString = address
                 }
-                self?.viewModel.input.requestClothingBins.send(LocationManager.shared.currentLocation)
+//                self?.viewModel.input.requestClothingBins.send(LocationManager.shared.currentLocation)
             }
             .store(in: &viewModel.cancelBag)
     }
@@ -254,8 +254,6 @@ final class HomeVC: UIViewController {
         resetInfoWindows()
         
         guard let boxes else { return }
-        
-        LogUtil.d(boxes)
         
         for box in boxes {
             guard let lat = box.latitude, let lng = box.longitude else { continue }

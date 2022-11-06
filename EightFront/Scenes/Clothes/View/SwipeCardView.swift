@@ -46,7 +46,7 @@ final class SwipeCardView: UIView {
     
     var moreButton = UIButton()
     
-    weak var delegate: SwipeCardsDelegate?
+    weak var delegate: SwipeCardDelegate?
     
     var divisor: CGFloat = 0
     let baseView = UIView()
@@ -122,7 +122,7 @@ final class SwipeCardView: UIView {
     
     //MARK: - Handlers
     @objc func handlePanGesture(sender: UIPanGestureRecognizer) {
-        let card = sender.view as! SwipeCardView
+        guard let card = sender.view as? SwipeCardView else { return }
         let point = sender.translation(in: self)
         let centerOfParentContainer = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
         card.center = CGPoint(x: centerOfParentContainer.x + point.x, y: centerOfParentContainer.y + point.y)
@@ -176,7 +176,8 @@ final class SwipeCardView: UIView {
     }
     
     @objc func handleTapGesture(sender: UITapGestureRecognizer) {
-        
+        guard let view = sender.view as? SwipeCardView else { return }
+        delegate?.swipeDidSelect(view: view)
     }
     
     

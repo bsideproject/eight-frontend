@@ -9,7 +9,7 @@ import Then
 import SnapKit
 import UIKit
 //MARK: StackContainerView
-final class StackContainerView: UIView, SwipeCardsDelegate {
+final class StackContainerView: UIView {
     //MARK: - Properties
     private var numberOfCardsToShow: Int = 0
     private var cardsToBeVisible: Int = 3
@@ -22,6 +22,7 @@ final class StackContainerView: UIView, SwipeCardsDelegate {
     private var visibleCards: [SwipeCardView] {
         return subviews as? [SwipeCardView] ?? []
     }
+    weak var delegate: SwipeCardsDelegate?
     weak var dataSource: SwipeCardsDataSource? {
         didSet {
             reloadData()
@@ -83,6 +84,33 @@ final class StackContainerView: UIView, SwipeCardsDelegate {
         cardViews = []
     }
     
+    func removeCardTapAnimation(isLeft: Bool = true) {
+        guard let card = visibleCards.last else { return }
+        
+        
+        var cardViewFrame = bounds
+        cardViewFrame.origin.x = isLeft ? -cardViewFrame.width : UIScreen.main.bounds.width + cardViewFrame.width
+        
+        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut)
+        
+        animator.addAnimations { [weak self] in
+            card.frame = cardViewFrame
+            let xFromCenter = (isLeft ? -UIScreen.main.bounds.width : UIScreen.main.bounds.width) - (cardViewFrame.maxX / 2)
+            let divisor = ((UIScreen.main.bounds.width / 2) / 0.61)
+            let angle = tan(xFromCenter / divisor)
+            card.transform = CGAffineTransform(rotationAngle: angle)
+            self?.layoutIfNeeded()
+        }
+        
+        animator.addCompletion { [weak self] _ in
+            self?.swipeDidEnd(on: card)
+        }
+        
+        animator.startAnimation()
+    }
+}
+
+extension StackContainerView: SwipeCardDelegate {
     func swipeDidEnd(on view: SwipeCardView) {
         guard let datasource = dataSource else { return }
         view.removeFromSuperview()
@@ -103,5 +131,11 @@ final class StackContainerView: UIView, SwipeCardsDelegate {
             
             animator.startAnimation()
         }
+    }
+    
+    func swipeDidSelect(view: SwipeCardView) {
+        guard let index = cardViews.firstIndex(of: view) else { return }
+        
+        delegate?.swipeDidSelect(view: view, at: index)
     }
 }

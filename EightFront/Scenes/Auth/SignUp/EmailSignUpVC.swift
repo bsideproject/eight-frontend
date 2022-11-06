@@ -198,7 +198,6 @@ final class EmailSignUpVC: UIViewController {
     }
     
     private func bind() {
-        
         // 이메일 입력
         emailTextField
             .contentTextField

@@ -71,6 +71,12 @@ internal enum Images {
     internal static let robot = ImageAsset(name: "robot")
     internal static let subway = ImageAsset(name: "subway")
   }
+  internal enum Trade {
+    internal static let bottomArrow = ImageAsset(name: "bottom-arrow")
+    internal static let filterBackground = ImageAsset(name: "filter-background")
+    internal static let leftArrow = ImageAsset(name: "left-arrow")
+    internal static let rightArrow = ImageAsset(name: "right-arrow")
+  }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
 
