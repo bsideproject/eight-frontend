@@ -11,20 +11,31 @@ import UIKit
 import CombineCocoa
 import KakaoSDKUser
 import Moya
-
-protocol LoginDelegate: AnyObject {
-    func emailSignIn()
-    func emailSignUp()
-}
+import JWTDecode
 
 final class LoginBottomSheetVC: UIViewController {
-    // MARK: - Properties
     
+    enum signType {
+        case apple
+        case kakao
+        case email
+        
+        var type: String {
+            switch self {
+            case .apple:
+                return "apple"
+            case .kakao:
+                return "kakao"
+            case .email:
+                return "email"
+            }
+        }
+    }
+    
+    // MARK: - Properties
     private let viewModel = LoginBottomSheetViewModel()
     private let authProvider = MoyaProvider<AuthAPI>()
-    private let bottomHeight: CGFloat = 279
-    
-    weak var delegate: LoginDelegate?
+    private var bottomHeight: CGFloat = 279
     
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
@@ -70,58 +81,25 @@ final class LoginBottomSheetVC: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         makeUI()
         bind()
         setupGestureRecognizer()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //        showBottomSheet()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        let accessToken = KeyChainManager.shared.readAccessToken()
+        
         showBottomSheet()
     }
     
-    // MARK: - Bind
-    private func bind() {
-        appleLoginButton
-            .controlEventPublisher(for: .touchUpInside)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.appleLoginButtonTapped()
-            }
-            .store(in: &viewModel.bag)
-        
-        kakaoLoginButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.kakaoLoginButtonTapped()
-            }
-            .store(in: &viewModel.bag)
-        
-        emailLoginButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.emailLoginButtonTapped()
-            }.store(in: &viewModel.bag)
-        
-        emailSignUpButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.emailSignUpButtonTapped()
-            }.store(in: &viewModel.bag)
-        
-    }
-    
-    // MARK: - Functions
-    
+    // MARK: - makeUI
     private func makeUI() {
         view.addSubview(dimmedBackView)
         view.addSubview(bottomSheetView)
@@ -137,11 +115,10 @@ final class LoginBottomSheetVC: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        // 최상단으로 부터 떨어진 거리
-        let topConstant = (view.safeAreaInsets.bottom + view.safeAreaLayoutGuide.layoutFrame.height)-bottomHeight
+        let topConstant = view.safeAreaInsets.bottom + view.safeAreaLayoutGuide.layoutFrame.height
         
         bottomSheetView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(topConstant)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(topConstant)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
@@ -184,6 +161,41 @@ final class LoginBottomSheetVC: UIViewController {
         }
     }
     
+    // MARK: - Bind
+    private func bind() {
+        appleLoginButton
+            .controlEventPublisher(for: .touchUpInside)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.appleLoginButtonTapped()
+            }
+            .store(in: &viewModel.bag)
+        
+        kakaoLoginButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.kakaoLoginButtonTapped()
+            }
+            .store(in: &viewModel.bag)
+        
+        emailLoginButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.emailLoginButtonTapped()
+            }.store(in: &viewModel.bag)
+        
+        emailSignUpButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.emailSignUpButtonTapped()
+            }.store(in: &viewModel.bag)
+        
+    }
+    
+    // MARK: - Functions
     // GestureRecognizer 세팅 작업
     private func setupGestureRecognizer() {
         // 흐린 부분 탭할 때, 바텀시트를 내리는 TapGesture
@@ -191,14 +203,18 @@ final class LoginBottomSheetVC: UIViewController {
         dimmedBackView.addGestureRecognizer(dimmedTap)
         dimmedBackView.isUserInteractionEnabled = true
         
-        // 스와이프 했을 때, 바텀시트를 내리는 swipeGesture
-        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(panGesture))
-        swipeGesture.direction = .down
-        view.addGestureRecognizer(swipeGesture)
     }
     
     // 바텀 시트 표출 애니메이션
     private func showBottomSheet() {
+        
+        let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
+        let bottomPadding: CGFloat = view.safeAreaInsets.bottom
+        
+        bottomSheetView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset((safeAreaHeight + bottomPadding) - bottomHeight)
+        }
+        
         let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeIn)
         animator.addAnimations {
             self.dimmedBackView.alpha = 0.5
@@ -214,7 +230,10 @@ final class LoginBottomSheetVC: UIViewController {
             self.dimmedBackView.alpha = 0.0
             self.view.layoutIfNeeded()
             if self.presentationController != nil {
-                self.dismiss(animated: false)
+                self.dismiss(animated: false) {
+                    let tabbarVC = MainTabbarController()
+                    UIWindow().visibleViewController?.navigationController?.pushViewController(tabbarVC, animated: true)
+                }
             }
         }
         animator.startAnimation()
@@ -224,18 +243,6 @@ final class LoginBottomSheetVC: UIViewController {
     // UITapGestureRecognizer 연결 함수 부분
     @objc private func dimmedViewTapped(_ tapRecognizer: UITapGestureRecognizer) {
         hideBottomSheetAndGoBack()
-    }
-    
-    // UISwipeGestureRecognizer 연결 함수 부분
-    @objc func panGesture(_ recognizer: UISwipeGestureRecognizer) {
-        if recognizer.state == .ended {
-            switch recognizer.direction {
-            case .down:
-                hideBottomSheetAndGoBack()
-            default:
-                break
-            }
-        }
     }
     
     /// 애플 로그인
@@ -254,26 +261,89 @@ final class LoginBottomSheetVC: UIViewController {
         /// 카카오톡 설치 여부 확인
         if (UserApi.isKakaoTalkLoginAvailable()) {
             UserApi.shared.loginWithKakaoTalk { oauthToken, error in
-                
                 if let error = error {
                     LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
                 }
                 
-//                guard let fcmToken = NotificationCenter.default.value(forKey: "FCMToken") as? [String: String] else {
-//                    LogUtil.e("FCM 토큰을 받아오는데 실패 했습니다.")
-//                    return
-//                }
+                guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else {
+                    LogUtil.e("FCM 토큰 실패")
+                    return
+                }
                 
-                self.authProvider.request(.login(
-                    param: SimpleSignUpRequest(
-                        authId: oauthToken?.idToken ?? "",
-                        authType: simpleLoginType.kakao.rawValue,
-                        deviceID: "fcmToken"
+                self.authProvider.request(.kakaoSignIn(
+                    param: SimpleSignInRequest(
+                        accessToken: oauthToken?.accessToken ?? "",
+                        type: ""
+                    ))) { response in
+                        switch response {
+                            
+                        case .success(let result):
+                            guard let data = try? result.map(SimpleSignInResponse.self).data else {
+                                LogUtil.e("Response Decoding 실패")
+                                return
+                            }
+                            
+                            guard let content = data.content else {
+                                LogUtil.e("data.content unWrapping 실패")
+                                return
+                            }
+                            
+                            guard let type = content.type else {
+                                 return
+                            }
+                            
+                            if type == "sign-in" || type == "sing-in" {
+                                // 로그인
+                                self.dismiss(animated: false) {
+                                    guard let accessToken = content.accessToken else { return }
+                                    KeyChainManager.shared.createAccessToken(accessToken)
+                                }
+                            } else if type == "sign-up" {
+                                // 회원가입
+                                self.dismiss(animated: false) {
+                                    let termsVC = TermsVC()
+                                    termsVC.type = signType.kakao.type
+                                    UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
+                                }
+                            }
+                            
+                        case .failure(let error):
+                            LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
+                        }
+                    }
+            }
+        } else {
+            UserApi.shared.loginWithKakaoAccount { (oauthToken, error) in
+                if let error = error {
+                    LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
+                }
+                
+                guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else {
+                    LogUtil.e("FCM 토큰 실패")
+                    return
+                }
+                
+                guard let accessToken = oauthToken?.accessToken else {
+                    return
+                }
+                
+                self.authProvider.request(.kakaoSignIn(
+                    param: SimpleSignInRequest(
+                        accessToken: accessToken ?? "",
+                        type: ""
                     ))) { response in
                         switch response {
                         case .success(let result):
-                            guard let data = try? result.map(ApiResponse.self) else { return }
-                            LogUtil.d("간편 로그인 성공 : \(data)")
+                            
+                            guard let data = try? result.map(SimpleSignInResponse.self).data else {
+                                LogUtil.d("Response Decoding 실패")
+                                return
+                            }
+                            
+                            LogUtil.d("""
+                                간편 로그인 성공 : \(data.content)
+                                """)
+                            
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
                         }
@@ -283,14 +353,16 @@ final class LoginBottomSheetVC: UIViewController {
     }
     
     private func emailLoginButtonTapped() {
-        dismiss(animated: true) { [weak self] in
-            self?.delegate?.emailSignIn()
+        dismiss(animated: false) {
+            let loginVC = LoginVC()
+            UIWindow().visibleViewController?.navigationController?.pushViewController(loginVC, animated: true)
         }
     }
     
     private func emailSignUpButtonTapped() {
-        dismiss(animated: true) { [weak self] in
-            self?.delegate?.emailSignUp()
+        dismiss(animated: false) {
+            let termsVC = TermsVC()
+            UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
         }
     }
 }
@@ -311,12 +383,15 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
                 return
             }
             
-            LogUtil.d(
-                """
-                identityToken > \(identityTorknStr)
-                authorizationCode > \(authorizationCodeStr)
-                """
-            )
+            guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else {
+                LogUtil.e("FCM 토큰 실패")
+                return
+            }
+            
+            LogUtil.d("""
+            identityTorknStr: \(identityTorknStr)
+            authorizationCodeStr: \(authorizationCodeStr)
+            """)
         }
     }
     

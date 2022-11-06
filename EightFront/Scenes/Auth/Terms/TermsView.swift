@@ -16,8 +16,9 @@ final class TermsView: UIView {
         $0.textColor = Colors.gray005.color
     }
     
-    let chkeckButton = UIButton().then {
+    let checkButton = UIButton().then {
         $0.setImage(Images.Report.checkboxSelect.image, for: .normal)
+        $0.clipsToBounds = true
     }
     
     // MARK: - LifeCycle
@@ -42,14 +43,14 @@ final class TermsView: UIView {
     
     private func makeUI() {
         addSubview(titleLabel)
-        addSubview(chkeckButton)
+        addSubview(checkButton)
         
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(16)
         }
         
-        chkeckButton.snp.makeConstraints {
+        checkButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(16)
         }

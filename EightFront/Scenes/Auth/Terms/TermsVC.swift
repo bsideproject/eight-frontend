@@ -13,8 +13,26 @@ import SnapKit
 
 final class TermsVC: UIViewController {
     
-    // MARK: - properties
+    enum signType {
+        case apple
+        case kakao
+        case email
+        
+        var type: String {
+            switch self {
+            case .apple:
+                return "apple"
+            case .kakao:
+                return "kakao"
+            case .email:
+                return "email"
+            }
+        }
+    }
     
+    var type: String = "email"
+    
+    // MARK: - properties
     let viewModel = TermsViewModel()
     let subject = PassthroughSubject<Bool, Never>()
     
@@ -108,53 +126,68 @@ final class TermsVC: UIViewController {
     
     private func bind() {
         
-        allAgree.chkeckButton
+        navigationView.backButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.checkButtonTapped(Terms.all)
+                self?.navigationController?.popViewController(animated: true)
             }
             .store(in: &viewModel.bag)
         
-        policy.chkeckButton
+        allAgree.checkButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.checkButtonTapped(Terms.policy)
+                self?.checkButtonTapped(TermsViewModel.Terms.all)
             }
             .store(in: &viewModel.bag)
         
-        privacy.chkeckButton
+        policy.checkButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.checkButtonTapped(Terms.privacy)
+                self?.checkButtonTapped(TermsViewModel.Terms.policy)
             }
             .store(in: &viewModel.bag)
         
-        location.chkeckButton
+        privacy.checkButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.checkButtonTapped(Terms.location)
+                self?.checkButtonTapped(TermsViewModel.Terms.privacy)
+            }
+            .store(in: &viewModel.bag)
+        
+        location.checkButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.checkButtonTapped(TermsViewModel.Terms.location)
             }
             .store(in: &viewModel.bag)
         
         nextButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                let emailSignUpVC = EmailSignUpVC()
-                self?.navigationController?.pushViewController(emailSignUpVC, animated: true)
+                if self?.type == signType.kakao.type {
+                    let simpleSignInVC = SimpleSignUpVC()
+                    self?.navigationController?.pushViewController(simpleSignInVC, animated: true)
+                } else {
+                    let emailSignUpVC = EmailSignUpVC()
+                    self?.navigationController?.pushViewController(emailSignUpVC, animated: true)
+                }
             }
             .store(in: &viewModel.bag)
         
-        viewModel.$isAllAgree
-            .receive(on: DispatchQueue.main)
-            .compactMap { $0 }
-            .sink { [weak self] isValid in
+        Publishers
+            .CombineLatest3(viewModel.$isPolicy, viewModel.$isPrivacy, viewModel.$isLocation)
+            .compactMap {
+                $0 && $1 && $2
+            }.sink { [weak self] isValid in
                 self?.allAgree.titleLabel.textColor = isValid ? Colors.point.color : Colors.gray005.color
                 self?.allAgree.backgroundColor = isValid ? Colors.gray001.color : .white
-                self?.allAgree.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image)
+                self?.allAgree.checkButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image)
+                self?.allAgree.checkButton.layer.cornerRadius = 3
                 
                 self?.nextButton.backgroundColor = isValid ? Colors.gray001.color : Colors.gray005.color
                 self?.nextButton.setTitleColor(isValid ? Colors.point.color : .white)
@@ -166,7 +199,7 @@ final class TermsVC: UIViewController {
             .compactMap { $0 }
             .sink { [weak self] isValid in
                 self?.policy.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
-                self?.policy.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
+                self?.policy.checkButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
 
         viewModel.$isPrivacy
@@ -174,7 +207,7 @@ final class TermsVC: UIViewController {
             .compactMap { $0 }
             .sink { [weak self] isValid in
                 self?.privacy.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
-                self?.privacy.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
+                self?.privacy.checkButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
 
         viewModel.$isLocation
@@ -182,8 +215,32 @@ final class TermsVC: UIViewController {
             .compactMap { $0 }
             .sink { [weak self] isValid in
                 self?.location.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
-                self?.location.chkeckButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
+                self?.location.checkButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
+        
+    }
+    
+    // MARK: - Functions
+    
+    private func checkButtonTapped(_ type: TermsViewModel.Terms) {
+        switch type {
+        case .policy:
+            viewModel.isPolicy.toggle()
+        case .privacy:
+            viewModel.isPrivacy.toggle()
+        case .location:
+            viewModel.isLocation.toggle()
+        default:
+            if viewModel.isPolicy || viewModel.isPrivacy || viewModel.isLocation {
+                viewModel.isPolicy = false
+                viewModel.isPrivacy = false
+                viewModel.isLocation = false
+            } else {
+                viewModel.isPolicy = true
+                viewModel.isPrivacy = true
+                viewModel.isLocation = true
+            }
+        }
     }
 }
 

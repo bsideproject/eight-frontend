@@ -18,11 +18,11 @@ extension UIView {
         case left
         case right
     }
-
+    
     func addShadow(location: VerticalLocation, color: UIColor = .black, opacity: Float = 0.8, radius: CGFloat = 5.0) {
         switch location {
         case .bottom:
-             addShadow(offset: CGSize(width: 0, height: 1), color: color, opacity: opacity, radius: radius)
+            addShadow(offset: CGSize(width: 0, height: 1), color: color, opacity: opacity, radius: radius)
         case .top:
             addShadow(offset: CGSize(width: 0, height: -1), color: color, opacity: opacity, radius: radius)
         case .left:
@@ -31,7 +31,7 @@ extension UIView {
             addShadow(offset: CGSize(width: 1, height: 0), color: color, opacity: opacity, radius: radius)
         }
     }
-
+    
     func addShadow(offset: CGSize, color: UIColor = .black, opacity: Float = 0.1, radius: CGFloat = 3.0) {
         self.layer.masksToBounds = false
         self.layer.shadowColor = color.cgColor
@@ -50,4 +50,20 @@ extension UIView {
             layer.render(in: context.cgContext)
         }
     }
+    
+    /// https://yeongwoo-cho.tistory.com/179
+    func currentFirstResponder() -> UIResponder? {
+        if self.isFirstResponder {
+            return self
+        }
+        
+        for view in self.subviews {
+            if let responder = view.currentFirstResponder() {
+                return responder
+            }
+        }
+        return nil
+    }
+    
+    
 }
