@@ -7,15 +7,19 @@
 
 import Foundation
 
-struct SimpleLoginResponse: Decodable {
+struct SimpleSignInResponse: Decodable {
     let result: ApiResponse?
-    let data: Info?
+    let data: DataClass?
 }
 
-struct Info: Decodable {
+struct DataClass: Decodable {
+    let content: Content?
+}
+
+struct Content: Decodable {
     let nickName: String?
     let email: String?
     let accessToken: String?
     let refreshToken: String?
+    let type: String?
 }
-

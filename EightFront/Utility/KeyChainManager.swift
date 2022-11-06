@@ -57,6 +57,7 @@ final class KeyChainManager {
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,
             kSecAttrAccount: KeyChainCategory.accessToken.account,
+            kSecReturnAttributes: true,
             kSecReturnData: true
         ]
         
@@ -66,9 +67,18 @@ final class KeyChainManager {
              LogUtil.e("KeyChain AccessToken Read Failed")
              return
          }
-         guard let existingItem = item as? [String: Any],
-               let data = existingItem[kSecValueData as String] as? Data,
-               let accessToken = String(data: data, encoding: .utf8) else { return }
+        guard let existingItem = item as? [String: Any] else {
+                LogUtil.e("existingItem Error")
+            return
+        }
+        guard let data = existingItem[kSecValueData as String] as? Data else {
+                LogUtil.e("data Error")
+            return
+        }
+        guard let accessToken = String(data: data, encoding: .utf8) else {
+            LogUtil.e("KeyChain AccessToken Read Failed ~! ")
+            return
+        }
          
         LogUtil.d("accessToken: \(accessToken)")
     }

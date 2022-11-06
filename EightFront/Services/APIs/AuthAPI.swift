@@ -8,13 +8,14 @@
 import Foundation
 import Moya
 
-enum AuthAPI {
-    case login(param: SimpleSignUpRequest)
-}
+//enum simpleLoginType: String {
+//    case apple = "apple"
+//    case kakao = "kakao"
+//}
 
-enum simpleLoginType: String {
-    case apple = "apple"
-    case kakao = "kakao"
+enum AuthAPI {
+    case kakaoSignIn(param: SimpleSignInRequest)
+    case kakaoSignUp(param: SimpleSignUpRequest)
 }
 
 extension AuthAPI: TargetType {
@@ -24,21 +25,28 @@ extension AuthAPI: TargetType {
     
     var path: String {
         switch self {
-        case .login:
-            return "/api/oauth/login"
+        case .kakaoSignIn:
+            return "/api/oauth2/kakao"
+        case .kakaoSignUp:
+            // singup 오타 아님
+            return "/api/oauth2/kakao/singup"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .login:
+        case .kakaoSignIn:
+            return .post
+        case .kakaoSignUp:
             return .post
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .login(let param):
+        case .kakaoSignIn(let param):
+            return .requestJSONEncodable(param)
+        case .kakaoSignUp(let param):
             return .requestJSONEncodable(param)
         }
     }

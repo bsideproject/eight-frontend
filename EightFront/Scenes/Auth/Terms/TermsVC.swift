@@ -13,8 +13,9 @@ import SnapKit
 
 final class TermsVC: UIViewController {
     
-    // MARK: - properties
+    var type: String = "email"
     
+    // MARK: - properties
     let viewModel = TermsViewModel()
     let subject = PassthroughSubject<Bool, Never>()
     
@@ -151,8 +152,13 @@ final class TermsVC: UIViewController {
         nextButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                let emailSignUpVC = EmailSignUpVC()
-                self?.navigationController?.pushViewController(emailSignUpVC, animated: true)
+                if self?.type == "kakao" {
+                    let simpleSignInVC = SimpleSignUpVC()
+                    self?.navigationController?.pushViewController(simpleSignInVC, animated: true)
+                } else {
+                    let emailSignUpVC = EmailSignUpVC()
+                    self?.navigationController?.pushViewController(emailSignUpVC, animated: true)
+                }
             }
             .store(in: &viewModel.bag)
         

@@ -11,6 +11,7 @@ import UIKit
 import CombineCocoa
 import KakaoSDKUser
 import Moya
+import JWTDecode
 
 final class LoginBottomSheetVC: UIViewController {
     // MARK: - Properties
@@ -64,7 +65,6 @@ final class LoginBottomSheetVC: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         makeUI()
         bind()
         setupGestureRecognizer()
@@ -77,6 +77,9 @@ final class LoginBottomSheetVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        let accessToken = KeyChainManager.shared.readAccessToken()
+        
         showBottomSheet()
     }
     
@@ -211,7 +214,10 @@ final class LoginBottomSheetVC: UIViewController {
             self.dimmedBackView.alpha = 0.0
             self.view.layoutIfNeeded()
             if self.presentationController != nil {
-                self.dismiss(animated: false)
+                self.dismiss(animated: false) {
+                    let tabbarVC = MainTabbarController()
+                    UIWindow().visibleViewController?.navigationController?.pushViewController(tabbarVC, animated: true)
+                }
             }
         }
         animator.startAnimation()
@@ -248,19 +254,42 @@ final class LoginBottomSheetVC: UIViewController {
                     return
                 }
                 
-                self.authProvider.request(.login(
-                    param: SimpleSignUpRequest(
-                        authId: oauthToken?.accessToken ?? "",
-                        authType: simpleLoginType.kakao.rawValue,
-                        deviceID: fcmToken
+                self.authProvider.request(.kakaoSignIn(
+                    param: SimpleSignInRequest(
+                        accessToken: oauthToken?.accessToken ?? "",
+                        type: ""
                     ))) { response in
                         switch response {
+                            
                         case .success(let result):
-                            guard let data = try? result.map(SimpleLoginResponse.self).data else {
-                                LogUtil.d("Response Decoding 실패")
+                            guard let data = try? result.map(SimpleSignInResponse.self).data else {
+                                LogUtil.e("Response Decoding 실패")
                                 return
                             }
-                            LogUtil.d("간편 로그인 성공 : \(data)")
+                            
+                            guard let content = data.content else {
+                                LogUtil.e("data.content unWrapping 실패")
+                                return
+                            }
+                            
+                            guard let type = content.type else {
+                                 return
+                            }
+                            
+                            if type == "sign-in" || type == "sing-in" {
+                                // 로그인
+                                self.dismiss(animated: false) {
+                                    guard let accessToken = content.accessToken else { return }
+                                    KeyChainManager.shared.createAccessToken(accessToken)
+                                }
+                            } else if type == "sign-up" {
+                                // 회원가입
+                                self.dismiss(animated: false) {
+                                    let termsVC = TermsVC()
+                                    termsVC.type = "kakao"
+                                    UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
+                                }
+                            }
                             
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
@@ -278,21 +307,26 @@ final class LoginBottomSheetVC: UIViewController {
                     return
                 }
                 
-                self.authProvider.request(.login(
-                    param: SimpleSignUpRequest(
-                        authId: oauthToken?.accessToken ?? "",
-                        authType: simpleLoginType.kakao.rawValue,
-                        deviceID: fcmToken
+                guard let accessToken = oauthToken?.accessToken else {
+                    return
+                }
+                
+                self.authProvider.request(.kakaoSignIn(
+                    param: SimpleSignInRequest(
+                        accessToken: accessToken ?? "",
+                        type: ""
                     ))) { response in
                         switch response {
                         case .success(let result):
                             
-                            guard let data = try? result.map(SimpleLoginResponse.self).data else {
+                            guard let data = try? result.map(SimpleSignInResponse.self).data else {
                                 LogUtil.d("Response Decoding 실패")
                                 return
                             }
                             
-                            KeyChainManager.shared.createAccessToken(data.accessToken ?? "ac")
+                            LogUtil.d("""
+                                간편 로그인 성공 : \(data.content)
+                                """)
                             
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
@@ -303,7 +337,7 @@ final class LoginBottomSheetVC: UIViewController {
     }
     
     private func emailLoginButtonTapped() {
-        dismiss(animated: false) { 
+        dismiss(animated: false) {
             let loginVC = LoginVC()
             UIWindow().visibleViewController?.navigationController?.pushViewController(loginVC, animated: true)
         }
