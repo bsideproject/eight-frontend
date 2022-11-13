@@ -14,7 +14,7 @@ final class MyPageViewModel {
     
     var bag = Set<AnyCancellable>()
     
-    @Published var nickName = "김에잇"
+    @Published var nickname = ""
     
     enum MyPageMenus: CaseIterable {
         case myClothes

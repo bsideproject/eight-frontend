@@ -283,7 +283,7 @@ final class LoginBottomSheetVC: UIViewController {
                                         UserDefaults.standard.set([
                                             "email": content.email,
                                             "nickName": content.nickName
-                                        ], forKey: "userInfo")
+                                        ], forKey: "myInfo")
                                     } else {
                                         LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
                                     }

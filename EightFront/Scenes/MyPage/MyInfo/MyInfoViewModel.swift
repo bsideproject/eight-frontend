@@ -13,6 +13,9 @@ class MyInfoViewModel {
     
     var bag = Set<AnyCancellable>()
     
+    @Published var userEmail = ""
+    @Published var nickname = ""
+    
     func kakaoResign() {
         UserApi.shared.unlink { error in
             if let error = error {
@@ -21,6 +24,5 @@ class MyInfoViewModel {
                 print("회원탈퇴 성공")
             }
         }
-        
     }
 }

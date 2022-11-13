@@ -19,8 +19,6 @@ class MyInfoVC: UIViewController {
     }
     
     private let profileImageView = UIImageView().then {
-//        let profileImage = UIImage(systemName: "person")
-//        $0.image = profileImage
         $0.backgroundColor = Colors.gray006.color
         $0.layer.cornerRadius = 44
     }
@@ -31,7 +29,6 @@ class MyInfoVC: UIViewController {
     }
     
     private let emailLabel = UILabel().then {
-        $0.text = "eight@example.com"
         $0.font = Fonts.Templates.body1.font
     }
     
@@ -40,7 +37,7 @@ class MyInfoVC: UIViewController {
         $0.font = Fonts.Templates.subheader3.font
     }
     
-    private let nicknameTextField = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.")
+    private var nicknameTextField = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.")
     
     // TODO: 비밀번호 변경
     
@@ -77,6 +74,10 @@ class MyInfoVC: UIViewController {
         super.viewDidLoad()
         makeUI()
         bind()
+        
+        
+        
+        
     }
     
     // MARK: - makeUI
@@ -150,7 +151,11 @@ class MyInfoVC: UIViewController {
     }
     
     private func bind() {
-        
+        viewModel.$userEmail.receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.emailLabel.text = $0
+            }.store(in: &viewModel.bag)
+    
         editButton.gesture().receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 let alert = UIAlertController(title: "수정", message: "미구현", preferredStyle: .alert)
@@ -180,7 +185,6 @@ class MyInfoVC: UIViewController {
                 alert.addAction(okay)
                 
                 self?.present(alert, animated: true)
-                
             }.store(in: &viewModel.bag)
     }
     

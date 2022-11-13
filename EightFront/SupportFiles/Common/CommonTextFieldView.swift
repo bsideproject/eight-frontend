@@ -13,7 +13,7 @@ import Combine
 final class CommonTextFieldView: UIView {
     //MARK: - Properties
     var bag = Set<AnyCancellable>()
-    private var placeholder: String?
+    var placeholder: String?
     let titleLabel = UILabel().then {
         $0.textColor = Colors.gray005.color
         $0.font = Fonts.Templates.subheader.font

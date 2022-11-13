@@ -43,6 +43,9 @@ final class MyPageVC: UIViewController {
         configure()
         makeUI()
         bind()
+        
+        guard let userInfo = UserDefaults.standard.object(forKey: "userInfo") as? [String: Any] else { return }
+        
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -105,7 +108,7 @@ final class MyPageVC: UIViewController {
     
     //MARK: - Binding..
     private func bind() {
-        viewModel.$nickName
+        viewModel.$nickname
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.nameLabel.text = $0

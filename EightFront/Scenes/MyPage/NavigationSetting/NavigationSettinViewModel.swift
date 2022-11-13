@@ -10,10 +10,8 @@ import Combine
 
 
 class NavigationSettinViewModel {
-    
     var bag = Set<AnyCancellable>()
     
     @Published var navagation = UserDefaults.standard.object(forKey: "navigation") as? String
-    
     
 }
