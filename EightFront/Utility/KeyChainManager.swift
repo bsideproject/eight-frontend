@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import JWTDecode
 
 /// service = 키 체인에서 해당 앱을 식별하는 값 (앱만의 고유한 값)
 /// account = 앱 내에서 데이터를 식별하기 위한 키에 해당하는 값 (키체인의 이름)
@@ -42,8 +43,8 @@ final class KeyChainManager {
     }
     
     /// keyChain에서 AccessToken을 가져옴
-    func readAccessToken() {
-        guard let service = self.service else { return }
+    func readAccessToken() -> String {
+        guard let service = self.service else { return "" }
         
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
@@ -58,23 +59,23 @@ final class KeyChainManager {
         
         if SecItemCopyMatching(query as CFDictionary, &item) != errSecSuccess {
             LogUtil.e("KeyChain AccessToken Read Failed")
-            return
+            return ""
         }
         
         guard let existingItem = item as? [String: Any] else {
             LogUtil.e("existingItem Error")
-            return
+            return ""
         }
         guard let data = existingItem[kSecAttrGeneric as String] as? Data else {
             LogUtil.e("data Error")
-            return
+            return ""
         }
         guard let accessToken = String(data: data, encoding: .utf8) else {
             LogUtil.e("KeyChain AccessToken Read Failed ~! ")
-            return
+            return ""
         }
-        
-        LogUtil.d("accessToken: \(accessToken)")
+            
+        return accessToken
         
     }
 

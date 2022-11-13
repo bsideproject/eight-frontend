@@ -60,10 +60,11 @@ class SimpleSignUpVC: UIViewController {
         signUpButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.authProvider.request(.kakaoSignUp(
-                    param: SimpleSignUpRequest(
+                self?.authProvider.request(.socialSignUp(
+                    param: SocialSignUpRequest(
                         accessToken: "EYEraxKRKb4O6DLzySP28Qb0eR_CGdPDYT5slA3jCj1zTgAAAYRKgTgs",
-                        nickName: "김정완"
+                        nickName: "김정완",
+                        category: .kakao
                     ))) { response in
                         switch response {
                         case .success(let result):

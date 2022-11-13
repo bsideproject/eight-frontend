@@ -9,10 +9,10 @@ import UIKit
 import Then
 import SnapKit
 
+import JWTDecode
 import KakaoSDKUser
 
 //MARK: 마이페이지 VC
-
 
 final class MyPageVC: UIViewController {
     
@@ -31,6 +31,20 @@ final class MyPageVC: UIViewController {
         $0.separatorStyle = .none
     }
     
+
+    
+    private lazy var logoutButton = UIButton().then {
+        $0.setTitle("로그아웃")
+        $0.setTitleColor(UIColor.black)
+        $0.addTarget(self, action: #selector(logout), for: .touchUpInside)
+    }
+    
+    @objc func logout() {
+        if KeyChainManager.shared.deleteAccessToken() {
+            navigationController?.pushViewController(LoginVC(), animated: true)
+        }
+    }
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,9 +55,13 @@ final class MyPageVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let bottomSheetVC = LoginBottomSheetVC()
-        bottomSheetVC.modalPresentationStyle = .overFullScreen
-        self.present(bottomSheetVC, animated: false)
+        let accessToken = KeyChainManager.shared.readAccessToken()
+        
+        if accessToken.isEmpty {
+            let bottomSheetVC = LoginBottomSheetVC()
+            bottomSheetVC.modalPresentationStyle = .overFullScreen
+            self.present(bottomSheetVC, animated: false)
+        }
     }
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
@@ -65,6 +83,8 @@ final class MyPageVC: UIViewController {
         myInfoView.addSubview(nameLabel)
         view.addSubview(myPageTableView)
         
+        view.addSubview(logoutButton)
+        
         navigationView.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(47)
@@ -78,16 +98,35 @@ final class MyPageVC: UIViewController {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(16)
         }
+        
+        logoutButton.snp.makeConstraints {
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(50)
+        }
+
         myPageTableView.snp.makeConstraints {
             $0.top.equalTo(myInfoView.snp.bottom).offset(45)
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(16)
         }
     }
     
     //MARK: - Binding..
     private func bind() {
+        viewModel.$nickName
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.nameLabel.text = $0
+            }.store(in: &viewModel.bag)
         
+        nameLabel
+            .gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                let myInfo = MyInfoVC()
+                self?.navigationController?.pushViewController(myInfo, animated: true)
+            }.store(in: &viewModel.bag)
     }
     
     // MARK: - Actions

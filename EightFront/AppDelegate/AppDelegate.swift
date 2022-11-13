@@ -30,8 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         DataManager.shared.fetchData()
         
-        KeyChainManager.shared.deleteAccessToken()
-        
         return true
     }
     
@@ -75,8 +73,10 @@ extension AppDelegate: MessagingDelegate {
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         guard let token = fcmToken else { return }
+        
+        FCMManager.shared.fcmToken = fcmToken
+        
         let dataDict: [String: String] = ["token": token]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
-        UserDefaults.standard.set(token, forKey: "FCMToken")
     }
 }

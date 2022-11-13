@@ -8,7 +8,13 @@
 import Foundation
 import UIKit
 
+import Combine
+
 final class MyPageViewModel {
+    
+    var bag = Set<AnyCancellable>()
+    
+    @Published var nickName = "김에잇"
     
     enum MyPageMenus: CaseIterable {
         case myClothes
@@ -67,6 +73,7 @@ final class MyPageViewModel {
                 return UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor
             }
         }
+        
     }
     
     func numberOfRowsInSection() -> Int {
