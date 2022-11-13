@@ -31,12 +31,6 @@ final class MyPageVC: UIViewController {
         $0.separatorStyle = .none
     }
     
-    private lazy var logoutButton = UIButton().then {
-        $0.setTitle("로그아웃")
-        $0.setTitleColor(UIColor.black)
-    }
-    
-    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,31 +68,25 @@ final class MyPageVC: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(navigationView)
-        view.addSubview(myInfoView)
-        
-        myInfoView.addSubview(nameLabel)
-        view.addSubview(myPageTableView)
-        
-        view.addSubview(logoutButton)
         navigationView.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(47)
         }
+        
+        view.addSubview(myInfoView)
         myInfoView.snp.makeConstraints {
             $0.top.equalTo(navigationView.snp.bottom).offset(34)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(47)
         }
+        
+        myInfoView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(16)
         }
-        logoutButton.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(50)
-        }
         
+        view.addSubview(myPageTableView)
         myPageTableView.snp.makeConstraints {
             $0.top.equalTo(myInfoView.snp.bottom).offset(45)
             $0.horizontalEdges.equalToSuperview()
@@ -121,19 +109,7 @@ final class MyPageVC: UIViewController {
                 let myInfo = MyInfoVC()
                 self?.navigationController?.pushViewController(myInfo, animated: true)
             }.store(in: &viewModel.bag)
-        
-        logoutButton.gesture()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                if KeyChainManager.shared.deleteAccessToken() {
-                    self?.navigationController?.popToRootViewController(animated: true)
-                }
-            }.store(in: &viewModel.bag)
-        
     }
-    
-    // MARK: - Actions
-    
 }
 
 extension MyPageVC:UITableViewDelegate {

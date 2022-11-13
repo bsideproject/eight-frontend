@@ -11,6 +11,8 @@ class SettingVC: UIViewController {
     
     // MARK: properties
     
+    private var viewModel = SettingViewModel()
+    
     // 상단 바
     private let commonNavigationView = CommonNavigationView().then {
         $0.titleLabel.text = "설정"
@@ -49,6 +51,7 @@ class SettingVC: UIViewController {
     }
     
     // 버전 정보
+    private let versionView = UIView()
     private let versionTitleLabel = UILabel().then {
         $0.text = "버전정보"
     }
@@ -67,8 +70,11 @@ class SettingVC: UIViewController {
         view.backgroundColor = .white
         
         makeUI()
+        bind()
     }
     
+    
+    // MARK: - makeUI
     private func makeUI() {
         view.addSubview(commonNavigationView)
         commonNavigationView.snp.makeConstraints {
@@ -142,23 +148,27 @@ class SettingVC: UIViewController {
         }
         
         // 버전
-        view.addSubview(versionTitleLabel)
-        versionTitleLabel.snp.makeConstraints {
+        view.addSubview(versionView)
+        versionView.snp.makeConstraints {
             $0.top.equalTo(privacyView.snp.bottom).offset(13)
-            $0.left.equalToSuperview().inset(19)
+            $0.horizontalEdges.equalToSuperview().inset(19)
             $0.height.equalTo(45)
         }
-        
-        view.addSubview(versionLabel)
+        versionView.addSubview(versionTitleLabel)
+        versionTitleLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview()
+        }
+        versionView.addSubview(versionLabel)
         versionLabel.snp.makeConstraints {
-            $0.centerY.equalTo(versionTitleLabel.snp.centerY)
-            $0.right.equalToSuperview().inset(19)
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview()
         }
         
         // 로그아웃
         view.addSubview(logoutView)
         logoutView.snp.makeConstraints {
-            $0.top.equalTo(versionTitleLabel.snp.bottom).offset(13)
+            $0.top.equalTo(versionView.snp.bottom).offset(13)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(45)
         }
@@ -166,6 +176,73 @@ class SettingVC: UIViewController {
         logoutLabel.snp.makeConstraints {
             $0.left.equalToSuperview().inset(19)
         }
+    } // makeUI
+    
+    // MARK: - bind
+    private func bind() {
         
-    }
+        notificationSwitch.isOnPublisher.receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .assign(to: \.isNotification, on: viewModel)
+            .store(in: &viewModel.bag)
+        
+        blockListView.gesture().receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                // TODO: 차단 목록 이동
+                let alert = UIAlertController(title: "차단 목록 이동", message: "미구현", preferredStyle: .alert)
+                let okay = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+                    self?.dismiss(animated: true)
+                }
+                alert.addAction(okay)
+                self?.present(alert, animated: true)
+            }.store(in: &viewModel.bag)
+        
+        policyView.gesture().receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                // TODO: 이용 약관
+                let alert = UIAlertController(title: "이용 약관", message: "미구현", preferredStyle: .alert)
+                let okay = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+                    self?.dismiss(animated: true)
+                }
+                alert.addAction(okay)
+                self?.present(alert, animated: true)
+            }.store(in: &viewModel.bag)
+        
+        locationView.gesture().receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                // TODO: 위치 기반 서비스
+                let alert = UIAlertController(title: "위치 기반 서비스", message: "미구현", preferredStyle: .alert)
+                let okay = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+                    self?.dismiss(animated: true)
+                }
+                alert.addAction(okay)
+                self?.present(alert, animated: true)
+            }.store(in: &viewModel.bag)
+        
+        privacyView.gesture().receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                // TODO: 개인 정보 처리 방침
+                let alert = UIAlertController(title: "개인 정보 처리 방침", message: "미구현", preferredStyle: .alert)
+                let okay = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+                    self?.dismiss(animated: true)
+                }
+                alert.addAction(okay)
+                self?.present(alert, animated: true)
+            }.store(in: &viewModel.bag)
+        
+        logoutView.gesture().receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                // TODO: 로그아웃
+                if KeyChainManager.shared.deleteAccessToken() {
+                    self?.navigationController?.popToRootViewController(animated: true)
+                }
+            }.store(in: &viewModel.bag)
+        
+        viewModel.$isNotification.receive(on: DispatchQueue.main)
+            .sink { [weak self] isNotification in
+                self?.notificationSwitch.isOn = isNotification 
+            }.store(in: &viewModel.bag)
+        
+    }// bind
+    
 }
