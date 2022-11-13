@@ -36,7 +36,7 @@ final class LoginBottomSheetVC: UIViewController {
     private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = LoginBottomSheetViewModel()
     private var bottomHeight: CGFloat = 279
-
+    
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
     }
@@ -83,7 +83,7 @@ final class LoginBottomSheetVC: UIViewController {
         super.viewDidLoad()
         makeUI()
         bind()
-        setupGestureRecognizer()      
+        setupGestureRecognizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -256,16 +256,96 @@ final class LoginBottomSheetVC: UIViewController {
     private func kakaoLoginButtonTapped() {
         /// 카카오톡 설치 여부 확인
         if (UserApi.isKakaoTalkLoginAvailable()) {
-            UserApi.shared.loginWithKakaoTalk { [weak self] oauthToken, error in
-                self?.viewModel.kakaoSocialLogin(oauthToken: oauthToken, error: error) { content in
-                    print(content)
+            UserApi.shared.loginWithKakaoTalk { oauthToken, error in
+                if let error = error {
+                    LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
                 }
+                
+                self.authProvider.request(.socialSignIn(param: SocialSignInRequest(
+                    accessToken: oauthToken?.accessToken ?? "",
+                    category: .kakao))) { reponse in
+                        switch reponse {
+                        case .success(let result):
+                            guard let data = try? result.map(SimpleSignInResponse.self).data else {
+                                LogUtil.e("Response Decoding 실패")
+                                return
+                            }
+                            
+                            guard let content = data.content else {
+                                LogUtil.e("data.content unWrapping 실패")
+                                return
+                            }
+                            
+                            if content.type == "sign-in" {
+                                self.dismiss(animated: false) {
+                                    guard let accessToken = content.accessToken else { return }
+                                    if KeyChainManager.shared.createAccessToken(accessToken) {
+                                        UserDefaults.standard.set([
+                                            "email": content.email,
+                                            "nickName": content.nickName
+                                        ], forKey: "userInfo")
+                                    } else {
+                                        LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
+                                    }
+                                }
+                            } else if content.type == "sign-up" {
+                                // 회원가입
+                                self.dismiss(animated: false) {
+                                    let termsVC = TermsVC()
+                                    termsVC.type = signType.kakao.type
+                                    UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
+                                }
+                            }
+                        case .failure(let error):
+                            LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
+                        }
+                    }
             }
         } else {
             UserApi.shared.loginWithKakaoAccount { [weak self](oauthToken, error) in
-                self?.viewModel.kakaoSocialLogin(oauthToken: oauthToken, error: error) { content in
-                    print(content)
+                if let error = error {
+                    LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
                 }
+                
+                self?.authProvider.request(.socialSignIn(param: SocialSignInRequest(
+                    accessToken: oauthToken?.accessToken ?? "",
+                    category: .kakao))) { reponse in
+                        switch reponse {
+                        case .success(let result):
+                            guard let data = try? result.map(SimpleSignInResponse.self).data else {
+                                LogUtil.e("Response Decoding 실패")
+                                return
+                            }
+                            
+                            guard let content = data.content else {
+                                LogUtil.e("data.content unWrapping 실패")
+                                return
+                            }
+                            
+                            if content.type == "sign-in" {
+                                self?.dismiss(animated: false) {
+                                    guard let accessToken = content.accessToken else { return }
+                                    if KeyChainManager.shared.createAccessToken(accessToken) {
+                                        UserDefaults.standard.set([
+                                            "email": content.email,
+                                            "nickName": content.nickName
+                                        ], forKey: "userInfo")
+                                    } else {
+                                        LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
+                                    }
+                                }
+                            } else if content.type == "sign-up" {
+                                // 회원가입
+                                self?.dismiss(animated: false) {
+                                    let termsVC = TermsVC()
+                                    termsVC.type = signType.kakao.type
+                                    UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
+                                }
+                            }
+                        case .failure(let error):
+                            LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
+                        }
+                    }
             }
         }
     }
@@ -306,13 +386,13 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
                     param: SocialSignInRequest(
                         accessToken: identityTorknStr,
                         category: .apple))) { result in
-                        switch result {
-                        case .success(let response):
-                            LogUtil.d("성공 > \(response)")
-                        case .failure(let error):
-                            LogUtil.d("실패 > \(error)")
+                            switch result {
+                            case .success(let response):
+                                LogUtil.d("성공 > \(response)")
+                            case .failure(let error):
+                                LogUtil.d("실패 > \(error)")
+                            }
                         }
-                    }
             
             LogUtil.d("""
             identityTorknStr: \(identityTorknStr)

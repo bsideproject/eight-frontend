@@ -21,5 +21,6 @@ class MyInfoViewModel {
                 print("회원탈퇴 성공")
             }
         }
+        
     }
 }

@@ -164,7 +164,23 @@ class MyInfoVC: UIViewController {
         
         resignButton.gesture().receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.viewModel.kakaoResign()
+                let alert = UIAlertController(title: "회원 탈퇴", message: "회원 탈퇴 완료", preferredStyle: .alert)
+                
+                let okay = UIAlertAction(title: "탈퇴", style: .default) { [weak self] _ in
+                    self?.viewModel.kakaoResign()
+                    if KeyChainManager.shared.deleteAccessToken() {
+                        self?.navigationController?.popToRootViewController(animated: true)
+                    }
+                }
+                let cancel = UIAlertAction(title: "취소", style: .cancel) { [weak self] _ in
+                    self?.dismiss(animated: true)
+                }
+                
+                alert.addAction(cancel)
+                alert.addAction(okay)
+                
+                self?.present(alert, animated: true)
+                
             }.store(in: &viewModel.bag)
     }
     

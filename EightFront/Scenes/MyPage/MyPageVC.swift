@@ -31,19 +31,11 @@ final class MyPageVC: UIViewController {
         $0.separatorStyle = .none
     }
     
-
-    
     private lazy var logoutButton = UIButton().then {
         $0.setTitle("로그아웃")
         $0.setTitleColor(UIColor.black)
-        $0.addTarget(self, action: #selector(logout), for: .touchUpInside)
     }
     
-    @objc func logout() {
-        if KeyChainManager.shared.deleteAccessToken() {
-            navigationController?.pushViewController(LoginVC(), animated: true)
-        }
-    }
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -104,7 +96,7 @@ final class MyPageVC: UIViewController {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(50)
         }
-
+        
         myPageTableView.snp.makeConstraints {
             $0.top.equalTo(myInfoView.snp.bottom).offset(45)
             $0.horizontalEdges.equalToSuperview()
@@ -127,6 +119,15 @@ final class MyPageVC: UIViewController {
                 let myInfo = MyInfoVC()
                 self?.navigationController?.pushViewController(myInfo, animated: true)
             }.store(in: &viewModel.bag)
+        
+        logoutButton.gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                if KeyChainManager.shared.deleteAccessToken() {
+                    self?.navigationController?.popToRootViewController(animated: true)
+                }
+            }.store(in: &viewModel.bag)
+        
     }
     
     // MARK: - Actions

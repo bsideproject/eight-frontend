@@ -24,6 +24,7 @@
 		288BFD7328FBE79C00A85F13 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7228FBE79C00A85F13 /* AuthAPI.swift */; };
 		289C11AE29017C0000AECF52 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C11AD29017C0000AECF52 /* TermsView.swift */; };
 		28D12ADE2920C45A001A7B32 /* MyInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12ADD2920C45A001A7B32 /* MyInfoViewModel.swift */; };
+		28D12AE02920CEA6001A7B32 /* NavigationSettinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12ADF2920CEA6001A7B32 /* NavigationSettinViewModel.swift */; };
 		28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F20CF928E93BA600CEE89D /* UITextField+.swift */; };
 		E9008D432911584100F70B6B /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9008D422911584100F70B6B /* ReportRequest.swift */; };
 		E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1428E2FBC4007B1307 /* DataModel.xcdatamodeld */; };
@@ -174,6 +175,7 @@
 		288BFD7228FBE79C00A85F13 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		289C11AD29017C0000AECF52 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		28D12ADD2920C45A001A7B32 /* MyInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewModel.swift; sourceTree = "<group>"; };
+		28D12ADF2920CEA6001A7B32 /* NavigationSettinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSettinViewModel.swift; sourceTree = "<group>"; };
 		28F20CF928E93BA600CEE89D /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		E9008D422911584100F70B6B /* ReportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
 		E9160C1528E2FBC4007B1307 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -726,6 +728,7 @@
 			isa = PBXGroup;
 			children = (
 				E97069252917EEEC00014FB9 /* NavigationSettingVC.swift */,
+				28D12ADF2920CEA6001A7B32 /* NavigationSettinViewModel.swift */,
 			);
 			path = NavigationSetting;
 			sourceTree = "<group>";
@@ -1032,6 +1035,7 @@
 				E9494A6228F067DB005285C0 /* SearchBarViewModel.swift in Sources */,
 				E9BF49AD28D9F45F007BBC3D /* UIView+.swift in Sources */,
 				E9EEA4A02916C2370073001F /* ReportPostVC.swift in Sources */,
+				28D12AE02920CEA6001A7B32 /* NavigationSettinViewModel.swift in Sources */,
 				E9BFC40228E890A500951604 /* ApiResponse.swift in Sources */,
 				E9460B0428EA056E00932351 /* HomeSearchVC.swift in Sources */,
 				28379E8428F718A400B2D4DD /* LoginBottomSheetViewModel.swift in Sources */,
