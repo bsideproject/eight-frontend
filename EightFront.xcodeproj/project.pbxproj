@@ -25,6 +25,8 @@
 		289C11AE29017C0000AECF52 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C11AD29017C0000AECF52 /* TermsView.swift */; };
 		28D12ADE2920C45A001A7B32 /* MyInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12ADD2920C45A001A7B32 /* MyInfoViewModel.swift */; };
 		28D12AE02920CEA6001A7B32 /* NavigationSettinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12ADF2920CEA6001A7B32 /* NavigationSettinViewModel.swift */; };
+		28D12AE22920D947001A7B32 /* ReportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AE12920D947001A7B32 /* ReportTableViewCell.swift */; };
+		28D12AE42920DA12001A7B32 /* ReportLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AE32920DA12001A7B32 /* ReportLogViewModel.swift */; };
 		28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F20CF928E93BA600CEE89D /* UITextField+.swift */; };
 		E9008D432911584100F70B6B /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9008D422911584100F70B6B /* ReportRequest.swift */; };
 		E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1428E2FBC4007B1307 /* DataModel.xcdatamodeld */; };
@@ -176,6 +178,8 @@
 		289C11AD29017C0000AECF52 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		28D12ADD2920C45A001A7B32 /* MyInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewModel.swift; sourceTree = "<group>"; };
 		28D12ADF2920CEA6001A7B32 /* NavigationSettinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSettinViewModel.swift; sourceTree = "<group>"; };
+		28D12AE12920D947001A7B32 /* ReportTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewCell.swift; sourceTree = "<group>"; };
+		28D12AE32920DA12001A7B32 /* ReportLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportLogViewModel.swift; sourceTree = "<group>"; };
 		28F20CF928E93BA600CEE89D /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		E9008D422911584100F70B6B /* ReportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
 		E9160C1528E2FBC4007B1307 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -687,6 +691,7 @@
 		E970691B2917EEEC00014FB9 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				E99929B728D882BF006FCFC7 /* MyPageVC.swift */,
 				E97069202917EEEC00014FB9 /* MyPageTableViewCell.swift */,
 				E97069212917EEEC00014FB9 /* MyPageVC.swift */,
 				E97069282917EEEC00014FB9 /* MyPageViewModel.swift */,
@@ -712,6 +717,8 @@
 			isa = PBXGroup;
 			children = (
 				E970691F2917EEEC00014FB9 /* ReportLogVC.swift */,
+				28D12AE12920D947001A7B32 /* ReportTableViewCell.swift */,
+				28D12AE32920DA12001A7B32 /* ReportLogViewModel.swift */,
 			);
 			path = ReportLog;
 			sourceTree = "<group>";
@@ -806,7 +813,6 @@
 		E99929B228D88265006FCFC7 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				E99929B728D882BF006FCFC7 /* MyPageVC.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -1011,6 +1017,7 @@
 				E9008D432911584100F70B6B /* ReportRequest.swift in Sources */,
 				E97069332917EFAB00014FB9 /* SignUpSuccessVC.swift in Sources */,
 				2806474A28E86AFF000DED5B /* UIButton+.swift in Sources */,
+				28D12AE42920DA12001A7B32 /* ReportLogViewModel.swift in Sources */,
 				E970692F2917EEEC00014FB9 /* MyClothesVC.swift in Sources */,
 				E927FC9C28D3525700A91F11 /* HomeVC.swift in Sources */,
 				E9EFE7C5290AD7E200EA514B /* PostsViewModel.swift in Sources */,
@@ -1030,6 +1037,7 @@
 				E9460AFE28E9E51D00932351 /* HomeSearchView.swift in Sources */,
 				E95ACEA628F332E000057900 /* AgreePhotoView.swift in Sources */,
 				289C11AE29017C0000AECF52 /* TermsView.swift in Sources */,
+				28D12AE22920D947001A7B32 /* ReportTableViewCell.swift in Sources */,
 				E95ACEA228F3161400057900 /* CommonTextFieldView.swift in Sources */,
 				E95FBF6828F70FDF002CA5A9 /* LocationManager.swift in Sources */,
 				E9494A6228F067DB005285C0 /* SearchBarViewModel.swift in Sources */,

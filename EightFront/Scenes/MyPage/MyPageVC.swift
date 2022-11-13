@@ -72,11 +72,11 @@ final class MyPageVC: UIViewController {
         
         view.addSubview(navigationView)
         view.addSubview(myInfoView)
+        
         myInfoView.addSubview(nameLabel)
         view.addSubview(myPageTableView)
         
         view.addSubview(logoutButton)
-        
         navigationView.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(47)
@@ -90,7 +90,6 @@ final class MyPageVC: UIViewController {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(16)
         }
-        
         logoutButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
@@ -112,7 +111,7 @@ final class MyPageVC: UIViewController {
                 self?.nameLabel.text = $0
             }.store(in: &viewModel.bag)
         
-        nameLabel
+        myInfoView
             .gesture()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
