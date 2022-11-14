@@ -8,5 +8,16 @@
 import Foundation
 
 struct CategoryResponse: Decodable {
-    let name: String
+    let result: ApiResponse?
+    let data: CategoriesModel?
+}
+
+struct CategoriesModel: Decodable {
+    let categories: [String]?
+    let totalCount: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case categories = "contents"
+        case totalCount = "totalCount"
+    }
 }
