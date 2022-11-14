@@ -1,5 +1,5 @@
 //
-//  ClothesAPI.swift
+//  PostResponse.swift
 //  EightFront
 //
 //  Created by wargi on 2022/11/09.
