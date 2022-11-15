@@ -6,12 +6,17 @@
 //
 
 import UIKit
+
+import Moya
 import KakaoSDKUser
+import JWTDecode
+
 
 class MyInfoVC: UIViewController {
     
     // MARK: - Properties
     
+    private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = MyInfoViewModel()
     
     private let commontNavigationView = CommonNavigationView().then {
@@ -74,9 +79,6 @@ class MyInfoVC: UIViewController {
         super.viewDidLoad()
         makeUI()
         bind()
-        
-        
-        
         
     }
     
@@ -170,12 +172,36 @@ class MyInfoVC: UIViewController {
         resignButton.gesture().receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 let alert = UIAlertController(title: "회원 탈퇴", message: "회원 탈퇴 완료", preferredStyle: .alert)
-                
                 let okay = UIAlertAction(title: "탈퇴", style: .default) { [weak self] _ in
-                    self?.viewModel.kakaoResign()
-                    if KeyChainManager.shared.deleteAccessToken() {
-                        self?.navigationController?.popToRootViewController(animated: true)
+                    let accessToken = KeyChainManager.shared.readAccessToken()
+                    let jwt = try? JWTDecode.decode(jwt: accessToken)
+                    guard let memberId = jwt?.subject else { return }
+                    self?.authProvider.request(.memberResign(memberId: memberId)) { result in
+                        switch result {
+                        case .failure(let error):
+                            LogUtil.e(error)
+                        case .success(let response):
+                            print(response)
+                            self?.viewModel.kakaoResign { bool in
+                                if bool {
+                                    if KeyChainManager.shared.deleteAccessToken() {
+                                        UserDefaults.standard.removeObject(forKey: "nickName")
+                                        UserDefaults.standard.removeObject(forKey: "email")
+                                        self?.navigationController?.popToRootViewController(animated: true)
+                                    }
+                                }
+                            }
+                        }
                     }
+//                    self?.viewModel.kakaoResign(completion: { bool in
+//                        if bool {
+//                            if KeyChainManager.shared.deleteAccessToken() {
+//                                UserDefaults.standard.removeObject(forKey: "nickName")
+//                                UserDefaults.standard.removeObject(forKey: "email")
+//                                self?.navigationController?.popToRootViewController(animated: true)
+//                            }
+//                        }
+//                    })
                 }
                 let cancel = UIAlertAction(title: "취소", style: .cancel) { [weak self] _ in
                     self?.dismiss(animated: true)

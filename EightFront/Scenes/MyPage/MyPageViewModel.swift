@@ -14,8 +14,8 @@ final class MyPageViewModel {
     
     var bag = Set<AnyCancellable>()
     
-    @Published var nickname = ""
-    
+    @Published var nickname = UserDefaults.standard.object(forKey: "nickName") as? String ?? "로그인을 해주세요."
+
     enum MyPageMenus: CaseIterable {
         case myClothes
         case navigationSetting
@@ -57,7 +57,8 @@ final class MyPageViewModel {
             case .report:
                 return ReportLogVC()
             case .setting:
-                return SettingVC()
+                let settingVC = SettingVC()
+                return settingVC
             }
         }
         

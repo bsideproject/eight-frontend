@@ -14,6 +14,11 @@ class MyClothesVC: UIViewController {
         $0.titleLabel.text = "평가 중인 내 중고 의류"
     }
     
+    private let searchView = UIView().then {
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = Colors.gray006.color.cgColor
+    }
+    
     // MARK: - Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +35,10 @@ class MyClothesVC: UIViewController {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(47)
         }
+        
+        view.addSubview(searchView)
+//        searchView.snp.makeConstraints {
+//        }
     }
     
     // MARK: - Configure

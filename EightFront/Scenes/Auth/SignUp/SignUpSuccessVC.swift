@@ -27,7 +27,7 @@ final class SignUpSuccessVC: UIViewController {
     private let confirmButton = UIButton().then {
         $0.setTitle("완료")
         $0.backgroundColor = Colors.gray001.color
-        $0.setTitleColor(Colors.point.color)    
+        $0.setTitleColor(Colors.point.color)
     }
     private let homeButton = UIButton().then {
         $0.setTitle("홈")
@@ -77,7 +77,6 @@ final class SignUpSuccessVC: UIViewController {
     }
     // MARK: - Bind
     private func bind() {
-    
         homeButton
             .tapPublisher
             .receive(on: DispatchQueue.main)

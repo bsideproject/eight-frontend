@@ -28,6 +28,8 @@
 		28D12AE22920D947001A7B32 /* ReportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AE12920D947001A7B32 /* ReportTableViewCell.swift */; };
 		28D12AE42920DA12001A7B32 /* ReportLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AE32920DA12001A7B32 /* ReportLogViewModel.swift */; };
 		28D12AE82921065F001A7B32 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AE72921065F001A7B32 /* SettingViewModel.swift */; };
+		28D12AEB29211C07001A7B32 /* ResignVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AEA29211C07001A7B32 /* ResignVC.swift */; };
+		28D12AED29212587001A7B32 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AEC29212587001A7B32 /* UserInfo.swift */; };
 		28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F20CF928E93BA600CEE89D /* UITextField+.swift */; };
 		E9008D432911584100F70B6B /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9008D422911584100F70B6B /* ReportRequest.swift */; };
 		E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1428E2FBC4007B1307 /* DataModel.xcdatamodeld */; };
@@ -182,6 +184,8 @@
 		28D12AE12920D947001A7B32 /* ReportTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewCell.swift; sourceTree = "<group>"; };
 		28D12AE32920DA12001A7B32 /* ReportLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportLogViewModel.swift; sourceTree = "<group>"; };
 		28D12AE72921065F001A7B32 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		28D12AEA29211C07001A7B32 /* ResignVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignVC.swift; sourceTree = "<group>"; };
+		28D12AEC29212587001A7B32 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserInfo.swift; path = EightFront/Scenes/MyPage/Resign/UserInfo.swift; sourceTree = SOURCE_ROOT; };
 		28F20CF928E93BA600CEE89D /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		E9008D422911584100F70B6B /* ReportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
 		E9160C1528E2FBC4007B1307 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -366,6 +370,14 @@
 			path = SignUp;
 			sourceTree = "<group>";
 		};
+		28D12AE929211BC9001A7B32 /* Resign */ = {
+			isa = PBXGroup;
+			children = (
+				28D12AEA29211C07001A7B32 /* ResignVC.swift */,
+			);
+			path = Resign;
+			sourceTree = "<group>";
+		};
 		E9008D3F291157E700F70B6B /* ClothingBins */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,6 +402,7 @@
 				E97069352917EFEE00014FB9 /* SimpleAuthRequest.swift */,
 				E97069362917EFEF00014FB9 /* SimpleSignInResponse.swift */,
 				E97069372917EFEF00014FB9 /* SimpleSignUpResponse.swift */,
+				28D12AEC29212587001A7B32 /* UserInfo.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -701,6 +714,7 @@
 				E970691E2917EEEC00014FB9 /* ReportLog */,
 				E97069222917EEEC00014FB9 /* Setting */,
 				E97069242917EEEC00014FB9 /* NavigationSetting */,
+				28D12AE929211BC9001A7B32 /* Resign */,
 				E97069262917EEEC00014FB9 /* MyClothes */,
 			);
 			path = MyPage;
@@ -1028,6 +1042,7 @@
 				E9494A6F28F1DF15005285C0 /* UILayer+.swift in Sources */,
 				E9B074F5291639B300C8D9D2 /* ChoiceView.swift in Sources */,
 				E95ACEAC28F35E2A00057900 /* PhotoCollectionViewCell.swift in Sources */,
+				28D12AED29212587001A7B32 /* UserInfo.swift in Sources */,
 				E9460AF928E9DE2200932351 /* Fonts+Generated.swift in Sources */,
 				E99929AF28D88182006FCFC7 /* MainTabbarController.swift in Sources */,
 				E9494A5B28F05CAB005285C0 /* SearchBarVC.swift in Sources */,
@@ -1087,6 +1102,7 @@
 				E9460B0D28EAC0B100932351 /* CommonNavigationViewController.swift in Sources */,
 				E9160C1828E30A60007B1307 /* DataManager.swift in Sources */,
 				E95ACEA828F33BED00057900 /* ReportViewModel.swift in Sources */,
+				28D12AEB29211C07001A7B32 /* ResignVC.swift in Sources */,
 				E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */,
 				E9160C1C28E3177C007B1307 /* HomeViewModel.swift in Sources */,
 				2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */,

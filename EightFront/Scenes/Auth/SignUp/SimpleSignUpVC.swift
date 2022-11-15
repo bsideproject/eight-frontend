@@ -57,23 +57,26 @@ class SimpleSignUpVC: UIViewController {
     
     // MARK: - Binding
     private func bind() {
+        
+        let accessToken = KeyChainManager.shared.readAccessToken()
         signUpButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.authProvider.request(.socialSignUp(
-                    param: SocialSignUpRequest(
-                        accessToken: "EYEraxKRKb4O6DLzySP28Qb0eR_CGdPDYT5slA3jCj1zTgAAAYRKgTgs",
-                        nickName: "김정완",
-                        category: .kakao
-                    ))) { response in
+                self?.authProvider.request(
+                    .socialSignUp(
+                        param: SocialSignUpRequest(
+                        accessToken: accessToken,
+                        nickName: "니해이"
+                    ))) { [weak self] response in
                         switch response {
                         case .success(let result):
-                            
                             guard let data = try? result.map(SimpleSignUpResponse.self).data else {
                                 LogUtil.d("Response Decoding 실패")
                                 return
                             }
-                            
+                            let signUpSuccessVC = SignUpSuccessVC()
+                            self?.navigationController?.pushViewController(signUpSuccessVC, animated: true)
+                            LogUtil.d(data)
                         case .failure(let error):
                             LogUtil.e("간편 회원가입 실패 > \(error.localizedDescription)")
                         }

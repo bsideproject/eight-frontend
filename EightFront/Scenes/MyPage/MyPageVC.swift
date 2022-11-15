@@ -15,7 +15,6 @@ import KakaoSDKUser
 //MARK: 마이페이지 VC
 
 final class MyPageVC: UIViewController {
-    
     let viewModel = MyPageViewModel()
     
     //MARK: - Properties
@@ -23,8 +22,7 @@ final class MyPageVC: UIViewController {
         $0.titleLabel.text = "마이페이지"
     }
     private let myInfoView = UIView()
-    private let nameLabel = UILabel().then {
-        $0.text = "김에잇"
+    private let nicknameLabel = UILabel().then {
         $0.font = Fonts.Templates.title.font
     }
     private let myPageTableView = UITableView().then {
@@ -37,21 +35,25 @@ final class MyPageVC: UIViewController {
         configure()
         makeUI()
         bind()
-        
-        guard let userInfo = UserDefaults.standard.object(forKey: "userInfo") as? [String: Any] else { return }
-        
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+   
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         let accessToken = KeyChainManager.shared.readAccessToken()
         
         if accessToken.isEmpty {
             let bottomSheetVC = LoginBottomSheetVC()
             bottomSheetVC.modalPresentationStyle = .overFullScreen
+            bottomSheetVC.delegate = self
             self.present(bottomSheetVC, animated: false)
         }
+        
+        if UserDefaults.standard.object(forKey: "nickName") as? String == nil {
+            nicknameLabel.text = "로그인을 해주세요."
+        }
+        
     }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
     }
@@ -80,8 +82,8 @@ final class MyPageVC: UIViewController {
             $0.height.equalTo(47)
         }
         
-        myInfoView.addSubview(nameLabel)
-        nameLabel.snp.makeConstraints {
+        myInfoView.addSubview(nicknameLabel)
+        nicknameLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(16)
         }
@@ -99,7 +101,7 @@ final class MyPageVC: UIViewController {
         viewModel.$nickname
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.nameLabel.text = $0
+                self?.nicknameLabel.text = $0
             }.store(in: &viewModel.bag)
         
         myInfoView
@@ -132,5 +134,11 @@ extension MyPageVC:UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40
+    }
+}
+
+extension MyPageVC: LoginDelegate {
+    func loginSuccess(userInfo: UserInfo) {
+        nicknameLabel.text = userInfo.nickName
     }
 }

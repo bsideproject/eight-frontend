@@ -234,6 +234,8 @@ class SettingVC: UIViewController {
             .sink { [weak self] _ in
                 // TODO: 로그아웃
                 if KeyChainManager.shared.deleteAccessToken() {
+                    UserDefaults.standard.removeObject(forKey: "nickName")
+                    UserDefaults.standard.removeObject(forKey: "email")
                     self?.navigationController?.popToRootViewController(animated: true)
                 }
             }.store(in: &viewModel.bag)

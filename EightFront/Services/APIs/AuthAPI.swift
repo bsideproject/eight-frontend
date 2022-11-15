@@ -13,6 +13,7 @@ enum AuthAPI {
     case socialSignUp(param: SocialSignUpRequest)
     case emailSignIn(param: SocialSignInRequest)
     case emailSignUp(param: SocialSignUpRequest)
+    case memberResign(memberId: String)
 }
 
 extension AuthAPI: TargetType {
@@ -23,17 +24,19 @@ extension AuthAPI: TargetType {
     var path: String {
         switch self {
         case .socialSignIn(let param):
-            let social = param.category.rawValue
-            let path = "/api/oauth2/\(social)"
+//            let social = param.category.rawValue
+            let path = "/api/oauth2/kakao"
             return path
         case .socialSignUp(let param):
-            let social = param.category.rawValue
-            let path = "/api/oauth2/\(social)/signup"
+//            let social = param.category.rawValue
+            let path = "/api/oauth2/kakao/signup"
             return path
         case .emailSignIn:
             return ""
         case .emailSignUp:
             return ""
+        case .memberResign(let memeberId):
+            return "/api/oauth2/\(memeberId)"
         }
     }
     
@@ -47,6 +50,8 @@ extension AuthAPI: TargetType {
             return .post
         case .emailSignUp:
             return .post
+        case .memberResign:
+            return .delete
         }
     }
     
@@ -60,6 +65,8 @@ extension AuthAPI: TargetType {
             return .requestJSONEncodable(param)
         case .emailSignUp(let param):
             return .requestJSONEncodable(param)
+        case .memberResign:
+            return .requestPlain
         }
     }
     
