@@ -1,5 +1,5 @@
 //
-//  ClothesAPI.swift
+//  BoxesAPI.swift
 //  EightFront
 //
 //  Created by wargi on 2022/10/01.
@@ -8,14 +8,18 @@
 import UIKit
 import Moya
 
-enum ClothesAPI {
+enum BoxesAPI {
+    /// 주변 수거함 조회
     case clothingBins(latitude: Double, longitude: Double)
+    /// 수거함 등록
     case newReport(info: ReportRequest, images: [UIImage])
+    /// 수거함 정보 수정
     case updateReport(id: String, info: ReportRequest, images: [UIImage])
+    /// 수거함 삭제
     case deleteReport(id: String)
 }
 
-extension ClothesAPI: TargetType {
+extension BoxesAPI: TargetType {
     var baseURL: URL {
         return URL(string: "https://www.droptheclothes.site/api")!
     }
