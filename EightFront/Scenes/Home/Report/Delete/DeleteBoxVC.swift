@@ -1,5 +1,5 @@
 //
-//  DeleteVC.swift
+//  DeleteBoxVC.swift
 //  EightFront
 //
 //  Created by wargi on 2022/11/17.
@@ -10,9 +10,15 @@ import SnapKit
 import UIKit
 import Combine
 
+protocol DeleteBoxVCDelegate: AnyObject {
+    func deleteTapped()
+}
+
 //MARK: SelectMenuVC
-final class SelectMenuVC: UIViewController {
+final class DeleteBoxVC: UIViewController {
     //MARK: - Properties
+    var bag = Set<AnyCancellable>()
+    weak var delegate: DeleteBoxVCDelegate?
     let containerView = UIView().then {
         $0.backgroundColor = .clear
     }
@@ -20,13 +26,12 @@ final class SelectMenuVC: UIViewController {
         $0.alpha = 0.0
         $0.backgroundColor = .black
     }
-    let selectMenuView = SelectMenuView()
-    
-    //MARK: - Life Cycle
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    lazy var deleteView = DeleteBoxView().then {
+        $0.alpha = 0.0
+        $0.delegate = self
     }
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,7 +44,7 @@ final class SelectMenuVC: UIViewController {
         
         UIView.animate(withDuration: 0.15) { [weak self] in
             self?.backgroundView.alpha = 0.65
-            self?.selectMenuView.alpha = 1.0
+            self?.deleteView.alpha = 1.0
         }
     }
     
@@ -49,7 +54,7 @@ final class SelectMenuVC: UIViewController {
         
         view.addSubview(containerView)
         containerView.addSubview(backgroundView)
-        containerView.addSubview(selectMenuView)
+        containerView.addSubview(deleteView)
         
         containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -57,15 +62,32 @@ final class SelectMenuVC: UIViewController {
         backgroundView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        selectMenuView.snp.makeConstraints {
+        deleteView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width * 0.8)
-            $0.height.equalTo(fetchSelectMenuHeight())
+            $0.width.equalTo(316)
+            $0.height.equalTo(188)
         }
     }
     
     //MARK: - Binding..
     func bind() {
-        
+        backgroundView
+            .gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.dismiss(animated: false)
+            }
+            .store(in: &bag)
+    }
+}
+
+extension DeleteBoxVC: DeleteBoxViewDelegate {
+    func deleteTapped() {
+        delegate?.deleteTapped()
+        dismiss(animated: false)
+    }
+    
+    func cancelTapped() {
+        dismiss(animated: false)
     }
 }
