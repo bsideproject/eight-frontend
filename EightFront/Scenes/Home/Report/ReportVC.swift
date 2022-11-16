@@ -10,20 +10,18 @@ import SnapKit
 import UIKit
 import Combine
 import CoreLocation
-import AVFoundation
 //MARK: HomeListVC
 final class ReportVC: UIViewController {
     //MARK: - Properties
     private let viewModel = ReportViewModel()
-    private var isDelete = false
     private let navigationView = CommonNavigationView().then {
         $0.titleLabel.text = "지도정보수정"
     }
     private let searchImageView = UIImageView().then {
         $0.image = Images.Report.search.image
     }
-    private lazy var addressView = CommonTextFieldView(titleWidth: 56.0,
-                                                       contentTrailing: isDelete ? 16.0 : 52.0).then { [weak self] in
+    private let addressView = CommonTextFieldView(titleWidth: 56.0,
+                                                  contentTrailing: 52.0).then {
         $0.titleLabel.text = "주소"
         $0.contentTextField.isUserInteractionEnabled = false
     }
@@ -56,21 +54,29 @@ final class ReportVC: UIViewController {
         PhotoCollectionViewCell.register($0)
     }
     private let agreePhotoView = AgreePhotoView()
-    lazy var requestButton = UIButton().then { [weak self] in
-        guard let self = self else { return }
-        $0.setTitle(self.isDelete ? "삭제 요청하기" : "등록하기")
+    private let requestButton = UIButton().then {
+        $0.setTitle("등록하기")
         $0.setTitleColor(.white)
         $0.titleLabel?.font = Fonts.Templates.subheader.font
         $0.backgroundColor = Colors.gray006.color
         $0.layer.cornerRadius = 4
     }
+    private let deleteButton = UIButton().then {
+        $0.setTitle("수거함 삭제요청")
+        $0.setTitleColor(Colors.gray005.color)
+        $0.titleLabel?.font = Fonts.Templates.caption1.font
+        $0.layer.cornerRadius = 4
+    }
+    private let bottomLineView = UIView().then {
+        $0.backgroundColor = Colors.gray006.color
+    }
     
     //MARK: - Life Cycle
-    init(isDelete: Bool, location: CLLocation) {
+    init(type: ReportViewModel.ReportType, box: CollectionBox? = nil) {
         super.init(nibName: nil, bundle: nil)
         
-        self.isDelete = isDelete
-        viewModel.requestLocation = location
+        self.viewModel.type = type
+        configure(with: box)
     }
     
     required init?(coder: NSCoder) {
@@ -92,6 +98,8 @@ final class ReportVC: UIViewController {
     
     //MARK: - Make UI
     private func makeUI() {
+        let isNew = viewModel.type == .new
+        
         view.backgroundColor = .white
         
         view.addSubview(navigationView)
@@ -104,6 +112,8 @@ final class ReportVC: UIViewController {
         view.addSubview(addPhotoCollectionView)
         view.addSubview(agreePhotoView)
         view.addSubview(requestButton)
+        view.addSubview(deleteButton)
+        view.addSubview(bottomLineView)
         
         navigationView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -113,7 +123,7 @@ final class ReportVC: UIViewController {
         addressView.snp.makeConstraints {
             $0.top.equalTo(navigationView.snp.bottom).offset(16)
             $0.left.right.equalToSuperview().inset(16)
-            $0.height.equalTo(54)
+            $0.height.equalTo(50)
         }
         searchImageView.snp.makeConstraints {
             $0.centerY.equalTo(addressView.snp.centerY)
@@ -123,11 +133,12 @@ final class ReportVC: UIViewController {
         detailView.snp.makeConstraints {
             $0.top.equalTo(addressView.snp.bottom).offset(8)
             $0.left.right.equalToSuperview().inset(16)
-            $0.height.equalTo(54)
+            $0.height.equalTo(50)
         }
         questionLabel.snp.makeConstraints {
-            $0.top.equalTo(detailView.snp.bottom).offset(24)
+            $0.top.equalTo(detailView.snp.bottom).offset(16)
             $0.left.right.equalToSuperview().inset(16)
+            $0.height.equalTo(26)
         }
         questionView.snp.makeConstraints {
             $0.top.equalTo(questionLabel.snp.bottom).offset(4)
@@ -136,6 +147,7 @@ final class ReportVC: UIViewController {
         photoLabel.snp.makeConstraints {
             $0.top.equalTo(questionView.snp.bottom).offset(16)
             $0.left.right.equalToSuperview().inset(16)
+            $0.height.equalTo(26)
         }
         addPhotoCollectionView.snp.makeConstraints {
             $0.top.equalTo(photoLabel.snp.bottom).offset(8)
@@ -145,17 +157,29 @@ final class ReportVC: UIViewController {
         }
         requestButton.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().offset(isDelete ? -24 : -38)
+            $0.bottom.equalToSuperview().offset(isNew ? -24 : -38)
             $0.height.equalTo(58)
         }
         agreePhotoView.snp.makeConstraints {
             $0.top.equalTo(addPhotoCollectionView.snp.bottom).offset(24)
             $0.left.right.equalToSuperview().inset(16)
             $0.bottom.equalTo(requestButton.snp.top).offset(-16)
-            $0.height.equalTo(40)
+            $0.height.equalTo(39)
+        }
+        deleteButton.snp.makeConstraints {
+            $0.top.equalTo(requestButton.snp.bottom)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(38)
+        }
+        bottomLineView.snp.makeConstraints {
+            $0.top.equalTo(requestButton.snp.bottom).offset(28)
+            $0.left.right.equalTo(deleteButton)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(1)
         }
         
-        searchImageView.isHidden = isDelete
+        deleteButton.isHidden = isNew
+        bottomLineView.isHidden = isNew
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -164,17 +188,21 @@ final class ReportVC: UIViewController {
         view.endEditing(true)
     }
     
+    func configure(with box: CollectionBox?) {
+        guard let box, let lat = box.latitude, let lng = box.longitude else { return }
+        
+        viewModel.requestLocation = CLLocation(latitude: lat, longitude: lng)
+    }
+    
     //MARK: - Rx Binding..
     private func bind() {
-        if !isDelete {
-            addressView
-                .gesture()
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    self?.addressTapped()
-                }
-                .store(in: &viewModel.bag)
-        }
+        addressView
+            .gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.addressTapped()
+            }
+            .store(in: &viewModel.bag)
         
         viewModel.$addressString
             .receive(on: DispatchQueue.main)
@@ -203,11 +231,16 @@ final class ReportVC: UIViewController {
         
         requestButton
             .tapPublisher
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 guard let self else { return }
-                let completedVC = ReportCompletedVC(isInsert: !self.isDelete)
-                self.navigationController?.pushViewController(completedVC, animated: true)
+                let report = ReportRequest(memberId: "", // TODO: 추후에 로그인 완성후에 추가
+                                           address: self.addressView.contentTextField.text ?? "",
+                                           detailedAddress: self.detailView.contentTextField.text ?? "",
+                                           latitude: self.viewModel.box?.latitude ?? .zero,
+                                           longitude: self.viewModel.box?.longitude ?? .zero,
+                                           comment: self.questionView.contentTextView.text ?? "")
+                
+                self.viewModel.input.updateReport.send(report)
             }
             .store(in: &viewModel.bag)
         
@@ -238,6 +271,29 @@ final class ReportVC: UIViewController {
                 self?.viewModel.input.isAgreePhoto.send(self?.agreePhotoView.isSelected ?? false)
             }
             .store(in: &viewModel.bag)
+        
+        viewModel
+            .output
+            .requestReport
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isSuccessed in
+                guard isSuccessed, let type = self?.viewModel.type else { return }
+                
+                let completedVC = ReportCompletedVC(type: type)
+                self?.navigationController?.pushViewController(completedVC, animated: true)
+            }
+            .store(in: &viewModel.bag)
+        
+        deleteButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                let deleteVC = DeleteBoxVC()
+                deleteVC.delegate = self
+                deleteVC.modalPresentationStyle = .overFullScreen
+                self?.present(deleteVC, animated: false)
+            }
+            .store(in: &viewModel.bag)
     }
     
     // set collectionView flow layout
@@ -251,31 +307,9 @@ final class ReportVC: UIViewController {
         return flowLayout
     }
     
-    func showCameraAuthAlert() {
-        let message = "사진 첨부를 위해 카메라 권한이 필요합니다.\n설정에서 카메라 권한을 허용해 주세요."
-        
-        let alert = UIAlertController(title: "카메라 권한 필요", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
-            if let bundle = Bundle.main.bundleIdentifier,
-               let settings = URL(string: UIApplication.openSettingsURLString + bundle) {
-                if UIApplication.shared.canOpenURL(settings) {
-                    UIApplication.shared.open(settings)
-                }
-            }
-        }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { [weak self] _ in
-            self?.view.makeToast("카메라 권한을 허용해주세요.")
-        }
-        
-        alert.addAction(okAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true)
-    }
-    
     @objc
     private func addressTapped() {
-        let searchMapVC = SearchMapVC(requestLocation: viewModel.requestLocation)
+        let searchMapVC = SearchMapVC(requestLocation: viewModel.requestLocation ?? LocationManager.shared.currentLocation)
         searchMapVC.delegate = self
         navigationController?.pushViewController(searchMapVC, animated: true)
     }
@@ -317,15 +351,6 @@ extension ReportVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard viewModel.imageCount == indexPath.item else { return }
         
-//        switch AVCaptureDevice.authorizationStatus(for: .video) {
-//        case .restricted, .denied:
-//            showCameraAuthAlert()
-//        case .authorized, .notDetermined:
-//            ImagePickerManager.shared.openCamera(self) { [weak self] image in
-//                self?.viewModel.add(image: image)
-//            }
-//        default: break
-//        }
         ImagePickerManager.shared.pickImageWithAlert(self) { [weak self] image in
             self?.viewModel.add(image: image)
         }
@@ -336,5 +361,11 @@ extension ReportVC: UICollectionViewDelegate {
 extension ReportVC: PhotoCellDelegate {
     func removeItemButtonTapped(at index: Int) {
         viewModel.removeImage(at: index)
+    }
+}
+
+extension ReportVC: DeleteBoxVCDelegate {
+    func deleteTapped() {
+        viewModel.input.deleteReport.send(nil)
     }
 }
