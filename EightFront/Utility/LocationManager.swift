@@ -13,7 +13,6 @@ final class LocationManager: NSObject {
     // MARK: - Properties
     static let shared = LocationManager()
     private var locationManager: CLLocationManager?
-    @Published var currentAddress: String?
     @Published var currentLocation: CLLocation?
     
     // MARK: - Initializer

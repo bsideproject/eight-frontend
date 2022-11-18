@@ -62,6 +62,7 @@ internal enum Images {
     internal static let naverCircleIcon = ImageAsset(name: "naver_circle_icon")
   }
   internal enum Report {
+    internal static let checkboxSelectNone = ImageAsset(name: "Checkbox-select-none")
     internal static let addPhoto = ImageAsset(name: "add-photo")
     internal static let checkComplete = ImageAsset(name: "check-complete")
     internal static let checkboxNone = ImageAsset(name: "checkbox-none")

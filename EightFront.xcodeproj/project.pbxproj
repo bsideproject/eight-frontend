@@ -42,6 +42,15 @@
 		E9008D432911584100F70B6B /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9008D422911584100F70B6B /* ReportRequest.swift */; };
 		E910ECA32926754C00E7881E /* DeleteBoxVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECA22926754C00E7881E /* DeleteBoxVC.swift */; };
 		E910ECA6292675EC00E7881E /* DeleteBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECA5292675EC00E7881E /* DeleteBoxView.swift */; };
+		E910ECA82927C94500E7881E /* DetailDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECA72927C94500E7881E /* DetailDescriptionCell.swift */; };
+		E910ECAA2927CEE000E7881E /* DetailCountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECA92927CEE000E7881E /* DetailCountCell.swift */; };
+		E910ECAC2927D4C400E7881E /* CommentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECAB2927D4C400E7881E /* CommentsCell.swift */; };
+		E910ECAE2927D5A600E7881E /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECAD2927D5A600E7881E /* CommentCell.swift */; };
+		E910ECB02927F37900E7881E /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECAF2927F37900E7881E /* DateManager.swift */; };
+		E910ECB32928F18D00E7881E /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECB22928F18D00E7881E /* PageIndicatorView.swift */; };
+		E910ECB529290C6D00E7881E /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECB429290C6D00E7881E /* CommentInputView.swift */; };
+		E910ECBA29292A6900E7881E /* ReportPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECB929292A6900E7881E /* ReportPostViewModel.swift */; };
+		E910ECBD29292AE700E7881E /* ReportPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECBC29292AE700E7881E /* ReportPostCell.swift */; };
 		E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1428E2FBC4007B1307 /* DataModel.xcdatamodeld */; };
 		E9160C1828E30A60007B1307 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1728E30A60007B1307 /* DataManager.swift */; };
 		E9160C1A28E3145E007B1307 /* NewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9160C1928E3145E007B1307 /* NewSetting.swift */; };
@@ -218,6 +227,15 @@
 		E9008D422911584100F70B6B /* ReportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
 		E910ECA22926754C00E7881E /* DeleteBoxVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBoxVC.swift; sourceTree = "<group>"; };
 		E910ECA5292675EC00E7881E /* DeleteBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBoxView.swift; sourceTree = "<group>"; };
+		E910ECA72927C94500E7881E /* DetailDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDescriptionCell.swift; sourceTree = "<group>"; };
+		E910ECA92927CEE000E7881E /* DetailCountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCountCell.swift; sourceTree = "<group>"; };
+		E910ECAB2927D4C400E7881E /* CommentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsCell.swift; sourceTree = "<group>"; };
+		E910ECAD2927D5A600E7881E /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		E910ECAF2927F37900E7881E /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
+		E910ECB22928F18D00E7881E /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
+		E910ECB429290C6D00E7881E /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
+		E910ECB929292A6900E7881E /* ReportPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportPostViewModel.swift; sourceTree = "<group>"; };
+		E910ECBC29292AE700E7881E /* ReportPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportPostCell.swift; sourceTree = "<group>"; };
 		E9160C1528E2FBC4007B1307 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		E9160C1728E30A60007B1307 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		E9160C1928E3145E007B1307 /* NewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSetting.swift; sourceTree = "<group>"; };
@@ -467,6 +485,22 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		E910ECB12928F17900E7881E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E910ECB22928F18D00E7881E /* PageIndicatorView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E910ECBB29292ADB00E7881E /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				E910ECBC29292AE700E7881E /* ReportPostCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		E927FC7728D34DD900A91F11 /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -635,6 +669,7 @@
 				E970693B2917F03300014FB9 /* KeyChainManager.swift */,
 				E95FBF6628F70FDF002CA5A9 /* ImagePickerManager.swift */,
 				2850D18A291BEB0F001A848C /* FCMManager.swift */,
+				E910ECAF2927F37900E7881E /* DateManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -917,10 +952,15 @@
 		E9EAB9DB2920BC6700926893 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				E910ECB12928F17900E7881E /* View */,
 				E9EAB9DC2920BC7A00926893 /* ProfileCell.swift */,
 				E9EAB9E02920C14100926893 /* CollectionCell.swift */,
+				E910ECA72927C94500E7881E /* DetailDescriptionCell.swift */,
+				E910ECA92927CEE000E7881E /* DetailCountCell.swift */,
 				E9EAB9E22920C30B00926893 /* DetailSelectionCell.swift */,
 				E9EAB9E42921165700926893 /* TotalCommentCell.swift */,
+				E910ECAB2927D4C400E7881E /* CommentsCell.swift */,
+				E910ECAD2927D5A600E7881E /* CommentCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -950,6 +990,7 @@
 			children = (
 				E9EEA4982916BA790073001F /* ReportPopupView.swift */,
 				E9EEA4942916B33C0073001F /* CutOffPopupView.swift */,
+				E910ECB429290C6D00E7881E /* CommentInputView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -957,7 +998,9 @@
 		E9EEA49E2916C11D0073001F /* Report */ = {
 			isa = PBXGroup;
 			children = (
+				E910ECBB29292ADB00E7881E /* Cell */,
 				E9EEA49F2916C2370073001F /* ReportPostVC.swift */,
+				E910ECB929292A6900E7881E /* ReportPostViewModel.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -1120,6 +1163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E910ECA6292675EC00E7881E /* DeleteBoxView.swift in Sources */,
+				E910ECB32928F18D00E7881E /* PageIndicatorView.swift in Sources */,
 				E9160C1A28E3145E007B1307 /* NewSetting.swift in Sources */,
 				E927FC9A28D3523300A91F11 /* Formatter+.swift in Sources */,
 				E95ACEAE28F35E4200057900 /* AddPhotoCollectionViewCell.swift in Sources */,
@@ -1163,6 +1207,7 @@
 				E9EFE7C5290AD7E200EA514B /* PostsViewModel.swift in Sources */,
 				E970692E2917EEEC00014FB9 /* NavigationSettingVC.swift in Sources */,
 				E9494A6F28F1DF15005285C0 /* UILayer+.swift in Sources */,
+				E910ECB02927F37900E7881E /* DateManager.swift in Sources */,
 				E9B074F5291639B300C8D9D2 /* ChoiceView.swift in Sources */,
 				E95ACEAC28F35E2A00057900 /* PhotoCollectionViewCell.swift in Sources */,
 				28D12AED29212587001A7B32 /* UserInfo.swift in Sources */,
@@ -1175,6 +1220,7 @@
 				E9EFE7C3290AD7B700EA514B /* SwipeCardView.swift in Sources */,
 				E9EEA4A22917CBED0073001F /* Gesture+.swift in Sources */,
 				E95FBF6A28F70FDF002CA5A9 /* LogUtil.swift in Sources */,
+				E910ECAA2927CEE000E7881E /* DetailCountCell.swift in Sources */,
 				E9460AFE28E9E51D00932351 /* HomeSearchView.swift in Sources */,
 				E9706947291ACEA400014FB9 /* CommentsResponse.swift in Sources */,
 				E95ACEA628F332E000057900 /* AgreePhotoView.swift in Sources */,
@@ -1207,11 +1253,13 @@
 				E99AC31228E88AA800AF1F84 /* BoxesAPI.swift in Sources */,
 				E9EAB9DD2920BC7A00926893 /* ProfileCell.swift in Sources */,
 				E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */,
+				E910ECB529290C6D00E7881E /* CommentInputView.swift in Sources */,
 				E9EEA4932916A2610073001F /* UILabel+.swift in Sources */,
 				E9EFE7C7290AD89B00EA514B /* ClothingResponse.swift in Sources */,
 				E99929B628D882B5006FCFC7 /* NoticeVC.swift in Sources */,
 				E96BC92528EB2E7E002EBA7E /* SearchMapViewModel.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
+				E910ECBA29292A6900E7881E /* ReportPostViewModel.swift in Sources */,
 				E970692C2917EEEC00014FB9 /* MyPageVC.swift in Sources */,
 				E97069342917EFAB00014FB9 /* SimpleSignUpVC.swift in Sources */,
 				E9494A6928F07203005285C0 /* SearchResultCell.swift in Sources */,
@@ -1224,8 +1272,10 @@
 				28D12AE82921065F001A7B32 /* SettingViewModel.swift in Sources */,
 				E9494A6D28F1C816005285C0 /* BoxCollectionView.swift in Sources */,
 				E970693A2917EFEF00014FB9 /* SimpleSignUpResponse.swift in Sources */,
+				E910ECBD29292AE700E7881E /* ReportPostCell.swift in Sources */,
 				28379E8628F718DE00B2D4DD /* Pretendard+.swift in Sources */,
 				E9EEA49D2916C1090073001F /* DetailPostViewModel.swift in Sources */,
+				E910ECAC2927D4C400E7881E /* CommentsCell.swift in Sources */,
 				28379E8228F718A400B2D4DD /* LoginVC.swift in Sources */,
 				E98A04EE28F435B7009F055B /* ReportCompletedVC.swift in Sources */,
 				E97069392917EFEF00014FB9 /* SimpleSignInResponse.swift in Sources */,
@@ -1238,12 +1288,14 @@
 				E9706941291AC46500014FB9 /* KeepOrDropRequest.swift in Sources */,
 				E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */,
 				284F96202928D87D00597708 /* ReportCategoryView.swift in Sources */,
+				E910ECAE2927D5A600E7881E /* CommentCell.swift in Sources */,
 				E9160C1C28E3177C007B1307 /* HomeViewModel.swift in Sources */,
 				2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */,
 				E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */,
 				E970692D2917EEEC00014FB9 /* SettingVC.swift in Sources */,
 				E927FC9828D351E300A91F11 /* Date+.swift in Sources */,
 				E95FBF6C28FC1644002CA5A9 /* Pretendard+.swift in Sources */,
+				E910ECA82927C94500E7881E /* DetailDescriptionCell.swift in Sources */,
 				E9460B0F28EAC69300932351 /* NaverMapMarker.swift in Sources */,
 				E9EFE7C2290AD7B700EA514B /* StackContainerView.swift in Sources */,
 			);
