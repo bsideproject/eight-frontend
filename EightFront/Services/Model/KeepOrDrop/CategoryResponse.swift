@@ -21,3 +21,4 @@ struct CategoriesModel: Decodable {
         case totalCount = "totalCount"
     }
 }
+
