@@ -25,11 +25,11 @@ final class MyPageViewModel {
         var image: String {
             switch self {
             case .myClothes:
-                return "person"
+                return "crown"
             case .navigationSetting:
-                return "house"
+                return "headphones"
             case .report:
-                return "flame"
+                return "info.circle.fill"
             case .setting:
                 return "gear"
             }

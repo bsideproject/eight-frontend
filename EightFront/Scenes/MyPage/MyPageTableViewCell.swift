@@ -13,8 +13,12 @@ final class MyPageTableViewCell: UITableViewCell {
     static let identifier = "MyPageTableViewCell"
     
     let title = UILabel()
-    let iconView = UIImageView().then {
+    let iconView = UIView().then {
         $0.layer.cornerRadius = 6
+    }
+    
+    let icon = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
         $0.tintColor = .white
     }
     
@@ -31,7 +35,7 @@ final class MyPageTableViewCell: UITableViewCell {
     
     func configure(myPageMenus: MyPageViewModel.MyPageMenus) {
         title.text = myPageMenus.title
-        iconView.image = UIImage(systemName: myPageMenus.image)
+        icon.image = UIImage(systemName: myPageMenus.image)
         iconView.backgroundColor = UIColor(cgColor: myPageMenus.backgroundColor)
     }
     
@@ -45,6 +49,12 @@ final class MyPageTableViewCell: UITableViewCell {
             $0.leading.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
             $0.size.equalTo(29)
+            
+            iconView.addSubview(icon)
+            icon.snp.makeConstraints {
+                $0.size.equalTo(23)
+                $0.center.equalToSuperview()
+            }
         }
         
         title.snp.makeConstraints {
