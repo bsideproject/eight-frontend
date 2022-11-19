@@ -16,9 +16,11 @@ class ReportLogVC: UIViewController {
         $0.titleLabel.text = "의류수거함 정보수정&신규등록 제보확인"
     }
     
+    private let reportCategoryView = ReportCategoryView()
+    
     private let reportTableView = UITableView().then {
         $0.register(ReportTableViewCell.self, forCellReuseIdentifier: ReportTableViewCell.identifier)
-        $0.separatorStyle = .none
+//        $0.separatorStyle = .none
     }
     
     // MARK: - Lift Cycle
@@ -31,16 +33,23 @@ class ReportLogVC: UIViewController {
     // MARK: - makeUI
     private func makeUI() {
         view.backgroundColor = .white
-        
+                
         view.addSubview(commontNavigationView)
         commontNavigationView.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(47)
         }
         
+        view.addSubview(reportCategoryView)
+        reportCategoryView.snp.makeConstraints {
+            $0.top.equalTo(commontNavigationView.snp.bottom).offset(19)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(29)
+        }
+        
         view.addSubview(reportTableView)
         reportTableView.snp.makeConstraints {
-            $0.top.equalTo(commontNavigationView.snp.bottom)
+            $0.top.equalTo(reportCategoryView.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
@@ -76,7 +85,7 @@ extension ReportLogVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 64
+        return 84
     }
     
 }

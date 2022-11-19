@@ -15,21 +15,51 @@ class NavigationSettingVC: UIViewController {
         $0.titleLabel.text = "네비게이션 앱 설정"
     }
     
-    private var naverMapView = UIView()
-    private var naverSelectedIamgeView = UIImageView().then {
-        $0.layer.cornerRadius = 11
-    }
-    private var naverLabel = UILabel().then {
-        $0.text = "네이버 지도"
+    private var naverMapView = UIView().then {
+        $0.layer.cornerRadius = 6
+        $0.layer.borderColor = Colors.gray006.color.cgColor
+        $0.layer.borderWidth = 1
     }
     
-    private var kakaoMapView = UIView()
-    private var kakaoSelectedIamgeView = UIImageView().then {
-        $0.layer.cornerRadius = 11
+    private var naverCoverView = UIView().then {
+        $0.layer.cornerRadius = 6
+        $0.layer.borderColor = Colors.gray006.color.cgColor
+        $0.layer.borderWidth = 1
     }
+    
+    private var naverIcon = UIImageView().then {
+        let image = UIImage(named: "naver_circle_icon")!
+        $0.image = image
+    }
+    
+    private var naverLabel = UILabel().then {
+        $0.text = "네이버 지도"
+        $0.font = Fonts.Templates.subheader3.font
+    }
+    
+    private var kakaoMapView = UIView().then {
+        $0.layer.cornerRadius = 6
+        $0.layer.borderColor = Colors.gray006.color.cgColor
+        $0.layer.borderWidth = 1
+    }
+    
+    private var kakaoCoverView = UIView().then {
+        $0.layer.cornerRadius = 6
+        $0.layer.borderColor = Colors.gray006.color.cgColor
+        $0.layer.borderWidth = 1
+    }
+    
+    private var kakaoIcon = UIImageView().then {
+        let image = UIImage(named: "kakao_circle_icon")!
+        $0.image = image
+    }
+
     private var kakaoLabel = UILabel().then {
         $0.text = "카카오맵"
+        $0.font = Fonts.Templates.subheader3.font
     }
+    
+    
     
     // MARK: - Lift Cycle
     override func viewDidLoad() {
@@ -51,41 +81,54 @@ class NavigationSettingVC: UIViewController {
         view.addSubview(naverMapView)
         naverMapView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(124)
-            $0.height.equalTo(47)
-            $0.horizontalEdges.equalToSuperview().inset(21)
+            $0.height.equalTo(70)
+            $0.horizontalEdges.equalToSuperview().inset(17)
+            
+            naverMapView.addSubview(naverIcon)
+            naverIcon.snp.makeConstraints {
+                $0.size.equalTo(42)
+                $0.centerY.equalToSuperview()
+                $0.left.equalToSuperview().offset(16)
+            }
+            
+            naverMapView.addSubview(naverLabel)
+            naverLabel.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.left.equalTo(naverIcon.snp.right).offset(8)
+            }
+            
+            naverMapView.addSubview(naverCoverView)
+            naverCoverView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
         }
-        
-        naverMapView.addSubview(naverSelectedIamgeView)
-        naverSelectedIamgeView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.size.equalTo(22)
-        }
-        
-        naverMapView.addSubview(naverLabel)
-        naverLabel.snp.makeConstraints {
-            $0.left.equalTo(naverSelectedIamgeView.snp.right).offset(32)
-            $0.centerY.equalToSuperview()
-        }
-        
         
         view.addSubview(kakaoMapView)
         kakaoMapView.snp.makeConstraints {
-            $0.top.equalTo(naverLabel.snp.bottom).offset(14)
-            $0.height.equalTo(47)
-            $0.horizontalEdges.equalToSuperview().inset(21)
+            $0.top.equalTo(naverMapView.snp.bottom).offset(16)
+            $0.height.equalTo(70)
+            $0.horizontalEdges.equalToSuperview().inset(17)
+            
+            kakaoMapView.addSubview(kakaoIcon)
+            kakaoIcon.snp.makeConstraints {
+                $0.size.equalTo(42)
+                $0.centerY.equalToSuperview()
+                $0.left.equalToSuperview().offset(16)
+            }
+            
+            kakaoMapView.addSubview(kakaoLabel)
+            kakaoLabel.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.left.equalTo(kakaoIcon.snp.right).offset(8)
+            }
+            
+            kakaoMapView.addSubview(kakaoCoverView)
+            kakaoCoverView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            
         }
-        
-        kakaoMapView.addSubview(kakaoSelectedIamgeView)
-        kakaoSelectedIamgeView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.size.equalTo(22)
-        }
-        
-        kakaoMapView.addSubview(kakaoLabel)
-        kakaoLabel.snp.makeConstraints {
-            $0.left.equalTo(kakaoSelectedIamgeView.snp.right).offset(32)
-            $0.centerY.equalToSuperview()
-        }
+
     }
     
     private func bind() {
@@ -105,8 +148,12 @@ class NavigationSettingVC: UIViewController {
         
         viewModel.$navagation.receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.naverSelectedIamgeView.backgroundColor = $0 == "naver" ? Colors.point.color : Colors.gray006.color
-                self?.kakaoSelectedIamgeView.backgroundColor = $0 == "kakao" ? Colors.point.color : Colors.gray006.color
+                self?.naverMapView.layer.borderColor = $0 == "naver" ? UIColor.black.cgColor : Colors.gray006.color.cgColor
+                self?.kakaoMapView.layer.borderColor = $0 == "kakao" ? UIColor.black.cgColor : Colors.gray006.color.cgColor
+                
+                self?.naverCoverView.backgroundColor = $0 == "naver" ? UIColor.clear : UIColor.white.withAlphaComponent(0.75)
+                self?.kakaoCoverView.backgroundColor = $0 == "kakao" ? UIColor.clear : UIColor.white.withAlphaComponent(0.75)
+                
             }.store(in: &viewModel.bag)
         
     }

@@ -10,6 +10,12 @@ import Combine
 
 
 class NavigationSettinViewModel {
+    
+    enum mapType {
+        case kakao
+        case naver
+    }
+    
     var bag = Set<AnyCancellable>()
     
     @Published var navagation = UserDefaults.standard.object(forKey: "navigation") as? String

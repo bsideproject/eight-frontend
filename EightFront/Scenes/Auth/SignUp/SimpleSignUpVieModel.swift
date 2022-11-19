@@ -1,25 +1,22 @@
 //
-//  MyInfoViewModel.swift
+//  SimpleSignUpVieModel.swift
 //  EightFront
 //
-//  Created by Jeongwan Kim on 2022/11/13.
+//  Created by Jeongwan Kim on 2022/11/20.
 //
 
 import Foundation
 import Combine
-import KakaoSDKUser
-import JWTDecode
+import Moya
 
-class MyInfoViewModel {
+class SimpleSignUpVieModel {
     
     var bag = Set<AnyCancellable>()
-    
-    @Published var userEmail = UserDefaults.standard.object(forKey: "email") as? String ?? ""
-    @Published var nickName = UserDefaults.standard.object(forKey: "nickName") as? String ?? ""
-    
+    var authProvider = MoyaProvider<AuthAPI>()
+
     @Published var inputNickname = ""
-    @Published var isButtonEnabled = false
-    
+    @Published var isSignUpButtonValid = false
+
     lazy var isNicknameValid: AnyPublisher<Bool, Never> = $inputNickname
         .compactMap {
             if $0.count > 1 {

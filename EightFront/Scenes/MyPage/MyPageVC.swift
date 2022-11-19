@@ -46,6 +46,9 @@ final class MyPageVC: UIViewController {
             bottomSheetVC.modalPresentationStyle = .overFullScreen
             bottomSheetVC.delegate = self
             self.present(bottomSheetVC, animated: false)
+        } else {
+            let nickName = UserDefaults.standard.object(forKey: "nickName") as? String
+            nicknameLabel.text = nickName
         }
         
         if UserDefaults.standard.object(forKey: "nickName") as? String == nil {

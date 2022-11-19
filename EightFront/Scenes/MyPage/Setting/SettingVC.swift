@@ -189,12 +189,8 @@ class SettingVC: UIViewController {
         blockListView.gesture().receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 // TODO: 차단 목록 이동
-                let alert = UIAlertController(title: "차단 목록 이동", message: "미구현", preferredStyle: .alert)
-                let okay = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-                    self?.dismiss(animated: true)
-                }
-                alert.addAction(okay)
-                self?.present(alert, animated: true)
+                let blockTableVC = BlockVC()
+                self?.navigationController?.pushViewController(blockTableVC, animated: true)
             }.store(in: &viewModel.bag)
         
         policyView.gesture().receive(on: DispatchQueue.main)

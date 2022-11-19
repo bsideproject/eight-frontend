@@ -296,13 +296,12 @@ final class LoginBottomSheetVC: UIViewController {
                             } else if content.type == "sign-up" {
                                 // 회원가입
                                 guard let accessToken = content.accessToken else { return }
-                                if KeyChainManager.shared.createAccessToken(accessToken) {
+                                KeyChainManager.shared.accessToken = accessToken
                                     self.dismiss(animated: false) {
                                         let termsVC = TermsVC()
                                         termsVC.type = signType.kakao.type
                                         UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
                                     }
-                                }
                             }
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")

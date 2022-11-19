@@ -14,6 +14,8 @@ enum AuthAPI {
     case emailSignIn(param: SocialSignInRequest)
     case emailSignUp(param: SocialSignUpRequest)
     case memberResign(memberId: String)
+    case nicknameCheck(nickname: String)
+    case nicknameChange(memberId: String, nickname: String)
 }
 
 extension AuthAPI: TargetType {
@@ -23,11 +25,11 @@ extension AuthAPI: TargetType {
     
     var path: String {
         switch self {
-        case .socialSignIn(let param):
+        case .socialSignIn:
 //            let social = param.category.rawValue
             let path = "/api/oauth2/kakao"
             return path
-        case .socialSignUp(let param):
+        case .socialSignUp:
 //            let social = param.category.rawValue
             let path = "/api/oauth2/kakao/signup"
             return path
@@ -35,8 +37,12 @@ extension AuthAPI: TargetType {
             return ""
         case .emailSignUp:
             return ""
-        case .memberResign(let memeberId):
-            return "/api/oauth2/\(memeberId)"
+        case .memberResign(let memberId):
+            return "/api/oauth2/\(memberId)"
+        case .nicknameCheck(let nickname):
+            return "/api/oauth2/\(nickname)"
+        case .nicknameChange(let memberId, _):
+            return "/api/oauth2/\(memberId)"
         }
     }
     
@@ -52,6 +58,10 @@ extension AuthAPI: TargetType {
             return .post
         case .memberResign:
             return .delete
+        case .nicknameCheck:
+            return .get
+        case .nicknameChange:
+            return .put
         }
     }
     
@@ -67,6 +77,12 @@ extension AuthAPI: TargetType {
             return .requestJSONEncodable(param)
         case .memberResign:
             return .requestPlain
+        case .nicknameCheck:
+            return .requestPlain
+        case .nicknameChange(_, let nickname):
+            return .requestParameters(parameters: [
+                "nickname": nickname
+            ], encoding: JSONEncoding.default)
         }
     }
     

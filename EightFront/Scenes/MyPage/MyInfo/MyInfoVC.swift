@@ -37,12 +37,28 @@ class MyInfoVC: UIViewController {
         $0.font = Fonts.Templates.body1.font
     }
     
+    // 닉네임
     private let nicknameTitleLabel = UILabel().then {
         $0.text = "닉네임"
         $0.font = Fonts.Templates.subheader3.font
     }
     
     private var nicknameTextField = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.")
+    
+    private var nicknameDuplicateedLabel = UILabel().then {
+        $0.text = "* 닉네임이 중복되었어요."
+        $0.textColor = .red
+        $0.isHidden = true
+    }
+    
+    private var nicknameCheckButtonView = UIView().then {
+        $0.backgroundColor = Colors.gray006.color
+    }
+    
+    private var nicknameCheckButtonLabel = UILabel().then {
+        $0.text = "확인"
+        $0.textColor = UIColor.white
+    }
     
     // TODO: 비밀번호 변경
     
@@ -64,8 +80,6 @@ class MyInfoVC: UIViewController {
     
     private let editButton = UIButton().then {
         $0.setTitle("수정")
-        $0.setTitleColor(Colors.point.color)
-        $0.backgroundColor = Colors.gray001.color
         $0.layer.cornerRadius = 4
     }
     
@@ -79,7 +93,10 @@ class MyInfoVC: UIViewController {
         super.viewDidLoad()
         makeUI()
         bind()
-        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     // MARK: - makeUI
@@ -120,8 +137,28 @@ class MyInfoVC: UIViewController {
         view.addSubview(nicknameTextField)
         nicknameTextField.snp.makeConstraints {
             $0.top.equalTo(nicknameTitleLabel.snp.bottom).offset(8)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.left.equalToSuperview().inset(16)
+            $0.width.equalTo(271)
             $0.height.equalTo(46)
+        }
+        
+        view.addSubview(nicknameDuplicateedLabel)
+        nicknameDuplicateedLabel.snp.makeConstraints {
+            $0.top.equalTo(nicknameTextField.snp.bottom).offset(8)
+            $0.left.equalToSuperview().inset(16)
+        }
+        
+        view.addSubview(nicknameCheckButtonView)
+        nicknameCheckButtonView.snp.makeConstraints {
+            $0.centerY.equalTo(nicknameTextField.snp.centerY)
+            $0.width.equalTo(64)
+            $0.height.equalTo(46)
+            $0.right.equalToSuperview().inset(16)
+            
+            nicknameCheckButtonView.addSubview(nicknameCheckButtonLabel)
+            nicknameCheckButtonLabel.snp.makeConstraints {
+                $0.center.equalToSuperview()
+            }
         }
         
         view.addSubview(passwordTitleLabel)
@@ -153,65 +190,88 @@ class MyInfoVC: UIViewController {
     }
     
     private func bind() {
+
+        resignButton.gesture().receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                let resignVC = ResignVC()
+                self?.navigationController?.pushViewController(resignVC, animated: true)
+            }.store(in: &viewModel.bag)
+        
+        nicknameTextField.contentTextField.textPublisher
+            .compactMap { $0 }
+            .sink { [weak self] in
+                self?.viewModel.inputNickname = $0
+                if $0.count < 2 || $0.count > 15 {
+                    self?.viewModel.isButtonEnabled = false
+                }
+            }
+            .store(in: &viewModel.bag)
+        
+        nicknameCheckButtonView.gesture()
+            .sink { [weak self] _ in
+                guard let nickname = self?.nicknameTextField.contentTextField.text else { return }
+                self?.authProvider.request(.nicknameCheck(nickname: nickname)) { result in
+                    switch result {
+                    case .success(let response):
+                        guard let data = try? response.map(NicknameCheckResponse.self).data else {
+                            LogUtil.d("Response Decoding 실패")
+                            return
+                        }
+                        if data.content == false {
+                            self?.viewModel.isButtonEnabled = true
+                            self?.nicknameDuplicateedLabel.isHidden = true
+                        } else {
+                            self?.viewModel.isButtonEnabled = false
+                            self?.nicknameDuplicateedLabel.isHidden = false
+                        }
+                        self?.view.endEditing(true)
+                    case .failure(let error):
+                        LogUtil.e(error)
+                    }
+                }
+            }.store(in: &viewModel.bag)
+        
+        viewModel.isNicknameValid.receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.nicknameCheckButtonView.backgroundColor = $0 ? Colors.gray001.color : Colors.gray006.color
+                self?.nicknameCheckButtonLabel.textColor = $0 ? Colors.point.color :
+                UIColor.white
+            }.store(in: &viewModel.bag)
+        
         viewModel.$userEmail.receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.emailLabel.text = $0
             }.store(in: &viewModel.bag)
-    
-        editButton.gesture().receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                let alert = UIAlertController(title: "수정", message: "미구현", preferredStyle: .alert)
-                let okay = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-                    self?.dismiss(animated: true)
-                }
-                alert.addAction(okay)
-                
-                self?.present(alert, animated: true)
+        
+        viewModel.$isButtonEnabled.receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] isButtonEnabled in
+                self?.editButton.backgroundColor = isButtonEnabled ? Colors.gray001.color : Colors.gray006.color
+                self?.editButton.setTitleColor(isButtonEnabled ? Colors.point.color : UIColor.white)
             }.store(in: &viewModel.bag)
         
-        resignButton.gesture().receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                let alert = UIAlertController(title: "회원 탈퇴", message: "회원 탈퇴 완료", preferredStyle: .alert)
-                let okay = UIAlertAction(title: "탈퇴", style: .default) { [weak self] _ in
-                    let accessToken = KeyChainManager.shared.readAccessToken()
-                    let jwt = try? JWTDecode.decode(jwt: accessToken)
-                    guard let memberId = jwt?.subject else { return }
-                    self?.authProvider.request(.memberResign(memberId: memberId)) { result in
-                        switch result {
-                        case .failure(let error):
-                            LogUtil.e(error)
-                        case .success(let response):
-                            print(response)
-                            self?.viewModel.kakaoResign { bool in
-                                if bool {
-                                    if KeyChainManager.shared.deleteAccessToken() {
-                                        UserDefaults.standard.removeObject(forKey: "nickName")
-                                        UserDefaults.standard.removeObject(forKey: "email")
-                                        self?.navigationController?.popToRootViewController(animated: true)
-                                    }
-                                }
-                            }
+        editButton.tapPublisher.receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                let accessToken = KeyChainManager.shared.readAccessToken()
+                let jwt = try? JWTDecode.decode(jwt: accessToken)
+                guard let memberId = jwt?.subject else { return }
+                guard let inputNickname = self?.viewModel.inputNickname else { return }
+                
+                self?.authProvider.request(.nicknameChange(memberId: memberId, nickname: inputNickname)) { result in
+                    switch result {
+                    case .success(let response):
+                        guard let data = try? response.map(NicknameCheckResponse.self).data else { return }
+                        if data.content == false {
+                            self?.navigationController?.popToRootViewController(animated: true)
+                        } else {
+                            LogUtil.d("수정 실패")
                         }
+                    case .failure(let error):
+                        LogUtil.e(error)
                     }
-//                    self?.viewModel.kakaoResign(completion: { bool in
-//                        if bool {
-//                            if KeyChainManager.shared.deleteAccessToken() {
-//                                UserDefaults.standard.removeObject(forKey: "nickName")
-//                                UserDefaults.standard.removeObject(forKey: "email")
-//                                self?.navigationController?.popToRootViewController(animated: true)
-//                            }
-//                        }
-//                    })
                 }
-                let cancel = UIAlertAction(title: "취소", style: .cancel) { [weak self] _ in
-                    self?.dismiss(animated: true)
-                }
-                
-                alert.addAction(cancel)
-                alert.addAction(okay)
-                
-                self?.present(alert, animated: true)
             }.store(in: &viewModel.bag)
+        
     }
     
     // MARK: - Configure

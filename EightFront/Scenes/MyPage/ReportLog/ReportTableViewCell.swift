@@ -12,16 +12,20 @@ class ReportTableViewCell: UITableViewCell {
     // MARK: - properties
     static let identifier = "ReportTableViewCell"
     
-    private let addressLabel = UILabel().then {
-        $0.text = "주소"
+    private let categoryLabel = UILabel().then {
+        $0.text = "정보 수정"
+        $0.font = Fonts.Templates.body1.font
+        $0.textColor = Colors.gray005.color
     }
     
-    private let timeLabel = UILabel().then {
-        $0.text = "시간"
+    private let addressLabel = UILabel().then {
+        $0.text = "주소"
+        $0.font = Fonts.Templates.subheader3.font
     }
     
     private let stateView = UIView().then {
         $0.backgroundColor = UIColor.red
+        $0.layer.cornerRadius = 11
     }
     
     private let stateLabel = UILabel().then {
@@ -40,37 +44,38 @@ class ReportTableViewCell: UITableViewCell {
     
     // MARK: makeUI
     private func makeUI() {
+        
+        addSubview(categoryLabel)
+        categoryLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(16)
+            $0.left.equalToSuperview().inset(16)
+        }
+        
         addSubview(addressLabel)
         addressLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(13)
-            $0.left.equalToSuperview().inset(24)
+            $0.top.equalTo(categoryLabel.snp.bottom).offset(4)
+            $0.left.equalToSuperview().inset(16)
         }
-        
-        addSubview(timeLabel)
-        timeLabel.snp.makeConstraints {
-            $0.top.equalTo(addressLabel.snp.bottom).offset(7)
-            $0.left.equalToSuperview().inset(24)
-        }
-        
+
         addSubview(stateView)
         stateView.snp.makeConstraints {
-            $0.width.equalTo(59)
-            $0.height.equalTo(30)
-            $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().inset(31)
-        }
-        
-        stateView.addSubview(stateLabel)
-        stateLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.top.equalToSuperview().inset(31)
+            $0.width.equalTo(64)
+            $0.height.equalTo(22)
+            $0.right.equalToSuperview().inset(16)
+            
+            stateView.addSubview(stateLabel)
+            stateLabel.snp.makeConstraints {
+                $0.center.equalToSuperview()
+            }
         }
     }
     
     func configure(report: Report) {
         addressLabel.text = report.address
-        timeLabel.text = report.time
+//        timeLabel.text = report.time
         stateLabel.text = report.state
-        if report.state == "처리 중" {
+        if report.state == "처리중" {
             stateView.backgroundColor = .red
         } else if report.state == "완료" {
             stateView.backgroundColor = .black
