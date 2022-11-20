@@ -14,14 +14,13 @@ import Combine
 final class ReportCompletedVC: UIViewController {
     //MARK: - Properties
     var bag = Set<AnyCancellable>()
-    let isInsert: Bool
+    let type: ReportViewModel.ReportType
     let titleLabel = UILabel().then {
         $0.textColor = Colors.gray001.color
         $0.textAlignment = .center
         $0.font = Fonts.Templates.headline.font
     }
     let subTitleLabel = UILabel().then {
-        $0.text = "N건 이상 접수된 건은 삭제 완료 처리됩니다."
         $0.textColor = Colors.gray005.color
         $0.textAlignment = .center
         $0.font = Fonts.Templates.subheader.font
@@ -40,8 +39,8 @@ final class ReportCompletedVC: UIViewController {
     }
     
     //MARK: - Life Cycle
-    init(isInsert: Bool) {
-        self.isInsert = isInsert
+    init(type: ReportViewModel.ReportType) {
+        self.type = type
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,6 +54,7 @@ final class ReportCompletedVC: UIViewController {
         
         makeUI()
         bind()
+        configure()
     }
     
     //MARK: - Make UI
@@ -84,9 +84,6 @@ final class ReportCompletedVC: UIViewController {
             $0.bottom.equalToSuperview().offset(-24)
             $0.height.equalTo(58)
         }
-        
-        titleLabel.text = isInsert ? "수정 요청이 접수됐어요!" : "삭제 요청이 접수됐어요!"
-        subTitleLabel.isHidden = isInsert
     }
     
     //MARK: - Rx Binding..
@@ -98,5 +95,19 @@ final class ReportCompletedVC: UIViewController {
                 self?.navigationController?.popToRootViewController(animated: true)
             }
             .store(in: &bag)
+    }
+    
+    private func configure() {
+        switch type {
+        case .new:
+            titleLabel.text = "신규 등록이 접수됐어요!"
+            subTitleLabel.isHidden = true
+        case .update:
+            titleLabel.text = "수정 요청이 접수됐어요!"
+            subTitleLabel.text = "N건 이상 접수된 건은 수정 완료 처리됩니다."
+        case .delete:
+            titleLabel.text = "삭제 요청이 접수됐어요!"
+            subTitleLabel.text = "N건 이상 접수된 건은 삭제 완료 처리됩니다."
+        }
     }
 }

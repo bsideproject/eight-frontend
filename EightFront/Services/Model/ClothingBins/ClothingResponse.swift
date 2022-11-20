@@ -23,6 +23,7 @@ struct CollectionBoxes: Decodable {
 }
 
 struct CollectionBox: Decodable {
+    let id: Int?
     let name: String?
     let address: String?
     let detailedAddress: String?
@@ -32,6 +33,7 @@ struct CollectionBox: Decodable {
     let updatedAt: String?
     
     enum CodingKeys: String, CodingKey {
+        case id = "clothingBinId"
         case name = "name"
         case address = "address"
         case detailedAddress = "detailedAddress"

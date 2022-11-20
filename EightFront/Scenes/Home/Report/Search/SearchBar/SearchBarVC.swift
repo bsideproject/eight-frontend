@@ -126,11 +126,11 @@ final class SearchBarVC: UIViewController {
     private func bind() {
         searchBarView
             .contentTextField
-            .returnPublisher
+            .textPublisher
             .receive(on: DispatchQueue.global())
             .debounce(for: 0.5, scheduler: RunLoop.main)
-            .sink { [weak self] in
-                self?.viewModel.input.requestPOI.send(self?.searchBarView.contentTextField.text)
+            .sink { [weak self] searchString in
+                self?.viewModel.input.requestPOI.send(searchString)
             }
             .store(in: &viewModel.bag)
         searchBarView

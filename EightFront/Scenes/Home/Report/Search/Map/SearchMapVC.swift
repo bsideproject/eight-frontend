@@ -43,7 +43,7 @@ final class SearchMapVC: UIViewController {
     private let bottomAddressView = BottomAddressView()
     
     //MARK: - Life Cycle
-    init(requestLocation: CLLocation? = nil) {
+    init(requestLocation: CLLocation?) {
         super.init(nibName: nil, bundle: nil)
         
         viewModel.requestLocation = requestLocation
