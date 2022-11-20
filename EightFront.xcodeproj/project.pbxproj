@@ -16,12 +16,28 @@
 		28379E8A28F8550400B2D4DD /* TermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28379E8928F8550400B2D4DD /* TermsVC.swift */; };
 		2841347928D9D93700A758F2 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2841347828D9D93700A758F2 /* UIApplication+.swift */; };
 		2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2841347C28D9DA0F00A758F2 /* UIWindow+.swift */; };
+		284F961A2928C59D00597708 /* BlockVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F96192928C59D00597708 /* BlockVC.swift */; };
+		284F961C2928C5EC00597708 /* BlockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F961B2928C5EC00597708 /* BlockTableViewCell.swift */; };
+		284F961E2928C7BB00597708 /* BlockTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F961D2928C7BB00597708 /* BlockTableViewModel.swift */; };
+		284F96202928D87D00597708 /* ReportCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F961F2928D87D00597708 /* ReportCategoryView.swift */; };
+		284F96222928E64C00597708 /* ResignVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F96212928E64C00597708 /* ResignVC.swift */; };
+		284F9624292932D600597708 /* ResignViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F9623292932D600597708 /* ResignViewModel.swift */; };
+		284F962629293AE700597708 /* ResignSuccessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F962529293AE700597708 /* ResignSuccessVC.swift */; };
+		284F96282929464D00597708 /* NicknameCheckResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F96272929464D00597708 /* NicknameCheckResponse.swift */; };
+		284F962A292950C600597708 /* SimpleSignUpVieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F9629292950C600597708 /* SimpleSignUpVieModel.swift */; };
+		2850D18B291BEB0F001A848C /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2850D18A291BEB0F001A848C /* FCMManager.swift */; };
 		288BFD6728FAF86F00A85F13 /* EmailSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6628FAF86F00A85F13 /* EmailSignUpVC.swift */; };
 		288BFD6D28FBAEAA00A85F13 /* EmailSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */; };
 		288BFD6F28FBC17500A85F13 /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6E28FBC17500A85F13 /* TermsViewModel.swift */; };
 		288BFD7128FBC9C900A85F13 /* EmailSignUpTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7028FBC9C900A85F13 /* EmailSignUpTextFieldView.swift */; };
 		288BFD7328FBE79C00A85F13 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7228FBE79C00A85F13 /* AuthAPI.swift */; };
 		289C11AE29017C0000AECF52 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C11AD29017C0000AECF52 /* TermsView.swift */; };
+		28D12ADE2920C45A001A7B32 /* MyInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12ADD2920C45A001A7B32 /* MyInfoViewModel.swift */; };
+		28D12AE02920CEA6001A7B32 /* NavigationSettinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12ADF2920CEA6001A7B32 /* NavigationSettinViewModel.swift */; };
+		28D12AE22920D947001A7B32 /* ReportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AE12920D947001A7B32 /* ReportTableViewCell.swift */; };
+		28D12AE42920DA12001A7B32 /* ReportLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AE32920DA12001A7B32 /* ReportLogViewModel.swift */; };
+		28D12AE82921065F001A7B32 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AE72921065F001A7B32 /* SettingViewModel.swift */; };
+		28D12AED29212587001A7B32 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AEC29212587001A7B32 /* UserInfo.swift */; };
 		28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F20CF928E93BA600CEE89D /* UITextField+.swift */; };
 		E9008D432911584100F70B6B /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9008D422911584100F70B6B /* ReportRequest.swift */; };
 		E910ECA32926754C00E7881E /* DeleteBoxVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECA22926754C00E7881E /* DeleteBoxVC.swift */; };
@@ -176,12 +192,28 @@
 		28379E8928F8550400B2D4DD /* TermsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsVC.swift; sourceTree = "<group>"; };
 		2841347828D9D93700A758F2 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2841347C28D9DA0F00A758F2 /* UIWindow+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+.swift"; sourceTree = "<group>"; };
+		284F96192928C59D00597708 /* BlockVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockVC.swift; sourceTree = "<group>"; };
+		284F961B2928C5EC00597708 /* BlockTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockTableViewCell.swift; sourceTree = "<group>"; };
+		284F961D2928C7BB00597708 /* BlockTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockTableViewModel.swift; sourceTree = "<group>"; };
+		284F961F2928D87D00597708 /* ReportCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCategoryView.swift; sourceTree = "<group>"; };
+		284F96212928E64C00597708 /* ResignVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignVC.swift; sourceTree = "<group>"; };
+		284F9623292932D600597708 /* ResignViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignViewModel.swift; sourceTree = "<group>"; };
+		284F962529293AE700597708 /* ResignSuccessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignSuccessVC.swift; sourceTree = "<group>"; };
+		284F96272929464D00597708 /* NicknameCheckResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NicknameCheckResponse.swift; path = EightFront/Scenes/MyPage/MyInfo/NicknameCheckResponse.swift; sourceTree = SOURCE_ROOT; };
+		284F9629292950C600597708 /* SimpleSignUpVieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSignUpVieModel.swift; sourceTree = "<group>"; };
+		2850D18A291BEB0F001A848C /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
 		288BFD6628FAF86F00A85F13 /* EmailSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpVC.swift; sourceTree = "<group>"; };
 		288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpViewModel.swift; sourceTree = "<group>"; };
 		288BFD6E28FBC17500A85F13 /* TermsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewModel.swift; sourceTree = "<group>"; };
 		288BFD7028FBC9C900A85F13 /* EmailSignUpTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpTextFieldView.swift; sourceTree = "<group>"; };
 		288BFD7228FBE79C00A85F13 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		289C11AD29017C0000AECF52 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
+		28D12ADD2920C45A001A7B32 /* MyInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewModel.swift; sourceTree = "<group>"; };
+		28D12ADF2920CEA6001A7B32 /* NavigationSettinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSettinViewModel.swift; sourceTree = "<group>"; };
+		28D12AE12920D947001A7B32 /* ReportTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewCell.swift; sourceTree = "<group>"; };
+		28D12AE32920DA12001A7B32 /* ReportLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportLogViewModel.swift; sourceTree = "<group>"; };
+		28D12AE72921065F001A7B32 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		28D12AEC29212587001A7B32 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserInfo.swift; path = EightFront/Scenes/MyPage/Resign/UserInfo.swift; sourceTree = SOURCE_ROOT; };
 		28F20CF928E93BA600CEE89D /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		E9008D422911584100F70B6B /* ReportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
 		E910ECA22926754C00E7881E /* DeleteBoxVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBoxVC.swift; sourceTree = "<group>"; };
@@ -338,6 +370,16 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		284F96182928C58E00597708 /* BlockList */ = {
+			isa = PBXGroup;
+			children = (
+				284F96192928C59D00597708 /* BlockVC.swift */,
+				284F961D2928C7BB00597708 /* BlockTableViewModel.swift */,
+				284F961B2928C5EC00597708 /* BlockTableViewCell.swift */,
+			);
+			path = BlockList;
+			sourceTree = "<group>";
+		};
 		288BFD6828FAF96600A85F13 /* LoginBottomSheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +415,7 @@
 				288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */,
 				288BFD7028FBC9C900A85F13 /* EmailSignUpTextFieldView.swift */,
 				E97069322917EFAB00014FB9 /* SimpleSignUpVC.swift */,
+				284F9629292950C600597708 /* SimpleSignUpVieModel.swift */,
 				E97069312917EFAB00014FB9 /* SignUpSuccessVC.swift */,
 			);
 			path = SignUp;
@@ -401,6 +444,8 @@
 				E97069352917EFEE00014FB9 /* SimpleAuthRequest.swift */,
 				E97069362917EFEF00014FB9 /* SimpleSignInResponse.swift */,
 				E97069372917EFEF00014FB9 /* SimpleSignUpResponse.swift */,
+				28D12AEC29212587001A7B32 /* UserInfo.swift */,
+				284F96272929464D00597708 /* NicknameCheckResponse.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -440,7 +485,6 @@
 				E927FC9D28D3525A00A91F11 /* Home */,
 				E99929B028D88249006FCFC7 /* Clothes */,
 				E99929B128D88251006FCFC7 /* Notice */,
-				E99929B228D88265006FCFC7 /* MyPage */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -590,6 +634,7 @@
 				E95FBF6528F70FDF002CA5A9 /* LocationManager.swift */,
 				E970693B2917F03300014FB9 /* KeyChainManager.swift */,
 				E95FBF6628F70FDF002CA5A9 /* ImagePickerManager.swift */,
+				2850D18A291BEB0F001A848C /* FCMManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -724,14 +769,15 @@
 		E970691B2917EEEC00014FB9 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				E970691C2917EEEC00014FB9 /* MyInfo */,
-				E970691E2917EEEC00014FB9 /* ReportLog */,
+				E99929B728D882BF006FCFC7 /* MyPageVC.swift */,
 				E97069202917EEEC00014FB9 /* MyPageTableViewCell.swift */,
 				E97069212917EEEC00014FB9 /* MyPageVC.swift */,
+				E97069282917EEEC00014FB9 /* MyPageViewModel.swift */,
+				E970691C2917EEEC00014FB9 /* MyInfo */,
+				E970691E2917EEEC00014FB9 /* ReportLog */,
 				E97069222917EEEC00014FB9 /* Setting */,
 				E97069242917EEEC00014FB9 /* NavigationSetting */,
 				E97069262917EEEC00014FB9 /* MyClothes */,
-				E97069282917EEEC00014FB9 /* MyPageViewModel.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -740,6 +786,10 @@
 			isa = PBXGroup;
 			children = (
 				E970691D2917EEEC00014FB9 /* MyInfoVC.swift */,
+				28D12ADD2920C45A001A7B32 /* MyInfoViewModel.swift */,
+				284F96212928E64C00597708 /* ResignVC.swift */,
+				284F9623292932D600597708 /* ResignViewModel.swift */,
+				284F962529293AE700597708 /* ResignSuccessVC.swift */,
 			);
 			path = MyInfo;
 			sourceTree = "<group>";
@@ -748,6 +798,9 @@
 			isa = PBXGroup;
 			children = (
 				E970691F2917EEEC00014FB9 /* ReportLogVC.swift */,
+				28D12AE12920D947001A7B32 /* ReportTableViewCell.swift */,
+				284F961F2928D87D00597708 /* ReportCategoryView.swift */,
+				28D12AE32920DA12001A7B32 /* ReportLogViewModel.swift */,
 			);
 			path = ReportLog;
 			sourceTree = "<group>";
@@ -755,7 +808,9 @@
 		E97069222917EEEC00014FB9 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				284F96182928C58E00597708 /* BlockList */,
 				E97069232917EEEC00014FB9 /* SettingVC.swift */,
+				28D12AE72921065F001A7B32 /* SettingViewModel.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -764,6 +819,7 @@
 			isa = PBXGroup;
 			children = (
 				E97069252917EEEC00014FB9 /* NavigationSettingVC.swift */,
+				28D12ADF2920CEA6001A7B32 /* NavigationSettinViewModel.swift */,
 			);
 			path = NavigationSetting;
 			sourceTree = "<group>";
@@ -1045,6 +1101,7 @@
 				E9160C1A28E3145E007B1307 /* NewSetting.swift in Sources */,
 				E927FC9A28D3523300A91F11 /* Formatter+.swift in Sources */,
 				E95ACEAE28F35E4200057900 /* AddPhotoCollectionViewCell.swift in Sources */,
+				28D12ADE2920C45A001A7B32 /* MyInfoViewModel.swift in Sources */,
 				E9EFE7BD290AD7B000EA514B /* CardDataModel.swift in Sources */,
 				E970693C2917F03300014FB9 /* KeyChainManager.swift in Sources */,
 				E99929BA28D88F9B006FCFC7 /* DBVersionData.swift in Sources */,
@@ -1052,7 +1109,10 @@
 				E9EAB9E12920C14100926893 /* CollectionCell.swift in Sources */,
 				E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */,
 				E9EEA4992916BA790073001F /* ReportPopupView.swift in Sources */,
+				284F96222928E64C00597708 /* ResignVC.swift in Sources */,
 				2841347928D9D93700A758F2 /* UIApplication+.swift in Sources */,
+				284F96282929464D00597708 /* NicknameCheckResponse.swift in Sources */,
+				284F961E2928C7BB00597708 /* BlockTableViewModel.swift in Sources */,
 				E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */,
 				28379E8A28F8550400B2D4DD /* TermsVC.swift in Sources */,
 				288BFD6728FAF86F00A85F13 /* EmailSignUpVC.swift in Sources */,
@@ -1069,17 +1129,21 @@
 				E97069382917EFEF00014FB9 /* SimpleAuthRequest.swift in Sources */,
 				E910ECA32926754C00E7881E /* DeleteBoxVC.swift in Sources */,
 				288BFD7328FBE79C00A85F13 /* AuthAPI.swift in Sources */,
+				284F961C2928C5EC00597708 /* BlockTableViewCell.swift in Sources */,
 				E99929B428D882AD006FCFC7 /* PostsVC.swift in Sources */,
 				E9008D432911584100F70B6B /* ReportRequest.swift in Sources */,
 				E97069332917EFAB00014FB9 /* SignUpSuccessVC.swift in Sources */,
 				2806474A28E86AFF000DED5B /* UIButton+.swift in Sources */,
+				28D12AE42920DA12001A7B32 /* ReportLogViewModel.swift in Sources */,
 				E970692F2917EEEC00014FB9 /* MyClothesVC.swift in Sources */,
 				E927FC9C28D3525700A91F11 /* HomeVC.swift in Sources */,
+				284F961A2928C59D00597708 /* BlockVC.swift in Sources */,
 				E9EFE7C5290AD7E200EA514B /* PostsViewModel.swift in Sources */,
 				E970692E2917EEEC00014FB9 /* NavigationSettingVC.swift in Sources */,
 				E9494A6F28F1DF15005285C0 /* UILayer+.swift in Sources */,
 				E9B074F5291639B300C8D9D2 /* ChoiceView.swift in Sources */,
 				E95ACEAC28F35E2A00057900 /* PhotoCollectionViewCell.swift in Sources */,
+				28D12AED29212587001A7B32 /* UserInfo.swift in Sources */,
 				E9460AF928E9DE2200932351 /* Fonts+Generated.swift in Sources */,
 				E99929AF28D88182006FCFC7 /* MainTabbarController.swift in Sources */,
 				E9494A5B28F05CAB005285C0 /* SearchBarVC.swift in Sources */,
@@ -1094,12 +1158,15 @@
 				E95ACEA628F332E000057900 /* AgreePhotoView.swift in Sources */,
 				E9EAB9E52921165700926893 /* TotalCommentCell.swift in Sources */,
 				289C11AE29017C0000AECF52 /* TermsView.swift in Sources */,
+				28D12AE22920D947001A7B32 /* ReportTableViewCell.swift in Sources */,
 				E95ACEA228F3161400057900 /* CommonTextFieldView.swift in Sources */,
+				284F962629293AE700597708 /* ResignSuccessVC.swift in Sources */,
 				E95FBF6828F70FDF002CA5A9 /* LocationManager.swift in Sources */,
 				E9EAB9E32920C30B00926893 /* DetailSelectionCell.swift in Sources */,
 				E9494A6228F067DB005285C0 /* SearchBarViewModel.swift in Sources */,
 				E9BF49AD28D9F45F007BBC3D /* UIView+.swift in Sources */,
 				E9EEA4A02916C2370073001F /* ReportPostVC.swift in Sources */,
+				28D12AE02920CEA6001A7B32 /* NavigationSettinViewModel.swift in Sources */,
 				E9BFC40228E890A500951604 /* ApiResponse.swift in Sources */,
 				E9460B0428EA056E00932351 /* HomeSearchVC.swift in Sources */,
 				28379E8428F718A400B2D4DD /* LoginBottomSheetViewModel.swift in Sources */,
@@ -1109,6 +1176,7 @@
 				E970692A2917EEEC00014FB9 /* ReportLogVC.swift in Sources */,
 				288BFD7128FBC9C900A85F13 /* EmailSignUpTextFieldView.swift in Sources */,
 				E97069292917EEEC00014FB9 /* MyInfoVC.swift in Sources */,
+				2850D18B291BEB0F001A848C /* FCMManager.swift in Sources */,
 				E9460B0928EAADC300932351 /* HomeAddressView.swift in Sources */,
 				E99929B828D882BF006FCFC7 /* MyPageVC.swift in Sources */,
 				E9EEA4952916B33C0073001F /* CutOffPopupView.swift in Sources */,
@@ -1131,6 +1199,7 @@
 				E9EEA48D29168F500073001F /* CategoryCollectionViewCell.swift in Sources */,
 				28379E8828F846C300B2D4DD /* LoginViewModel.swift in Sources */,
 				E9EFE7BE290AD7B000EA514B /* SwipeCardsDataSource.swift in Sources */,
+				28D12AE82921065F001A7B32 /* SettingViewModel.swift in Sources */,
 				E9494A6D28F1C816005285C0 /* BoxCollectionView.swift in Sources */,
 				E970693A2917EFEF00014FB9 /* SimpleSignUpResponse.swift in Sources */,
 				28379E8628F718DE00B2D4DD /* Pretendard+.swift in Sources */,
@@ -1139,11 +1208,14 @@
 				E98A04EE28F435B7009F055B /* ReportCompletedVC.swift in Sources */,
 				E97069392917EFEF00014FB9 /* SimpleSignInResponse.swift in Sources */,
 				E9460B0D28EAC0B100932351 /* CommonNavigationViewController.swift in Sources */,
+				284F962A292950C600597708 /* SimpleSignUpVieModel.swift in Sources */,
 				E9EAB9DF2920BDA700926893 /* UIColor+.swift in Sources */,
 				E9160C1828E30A60007B1307 /* DataManager.swift in Sources */,
+				284F9624292932D600597708 /* ResignViewModel.swift in Sources */,
 				E95ACEA828F33BED00057900 /* ReportViewModel.swift in Sources */,
 				E9706941291AC46500014FB9 /* KeepOrDropRequest.swift in Sources */,
 				E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */,
+				284F96202928D87D00597708 /* ReportCategoryView.swift in Sources */,
 				E9160C1C28E3177C007B1307 /* HomeViewModel.swift in Sources */,
 				2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */,
 				E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */,

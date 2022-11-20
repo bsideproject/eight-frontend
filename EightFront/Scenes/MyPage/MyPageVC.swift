@@ -9,13 +9,12 @@ import UIKit
 import Then
 import SnapKit
 
+import JWTDecode
 import KakaoSDKUser
 
 //MARK: 마이페이지 VC
 
-
 final class MyPageVC: UIViewController {
-    
     let viewModel = MyPageViewModel()
     
     //MARK: - Properties
@@ -23,8 +22,7 @@ final class MyPageVC: UIViewController {
         $0.titleLabel.text = "마이페이지"
     }
     private let myInfoView = UIView()
-    private let nameLabel = UILabel().then {
-        $0.text = "김에잇"
+    private let nicknameLabel = UILabel().then {
         $0.font = Fonts.Templates.title.font
     }
     private let myPageTableView = UITableView().then {
@@ -38,13 +36,27 @@ final class MyPageVC: UIViewController {
         makeUI()
         bind()
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+   
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let accessToken = KeyChainManager.shared.readAccessToken()
         
-        let bottomSheetVC = LoginBottomSheetVC()
-        bottomSheetVC.modalPresentationStyle = .overFullScreen
-        self.present(bottomSheetVC, animated: false)
+        if accessToken.isEmpty {
+            let bottomSheetVC = LoginBottomSheetVC()
+            bottomSheetVC.modalPresentationStyle = .overFullScreen
+            bottomSheetVC.delegate = self
+            self.present(bottomSheetVC, animated: false)
+        } else {
+            let nickName = UserDefaults.standard.object(forKey: "nickName") as? String
+            nicknameLabel.text = nickName
+        }
+        
+        if UserDefaults.standard.object(forKey: "nickName") as? String == nil {
+            nicknameLabel.text = "로그인을 해주세요."
+        }
+        
     }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
     }
@@ -61,37 +73,48 @@ final class MyPageVC: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(navigationView)
-        view.addSubview(myInfoView)
-        myInfoView.addSubview(nameLabel)
-        view.addSubview(myPageTableView)
-        
         navigationView.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(47)
         }
+        
+        view.addSubview(myInfoView)
         myInfoView.snp.makeConstraints {
             $0.top.equalTo(navigationView.snp.bottom).offset(34)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(47)
         }
-        nameLabel.snp.makeConstraints {
+        
+        myInfoView.addSubview(nicknameLabel)
+        nicknameLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(16)
         }
+        
+        view.addSubview(myPageTableView)
         myPageTableView.snp.makeConstraints {
             $0.top.equalTo(myInfoView.snp.bottom).offset(45)
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(16)
         }
     }
     
     //MARK: - Binding..
     private func bind() {
+        viewModel.$nickname
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.nicknameLabel.text = $0
+            }.store(in: &viewModel.bag)
         
+        myInfoView
+            .gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                let myInfo = MyInfoVC()
+                self?.navigationController?.pushViewController(myInfo, animated: true)
+            }.store(in: &viewModel.bag)
     }
-    
-    // MARK: - Actions
-    
 }
 
 extension MyPageVC:UITableViewDelegate {
@@ -114,5 +137,11 @@ extension MyPageVC:UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40
+    }
+}
+
+extension MyPageVC: LoginDelegate {
+    func loginSuccess(userInfo: UserInfo) {
+        nicknameLabel.text = userInfo.nickName
     }
 }

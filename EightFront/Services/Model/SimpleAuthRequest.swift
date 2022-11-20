@@ -7,12 +7,17 @@
 
 import Foundation
 
-struct SimpleSignInRequest: Codable {
+enum SocialCategory: String, Codable {
+    case kakao = "kakao"
+    case apple = "apple"
+}
+
+struct SocialSignInRequest: Codable {
     var accessToken: String
     var type: String?
 }
 
-struct SimpleSignUpRequest: Codable {
+struct SocialSignUpRequest: Codable {
     var accessToken: String
     var nickName: String
 }

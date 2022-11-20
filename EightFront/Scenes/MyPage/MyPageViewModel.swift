@@ -8,8 +8,14 @@
 import Foundation
 import UIKit
 
+import Combine
+
 final class MyPageViewModel {
     
+    var bag = Set<AnyCancellable>()
+    
+    @Published var nickname = UserDefaults.standard.object(forKey: "nickName") as? String ?? "로그인을 해주세요."
+
     enum MyPageMenus: CaseIterable {
         case myClothes
         case navigationSetting
@@ -19,11 +25,11 @@ final class MyPageViewModel {
         var image: String {
             switch self {
             case .myClothes:
-                return "person"
+                return "crown"
             case .navigationSetting:
-                return "house"
+                return "headphones"
             case .report:
-                return "flame"
+                return "info.circle.fill"
             case .setting:
                 return "gear"
             }
@@ -51,7 +57,8 @@ final class MyPageViewModel {
             case .report:
                 return ReportLogVC()
             case .setting:
-                return SettingVC()
+                let settingVC = SettingVC()
+                return settingVC
             }
         }
         
@@ -67,6 +74,7 @@ final class MyPageViewModel {
                 return UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor
             }
         }
+        
     }
     
     func numberOfRowsInSection() -> Int {

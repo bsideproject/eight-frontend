@@ -10,6 +10,7 @@ import Foundation
 import Combine
 
 final class EmailSignUpViewModel {
+    
     var bag = Set<AnyCancellable>()
     
     @Published var emailInput: String = ""

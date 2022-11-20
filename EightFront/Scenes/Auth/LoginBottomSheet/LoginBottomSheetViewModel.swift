@@ -8,13 +8,16 @@
 import UIKit
 import Combine
 
-import AuthenticationServices
 import CombineCocoa
 import Moya
+
+import AuthenticationServices
 import KakaoSDKUser
+import KakaoSDKAuth
 
 class LoginBottomSheetViewModel {
     
+    private let authProvider = MoyaProvider<AuthAPI>()
     var bag = Set<AnyCancellable>()
     
     @Published var emailInput: String = ""

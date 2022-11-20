@@ -13,29 +13,35 @@ import KakaoSDKUser
 import Moya
 import JWTDecode
 
-final class LoginBottomSheetVC: UIViewController {
+protocol LoginDelegate: AnyObject {
+    func loginSuccess(userInfo: UserInfo)
+}
+
+enum signType {
+    case apple
+    case kakao
+    case email
     
-    enum signType {
-        case apple
-        case kakao
-        case email
-        
-        var type: String {
-            switch self {
-            case .apple:
-                return "apple"
-            case .kakao:
-                return "kakao"
-            case .email:
-                return "email"
-            }
+    var type: String {
+        switch self {
+        case .apple:
+            return "apple"
+        case .kakao:
+            return "kakao"
+        case .email:
+            return "email"
         }
     }
+}
+
+final class LoginBottomSheetVC: UIViewController {
     
     // MARK: - Properties
-    private let viewModel = LoginBottomSheetViewModel()
     private let authProvider = MoyaProvider<AuthAPI>()
+    private let viewModel = LoginBottomSheetViewModel()
     private var bottomHeight: CGFloat = 279
+    
+    weak var delegate: LoginDelegate?
     
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
@@ -84,7 +90,6 @@ final class LoginBottomSheetVC: UIViewController {
         makeUI()
         bind()
         setupGestureRecognizer()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,9 +98,6 @@ final class LoginBottomSheetVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        let accessToken = KeyChainManager.shared.readAccessToken()
-        
         showBottomSheet()
     }
     
@@ -265,18 +267,10 @@ final class LoginBottomSheetVC: UIViewController {
                     LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
                 }
                 
-                guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else {
-                    LogUtil.e("FCM 토큰 실패")
-                    return
-                }
-                
-                self.authProvider.request(.kakaoSignIn(
-                    param: SimpleSignInRequest(
-                        accessToken: oauthToken?.accessToken ?? "",
-                        type: ""
-                    ))) { response in
-                        switch response {
-                            
+                self.authProvider.request(.socialSignIn(
+                    param: SocialSignInRequest(
+                        accessToken: oauthToken?.accessToken ?? ""))) { reponse in
+                        switch reponse {
                         case .success(let result):
                             guard let data = try? result.map(SimpleSignInResponse.self).data else {
                                 LogUtil.e("Response Decoding 실패")
@@ -288,62 +282,73 @@ final class LoginBottomSheetVC: UIViewController {
                                 return
                             }
                             
-                            guard let type = content.type else {
-                                 return
-                            }
-                            
-                            if type == "sign-in" || type == "sing-in" {
-                                // 로그인
-                                self.dismiss(animated: false) {
-                                    guard let accessToken = content.accessToken else { return }
-                                    KeyChainManager.shared.createAccessToken(accessToken)
+                            if content.type == "sign-in" {
+                                guard let accessToken = content.accessToken else { return }
+                                if KeyChainManager.shared.createAccessToken(accessToken) {
+                                    UserDefaults.standard.set(content.nickName, forKey: "nickName")
+                                    UserDefaults.standard.set(content.email, forKey: "email")
+                                    self.dismiss(animated: false) { [weak self] in
+                                        self?.delegate?.loginSuccess(userInfo: UserInfo(nickName: content.nickName, email: content.email))
+                                    }
+                                } else {
+                                    LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
                                 }
-                            } else if type == "sign-up" {
+                            } else if content.type == "sign-up" {
                                 // 회원가입
-                                self.dismiss(animated: false) {
-                                    let termsVC = TermsVC()
-                                    termsVC.type = signType.kakao.type
-                                    UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
-                                }
+                                guard let accessToken = content.accessToken else { return }
+                                KeyChainManager.shared.accessToken = accessToken
+                                    self.dismiss(animated: false) {
+                                        let termsVC = TermsVC()
+                                        termsVC.type = signType.kakao.type
+                                        UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
+                                    }
                             }
-                            
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
                         }
                     }
             }
         } else {
-            UserApi.shared.loginWithKakaoAccount { (oauthToken, error) in
+            UserApi.shared.loginWithKakaoAccount { [weak self](oauthToken, error) in
                 if let error = error {
                     LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
                 }
                 
-                guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else {
-                    LogUtil.e("FCM 토큰 실패")
-                    return
-                }
-                
-                guard let accessToken = oauthToken?.accessToken else {
-                    return
-                }
-                
-                self.authProvider.request(.kakaoSignIn(
-                    param: SimpleSignInRequest(
-                        accessToken: accessToken ?? "",
-                        type: ""
-                    ))) { response in
-                        switch response {
+                self?.authProvider.request(.socialSignIn(
+                    param: SocialSignInRequest(
+                    accessToken: oauthToken?.accessToken ?? ""))) { reponse in
+                        switch reponse {
                         case .success(let result):
-                            
                             guard let data = try? result.map(SimpleSignInResponse.self).data else {
-                                LogUtil.d("Response Decoding 실패")
+                                LogUtil.e("Response Decoding 실패")
                                 return
                             }
                             
-                            LogUtil.d("""
-                                간편 로그인 성공 : \(data.content)
-                                """)
+                            guard let content = data.content else {
+                                LogUtil.e("data.content unWrapping 실패")
+                                return
+                            }
                             
+                            if content.type == "sign-in" {
+                                self?.dismiss(animated: false) {
+                                    guard let accessToken = content.accessToken else { return }
+                                    if KeyChainManager.shared.createAccessToken(accessToken) {
+                                        UserDefaults.standard.set([
+                                            "email": content.email,
+                                            "nickName": content.nickName
+                                        ], forKey: "userInfo")
+                                    } else {
+                                        LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
+                                    }
+                                }
+                            } else if content.type == "sign-up" {
+                                // 회원가입
+                                self?.dismiss(animated: false) {
+                                    let termsVC = TermsVC()
+                                    termsVC.type = signType.kakao.type
+                                    UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
+                                }
+                            }
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
                         }
@@ -383,10 +388,17 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
                 return
             }
             
-            guard let fcmToken = UserDefaults.standard.object(forKey: "FCMToken") as? String else {
-                LogUtil.e("FCM 토큰 실패")
-                return
-            }
+            authProvider.request(
+                .socialSignIn(
+                    param: SocialSignInRequest(
+                        accessToken: identityTorknStr))) { result in
+                            switch result {
+                            case .success(let response):
+                                LogUtil.d("성공 > \(response)")
+                            case .failure(let error):
+                                LogUtil.d("실패 > \(error)")
+                            }
+                        }
             
             LogUtil.d("""
             identityTorknStr: \(identityTorknStr)

@@ -17,6 +17,7 @@ struct DataClass: Decodable {
 }
 
 struct Content: Decodable {
+    let memberId: String?
     let nickName: String?
     let email: String?
     let accessToken: String?
