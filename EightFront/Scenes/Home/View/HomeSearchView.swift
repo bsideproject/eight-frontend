@@ -20,10 +20,6 @@ final class HomeSearchView: UIView {
         $0.textColor = Colors.gray006.color
         $0.font = Fonts.Templates.caption1.font
     }
-    let listButton = UIButton().then {
-        $0.setImage(Images.Home.list.image, for: .normal)
-        $0.setImage(Images.Home.list.image, for: .highlighted)
-    }
     
     //MARK: - Initializer
     override init(frame: CGRect) {
@@ -42,7 +38,6 @@ final class HomeSearchView: UIView {
         
         addSubview(searchImageView)
         addSubview(placeholderLabel)
-        addSubview(listButton)
         
         searchImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
@@ -52,10 +47,6 @@ final class HomeSearchView: UIView {
         placeholderLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalTo(searchImageView.snp.right).offset(7)
-        }
-        listButton.snp.makeConstraints {
-            $0.top.right.bottom.equalToSuperview()
-            $0.width.equalTo(44)
         }
     }
 }
