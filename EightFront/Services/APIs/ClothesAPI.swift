@@ -2,15 +2,27 @@
 //  ClothesAPI.swift
 //  EightFront
 //
-//  Created by wargi on 2022/10/01.
+//  Created by wargi on 2022/11/09.
 //
 
 import UIKit
 import Moya
 
 enum ClothesAPI {
-    case clothingBins(latitude: Double, longitude: Double)
-    case newReport(info: ReportRequest, images: [UIImage])
+    /// 카테고리 조회
+    case categories
+    /// 버릴까 말까 글 리스트 조회
+    case posts(order: String, category: String)
+    /// 버릴까 말까 글 조회
+    case post(id: String)
+    /// 버릴까 말까 글 등록
+    case newPost(info: PostRequest, images: [UIImage])
+    /// 버릴까 말까 글 투표
+    case vote(type: VoteRequest)
+    /// 버릴까 말까 글 댓글 조회
+    case comments(id: String)
+    /// 버릴까 말까 글 댓글 등록
+    case newComment(id: CommentRequest)
 }
 
 extension ClothesAPI: TargetType {
@@ -20,32 +32,44 @@ extension ClothesAPI: TargetType {
     
     var path: String {
         switch self {
-        case .clothingBins:
-            return "/clothing-bins"
-        case .newReport:
-            return "/clothing-bins/report/new"
+        case .categories:
+            return "/keep-or-drop/categories"
+        case .posts:
+            return "/keep-or-drop"
+        case .post(let id):
+            return "/keep-or-drop/\(id)"
+        case .newPost:
+            return "/keep-or-drop/article"
+        case .vote(let id):
+            return "/keep-or-drop/\(id)/vote"
+        case .comments(let id):
+            return "/keep-or-drop/\(id)/comments"
+        case .newComment(let id):
+            return "/keep-or-drop/\(id)/comments"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .clothingBins:
+        case .posts, .post, .categories, .comments:
             return .get
-        case .newReport:
+        case .newPost, .vote, .newComment:
             return .post
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .clothingBins(let lat, let lng):
+        case .posts(let order, let category):
             let params: [String: Any] = [
-                "latitude": lat,
-                "longitude": lng
+                "orderType": order,
+                "category": category
             ]
             
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-        case .newReport(let info, let images):
+        case .post, .categories, .comments:
+            return .requestParameters(parameters: [:], encoding: URLEncoding.queryString)
+        case let .newPost(info, images):
             var fromData = [MultipartFormData]()
             
             if let report = try? JSONEncoder().encode(info) {
@@ -63,6 +87,10 @@ extension ClothesAPI: TargetType {
                                                   mimeType: "image/jpeg"))
             }
             return .uploadMultipart(fromData)
+        case .vote(let param):
+            return .requestJSONEncodable(param)
+        case .newComment(let param):
+            return .requestJSONEncodable(param)
         }
     }
     
