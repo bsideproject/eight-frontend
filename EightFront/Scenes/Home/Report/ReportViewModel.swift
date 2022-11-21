@@ -18,7 +18,7 @@ final class ReportViewModel {
     let output = Output()
     var type: ReportType?
     var box: CollectionBox?
-    private let clothesProvider = MoyaProvider<BoxesAPI>()
+    private let boxesProvider = MoyaProvider<BoxesAPI>()
     @Published var addressString: String?
     private var imageList = [UIImage]() {
         didSet {
@@ -71,6 +71,7 @@ extension ReportViewModel {
         case new
         case update
         case delete
+        case report
     }
     
     enum ErrorResult: Error {
@@ -112,7 +113,7 @@ extension ReportViewModel {
     }
     
     func request(_ boxAPI: BoxesAPI) {
-        clothesProvider
+        boxesProvider
             .requestPublisher(boxAPI)
             .sink { [weak self] completion in
                 switch completion {

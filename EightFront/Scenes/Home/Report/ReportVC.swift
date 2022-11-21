@@ -339,7 +339,7 @@ extension ReportVC: UICollectionViewDataSource {
         
         cell.tag = indexPath.item
         cell.delegate = self
-        cell.fetchData(viewModel.image(at: indexPath.item))
+        cell.configure(with: viewModel.image(at: indexPath.item))
         
         return cell
     }

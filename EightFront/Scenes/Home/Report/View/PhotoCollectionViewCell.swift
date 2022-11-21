@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 //MARK: - PhotoCell Delegate
 protocol PhotoCellDelegate: AnyObject {
@@ -19,7 +20,6 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
     let photoImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
-        $0.layer.cornerRadius = 4.0
     }
     // Photo remove button
 //    let removePhotoButton = UIButton().then {
@@ -33,18 +33,17 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        configureUI()
+        makeUI()
     }
     
     //MARK: Configure UI
-    private func configureUI() {
-        contentView.layer.cornerRadius = 4.0
+    private func makeUI() {
         contentView.backgroundColor = .white
                
         contentView.addSubview(photoImageView)
@@ -64,9 +63,16 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         photoImageView.image = nil
     }
     
-    //MARK: Fetch Data
-    func fetchData(_ image: UIImage?) {
+    //MARK: Configures
+    func configure(with image: UIImage?) {
+        contentView.layer.cornerRadius = 4.0
+        
         photoImageView.image = image
+    }
+    
+    func configure(with imageUrlString: String?) {
+        guard let imageUrl = URL(string: imageUrlString ?? "") else { return }
+        photoImageView.kf.setImage(with: imageUrl)
     }
     
     // 사진 삭제 handler
