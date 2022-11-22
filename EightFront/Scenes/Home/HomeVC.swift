@@ -145,12 +145,10 @@ final class HomeVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                guard let selectedMarker = self?.viewModel.selectedMarker else { return }
+                guard let box = self?.viewModel.selectedMarker?.markerView.boxInfo else { return }
                 
-                let targetLocation = CLLocation(latitude: selectedMarker.position.lat,
-                                                longitude: selectedMarker.position.lng)
-                let reportVC = ReportVC(isDelete: false,
-                                        location: targetLocation)
+                let reportVC = ReportVC(type: .update,
+                                        box: box)
                 
                 self?.tabBarController?.navigationController?.pushViewController(reportVC, animated: true)
             }
@@ -248,10 +246,8 @@ final class HomeVC: UIViewController {
     }
     
     private func reportButtonTapped() {
-//        let reportVC = ReportVC(isDelete: false)
-//        let navi = CommonNavigationViewController(rootViewController: reportVC)
-//        navi.modalPresentationStyle = .fullScreen
-//        present(navi, animated: true)
+        let reportVC = ReportVC(type: .new)
+        self.tabBarController?.navigationController?.pushViewController(reportVC, animated: true)
     }
     
     //MARK: - Map Methods
@@ -270,7 +266,7 @@ final class HomeVC: UIViewController {
         for box in boxes {
             guard let lat = box.latitude, let lng = box.longitude else { continue }
             let position = NMGLatLng(lat: lat, lng: lng)
-            let marker = NaverMapMarker(type: .none)
+            let marker = NaverMapMarker(type: .none, with: box)
             
             marker.position = position
             marker.mapView = mapView

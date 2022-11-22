@@ -22,7 +22,7 @@ final class HomeViewModel {
     var cancelBag = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
-    private let clothesProvider = MoyaProvider<ClothesAPI>()
+    private let clothesProvider = MoyaProvider<BoxesAPI>()
     @Published var addressString: String?
     weak var selectedMarker: NaverMapMarker? {
         willSet {
