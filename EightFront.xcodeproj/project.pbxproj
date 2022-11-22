@@ -917,6 +917,7 @@
 				E975ED0228D34A050013E94F /* Frameworks */,
 				E975ED0328D34A050013E94F /* Resources */,
 				E9460AE528E9DC7E00932351 /* Embed Frameworks */,
+				282CDF44292D11C6007CF1B6 /* Run SwiftGen */,
 			);
 			buildRules = (
 			);
@@ -1015,6 +1016,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		282CDF44292D11C6007CF1B6 /* Run SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftGen";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PATH=/opt/homebrew/bin:$PATH\npwd\ncd EightFront\nswiftgen config run\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E975ED0128D34A050013E94F /* Sources */ = {

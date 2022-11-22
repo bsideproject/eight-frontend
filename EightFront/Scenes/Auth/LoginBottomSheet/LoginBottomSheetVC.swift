@@ -77,11 +77,15 @@ final class LoginBottomSheetVC: UIViewController {
         $0.setTitle("이메일로 로그인하기", for: .normal)
         $0.setTitleColor(Colors.gray005.color, for: .normal)
         $0.titleLabel?.font = Fonts.Pretendard.regular.font(size: 12)
+        // 이메일 API 나오면 그 때 false로 수정
+        $0.isHidden = true
     }
     private let emailSignUpButton = UIButton().then {
         $0.setTitle("계정이 없다면? 회원가입", for: .normal)
         $0.setTitleColor(Colors.gray005.color, for: .normal)
         $0.titleLabel?.font = Fonts.Pretendard.regular.font(size: 12)
+        // 이메일 API 나오면 그 때 false로 수정
+        $0.isHidden = true
     }
     
     // MARK: - Life Cycle

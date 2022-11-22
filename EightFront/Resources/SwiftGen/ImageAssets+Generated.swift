@@ -8,6 +8,9 @@
 #elseif os(tvOS) || os(watchOS)
   import UIKit
 #endif
+#if canImport(SwiftUI)
+  import SwiftUI
+#endif
 
 // Deprecated typealiases
 @available(*, deprecated, renamed: "ImageAsset.Image", message: "This typealias will be removed in SwiftGen 7.0")
@@ -40,9 +43,19 @@ internal enum Images {
     internal static let markerNone = ImageAsset(name: "marker-none")
     internal static let markerSelect = ImageAsset(name: "marker-select")
   }
+  internal enum Mypage {
+    internal static let crown = ImageAsset(name: "Crown")
+    internal static let headphones = ImageAsset(name: "Headphones")
+    internal static let info = ImageAsset(name: "Info")
+    internal static let settings = ImageAsset(name: "Settings")
+  }
   internal enum Navigation {
     internal static let back = ImageAsset(name: "back")
     internal static let post = ImageAsset(name: "post")
+  }
+  internal enum NavigationIcon {
+    internal static let kakaoCircleIcon = ImageAsset(name: "kakao_circle_icon")
+    internal static let naverCircleIcon = ImageAsset(name: "naver_circle_icon")
   }
   internal enum Report {
     internal static let addPhoto = ImageAsset(name: "add-photo")
@@ -118,6 +131,13 @@ internal struct ImageAsset {
     return result
   }
   #endif
+
+  #if canImport(SwiftUI)
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  internal var swiftUIImage: SwiftUI.Image {
+    SwiftUI.Image(asset: self)
+  }
+  #endif
 }
 
 internal extension ImageAsset.Image {
@@ -135,6 +155,26 @@ internal extension ImageAsset.Image {
     #endif
   }
 }
+
+#if canImport(SwiftUI)
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+internal extension SwiftUI.Image {
+  init(asset: ImageAsset) {
+    let bundle = BundleToken.bundle
+    self.init(asset.name, bundle: bundle)
+  }
+
+  init(asset: ImageAsset, label: Text) {
+    let bundle = BundleToken.bundle
+    self.init(asset.name, bundle: bundle, label: label)
+  }
+
+  init(decorative asset: ImageAsset) {
+    let bundle = BundleToken.bundle
+    self.init(decorative: asset.name, bundle: bundle)
+  }
+}
+#endif
 
 // swiftlint:disable convenience_type
 private final class BundleToken {
