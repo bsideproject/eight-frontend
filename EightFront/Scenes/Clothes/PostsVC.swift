@@ -17,9 +17,9 @@ final class PostsVC: UIViewController {
     
     private var viewModel = PostsViewModel()
     private let stackContainer = StackContainerView()
+    var snapshot: CategoriesSnapShot!
+    var dataSource: CategoriesDataSource!
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setupFlowLayout()).then {
-        $0.delegate = self
-        $0.dataSource = self
         $0.backgroundColor = .clear
         $0.alwaysBounceHorizontal = false
         $0.allowsMultipleSelection = false
@@ -28,6 +28,7 @@ final class PostsVC: UIViewController {
         CategoryCollectionViewCell.register($0)
     }
     private let navigationView = CommonNavigationView().then {
+        $0.backButton.isHidden = true
         $0.titleLabel.text = "버릴까 말까"
         $0.rightButton.setImage(Images.Navigation.post.image)
     }
@@ -66,7 +67,9 @@ final class PostsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        tabBarController?.tabBar.isHidden = false
         navigationController?.navigationBar.isHidden = true
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     //MARK: - Make UI
@@ -122,6 +125,8 @@ final class PostsVC: UIViewController {
             $0.width.equalTo(98)
             $0.height.equalTo(46)
         }
+        
+        configureDataSource()
     }
     
     //MARK: - Binding..
@@ -149,17 +154,26 @@ final class PostsVC: UIViewController {
                 self?.filterTapped()
             }
             .store(in: &viewModel.bag)
+        
+        viewModel
+            .output
+            .requestCategroies
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] categories in
+                guard let self, !categories.isEmpty else { return }
+                
+                self.collectionView.collectionViewLayout = self.createLayout(with: categories)
+                self.updateDataSnapshot(with: categories)
+                self.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
+            }
+            .store(in: &viewModel.bag)
+        
+        viewModel.input.requestCategroies.send(nil)
     }
     
     private func configure() {
         stackContainer.delegate = self
         stackContainer.dataSource = self
-        
-        if !viewModel.dummyCategories.isEmpty {
-            collectionView.selectItem(at: IndexPath(item: 0, section: 0),
-                                      animated: false,
-                                      scrollPosition: .left)
-        }
     }
     
     //MARK: - Handlers
@@ -203,12 +217,10 @@ extension PostsVC: SwipeCardsDataSource {
 
 extension PostsVC: SwipeCardsDelegate {
     func swipeDidSelect(view: SwipeCardView, at index: Int) {
-        let detailVC = DetailPostVC()
+        let detailVC = DetailPostVC(id: 1)
         navigationController?.pushViewController(detailVC, animated: true)
     }
-}
-
-extension PostsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
     private func setupFlowLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = .zero
@@ -217,29 +229,53 @@ extension PostsVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
         flowLayout.sectionInset = .zero
         return flowLayout
     }
+}
+
+extension PostsVC {
+    typealias CategoriesSnapShot = NSDiffableDataSourceSnapshot<PostsVC.Section, String>
+    typealias CategoriesDataSource = UICollectionViewDiffableDataSource<PostsVC.Section, String>
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: .zero, left: 16.0, bottom: .zero, right: 100.0)
+    enum Section {
+        case category
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: CategoryCollectionViewCell.width(text: viewModel.dummyCategories[indexPath.item].name),
-                      height: 34.0)
+    private func configureDataSource() {
+        dataSource = CategoriesDataSource(collectionView: collectionView) { collectionView, indexPath, category in
+            let cell = collectionView.dequeueReusableCell(withType: CategoryCollectionViewCell.self, indexPath: indexPath)
+            
+            cell.configure(name: category)
+            
+            return cell
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.dummyCategories.count
+    private func updateDataSnapshot(with categories: [String]) {
+        snapshot = CategoriesSnapShot()
+        snapshot.appendSections([.category])
+        snapshot.appendItems(categories)
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withType: CategoryCollectionViewCell.self, indexPath: indexPath)
+    private func createLayout(with categories: [String]) -> UICollectionViewLayout {
+        var items = [NSCollectionLayoutItem]()
         
-        cell.configure(name: viewModel.dummyCategories[indexPath.item].name)
+        categories.forEach {
+            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(CategoryCollectionViewCell.width(text: $0)),
+                                                  heightDimension: .absolute(34.0))
+            items.append(NSCollectionLayoutItem(layoutSize: itemSize))
+        }
         
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .absolute(34.0))
         
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitems: items)
+        group.interItemSpacing = .fixed(8.0)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 16.0, bottom: .zero, trailing: 100.0)
+        
+        return UICollectionViewCompositionalLayout(section: section)
     }
 }
