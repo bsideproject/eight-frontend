@@ -25,14 +25,19 @@ final class ReportPopupView: UIView {
     }
     let cancelButton = UIButton().then {
         $0.setTitle("취소")
+        $0.setTitleColor(.black)
         $0.titleLabel?.font = Fonts.Templates.subheader.font
     }
     let reportButton = UIButton().then {
         $0.setTitle("신고하기")
+        $0.setTitleColor(.black)
+        $0.contentHorizontalAlignment = .left
         $0.titleLabel?.font = Fonts.Templates.subheader.font
     }
     let cutoffButton = UIButton().then {
         $0.setTitle("차단하기")
+        $0.setTitleColor(.black)
+        $0.contentHorizontalAlignment = .left
         $0.titleLabel?.font = Fonts.Templates.subheader.font
     }
     

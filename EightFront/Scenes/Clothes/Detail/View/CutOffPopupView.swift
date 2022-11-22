@@ -23,18 +23,29 @@ final class CutOffPopupView: UIView {
         $0.font = Fonts.Templates.title.font
     }
     let descLabel = UILabel().then {
-        var paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.32
-        let attrString = NSMutableAttributedString(string: "사용자의 모든 게시글, 댓글이 보이지 않습니다.\n차단 해제를 원하는 경우 마이페이지\n차단 목록 페이지에서 확인하실 수 있습니다.", attributes: [.paragraphStyle: paragraphStyle])
-        $0.attributedText = attrString
+        $0.numberOfLines = 0
+        $0.text = "사용자의 모든 게시글, 댓글이 보이지 않습니다."
+        $0.textColor = Colors.gray005.color
+        $0.font = Fonts.Templates.body1.font
+    }
+    let desc2Label = UILabel().then {
+        $0.numberOfLines = 0
+        $0.text = "차단 해제를 원하는 경우 마이페이지"
+        $0.textColor = Colors.gray005.color
+        $0.font = Fonts.Templates.body1.font
+    }
+    let desc3Label = UILabel().then {
+        $0.numberOfLines = 0
+        $0.text = "차단 목록 페이지에서 확인하실 수 있습니다."
+        $0.textColor = Colors.gray005.color
+        $0.font = Fonts.Templates.body1.font
     }
     let cancelButton = UIButton().then {
         $0.setTitle("취소")
-        $0.setTitleColor(Colors.gray004.color)
-        $0.backgroundColor = Colors.gray006.color
+        $0.setTitleColor(Colors.gray005.color)
         $0.layer.borderWidth = 1.0
         $0.layer.cornerRadius = 8.0
-        $0.layer.borderColor = Colors.gray004.color.cgColor
+        $0.layer.borderColor = UIColor(colorSet: 221).cgColor
     }
     let cutoffButton = UIButton().then {
         $0.setTitle("차단")
@@ -61,6 +72,8 @@ final class CutOffPopupView: UIView {
         
         addSubview(titleLabel)
         addSubview(descLabel)
+        addSubview(desc2Label)
+        addSubview(desc3Label)
         addSubview(cancelButton)
         addSubview(cutoffButton)
         
@@ -72,10 +85,20 @@ final class CutOffPopupView: UIView {
         descLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.left.right.equalToSuperview().inset(16)
-            $0.height.equalTo(66)
+            $0.height.equalTo(22)
+        }
+        desc2Label.snp.makeConstraints {
+            $0.top.equalTo(descLabel.snp.bottom)
+            $0.left.right.equalToSuperview().inset(16)
+            $0.height.equalTo(22)
+        }
+        desc3Label.snp.makeConstraints {
+            $0.top.equalTo(desc2Label.snp.bottom)
+            $0.left.right.equalToSuperview().inset(16)
+            $0.height.equalTo(22)
         }
         cancelButton.snp.makeConstraints {
-            $0.top.equalTo(descLabel.snp.bottom).offset(24)
+            $0.top.equalTo(desc3Label.snp.bottom).offset(24)
             $0.left.equalToSuperview().offset(16)
             $0.width.equalTo(138)
             $0.height.equalTo(50)
