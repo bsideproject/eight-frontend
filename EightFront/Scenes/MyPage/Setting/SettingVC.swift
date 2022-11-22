@@ -41,13 +41,13 @@ class SettingVC: UIViewController {
     // 위치기반 서비스 약관
     private let locationView = UIView()
     private let locationLabel = UILabel().then {
-        $0.text = "위치기반서비스약관"
+        $0.text = "위치기반 서비스약관"
     }
     
     // 개인 정보 처리 방침
     private let privacyView = UIView()
     private let privacyLabel = UILabel().then {
-        $0.text = "개인정보처리방침"
+        $0.text = "개인정보 처리방침"
     }
     
     // 버전 정보
