@@ -10,7 +10,7 @@ import Foundation
 class DateManager {
     private let formatter = DateFormatter().then {
         $0.locale = Locale(identifier: "ko_kr")
-        $0.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+        $0.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
     }
     
     static let shared = DateManager()

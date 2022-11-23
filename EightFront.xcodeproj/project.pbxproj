@@ -40,6 +40,8 @@
 		28D12AED29212587001A7B32 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AEC29212587001A7B32 /* UserInfo.swift */; };
 		28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F20CF928E93BA600CEE89D /* UITextField+.swift */; };
 		E9008D432911584100F70B6B /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9008D422911584100F70B6B /* ReportRequest.swift */; };
+		E9077A59292C023200FB5CFB /* Gesture+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9077A58292C023200FB5CFB /* Gesture+Combine.swift */; };
+		E9077A61292C11D600FB5CFB /* UITapGestureRecognizer+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9077A60292C11D600FB5CFB /* UITapGestureRecognizer+Combine.swift */; };
 		E910ECA32926754C00E7881E /* DeleteBoxVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECA22926754C00E7881E /* DeleteBoxVC.swift */; };
 		E910ECA6292675EC00E7881E /* DeleteBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECA5292675EC00E7881E /* DeleteBoxView.swift */; };
 		E910ECA82927C94500E7881E /* DetailDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910ECA72927C94500E7881E /* DetailDescriptionCell.swift */; };
@@ -168,7 +170,6 @@
 		E9EEA49B2916C0F80073001F /* DetailPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA49A2916C0F80073001F /* DetailPostVC.swift */; };
 		E9EEA49D2916C1090073001F /* DetailPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA49C2916C1090073001F /* DetailPostViewModel.swift */; };
 		E9EEA4A02916C2370073001F /* ReportPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA49F2916C2370073001F /* ReportPostVC.swift */; };
-		E9EEA4A22917CBED0073001F /* Gesture+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EEA4A12917CBED0073001F /* Gesture+.swift */; };
 		E9EFE7BD290AD7B000EA514B /* CardDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7BB290AD7AF00EA514B /* CardDataModel.swift */; };
 		E9EFE7BE290AD7B000EA514B /* SwipeCardsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7BC290AD7AF00EA514B /* SwipeCardsDataSource.swift */; };
 		E9EFE7C2290AD7B700EA514B /* StackContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7C0290AD7B700EA514B /* StackContainerView.swift */; };
@@ -225,6 +226,8 @@
 		28D12AEC29212587001A7B32 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserInfo.swift; path = EightFront/Scenes/MyPage/Resign/UserInfo.swift; sourceTree = SOURCE_ROOT; };
 		28F20CF928E93BA600CEE89D /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		E9008D422911584100F70B6B /* ReportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
+		E9077A58292C023200FB5CFB /* Gesture+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gesture+Combine.swift"; sourceTree = "<group>"; };
+		E9077A60292C11D600FB5CFB /* UITapGestureRecognizer+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITapGestureRecognizer+Combine.swift"; sourceTree = "<group>"; };
 		E910ECA22926754C00E7881E /* DeleteBoxVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBoxVC.swift; sourceTree = "<group>"; };
 		E910ECA5292675EC00E7881E /* DeleteBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBoxView.swift; sourceTree = "<group>"; };
 		E910ECA72927C94500E7881E /* DetailDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDescriptionCell.swift; sourceTree = "<group>"; };
@@ -339,7 +342,6 @@
 		E9EEA49A2916C0F80073001F /* DetailPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostVC.swift; sourceTree = "<group>"; };
 		E9EEA49C2916C1090073001F /* DetailPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostViewModel.swift; sourceTree = "<group>"; };
 		E9EEA49F2916C2370073001F /* ReportPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportPostVC.swift; sourceTree = "<group>"; };
-		E9EEA4A12917CBED0073001F /* Gesture+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gesture+.swift"; sourceTree = "<group>"; };
 		E9EFE7BB290AD7AF00EA514B /* CardDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDataModel.swift; sourceTree = "<group>"; };
 		E9EFE7BC290AD7AF00EA514B /* SwipeCardsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCardsDataSource.swift; sourceTree = "<group>"; };
 		E9EFE7C0290AD7B700EA514B /* StackContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackContainerView.swift; sourceTree = "<group>"; };
@@ -468,6 +470,15 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		E9077A57292C020A00FB5CFB /* Gestures */ = {
+			isa = PBXGroup;
+			children = (
+				E9077A58292C023200FB5CFB /* Gesture+Combine.swift */,
+				E9077A60292C11D600FB5CFB /* UITapGestureRecognizer+Combine.swift */,
+			);
+			path = Gestures;
+			sourceTree = "<group>";
+		};
 		E910ECA12926753E00E7881E /* Delete */ = {
 			isa = PBXGroup;
 			children = (
@@ -579,7 +590,7 @@
 				E98A04EA28F4185B009F055B /* NSMutableAttributedString+.swift */,
 				E95FBF6B28FC1644002CA5A9 /* Pretendard+.swift */,
 				E9EEA4922916A2610073001F /* UILabel+.swift */,
-				E9EEA4A12917CBED0073001F /* Gesture+.swift */,
+				E9077A57292C020A00FB5CFB /* Gestures */,
 				E9EAB9DE2920BDA700926893 /* UIColor+.swift */,
 			);
 			path = Extensions;
@@ -1218,7 +1229,6 @@
 				288BFD6F28FBC17500A85F13 /* TermsViewModel.swift in Sources */,
 				E9494A6528F068A4005285C0 /* ResponsePOI.swift in Sources */,
 				E9EFE7C3290AD7B700EA514B /* SwipeCardView.swift in Sources */,
-				E9EEA4A22917CBED0073001F /* Gesture+.swift in Sources */,
 				E95FBF6A28F70FDF002CA5A9 /* LogUtil.swift in Sources */,
 				E910ECAA2927CEE000E7881E /* DetailCountCell.swift in Sources */,
 				E9460AFE28E9E51D00932351 /* HomeSearchView.swift in Sources */,
@@ -1293,6 +1303,8 @@
 				2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */,
 				E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */,
 				E970692D2917EEEC00014FB9 /* SettingVC.swift in Sources */,
+				E9077A59292C023200FB5CFB /* Gesture+Combine.swift in Sources */,
+				E9077A61292C11D600FB5CFB /* UITapGestureRecognizer+Combine.swift in Sources */,
 				E927FC9828D351E300A91F11 /* Date+.swift in Sources */,
 				E95FBF6C28FC1644002CA5A9 /* Pretendard+.swift in Sources */,
 				E910ECA82927C94500E7881E /* DetailDescriptionCell.swift in Sources */,
