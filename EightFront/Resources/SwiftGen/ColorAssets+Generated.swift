@@ -19,14 +19,6 @@ internal typealias AssetColorTypeAlias = ColorAsset.Color
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Colors {
-  internal enum Report {
-    internal static let reportCompletedBackgroudColor = ColorAsset(name: "reportCompletedBackgroudColor")
-    internal static let reportCompletedFontColor = ColorAsset(name: "reportCompletedFontColor")
-    internal static let reportIngBackgroundColor = ColorAsset(name: "reportIngBackgroundColor")
-    internal static let reportIngFontColor = ColorAsset(name: "reportIngFontColor")
-    internal static let reportRejectBackgroundColor = ColorAsset(name: "reportRejectBackgroundColor")
-    internal static let reportRejectFontColor = ColorAsset(name: "reportRejectFontColor")
-  }
   internal static let gray001 = ColorAsset(name: "gray001")
   internal static let gray002 = ColorAsset(name: "gray002")
   internal static let gray003 = ColorAsset(name: "gray003")
@@ -36,8 +28,17 @@ internal enum Colors {
   internal static let gray007 = ColorAsset(name: "gray007")
   internal static let gray008 = ColorAsset(name: "gray008")
   internal static let point = ColorAsset(name: "point")
+  internal enum Report {
+    internal static let reportCompletedBackgroudColor = ColorAsset(name: "reportCompletedBackgroudColor")
+    internal static let reportCompletedFontColor = ColorAsset(name: "reportCompletedFontColor")
+    internal static let reportIngBackgroundColor = ColorAsset(name: "reportIngBackgroundColor")
+    internal static let reportIngFontColor = ColorAsset(name: "reportIngFontColor")
+    internal static let reportRejectBackgroundColor = ColorAsset(name: "reportRejectBackgroundColor")
+    internal static let reportRejectFontColor = ColorAsset(name: "reportRejectFontColor")
+  }
   internal static let shadow001 = ColorAsset(name: "shadow001")
   internal static let shadow003 = ColorAsset(name: "shadow003")
+  internal static let warning = ColorAsset(name: "warning")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
 

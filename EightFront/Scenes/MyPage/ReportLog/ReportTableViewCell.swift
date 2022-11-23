@@ -31,6 +31,7 @@ class ReportTableViewCell: UITableViewCell {
     private let stateLabel = UILabel().then {
         $0.text = "처리중"
         $0.textColor = .white
+        $0.font = Fonts.Templates.caption3.font
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -59,9 +60,9 @@ class ReportTableViewCell: UITableViewCell {
 
         addSubview(stateView)
         stateView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(31)
             $0.width.equalTo(64)
             $0.height.equalTo(22)
+            $0.centerY.equalToSuperview()
             $0.right.equalToSuperview().inset(16)
             
             stateView.addSubview(stateLabel)
@@ -73,14 +74,16 @@ class ReportTableViewCell: UITableViewCell {
     
     func configure(report: Report) {
         addressLabel.text = report.address
-//        timeLabel.text = report.time
         stateLabel.text = report.state
         if report.state == "처리중" {
-            stateView.backgroundColor = .red
+            stateView.backgroundColor = Colors.Report.reportIngBackgroundColor.color
+            stateLabel.textColor = Colors.Report.reportIngFontColor.color
         } else if report.state == "완료" {
-            stateView.backgroundColor = .black
+            stateView.backgroundColor = Colors.Report.reportCompletedBackgroudColor.color
+            stateLabel.textColor = Colors.Report.reportCompletedFontColor.color
         } else if report.state == "반려" {
-            stateView.backgroundColor = .blue
+            stateView.backgroundColor = Colors.Report.reportRejectBackgroundColor.color
+            stateLabel.textColor = Colors.Report.reportRejectFontColor.color
         }
     }
 }

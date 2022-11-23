@@ -13,8 +13,9 @@ import KakaoSDKUser
 import Moya
 import JWTDecode
 
-protocol LoginDelegate: AnyObject {
+protocol BottomSheetDelegate: AnyObject {
     func loginSuccess(userInfo: UserInfo)
+    func moveToHome()
 }
 
 enum signType {
@@ -41,7 +42,7 @@ final class LoginBottomSheetVC: UIViewController {
     private let viewModel = LoginBottomSheetViewModel()
     private var bottomHeight: CGFloat = 279
     
-    weak var delegate: LoginDelegate?
+    weak var bottomSheetDelegate: BottomSheetDelegate?
     
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
@@ -231,18 +232,13 @@ final class LoginBottomSheetVC: UIViewController {
     
     // 바텀 시트 사라지는 애니메이션
     private func hideBottomSheetAndGoBack() {
-        let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeIn)
-        animator.addAnimations {
-            self.dimmedBackView.alpha = 0.0
-            self.view.layoutIfNeeded()
-            if self.presentationController != nil {
-                self.dismiss(animated: false) {
-                    let tabbarVC = MainTabbarController()
-                    UIWindow().visibleViewController?.navigationController?.pushViewController(tabbarVC, animated: true)
-                }
+        self.dimmedBackView.alpha = 0.0
+        self.view.layoutIfNeeded()
+        if self.presentationController != nil {
+            self.dismiss(animated: false) {
+                self.bottomSheetDelegate?.moveToHome()
             }
         }
-        animator.startAnimation()
     }
     
     // MARK: - Actions
@@ -292,7 +288,7 @@ final class LoginBottomSheetVC: UIViewController {
                                     UserDefaults.standard.set(content.nickName, forKey: "nickName")
                                     UserDefaults.standard.set(content.email, forKey: "email")
                                     self.dismiss(animated: false) { [weak self] in
-                                        self?.delegate?.loginSuccess(userInfo: UserInfo(nickName: content.nickName, email: content.email))
+                                        self?.bottomSheetDelegate?.loginSuccess(userInfo: UserInfo(nickName: content.nickName, email: content.email))
                                     }
                                 } else {
                                     LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")

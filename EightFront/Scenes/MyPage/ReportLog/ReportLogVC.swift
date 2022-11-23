@@ -12,7 +12,7 @@ class ReportLogVC: UIViewController {
     // MARK: - Properties
     private var viewModel = ReportLogViewModel()
     
-    private let commontNavigationView = CommonNavigationView().then {
+    private let commonNavigationView = CommonNavigationView().then {
         $0.titleLabel.text = "의류수거함 정보수정&신규등록 제보확인"
     }
     
@@ -28,21 +28,22 @@ class ReportLogVC: UIViewController {
         super.viewDidLoad()
         configure()
         makeUI()
+        bind()
     }
     
     // MARK: - makeUI
     private func makeUI() {
         view.backgroundColor = .white
                 
-        view.addSubview(commontNavigationView)
-        commontNavigationView.snp.makeConstraints {
+        view.addSubview(commonNavigationView)
+        commonNavigationView.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(47)
         }
         
         view.addSubview(reportCategoryView)
         reportCategoryView.snp.makeConstraints {
-            $0.top.equalTo(commontNavigationView.snp.bottom).offset(19)
+            $0.top.equalTo(commonNavigationView.snp.bottom).offset(19)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(29)
         }
@@ -53,7 +54,15 @@ class ReportLogVC: UIViewController {
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
-        
+    }
+    
+    // MARK: - bind
+    private func bind() {
+        commonNavigationView.backButton.tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }.store(in: &viewModel.bag)
     }
     
     // MARK: - Configure
@@ -85,7 +94,7 @@ extension ReportLogVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 84
+        return 68
     }
     
 }

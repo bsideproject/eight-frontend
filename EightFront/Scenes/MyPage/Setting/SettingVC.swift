@@ -18,9 +18,11 @@ class SettingVC: UIViewController {
         $0.titleLabel.text = "설정"
     }
     
+    private let notificationView = UIView()
     // 알림
     private let notificationLabel = UILabel().then {
         $0.text = "알림"
+        $0.font = Fonts.Templates.subheader.font
     }
     private let notificationSwitch = UISwitch().then {
         $0.isOn = true
@@ -84,15 +86,24 @@ class SettingVC: UIViewController {
         }
         
         // 알림
-        view.addSubview(notificationLabel)
-        notificationLabel.snp.makeConstraints {
-            $0.top.equalTo(commonNavigationView.snp.bottom).offset(34)
-            $0.left.equalToSuperview().inset(19)
-        }
-        view.addSubview(notificationSwitch)
-        notificationSwitch.snp.makeConstraints {
-            $0.centerY.equalTo(notificationLabel.snp.centerY)
-            $0.right.equalToSuperview().inset(25)
+        
+        view.addSubview(notificationView)
+        notificationView.snp.makeConstraints {
+            $0.top.equalTo(commonNavigationView.snp.bottom).offset(16)
+            $0.horizontalEdges.equalToSuperview().inset(19)
+            $0.height.equalTo(45)
+            
+            notificationView.addSubview(notificationLabel)
+            notificationLabel.snp.makeConstraints {
+                $0.left.equalToSuperview()
+                $0.centerY.equalToSuperview()
+            }
+            
+            notificationView.addSubview(notificationSwitch)
+            notificationSwitch.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.right.equalToSuperview()
+            }
         }
         
         // 차단
@@ -101,11 +112,12 @@ class SettingVC: UIViewController {
             $0.top.equalTo(notificationLabel.snp.bottom).offset(13)
             $0.horizontalEdges.equalToSuperview().inset(19)
             $0.height.equalTo(45)
-        }
-        blockListView.addSubview(blockLabel)
-        blockLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview()
+            
+            blockListView.addSubview(blockLabel)
+            blockLabel.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.left.equalToSuperview()
+            }
         }
         
         //이용약관
@@ -114,11 +126,12 @@ class SettingVC: UIViewController {
             $0.top.equalTo(blockListView.snp.bottom).offset(13)
             $0.horizontalEdges.equalToSuperview().inset(19)
             $0.height.equalTo(45)
-        }
-        policyView.addSubview(policyLabel)
-        policyLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview()
+            
+            policyView.addSubview(policyLabel)
+            policyLabel.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.left.equalToSuperview()
+            }
         }
         
         // 위치정보
@@ -127,11 +140,12 @@ class SettingVC: UIViewController {
             $0.top.equalTo(policyView.snp.bottom).offset(13)
             $0.horizontalEdges.equalToSuperview().inset(19)
             $0.height.equalTo(45)
-        }
-        locationView.addSubview(locationLabel)
-        locationLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview()
+            
+            locationView.addSubview(locationLabel)
+            locationLabel.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.left.equalToSuperview()
+            }
         }
         
         // 개인정보
@@ -140,11 +154,12 @@ class SettingVC: UIViewController {
             $0.top.equalTo(locationView.snp.bottom).offset(13)
             $0.horizontalEdges.equalToSuperview().inset(19)
             $0.height.equalTo(45)
-        }
-        privacyView.addSubview(privacyLabel)
-        privacyLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview()
+            
+            privacyView.addSubview(privacyLabel)
+            privacyLabel.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.left.equalToSuperview()
+            }
         }
         
         // 버전
@@ -153,29 +168,32 @@ class SettingVC: UIViewController {
             $0.top.equalTo(privacyView.snp.bottom).offset(13)
             $0.horizontalEdges.equalToSuperview().inset(19)
             $0.height.equalTo(45)
-        }
-        versionView.addSubview(versionTitleLabel)
-        versionTitleLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview()
-        }
-        versionView.addSubview(versionLabel)
-        versionLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview()
+            
+            versionView.addSubview(versionTitleLabel)
+            versionTitleLabel.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.left.equalToSuperview()
+            }
+            versionView.addSubview(versionLabel)
+            versionLabel.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.right.equalToSuperview()
+            }
         }
         
         // 로그아웃
         view.addSubview(logoutView)
         logoutView.snp.makeConstraints {
             $0.top.equalTo(versionView.snp.bottom).offset(13)
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(19)
             $0.height.equalTo(45)
+            
+            logoutView.addSubview(logoutLabel)
+            logoutLabel.snp.makeConstraints {
+                $0.left.equalToSuperview()
+            }
         }
-        logoutView.addSubview(logoutLabel)
-        logoutLabel.snp.makeConstraints {
-            $0.left.equalToSuperview().inset(19)
-        }
+        
     } // makeUI
     
     // MARK: - bind
@@ -239,6 +257,12 @@ class SettingVC: UIViewController {
         viewModel.$isNotification.receive(on: DispatchQueue.main)
             .sink { [weak self] isNotification in
                 self?.notificationSwitch.isOn = isNotification 
+            }.store(in: &viewModel.bag)
+        
+        commonNavigationView.backButton.tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
             }.store(in: &viewModel.bag)
         
     }// bind

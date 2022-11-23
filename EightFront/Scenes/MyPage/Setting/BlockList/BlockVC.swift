@@ -19,19 +19,17 @@ class BlockVC: UIViewController {
     
     private let blockTableView = UITableView().then {
         $0.register(BlockTableViewCell.self, forCellReuseIdentifier: BlockTableViewCell.identity)
-        $0.separatorStyle = .none
     }
     
     // MARK: - lifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
-        blockTableView.delegate = self
-        blockTableView.dataSource = self
+        bind()
+        configure()
     }
     
     private func makeUI() {
-        
         view.backgroundColor = .white
         
         view.addSubview(commonNavigation)
@@ -43,11 +41,25 @@ class BlockVC: UIViewController {
         
         view.addSubview(blockTableView)
         blockTableView.snp.makeConstraints {
-            $0.top.equalTo(commonNavigation.snp.bottom)
+            $0.top.equalTo(commonNavigation.snp.bottom).offset(13)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
+    
+    private func bind() {
+        commonNavigation.backButton.tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }.store(in: &viewModel.bag)
+    }
+    
+    private func configure() {
+        blockTableView.delegate = self
+        blockTableView.dataSource = self
+    }
+    
 }
 
 extension BlockVC: UITableViewDataSource {
@@ -62,7 +74,7 @@ extension BlockVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 62
     }
 }
 

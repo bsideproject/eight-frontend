@@ -19,6 +19,7 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Images {
+  internal static let dropIcon = ImageAsset(name: "DropIcon")
   internal static let currentLocation = ImageAsset(name: "current-location")
   internal enum Detail {
     internal static let defaultProfile = ImageAsset(name: "default_profile")
@@ -45,10 +46,11 @@ internal enum Images {
     internal static let markerSelect = ImageAsset(name: "marker-select")
   }
   internal enum Mypage {
-    internal static let crown = ImageAsset(name: "Crown")
-    internal static let headphones = ImageAsset(name: "Headphones")
-    internal static let info = ImageAsset(name: "Info")
-    internal static let settings = ImageAsset(name: "Settings")
+    internal static let gear = ImageAsset(name: "gear")
+    internal static let hanger = ImageAsset(name: "hanger")
+    internal static let location = ImageAsset(name: "location")
+    internal static let lock = ImageAsset(name: "lock")
+    internal static let myInfoEdit = ImageAsset(name: "myInfoEdit")
   }
   internal enum Navigation {
     internal static let back = ImageAsset(name: "back")

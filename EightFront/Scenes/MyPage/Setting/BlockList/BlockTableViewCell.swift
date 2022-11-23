@@ -15,8 +15,8 @@ class BlockTableViewCell: UITableViewCell {
     static let identity = "BlockTableViewCell"
     
     private let usernameLabel = UILabel().then {
-        $0.text = "유저 이름"
-        $0.font = Fonts.Templates.subheader2.font
+        $0.text = "드랍 더 옷"
+        $0.font = Fonts.Templates.subheader.font
     }
     
     private let blockButtonView = UIView().then {
@@ -27,7 +27,7 @@ class BlockTableViewCell: UITableViewCell {
     private let blockButtonLabel = UILabel().then {
         $0.text = "차단 해제"
         $0.textColor = Colors.point.color
-        $0.font = Fonts.Templates.subheader3.font
+        $0.font = Fonts.Templates.caption1.font
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import Combine
 
 class MyClothesVC: UIViewController {
     
+    var bag = Set<AnyCancellable>()
+    
     // MARK: - Properties
-    private let commontNavigationView = CommonNavigationView().then {
+    private let commonNavigationView = CommonNavigationView().then {
         $0.titleLabel.text = "평가 중인 내 중고 의류"
     }
     
@@ -22,7 +25,6 @@ class MyClothesVC: UIViewController {
     // MARK: - Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         makeUI()
     }
     
@@ -30,8 +32,8 @@ class MyClothesVC: UIViewController {
     private func makeUI() {
         view.backgroundColor = .white
         
-        view.addSubview(commontNavigationView)
-        commontNavigationView.snp.makeConstraints {
+        view.addSubview(commonNavigationView)
+        commonNavigationView.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(47)
         }
@@ -39,6 +41,14 @@ class MyClothesVC: UIViewController {
         view.addSubview(searchView)
 //        searchView.snp.makeConstraints {
 //        }
+    }
+    
+    private func bind() {
+        commonNavigationView.backButton.tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }.store(in: &bag)
     }
     
     // MARK: - Configure

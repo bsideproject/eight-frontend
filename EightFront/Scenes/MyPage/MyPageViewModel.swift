@@ -14,7 +14,7 @@ final class MyPageViewModel {
     
     var bag = Set<AnyCancellable>()
     
-    @Published var nickname = UserDefaults.standard.object(forKey: "nickName") as? String ?? "로그인을 해주세요."
+    @Published var nickname = UserDefaults.standard.object(forKey: "nickName") as? String ?? "김에잇"
 
     enum MyPageMenus: CaseIterable {
         case myClothes
@@ -22,16 +22,16 @@ final class MyPageViewModel {
         case report
         case setting
         
-        var image: String {
+        var image: UIImage {
             switch self {
             case .myClothes:
-                return "crown"
+                return Images.Mypage.hanger.image
             case .navigationSetting:
-                return "headphones"
+                return Images.Mypage.location.image
             case .report:
-                return "info.circle.fill"
+                return Images.Mypage.lock.image
             case .setting:
-                return "gear"
+                return Images.Mypage.gear.image
             }
         }
         
@@ -57,24 +57,9 @@ final class MyPageViewModel {
             case .report:
                 return ReportLogVC()
             case .setting:
-                let settingVC = SettingVC()
-                return settingVC
+                return SettingVC()
             }
         }
-        
-        var backgroundColor: CGColor {
-            switch self {
-            case .myClothes:
-                return UIColor(red: 0.345, green: 0.337, blue: 0.839, alpha: 1).cgColor
-            case .navigationSetting:
-                return UIColor(red: 1, green: 0.8, blue: 0, alpha: 1).cgColor
-            case .report:
-                return UIColor(red: 0, green: 0.478, blue: 1, alpha: 1).cgColor
-            case .setting:
-                return UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor
-            }
-        }
-        
     }
     
     func numberOfRowsInSection() -> Int {
