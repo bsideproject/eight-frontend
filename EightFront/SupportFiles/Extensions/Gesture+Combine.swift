@@ -37,13 +37,13 @@ enum GestureType {
 
 // MARK: - Publisher
 struct GesturePublisher: Publisher {
-    public typealias Output = UIGestureRecognizer
+    public typealias Output = GestureType
     public typealias Failure = Never
     
     private let view: UIView
-    private let event: UIGestureRecognizer
+    private let event: GestureType
     
-    public init(view: UIView, event: UIGestureRecognizer) {
+    public init(view: UIView, event: GestureType) {
         self.view = view
         self.event = event
     }
@@ -58,20 +58,21 @@ struct GesturePublisher: Publisher {
 }
 
 // MARK: - Subscription
-private final class GestureSubscription<S: Subscriber>: Subscription where S.Input == UIGestureRecognizer, S.Failure == Never {
+private final class GestureSubscription<S: Subscriber>: Subscription where S.Input == GestureType, S.Failure == Never {
     private var subscriber: S?
-    private var event: UIGestureRecognizer
+    private var event: GestureType
     private var view: UIView
     
-    init(subscriber: S, view: UIView, event: UIGestureRecognizer) {
+    init(subscriber: S, view: UIView, event: GestureType) {
         self.subscriber = subscriber
         self.view = view
         self.event = event
         
-        configure(gesture: event)
+        configure(type: event)
     }
     
-    private func configure(gesture: UIGestureRecognizer) {
+    private func configure(type: GestureType) {
+        let gesture = type.gesture
         gesture.addTarget(self, action: #selector(gestureHandler))
         view.addGestureRecognizer(gesture)
         

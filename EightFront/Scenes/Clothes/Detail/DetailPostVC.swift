@@ -356,7 +356,7 @@ extension DetailPostVC: ReportPopupOpenDelegate, ReportPopupViewDelegate {
     func moveReport() {
         endPopup()
         
-        let reportPostVC = ReportPostVC()
+        let reportPostVC = ReportPostVC(type: .report)
         navigationController?.pushViewController(reportPostVC, animated: true)
     }
     

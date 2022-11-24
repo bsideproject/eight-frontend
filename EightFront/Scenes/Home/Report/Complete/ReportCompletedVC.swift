@@ -120,6 +120,9 @@ final class ReportCompletedVC: UIViewController {
         case .report:
             titleLabel.text = "신고 완료 되었어요!"
             subTitleLabel.isHidden = true
+        case .addPost:
+            titleLabel.text = "등록 완료 되었어요!"
+            subTitleLabel.isHidden = true
         }
     }
 }

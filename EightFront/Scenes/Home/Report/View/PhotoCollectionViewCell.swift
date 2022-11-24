@@ -21,13 +21,15 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
+    lazy var removePhotoImageView = UIImageView().then {
+        $0.image = Images.Report.delete.image
+        $0.backgroundColor = .clear
+    }
     // Photo remove button
-//    let removePhotoButton = UIButton().then {
-//        $0.contentMode = .scaleAspectFit
-//        $0.setImage(images: (normal: Asset.Images.iconDelete.image, highlighted: Asset.Images.iconDelete.image))
-//        $0.applyRoundedCornersWithHeight(11.5)
-//        $0.addTarget(self, action: #selector(removePhotoCellDidTapped(sender:)), for: .touchUpInside)
-//    }
+    lazy var removePhotoButton = UIButton().then {
+        $0.backgroundColor = .clear
+        $0.addTarget(self, action: #selector(removePhotoCellDidTapped), for: .touchUpInside)
+    }
     
     //MARK: Initializer
     override init(frame: CGRect) {
@@ -47,16 +49,20 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .white
                
         contentView.addSubview(photoImageView)
-//        contentView.addSubview(removePhotoButton)
+        contentView.addSubview(removePhotoImageView)
+        contentView.addSubview(removePhotoButton)
         
         photoImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-//        removePhotoButton.snp.makeConstraints {
-//            $0.top.right.equalToSuperview().inset(5)
-//            $0.width.height.equalTo(35)
-//        }
+        removePhotoImageView.snp.makeConstraints {
+            $0.top.right.equalToSuperview().inset(6)
+            $0.size.equalTo(13)
+        }
+        removePhotoButton.snp.makeConstraints {
+            $0.top.right.equalToSuperview()
+            $0.size.equalTo(25)
+        }
     }
     
     override func prepareForReuse() {

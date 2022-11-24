@@ -10,6 +10,7 @@ import Foundation
 /// 게시물 등록 요청
 struct PostRequest: Encodable {
     var category: String
+    var title: String
     var description: String
 }
 

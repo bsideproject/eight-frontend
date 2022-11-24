@@ -85,14 +85,8 @@ final class PostsVC: UIViewController {
         view.addSubview(stackContainer)
         
         let cardWidth = UIScreen.main.bounds.width - 32
-        let cardHeight = cardWidth * 0.75
+        let cardHeight = 400 * (cardWidth / 343)
         
-        stackContainer.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(-30)
-            $0.width.equalTo(cardWidth)
-            $0.height.equalTo(cardHeight)
-        }
         navigationView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.right.equalToSuperview()
@@ -125,12 +119,25 @@ final class PostsVC: UIViewController {
             $0.width.equalTo(98)
             $0.height.equalTo(46)
         }
-        
+        stackContainer.snp.makeConstraints {
+            $0.top.equalTo(collectionView.snp.bottom).offset(54)
+            $0.bottom.equalTo(throwButton.snp.top).offset(-28)
+            $0.left.right.equalToSuperview().inset(16)
+        }
         configureDataSource()
     }
     
     //MARK: - Binding..
     private func bind() {
+        navigationView
+            .rightButton
+            .tapPublisher
+            .sink { [weak self] _ in
+                let addPostVC = ReportVC(type: .addPost)
+                self?.tabBarController?.navigationController?.pushViewController(addPostVC, animated: true)
+            }
+            .store(in: &viewModel.bag)
+        
         storageButton
             .gesture()
             .receive(on: DispatchQueue.main)
@@ -168,7 +175,17 @@ final class PostsVC: UIViewController {
             }
             .store(in: &viewModel.bag)
         
+        viewModel
+            .output
+            .requestPosts
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] categories in
+                self?.stackContainer.reloadData()
+            }
+            .store(in: &viewModel.bag)
+        
         viewModel.input.requestCategroies.send(nil)
+        viewModel.input.requestPosts.send("")
     }
     
     private func configure() {
@@ -201,17 +218,31 @@ final class PostsVC: UIViewController {
 //MARK: - 카드 DataSources & Delegate
 extension PostsVC: SwipeCardsDataSource {
     func numberOfCardsToShow() -> Int {
-        return viewModel.dummyData.count
+        return viewModel.posts.count
     }
 
     func card(at index: Int) -> SwipeCardView {
         let card = SwipeCardView()
-        card.dataSource = viewModel.dummyData[index]
+        card.dataSource = viewModel.posts[index]
         return card
     }
 
     func emptyView() -> UIView? {
-        return nil
+        let view = UIView()
+        view.backgroundColor = UIColor(colorSet: 238)
+        
+        let imageView = UIImageView()
+        imageView.image = Images.Trade.empty.image
+        view.addSubview(imageView)
+        
+        imageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview().offset(49)
+            $0.width.equalTo(166)
+            $0.height.equalTo(161)
+        }
+        
+        return view
     }   
 }
 
