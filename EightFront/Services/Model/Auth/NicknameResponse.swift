@@ -1,5 +1,5 @@
 //
-//  NicknameCheck.swift
+//  NicknameResponse.swift
 //  EightFront
 //
 //  Created by Jeongwan Kim on 2022/11/20.
