@@ -58,7 +58,7 @@ final class MyPageVC: UIViewController {
         if accessToken == "" {
             let bottomSheetVC = LoginBottomSheetVC()
             bottomSheetVC.modalPresentationStyle = .overFullScreen
-            bottomSheetVC.bottomSheetDelegate = self
+//            bottomSheetVC.bottomSheetDelegate = self
             self.present(bottomSheetVC, animated: false)
         } else {
             UserInfoManager.shared.fetchUserInfo { [weak self] userInfo in
