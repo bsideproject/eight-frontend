@@ -38,6 +38,7 @@ class SimpleSignUpVC: UIViewController {
     
     private var nicknameCheckButtonView = UIView().then {
         $0.backgroundColor = Colors.gray006.color
+        $0.layer.cornerRadius = 4
     }
     
     private var nicknameCheckButtonLabel = UILabel().then {
@@ -140,10 +141,6 @@ class SimpleSignUpVC: UIViewController {
                             }
                             guard let accessToken = content.accessToken else { return }
                             if KeyChainManager.shared.createAccessToken(accessToken) {
-                                UserDefaults.standard.set([
-                                    "email": content.email,
-                                    "nickName": content.nickName
-                                ], forKey: "userInfo")
                                 let signUpSuccessVC = SignUpSuccessVC()
                                 self?.navigationController?.pushViewController(signUpSuccessVC, animated: true)
                             } else {
@@ -171,15 +168,17 @@ class SimpleSignUpVC: UIViewController {
                 self?.authProvider.request(.nicknameCheck(nickname: nickname)) { result in
                     switch result {
                     case .success(let response):
-                        guard let data = try? response.map(NicknameCheckResponse.self).data else {
+                        guard let data = try? response.map(NicknameResponse.self).data else {
                             LogUtil.d("Response Decoding 실패")
                             return
                         }
-                        if data.content == false {
-                            self?.viewModel.isSignUpButtonValid = true
+                        
+                        guard let content = data.content else { return }
+                        if content {
+                            self?.viewModel.isSignUpButtonValid = false
                             self?.nicknameDuplicateedLabel.isHidden = false
                         } else {
-                            self?.viewModel.isSignUpButtonValid = false
+                            self?.viewModel.isSignUpButtonValid = true
                             self?.nicknameDuplicateedLabel.isHidden = true
                         }
                         self?.view.endEditing(true)

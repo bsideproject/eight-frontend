@@ -66,7 +66,7 @@ final class LoginBottomSheetVC: UIViewController {
         $0.textAlignment = .center
     }
     private let appleLoginButton = ASAuthorizationAppleIDButton(
-        authorizationButtonType: .signUp,
+        authorizationButtonType: .signIn,
         authorizationButtonStyle: .black
     )
     private let kakaoLoginButton = UIButton().then {
@@ -269,7 +269,9 @@ final class LoginBottomSheetVC: UIViewController {
                 
                 self.authProvider.request(.socialSignIn(
                     param: SocialSignInRequest(
-                        accessToken: oauthToken?.accessToken ?? ""))) { reponse in
+                        accessToken: oauthToken?.accessToken ?? "",
+                        social: "kakao"
+                    ))) { reponse in
                         switch reponse {
                         case .success(let result):
                             guard let data = try? result.map(SimpleSignInResponse.self).data else {
@@ -285,10 +287,13 @@ final class LoginBottomSheetVC: UIViewController {
                             if content.type == "sign-in" {
                                 guard let accessToken = content.accessToken else { return }
                                 if KeyChainManager.shared.createAccessToken(accessToken) {
-                                    UserDefaults.standard.set(content.nickName, forKey: "nickName")
-                                    UserDefaults.standard.set(content.email, forKey: "email")
                                     self.dismiss(animated: false) { [weak self] in
-                                        self?.bottomSheetDelegate?.loginSuccess(userInfo: UserInfo(nickName: content.nickName, email: content.email))
+                                        self?.bottomSheetDelegate?.loginSuccess(
+                                            userInfo: UserInfo(
+                                                accessToken: "",
+                                                nickName: content.nickName,
+                                                email: content.email,
+                                                type: ""))
                                     }
                                 } else {
                                     LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
@@ -316,7 +321,9 @@ final class LoginBottomSheetVC: UIViewController {
                 
                 self?.authProvider.request(.socialSignIn(
                     param: SocialSignInRequest(
-                    accessToken: oauthToken?.accessToken ?? ""))) { reponse in
+                    accessToken: oauthToken?.accessToken ?? "",
+                    social: "kakao"
+                    ))) { reponse in
                         switch reponse {
                         case .success(let result):
                             guard let data = try? result.map(SimpleSignInResponse.self).data else {
@@ -387,23 +394,21 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
                   let authorizationCodeStr = String(data: authorizationCode, encoding: .utf8) else {
                 return
             }
-            
+
             authProvider.request(
-                .socialSignIn(
-                    param: SocialSignInRequest(
-                        accessToken: identityTorknStr))) { result in
-                            switch result {
-                            case .success(let response):
-                                LogUtil.d("성공 > \(response)")
-                            case .failure(let error):
-                                LogUtil.d("실패 > \(error)")
+                .socialSignIn(param: SocialSignInRequest(
+                    identityToken: identityTorknStr, authorizationCode: authorizationCodeStr))) { result in
+                        switch result {
+                        case .success(let response):
+                            guard let data = try? response.map(SimpleSignInResponse.self).data else {
+                                LogUtil.e("Response Decoding 실패")
+                                return
                             }
+                            LogUtil.d(data)
+                        case .failure(let error):
+                            LogUtil.e(error)
                         }
-            
-            LogUtil.d("""
-            identityTorknStr: \(identityTorknStr)
-            authorizationCodeStr: \(authorizationCodeStr)
-            """)
+            }
         }
     }
     

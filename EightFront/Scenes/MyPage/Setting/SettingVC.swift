@@ -58,7 +58,11 @@ class SettingVC: UIViewController {
         $0.text = "버전정보"
     }
     private let versionLabel = UILabel().then {
-        $0.text = "1.0"
+        guard let infoDic = Bundle.main.infoDictionary,
+              let appBuildVersion = infoDic["CFBundleVersion"] as? String,
+              let appVersionName = infoDic["CFBundleShortVersionString"] as? String else { return }
+        $0.text = appVersionName
+        $0.textColor = Colors.gray005.color
     }
     
     // 로그 아웃
@@ -66,6 +70,8 @@ class SettingVC: UIViewController {
     private let logoutLabel = UILabel().then {
         $0.text = "로그아웃"
     }
+    
+//    private let logoutView = LogoutView()
     
     override func viewDidLoad() {
         super.viewDidLoad()

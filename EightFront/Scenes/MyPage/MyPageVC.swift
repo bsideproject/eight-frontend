@@ -20,6 +20,7 @@ final class MyPageVC: UIViewController {
     //MARK: - Properties
     private let navigationView = CommonNavigationView().then {
         $0.titleLabel.text = "마이페이지"
+        $0.backButton.isHidden = true
     }
     private let myInfoView = UIView()
     private let profileImageView = UIView().then {
@@ -54,19 +55,15 @@ final class MyPageVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let accessToken = KeyChainManager.shared.readAccessToken()
-        
-        if accessToken.isEmpty {
+        if accessToken == "" {
             let bottomSheetVC = LoginBottomSheetVC()
             bottomSheetVC.modalPresentationStyle = .overFullScreen
             bottomSheetVC.bottomSheetDelegate = self
             self.present(bottomSheetVC, animated: false)
         } else {
-            let nickName = UserDefaults.standard.object(forKey: "nickName") as? String
-            nicknameLabel.text = nickName
-        }
-        
-        if UserDefaults.standard.object(forKey: "nickName") as? String == nil {
-            nicknameLabel.text = "김에잇"
+            UserInfoManager.shared.fetchUserInfo { [weak self] userInfo in
+                self?.viewModel.nickname = userInfo?.nickName ?? "김에잇"
+            }
         }
     }
     

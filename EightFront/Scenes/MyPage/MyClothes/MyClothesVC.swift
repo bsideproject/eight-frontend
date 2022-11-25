@@ -20,12 +20,34 @@ class MyClothesVC: UIViewController {
     private let searchView = UIView().then {
         $0.layer.borderWidth = 1
         $0.layer.borderColor = Colors.gray006.color.cgColor
+        $0.layer.cornerRadius = 4
     }
     
+    private let searchIcon = UIImageView().then {
+        let image = Images.Home.search.image
+        $0.image = image
+    }
+    
+    private let searchTextField = UITextField().then {
+        $0.placeholder = "수거함 위치를 검색해보세요."
+    }
+    
+    private let clothesTableView = UITableView().then {
+        $0.register(MyClothesTableViewCell.self, forCellReuseIdentifier: MyClothesTableViewCell.identifier)
+        $0.backgroundColor = .yellow
+    }
+
     // MARK: - Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
+        configure()
+        bind()
+    }
+    
+    // MARK: - configure
+    private func configure() {
+        
     }
     
     // MARK: - makeUI
@@ -39,8 +61,36 @@ class MyClothesVC: UIViewController {
         }
         
         view.addSubview(searchView)
-//        searchView.snp.makeConstraints {
-//        }
+        searchView.snp.makeConstraints {
+            $0.top.equalTo(commonNavigationView.snp.bottom).offset(16)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(42)
+            
+            searchView.addSubview(searchIcon)
+            searchIcon.snp.makeConstraints {
+                $0.size.equalTo(20)
+                $0.centerY.equalToSuperview()
+                $0.left.equalToSuperview().inset(10)
+            }
+            
+            searchView.addSubview(searchTextField)
+            searchTextField.snp.makeConstraints {
+                $0.left.equalTo(searchIcon.snp.right).offset(7)
+                $0.height.equalTo(18)
+                $0.centerY.equalToSuperview()
+                $0.right.equalToSuperview().offset(7)
+            }
+        }
+        
+        view.addSubview(clothesTableView)
+        clothesTableView.snp.makeConstraints {
+            $0.top.equalTo(searchView.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+
+        
+        
     }
     
     private func bind() {
@@ -56,4 +106,21 @@ class MyClothesVC: UIViewController {
     // MARK: - Actions
     
     // MARK: - Functions
+}
+
+extension MyClothesVC: UITableViewDelegate {
+    
+}
+
+extension MyClothesVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MyClothesTableViewCell.identifier, for: indexPath) as? MyClothesTableViewCell else { return UITableViewCell() }
+        return cell
+    }
+    
+    
 }

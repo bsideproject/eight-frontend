@@ -274,8 +274,8 @@ class MyInfoVC: UIViewController {
                 self?.authProvider.request(.nicknameCheck(nickname: nickname)) { result in
                     switch result {
                     case .success(let response):
-                        guard let data = try? response.map(NicknameCheckResponse.self).data else {
-                            LogUtil.d("Response Decoding 실패")
+                        guard let data = try? response.map(NicknameResponse.self).data else {
+                            LogUtil.e("Response Decoding 실패")
                             return
                         }
                         if data.content == false {
@@ -317,14 +317,14 @@ class MyInfoVC: UIViewController {
                 let jwt = try? JWTDecode.decode(jwt: accessToken)
                 guard let memberId = jwt?.subject else { return }
                 guard let inputNickname = self?.viewModel.inputNickname else { return }
-                self?.authProvider.request(.nicknameChange(memberId: memberId, nickname: inputNickname)) { result in
+                self?.authProvider.request(.nicknameChange(memberId: memberId, nickName: inputNickname)) { result in
                     switch result {
                     case .success(let response):
-                        guard let data = try? response.map(NicknameCheckResponse.self).data else { return }
-                        if data.content == false {
+                        guard let data = try? response.map(NicknameResponse.self).data else { return }
+                        if data.content == true {
                             self?.navigationController?.popToRootViewController(animated: true)
                         } else {
-                            LogUtil.d("수정 실패")
+                            LogUtil.e("변경 실패")
                         }
                     case .failure(let error):
                         LogUtil.e(error)

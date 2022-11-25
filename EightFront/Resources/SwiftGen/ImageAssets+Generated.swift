@@ -51,6 +51,8 @@ internal enum Images {
     internal static let location = ImageAsset(name: "location")
     internal static let lock = ImageAsset(name: "lock")
     internal static let myInfoEdit = ImageAsset(name: "myInfoEdit")
+    internal static let switchOFF = ImageAsset(name: "switchOFF")
+    internal static let switchON = ImageAsset(name: "switchON")
   }
   internal enum Navigation {
     internal static let back = ImageAsset(name: "back")

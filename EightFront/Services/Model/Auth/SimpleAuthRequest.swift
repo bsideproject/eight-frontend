@@ -13,11 +13,25 @@ enum SocialCategory: String, Codable {
 }
 
 struct SocialSignInRequest: Codable {
-    var accessToken: String
+    var accessToken: String?
+    var identityToken: String?
+    var authorizationCode: String?
     var type: String?
+    var social: String?
 }
 
 struct SocialSignUpRequest: Codable {
     var accessToken: String
     var nickName: String
 }
+
+//struct AppleSignInRequest: Codable {
+//    var accessToken: String
+//    var identityToken: String
+//    var type: String?
+//}
+//
+//struct AppleSignUpRequest: Codable {
+//    var accessToken: String
+//    var nickName: String
+//}

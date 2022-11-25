@@ -84,7 +84,6 @@ class ResignVC: UIViewController {
     }
     
     private let confirmView = UIView()
-    
     private let confirmCheckBox = UIButton().then {
         $0.setImage(Images.Report.checkboxSelect.image, for: .normal)
         $0.clipsToBounds = true
@@ -95,12 +94,13 @@ class ResignVC: UIViewController {
         $0.font = Fonts.Templates.body1.font
     }
 
-    private let confirmButtonView = UIView().then {
+    // 탈퇴 버튼
+    private let resignButtonView = UIView().then {
         $0.backgroundColor = Colors.gray006.color
         $0.layer.cornerRadius = 6
     }
     
-    private let confirmButtonLabel = UILabel().then {
+    private let resignButtonLabel = UILabel().then {
         $0.text = "회원탈퇴"
         $0.font = Fonts.Templates.subheader.font
     }
@@ -169,14 +169,14 @@ class ResignVC: UIViewController {
         
         
         // 회원탈퇴 버튼
-        view.addSubview(confirmButtonView)
-        confirmButtonView.snp.makeConstraints {
+        view.addSubview(resignButtonView)
+        resignButtonView.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(15)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(58)
             
-            confirmButtonView.addSubview(confirmButtonLabel)
-            confirmButtonLabel.snp.makeConstraints {
+            resignButtonView.addSubview(resignButtonLabel)
+            resignButtonLabel.snp.makeConstraints {
                 $0.center.equalToSuperview()
             }
         }
@@ -190,8 +190,8 @@ class ResignVC: UIViewController {
             .sink { [weak self] in
                 $0 ? self?.confirmCheckBox.setImage(Images.Report.checkboxSelect.image) : self?.confirmCheckBox.setImage(Images.Report.checkboxNone.image)
                 
-                self?.confirmButtonView.backgroundColor = $0 ? Colors.gray001.color : Colors.gray006.color
-                self?.confirmButtonLabel.textColor = $0 ? Colors.point.color : .white
+                self?.resignButtonView.backgroundColor = $0 ? Colors.gray001.color : Colors.gray006.color
+                self?.resignButtonLabel.textColor = $0 ? Colors.point.color : .white
                 
             }.store(in: &viewModel.bag)
         
@@ -200,7 +200,7 @@ class ResignVC: UIViewController {
                 self?.viewModel.isChecked.toggle()
             }.store(in: &viewModel.bag)
         
-        confirmButtonView.gesture().receive(on: DispatchQueue.main)
+        resignButtonView.gesture().receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 if self?.viewModel.isChecked == true {
                     let accessToken = KeyChainManager.shared.readAccessToken()
