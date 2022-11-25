@@ -15,7 +15,6 @@ import JWTDecode
 
 protocol BottomSheetDelegate: AnyObject {
     func loginSuccess(userInfo: UserInfo)
-    func moveToHome()
 }
 
 enum signType {
@@ -235,9 +234,7 @@ final class LoginBottomSheetVC: UIViewController {
         self.dimmedBackView.alpha = 0.0
         self.view.layoutIfNeeded()
         if self.presentationController != nil {
-            self.dismiss(animated: false) {
-                self.bottomSheetDelegate?.moveToHome()
-            }
+            self.dismiss(animated: false)
         }
     }
     

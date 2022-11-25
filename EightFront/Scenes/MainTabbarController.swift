@@ -28,6 +28,7 @@ final class MainTabbarController: UITabBarController {
 
     //MARK: - Make UI
     private func makeUI() {
+        delegate = self
         tabBar.backgroundColor = .white
         tabBar.tintColor = Colors.gray002.color
         tabBar.unselectedItemTintColor = Colors.gray006.color
@@ -140,5 +141,30 @@ final class MainTabbarController: UITabBarController {
         refreshAlert.addAction(okAction)
         
         present(refreshAlert, animated: true, completion: nil)
+    }
+}
+
+extension MainTabbarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        guard viewController is MyPageVC else {
+            return true
+        }
+        
+        let accessToken = KeyChainManager.shared.readAccessToken()
+        
+        if accessToken.isEmpty {
+            let bottomSheetVC = LoginBottomSheetVC()
+            bottomSheetVC.modalPresentationStyle = .overFullScreen
+            bottomSheetVC.bottomSheetDelegate = self
+            self.present(bottomSheetVC, animated: false)
+        }
+        
+        return !accessToken.isEmpty
+    }
+}
+
+extension MainTabbarController: BottomSheetDelegate {
+    func loginSuccess(userInfo: UserInfo) {
+        self.tabBarController?.selectedIndex = 3
     }
 }
