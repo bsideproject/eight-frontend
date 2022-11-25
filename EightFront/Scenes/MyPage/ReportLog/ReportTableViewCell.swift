@@ -13,13 +13,11 @@ class ReportTableViewCell: UITableViewCell {
     static let identifier = "ReportTableViewCell"
     
     private let categoryLabel = UILabel().then {
-        $0.text = "정보 수정"
         $0.font = Fonts.Templates.body1.font
         $0.textColor = Colors.gray005.color
     }
     
     private let addressLabel = UILabel().then {
-        $0.text = "주소"
         $0.font = Fonts.Templates.subheader3.font
     }
     
@@ -29,7 +27,6 @@ class ReportTableViewCell: UITableViewCell {
     }
     
     private let stateLabel = UILabel().then {
-        $0.text = "처리중"
         $0.textColor = .white
         $0.font = Fonts.Templates.caption3.font
     }
@@ -74,16 +71,16 @@ class ReportTableViewCell: UITableViewCell {
     
     func configure(report: Report) {
         addressLabel.text = report.address
-        stateLabel.text = report.state
-        if report.state == "처리중" {
-            stateView.backgroundColor = Colors.Report.reportIngBackgroundColor.color
-            stateLabel.textColor = Colors.Report.reportIngFontColor.color
-        } else if report.state == "완료" {
-            stateView.backgroundColor = Colors.Report.reportCompletedBackgroudColor.color
-            stateLabel.textColor = Colors.Report.reportCompletedFontColor.color
-        } else if report.state == "반려" {
-            stateView.backgroundColor = Colors.Report.reportRejectBackgroundColor.color
-            stateLabel.textColor = Colors.Report.reportRejectFontColor.color
-        }
+        stateLabel.text = report.status
+//        if report.state == "처리중" {
+//            stateView.backgroundColor = Colors.Report.reportIngBackgroundColor.color
+//            stateLabel.textColor = Colors.Report.reportIngFontColor.color
+//        } else if report.state == "완료" {
+//            stateView.backgroundColor = Colors.Report.reportCompletedBackgroudColor.color
+//            stateLabel.textColor = Colors.Report.reportCompletedFontColor.color
+//        } else if report.state == "반려" {
+//            stateView.backgroundColor = Colors.Report.reportRejectBackgroundColor.color
+//            stateLabel.textColor = Colors.Report.reportRejectFontColor.color
+//        }
     }
 }

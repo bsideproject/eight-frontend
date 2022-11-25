@@ -7,10 +7,13 @@
 
 import UIKit
 
+
+
 class ReportLogVC: UIViewController {
     
     // MARK: - Properties
     private var viewModel = ReportLogViewModel()
+    
     
     private let commonNavigationView = CommonNavigationView().then {
         $0.titleLabel.text = "의류수거함 정보수정&신규등록 제보확인"
@@ -21,6 +24,11 @@ class ReportLogVC: UIViewController {
     private let reportTableView = UITableView().then {
         $0.register(ReportTableViewCell.self, forCellReuseIdentifier: ReportTableViewCell.identifier)
 //        $0.separatorStyle = .none
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchReportList()
     }
     
     // MARK: - Lift Cycle
@@ -63,6 +71,12 @@ class ReportLogVC: UIViewController {
             .sink { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             }.store(in: &viewModel.bag)
+        
+        viewModel.$reportList.receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.reportTableView.reloadData()
+            }.store(in: &viewModel.bag)
+        
     }
     
     // MARK: - Configure
@@ -71,10 +85,6 @@ class ReportLogVC: UIViewController {
         reportTableView.delegate = self
         reportTableView.dataSource = self
     }
-    
-    // MARK: - Actions
-    
-    // MARK: - Functions
     
 }
 

@@ -10,6 +10,7 @@ import Combine
 
 class MyClothesVC: UIViewController {
     
+    let viewModel = MyClothesViewModel()
     var bag = Set<AnyCancellable>()
     
     // MARK: - Properties
@@ -30,11 +31,11 @@ class MyClothesVC: UIViewController {
     
     private let searchTextField = UITextField().then {
         $0.placeholder = "수거함 위치를 검색해보세요."
+        $0.font = Fonts.Templates.caption1.font
     }
     
     private let clothesTableView = UITableView().then {
         $0.register(MyClothesTableViewCell.self, forCellReuseIdentifier: MyClothesTableViewCell.identifier)
-        $0.backgroundColor = .yellow
     }
 
     // MARK: - Lift Cycle
@@ -47,7 +48,8 @@ class MyClothesVC: UIViewController {
     
     // MARK: - configure
     private func configure() {
-        
+        clothesTableView.delegate = self
+        clothesTableView.dataSource = self
     }
     
     // MARK: - makeUI
@@ -85,11 +87,10 @@ class MyClothesVC: UIViewController {
         view.addSubview(clothesTableView)
         clothesTableView.snp.makeConstraints {
             $0.top.equalTo(searchView.snp.bottom).offset(8)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.left.equalToSuperview()
+            $0.right.equalToSuperview().inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
-
-        
         
     }
     
@@ -99,6 +100,7 @@ class MyClothesVC: UIViewController {
             .sink { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             }.store(in: &bag)
+        
     }
     
     // MARK: - Configure
@@ -114,13 +116,18 @@ extension MyClothesVC: UITableViewDelegate {
 
 extension MyClothesVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return viewModel.numberOfRowsInSection()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MyClothesTableViewCell.identifier, for: indexPath) as? MyClothesTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MyClothesTableViewCell.identifier,
+                                                       for: indexPath) as? MyClothesTableViewCell else { return UITableViewCell()}
+        cell.configure(myCloth: viewModel.indexPath(indexPath: indexPath))
+        cell.selectionStyle = .none
         return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 84
+    }
 }

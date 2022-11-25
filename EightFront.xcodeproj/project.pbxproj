@@ -25,6 +25,9 @@
 		284F962629293AE700597708 /* ResignSuccessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F962529293AE700597708 /* ResignSuccessVC.swift */; };
 		284F962A292950C600597708 /* SimpleSignUpVieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F9629292950C600597708 /* SimpleSignUpVieModel.swift */; };
 		2850D18B291BEB0F001A848C /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2850D18A291BEB0F001A848C /* FCMManager.swift */; };
+		2852EED52931266C009213DD /* MyClothesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2852EED42931266C009213DD /* MyClothesViewModel.swift */; };
+		2852EED729312BB0009213DD /* ReportAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2852EED629312BB0009213DD /* ReportAPI.swift */; };
+		2852EEDA29312EAD009213DD /* ReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2852EED929312EAD009213DD /* ReportResponse.swift */; };
 		288BFD6728FAF86F00A85F13 /* EmailSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6628FAF86F00A85F13 /* EmailSignUpVC.swift */; };
 		288BFD6D28FBAEAA00A85F13 /* EmailSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */; };
 		288BFD6F28FBC17500A85F13 /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6E28FBC17500A85F13 /* TermsViewModel.swift */; };
@@ -213,6 +216,9 @@
 		284F962529293AE700597708 /* ResignSuccessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignSuccessVC.swift; sourceTree = "<group>"; };
 		284F9629292950C600597708 /* SimpleSignUpVieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSignUpVieModel.swift; sourceTree = "<group>"; };
 		2850D18A291BEB0F001A848C /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
+		2852EED42931266C009213DD /* MyClothesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyClothesViewModel.swift; sourceTree = "<group>"; };
+		2852EED629312BB0009213DD /* ReportAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAPI.swift; sourceTree = "<group>"; };
+		2852EED929312EAD009213DD /* ReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportResponse.swift; sourceTree = "<group>"; };
 		288BFD6628FAF86F00A85F13 /* EmailSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpVC.swift; sourceTree = "<group>"; };
 		288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpViewModel.swift; sourceTree = "<group>"; };
 		288BFD6E28FBC17500A85F13 /* TermsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewModel.swift; sourceTree = "<group>"; };
@@ -403,6 +409,14 @@
 			path = BlockList;
 			sourceTree = "<group>";
 		};
+		2852EED829312EA3009213DD /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				2852EED929312EAD009213DD /* ReportResponse.swift */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
 		288BFD6828FAF96600A85F13 /* LoginBottomSheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -535,6 +549,7 @@
 		E927FC7C28D34E5500A91F11 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2852EED829312EA3009213DD /* Report */,
 				E9008D402911580100F70B6B /* Common */,
 				E9BEA55B292E40F9002BEDC7 /* Auth */,
 				E9008D3F291157E700F70B6B /* ClothingBins */,
@@ -550,6 +565,7 @@
 				E99AC31128E88AA800AF1F84 /* BoxesAPI.swift */,
 				E970693D291ABFDC00014FB9 /* ClothesAPI.swift */,
 				28E1F111292FAEB00084C3EF /* BlockAPI.swift */,
+				2852EED629312BB0009213DD /* ReportAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -835,8 +851,8 @@
 			children = (
 				E970691F2917EEEC00014FB9 /* ReportLogVC.swift */,
 				28D12AE12920D947001A7B32 /* ReportTableViewCell.swift */,
-				284F961F2928D87D00597708 /* ReportCategoryView.swift */,
 				28D12AE32920DA12001A7B32 /* ReportLogViewModel.swift */,
+				284F961F2928D87D00597708 /* ReportCategoryView.swift */,
 			);
 			path = ReportLog;
 			sourceTree = "<group>";
@@ -866,6 +882,7 @@
 			children = (
 				E97069272917EEEC00014FB9 /* MyClothesVC.swift */,
 				28E1F113292FB7B80084C3EF /* MyClothesTableViewCell.swift */,
+				2852EED42931266C009213DD /* MyClothesViewModel.swift */,
 			);
 			path = MyClothes;
 			sourceTree = "<group>";
@@ -1212,6 +1229,7 @@
 				284F961C2928C5EC00597708 /* BlockTableViewCell.swift in Sources */,
 				E99929B428D882AD006FCFC7 /* PostsVC.swift in Sources */,
 				E9008D432911584100F70B6B /* ReportRequest.swift in Sources */,
+				2852EED52931266C009213DD /* MyClothesViewModel.swift in Sources */,
 				E97069332917EFAB00014FB9 /* SignUpSuccessVC.swift in Sources */,
 				2806474A28E86AFF000DED5B /* UIButton+.swift in Sources */,
 				28D12AE42920DA12001A7B32 /* ReportLogViewModel.swift in Sources */,
@@ -1276,6 +1294,7 @@
 				E99929B628D882B5006FCFC7 /* NoticeVC.swift in Sources */,
 				E96BC92528EB2E7E002EBA7E /* SearchMapViewModel.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
+				2852EED729312BB0009213DD /* ReportAPI.swift in Sources */,
 				E910ECBA29292A6900E7881E /* ReportPostViewModel.swift in Sources */,
 				E970692C2917EEEC00014FB9 /* MyPageVC.swift in Sources */,
 				E97069342917EFAB00014FB9 /* SimpleSignUpVC.swift in Sources */,
@@ -1289,6 +1308,7 @@
 				28D12AE82921065F001A7B32 /* SettingViewModel.swift in Sources */,
 				28BAB95C293120DD00ECD943 /* UserInfoResponse.swift in Sources */,
 				E9494A6D28F1C816005285C0 /* BoxCollectionView.swift in Sources */,
+				2852EEDA29312EAD009213DD /* ReportResponse.swift in Sources */,
 				E910ECBD29292AE700E7881E /* ReportPostCell.swift in Sources */,
 				28379E8628F718DE00B2D4DD /* Pretendard+.swift in Sources */,
 				E9EEA49D2916C1090073001F /* DetailPostViewModel.swift in Sources */,
