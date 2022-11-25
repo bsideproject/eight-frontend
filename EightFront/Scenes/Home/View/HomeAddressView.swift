@@ -12,12 +12,10 @@ import UIKit
 final class HomeAddressView: UIView {
     //MARK: - Properties
     let addressLabel = UILabel().then {
+        $0.text = "의류수거함 찾기"
         $0.textColor = .white
         $0.textAlignment = .center
-        $0.font = Fonts.Templates.body2.font
-    }
-    private let detailImageView = UIImageView().then {
-        $0.image = Images.Home.detail.image
+        $0.font = Fonts.Templates.subheader2.font
     }
     
     //MARK: - Initializer
@@ -34,17 +32,9 @@ final class HomeAddressView: UIView {
     //MARK: - Make UI
     private func makeUI() {
         addSubview(addressLabel)
-        addSubview(detailImageView)
         
         addressLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.centerX.equalToSuperview().offset(-8)
-        }
-        detailImageView.snp.makeConstraints {
-            $0.left.equalTo(addressLabel.snp.right).offset(4)
-            $0.centerY.equalToSuperview()
-            $0.width.equalTo(12)
-            $0.height.equalTo(6)
+            $0.center.equalToSuperview()
         }
     }
 }

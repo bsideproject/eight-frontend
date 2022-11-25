@@ -23,7 +23,7 @@ final class HomeViewModel {
     let input = Input()
     let output = Output()
     private let clothesProvider = MoyaProvider<BoxesAPI>()
-    @Published var addressString: String?
+    var requestLocation: CLLocation?
     weak var selectedMarker: NaverMapMarker? {
         willSet {
             selectedMarker?.isSelected = false
@@ -40,21 +40,6 @@ final class HomeViewModel {
     
     //MARK: RxBinding..
     private func bind() {
-        LocationManager.shared.$currentAddress
-            .compactMap { $0 }
-            .sink { [weak self] in
-                self?.addressString = $0
-            }
-            .store(in: &cancelBag)
-        
-        input.requestAddress
-            .sink {
-                LocationManager.shared.addressUpdate(location: $0) { [weak self] address in
-                    self?.addressString = address
-                }
-            }
-            .store(in: &cancelBag)
-        
         input.requestClothingBins
             .sink { [weak self] in
                 self?.requestClothingBins(requestLocation: $0)
@@ -70,7 +55,6 @@ extension HomeViewModel {
     }
     
     struct Input {
-        var requestAddress = CurrentValueSubject<CLLocation?, Never>.init(nil)
         var requestClothingBins = CurrentValueSubject<CLLocation?, Never>.init(nil)
     }
     

@@ -12,9 +12,6 @@ import UIKit
 final class HomeHeaderView: UIView {
     //MARK: - Properties
     let addressView = HomeAddressView()
-    let alarmButton = UIButton().then {
-        $0.setImage(Images.Home.alarm.image)
-    }
     lazy var searchView = HomeSearchView().then {
         $0.layer.cornerRadius = 2.0
     }
@@ -36,22 +33,16 @@ final class HomeHeaderView: UIView {
         
         addSubview(addressView)
         addSubview(searchView)
-        addSubview(alarmButton)
         
         searchView.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().offset(-14)
             $0.height.equalTo(42)
         }
-        alarmButton.snp.makeConstraints {
-            $0.right.equalTo(searchView.snp.right)
-            $0.bottom.equalTo(searchView.snp.top).offset(-18)
-            $0.size.equalTo(24)
-        }
         addressView.snp.makeConstraints {
-            $0.centerY.equalTo(alarmButton.snp.centerY)
-            $0.left.equalToSuperview().inset(48)
-            $0.right.equalTo(alarmButton.snp.left).offset(8)
+            $0.top.equalToSuperview()
+            $0.left.right.equalTo(searchView)
+            $0.bottom.equalTo(searchView.snp.top).offset(-13)
         }
     }
 }

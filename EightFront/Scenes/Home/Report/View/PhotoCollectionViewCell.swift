@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 //MARK: - PhotoCell Delegate
 protocol PhotoCellDelegate: AnyObject {
@@ -19,54 +20,65 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
     let photoImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
-        $0.layer.cornerRadius = 4.0
+    }
+    lazy var removePhotoImageView = UIImageView().then {
+        $0.image = Images.Report.delete.image
+        $0.backgroundColor = .clear
     }
     // Photo remove button
-//    let removePhotoButton = UIButton().then {
-//        $0.contentMode = .scaleAspectFit
-//        $0.setImage(images: (normal: Asset.Images.iconDelete.image, highlighted: Asset.Images.iconDelete.image))
-//        $0.applyRoundedCornersWithHeight(11.5)
-//        $0.addTarget(self, action: #selector(removePhotoCellDidTapped(sender:)), for: .touchUpInside)
-//    }
+    lazy var removePhotoButton = UIButton().then {
+        $0.backgroundColor = .clear
+        $0.addTarget(self, action: #selector(removePhotoCellDidTapped), for: .touchUpInside)
+    }
     
     //MARK: Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        configureUI()
+        makeUI()
     }
     
     //MARK: Configure UI
-    private func configureUI() {
-        contentView.layer.cornerRadius = 4.0
+    private func makeUI() {
         contentView.backgroundColor = .white
                
         contentView.addSubview(photoImageView)
-//        contentView.addSubview(removePhotoButton)
+        contentView.addSubview(removePhotoImageView)
+        contentView.addSubview(removePhotoButton)
         
         photoImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-//        removePhotoButton.snp.makeConstraints {
-//            $0.top.right.equalToSuperview().inset(5)
-//            $0.width.height.equalTo(35)
-//        }
+        removePhotoImageView.snp.makeConstraints {
+            $0.top.right.equalToSuperview().inset(6)
+            $0.size.equalTo(13)
+        }
+        removePhotoButton.snp.makeConstraints {
+            $0.top.right.equalToSuperview()
+            $0.size.equalTo(25)
+        }
     }
     
     override func prepareForReuse() {
         photoImageView.image = nil
     }
     
-    //MARK: Fetch Data
-    func fetchData(_ image: UIImage?) {
+    //MARK: Configures
+    func configure(with image: UIImage?) {
+        contentView.layer.cornerRadius = 4.0
+        
         photoImageView.image = image
+    }
+    
+    func configure(with imageUrlString: String?) {
+        guard let imageUrl = URL(string: imageUrlString ?? "") else { return }
+        photoImageView.kf.setImage(with: imageUrl)
     }
     
     // 사진 삭제 handler

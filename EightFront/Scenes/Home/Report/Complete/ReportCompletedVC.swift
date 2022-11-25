@@ -92,7 +92,16 @@ final class ReportCompletedVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.navigationController?.popToRootViewController(animated: true)
+                switch self?.type {
+                case .report:
+                    if let vc = self?.navigationController?.viewControllers[1] {
+                        self?.navigationController?.popToViewController(vc, animated: true)
+                        return
+                    }
+                    self?.navigationController?.popToRootViewController(animated: true)
+                default:
+                    self?.navigationController?.popToRootViewController(animated: true)
+                }
             }
             .store(in: &bag)
     }
@@ -108,6 +117,12 @@ final class ReportCompletedVC: UIViewController {
         case .delete:
             titleLabel.text = "삭제 요청이 접수됐어요!"
             subTitleLabel.text = "N건 이상 접수된 건은 삭제 완료 처리됩니다."
+        case .report:
+            titleLabel.text = "신고 완료 되었어요!"
+            subTitleLabel.isHidden = true
+        case .addPost:
+            titleLabel.text = "등록 완료 되었어요!"
+            subTitleLabel.isHidden = true
         }
     }
 }

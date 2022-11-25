@@ -173,39 +173,7 @@ final class HomeVC: UIViewController {
                 self?.searchButtonTapped()
             }
             .store(in: &viewModel.cancelBag)
-        
-        headerView.alarmButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                var newSetting = NewSetting(naviType: "")
-                let alert = UIAlertController(title: "연동할 내비게이션을 선택해주세요.",
-                                              message: nil  ,
-                                              preferredStyle: .actionSheet)
-                let naver = UIAlertAction(title: "네이버맵", style: .default) { _ in
-                    newSetting.naviType = "naver"
-                    DataManager.shared.addNew(setting: newSetting)
-                }
-                let kakao = UIAlertAction(title: "카카오맵", style: .default) { _ in
-                    newSetting.naviType = "kakao"
-                    DataManager.shared.addNew(setting: newSetting)
-                }
-                let cancel = UIAlertAction(title: "취소", style: .cancel)
                 
-                alert.addAction(naver)
-                alert.addAction(kakao)
-                alert.addAction(cancel)
-                
-                self?.present(alert, animated: true)
-            }
-            .store(in: &viewModel.cancelBag)
-        
-        viewModel.$addressString
-            .receive(on: DispatchQueue.main)
-            .compactMap { $0 }
-            .assign(to: \.text, on: headerView.addressView.addressLabel)
-            .store(in: &viewModel.cancelBag)
-        
         viewModel
             .output
             .requestClothingBins
@@ -229,12 +197,11 @@ final class HomeVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] in
-                guard self?.viewModel.addressString == nil else { return }
+                guard self?.viewModel.requestLocation == nil else { return }
+                
+                self?.viewModel.requestLocation = $0
                 self?.moveMap(location: $0)
-                LocationManager.shared.addressUpdate(location: $0) { address in
-                    self?.viewModel.addressString = address
-                }
-//                self?.viewModel.input.requestClothingBins.send(LocationManager.shared.currentLocation)
+                self?.viewModel.input.requestClothingBins.send($0)
             }
             .store(in: &viewModel.cancelBag)
     }

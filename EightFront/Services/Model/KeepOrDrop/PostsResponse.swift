@@ -27,6 +27,7 @@ struct PostModel: Decodable {
     let category: String?
     let title: String?
     let description: String?
+    let images: [String]?
     let createdAt: String?
     
     enum CodingKeys: String, CodingKey {
@@ -34,6 +35,7 @@ struct PostModel: Decodable {
         case category = "category"
         case title = "title"
         case description = "description"
+        case images = "images"
         case createdAt = "createdAt"
     }
 }

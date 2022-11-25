@@ -18,7 +18,8 @@ final class ReportViewModel {
     let output = Output()
     var type: ReportType?
     var box: CollectionBox?
-    private let clothesProvider = MoyaProvider<BoxesAPI>()
+    private let boxesProvider = MoyaProvider<BoxesAPI>()
+    private let clothesProvider = MoyaProvider<ClothesAPI>()
     @Published var addressString: String?
     private var imageList = [UIImage]() {
         didSet {
@@ -57,6 +58,11 @@ final class ReportViewModel {
                 }
             }
             .store(in: &bag)
+        input.newPostRequest
+            .sink { [weak self] param in
+                self?.request(post: param)
+            }
+            .store(in: &bag)
         input.deleteReport
             .sink { [weak self] _ in
                 self?.request(.deleteReport(id: "\(self?.box?.id ?? 0)"))
@@ -71,6 +77,8 @@ extension ReportViewModel {
         case new
         case update
         case delete
+        case report
+        case addPost
     }
     
     enum ErrorResult: Error {
@@ -81,6 +89,7 @@ extension ReportViewModel {
         var isAgreePhoto = CurrentValueSubject<Bool, Never>.init(false)
         var isDetailAddress = CurrentValueSubject<Bool, Never>.init(false)
         var isIncludePhoto = CurrentValueSubject<Bool, Never>.init(false)
+        var newPostRequest = PassthroughSubject<PostRequest, Never>()
         var updateReport = PassthroughSubject<ReportRequest, Never>()
         var deleteReport = PassthroughSubject<Void?, Never>()
     }
@@ -112,13 +121,28 @@ extension ReportViewModel {
     }
     
     func request(_ boxAPI: BoxesAPI) {
-        clothesProvider
+        boxesProvider
             .requestPublisher(boxAPI)
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
                     LogUtil.d(error.localizedDescription)
                     self?.output.requestReport.send(false)
+                case .finished:
+                    LogUtil.d("Successed")
+                    self?.output.requestReport.send(true)
+                }
+            } receiveValue: { _ in }
+            .store(in: &bag)
+    }
+    
+    private func request(post: PostRequest) {
+        clothesProvider
+            .requestPublisher(.newPost(info: post, images: imageList))
+            .sink { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    LogUtil.d(error.localizedDescription)
                 case .finished:
                     LogUtil.d("Successed")
                     self?.output.requestReport.send(true)

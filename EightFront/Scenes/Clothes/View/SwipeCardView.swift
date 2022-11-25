@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class SwipeCardView: UIView {
     //MARK: - Properties
@@ -34,7 +35,9 @@ final class SwipeCardView: UIView {
         $0.font = Fonts.Templates.body1.font
     }
     var imageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 12.0
     }
     let backgroundView = UIView().then {
         $0.alpha = 0.0
@@ -51,13 +54,13 @@ final class SwipeCardView: UIView {
     var divisor: CGFloat = 0
     let baseView = UIView()
     
-    var dataSource : CardsDataModel? {
+    var dataSource: PostModel? {
         didSet {
-            swipeView.backgroundColor = dataSource?.bgColor
+            swipeView.backgroundColor = .white
             bottomTitleLabel.text = dataSource?.title
-            bottomSubTitleLabel.text = dataSource?.subTitle
-            guard let image = dataSource?.image else { return }
-            imageView.image = image
+            bottomSubTitleLabel.text = dataSource?.description
+            guard let imageUrl = URL(string: dataSource?.images?.first ?? "") else { return }
+            imageView.kf.setImage(with: imageUrl)
         }
     }
     
@@ -106,8 +109,7 @@ final class SwipeCardView: UIView {
             $0.right.equalToSuperview().offset(-16)
         }
         imageView.snp.makeConstraints {
-            $0.left.top.right.equalToSuperview()
-            $0.bottom.equalTo(bottomLineView.snp.top)
+            $0.edges.equalToSuperview().inset(7)
         }
         backgroundView.snp.makeConstraints {
             $0.edges.equalToSuperview()

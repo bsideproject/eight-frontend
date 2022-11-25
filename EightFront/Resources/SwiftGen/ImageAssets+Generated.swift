@@ -8,9 +8,6 @@
 #elseif os(tvOS) || os(watchOS)
   import UIKit
 #endif
-#if canImport(SwiftUI)
-  import SwiftUI
-#endif
 
 // Deprecated typealiases
 @available(*, deprecated, renamed: "ImageAsset.Image", message: "This typealias will be removed in SwiftGen 7.0")
@@ -62,10 +59,13 @@ internal enum Images {
     internal static let naverCircleIcon = ImageAsset(name: "naver_circle_icon")
   }
   internal enum Report {
+    internal static let checkboxSelectNone = ImageAsset(name: "Checkbox-select-none")
     internal static let addPhoto = ImageAsset(name: "add-photo")
+    internal static let bottomArrow = ImageAsset(name: "bottom-arrow")
     internal static let checkComplete = ImageAsset(name: "check-complete")
     internal static let checkboxNone = ImageAsset(name: "checkbox-none")
     internal static let checkboxSelect = ImageAsset(name: "checkbox-select")
+    internal static let delete = ImageAsset(name: "delete")
     internal static let search = ImageAsset(name: "search")
   }
   internal enum Tabbar {
@@ -90,6 +90,7 @@ internal enum Images {
   }
   internal enum Trade {
     internal static let bottomArrow = ImageAsset(name: "bottom-arrow")
+    internal static let empty = ImageAsset(name: "empty")
     internal static let filterBackground = ImageAsset(name: "filter-background")
     internal static let leftArrow = ImageAsset(name: "left-arrow")
     internal static let rightArrow = ImageAsset(name: "right-arrow")
@@ -135,13 +136,6 @@ internal struct ImageAsset {
     return result
   }
   #endif
-
-  #if canImport(SwiftUI)
-  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  internal var swiftUIImage: SwiftUI.Image {
-    SwiftUI.Image(asset: self)
-  }
-  #endif
 }
 
 internal extension ImageAsset.Image {
@@ -159,26 +153,6 @@ internal extension ImageAsset.Image {
     #endif
   }
 }
-
-#if canImport(SwiftUI)
-@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-internal extension SwiftUI.Image {
-  init(asset: ImageAsset) {
-    let bundle = BundleToken.bundle
-    self.init(asset.name, bundle: bundle)
-  }
-
-  init(asset: ImageAsset, label: Text) {
-    let bundle = BundleToken.bundle
-    self.init(asset.name, bundle: bundle, label: label)
-  }
-
-  init(decorative asset: ImageAsset) {
-    let bundle = BundleToken.bundle
-    self.init(decorative: asset.name, bundle: bundle)
-  }
-}
-#endif
 
 // swiftlint:disable convenience_type
 private final class BundleToken {

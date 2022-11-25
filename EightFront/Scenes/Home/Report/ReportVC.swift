@@ -14,27 +14,32 @@ import CoreLocation
 final class ReportVC: UIViewController {
     //MARK: - Properties
     private let viewModel = ReportViewModel()
-    private let navigationView = CommonNavigationView().then {
-        $0.titleLabel.text = "지도정보수정"
+    private lazy var navigationView = CommonNavigationView().then {
+        $0.titleLabel.text = viewModel.type == .addPost ? "버릴까 말까" : "지도정보수정"
     }
-    private let searchImageView = UIImageView().then {
-        $0.image = Images.Report.search.image
+    private lazy var searchImageView = UIImageView().then {
+        $0.image = viewModel.type == .addPost ? Images.Report.bottomArrow.image : Images.Report.search.image
     }
-    private let addressView = CommonTextFieldView(titleWidth: 56.0,
-                                                  contentTrailing: 52.0).then {
-        $0.titleLabel.text = "주소"
+    private lazy var addressView = CommonTextFieldView(isTitleHidden: viewModel.type == .addPost,
+                                                       placeholder: viewModel.type == .addPost ? "품목 선택" : nil,
+                                                       titleWidth: viewModel.type == .addPost ? .zero : 56.0,
+                                                       contentTrailing: 52.0).then {
+        $0.titleLabel.text = viewModel.type == .addPost ? "" : "주소"
         $0.contentTextField.isUserInteractionEnabled = false
     }
-    private let detailView = CommonTextFieldView(titleWidth: 56.0).then {
+    private let detailView = CommonTextFieldView(isTitleHidden: true,
+                                                 placeholder: "옷 이름이 뭐에요?",
+                                                 titleWidth: .zero).then {
         $0.titleLabel.text = "상세주소"
     }
-    private let questionLabel = UILabel().then {
-        $0.text = "요청 내용"
+    private lazy var questionLabel = UILabel().then {
+        $0.text = viewModel.type == .addPost ? "" : "요청 내용"
         $0.font = Fonts.Templates.subheader3.font
+        $0.isHidden = viewModel.type == .addPost
     }
-    private let questionView = CommonTextFieldView(isTitleHidden: true,
-                                                   isTextView: true,
-                                                   placeholder: "추가 요청사항 혹은 문의사항을 남겨주세요.").then {
+    private lazy var questionView = CommonTextFieldView(isTitleHidden: true,
+                                                        isTextView: true,
+                                                        placeholder: viewModel.type == .addPost ? "옷에 대해서 자유롭게 말씀해주세요." : "추가 요청사항 혹은 문의사항을 남겨주세요.").then {
         $0.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         $0.setContentHuggingPriority(.defaultLow, for: .vertical)
     }
@@ -98,7 +103,7 @@ final class ReportVC: UIViewController {
     
     //MARK: - Make UI
     private func makeUI() {
-        let isNew = viewModel.type == .new
+        let isNew = viewModel.type == .new || viewModel.type == .addPost
         
         view.backgroundColor = .white
         
@@ -128,7 +133,8 @@ final class ReportVC: UIViewController {
         searchImageView.snp.makeConstraints {
             $0.centerY.equalTo(addressView.snp.centerY)
             $0.right.equalTo(addressView.snp.right).offset(-16)
-            $0.size.equalTo(20)
+            $0.width.equalTo(viewModel.type == .addPost ? 18 : 20)
+            $0.height.equalTo(viewModel.type == .addPost ? 18 : 20)
         }
         detailView.snp.makeConstraints {
             $0.top.equalTo(addressView.snp.bottom).offset(8)
@@ -136,9 +142,9 @@ final class ReportVC: UIViewController {
             $0.height.equalTo(50)
         }
         questionLabel.snp.makeConstraints {
-            $0.top.equalTo(detailView.snp.bottom).offset(16)
+            $0.top.equalTo(detailView.snp.bottom).offset(viewModel.type == .addPost ? 12 : 16)
             $0.left.right.equalToSuperview().inset(16)
-            $0.height.equalTo(26)
+            $0.height.equalTo(viewModel.type == .addPost ? .zero : 26)
         }
         questionView.snp.makeConstraints {
             $0.top.equalTo(questionLabel.snp.bottom).offset(4)
@@ -223,9 +229,12 @@ final class ReportVC: UIViewController {
             .isRequest
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.requestButton.setTitleColor($0 ? Colors.point.color : .white)
-                self?.requestButton.backgroundColor = $0 ? Colors.gray002.color : Colors.gray006.color
-                self?.requestButton.isUserInteractionEnabled = $0
+                let isCategory = !(self?.addressView.contentTextField.text?.isEmpty ?? true)
+                let isAddPost = $0 && isCategory
+                let isRequest = self?.viewModel.type == .addPost ? isAddPost : $0
+                self?.requestButton.setTitleColor(isRequest ? Colors.point.color : .white)
+                self?.requestButton.backgroundColor = isRequest ? Colors.gray002.color : Colors.gray006.color
+                self?.requestButton.isUserInteractionEnabled = isRequest
             }
             .store(in: &viewModel.bag)
         
@@ -233,14 +242,23 @@ final class ReportVC: UIViewController {
             .tapPublisher
             .sink { [weak self] in
                 guard let self else { return }
-                let report = ReportRequest(memberId: "", // TODO: 추후에 로그인 완성후에 추가
-                                           address: self.addressView.contentTextField.text ?? "",
-                                           detailedAddress: self.detailView.contentTextField.text ?? "",
-                                           latitude: self.viewModel.box?.latitude ?? .zero,
-                                           longitude: self.viewModel.box?.longitude ?? .zero,
-                                           comment: self.questionView.contentTextView.text ?? "")
                 
-                self.viewModel.input.updateReport.send(report)
+                if self.viewModel.type == .addPost {
+                    let post = PostRequest(category: self.addressView.contentTextField.text ?? "",
+                                           title: self.detailView.contentTextField.text ?? "",
+                                           description: self.questionView.contentTextView.text ?? "")
+                    
+                    self.viewModel.input.newPostRequest.send(post)
+                } else {
+                    let report = ReportRequest(memberId: "", // TODO: 추후에 로그인 완성후에 추가
+                                               address: self.addressView.contentTextField.text ?? "",
+                                               detailedAddress: self.detailView.contentTextField.text ?? "",
+                                               latitude: self.viewModel.box?.latitude ?? .zero,
+                                               longitude: self.viewModel.box?.longitude ?? .zero,
+                                               comment: self.questionView.contentTextView.text ?? "")
+                    
+                    self.viewModel.input.updateReport.send(report)
+                }
             }
             .store(in: &viewModel.bag)
         
@@ -264,7 +282,7 @@ final class ReportVC: UIViewController {
             .store(in: &viewModel.bag)
         
         agreePhotoView
-            .gesture(.tap)
+            .gesture()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.agreePhotoView.isSelected.toggle()
@@ -307,11 +325,17 @@ final class ReportVC: UIViewController {
         return flowLayout
     }
     
-    @objc
     private func addressTapped() {
-        let searchMapVC = SearchMapVC(requestLocation: viewModel.requestLocation ?? LocationManager.shared.currentLocation)
-        searchMapVC.delegate = self
-        navigationController?.pushViewController(searchMapVC, animated: true)
+        guard viewModel.type == .addPost else {
+            let searchMapVC = SearchMapVC(requestLocation: viewModel.requestLocation ?? LocationManager.shared.currentLocation)
+            searchMapVC.delegate = self
+            navigationController?.pushViewController(searchMapVC, animated: true)
+            return
+        }
+        
+        let selectCategoryVC = ReportPostVC(type: .category)
+        selectCategoryVC.delegate = self
+        navigationController?.pushViewController(selectCategoryVC, animated: true)
     }
 }
 
@@ -339,7 +363,7 @@ extension ReportVC: UICollectionViewDataSource {
         
         cell.tag = indexPath.item
         cell.delegate = self
-        cell.fetchData(viewModel.image(at: indexPath.item))
+        cell.configure(with: viewModel.image(at: indexPath.item))
         
         return cell
     }
@@ -357,15 +381,22 @@ extension ReportVC: UICollectionViewDelegate {
     }
 }
 
-//MARK: - PhotoCellDelegate
+//MARK: - 첨부사진 삭제 버튼 탭
 extension ReportVC: PhotoCellDelegate {
     func removeItemButtonTapped(at index: Int) {
         viewModel.removeImage(at: index)
     }
 }
-
+//MARK: - 수거함 삭제 버튼 탭
 extension ReportVC: DeleteBoxVCDelegate {
     func deleteTapped() {
         viewModel.input.deleteReport.send(nil)
+    }
+}
+//MARK: - 카테고리 선택
+extension ReportVC: ReportPostVCDelegate {
+    func select(category: String) {
+        addressView.contentTextField.text = category
+        
     }
 }

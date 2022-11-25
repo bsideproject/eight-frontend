@@ -14,15 +14,15 @@ enum ClothesAPI {
     /// 버릴까 말까 글 리스트 조회
     case posts(order: String, category: String)
     /// 버릴까 말까 글 조회
-    case post(id: String)
+    case post(id: Int)
     /// 버릴까 말까 글 등록
     case newPost(info: PostRequest, images: [UIImage])
     /// 버릴까 말까 글 투표
     case vote(type: VoteRequest)
     /// 버릴까 말까 글 댓글 조회
-    case comments(id: String)
+    case comments(id: Int)
     /// 버릴까 말까 글 댓글 등록
-    case newComment(id: CommentRequest)
+    case newComment(id: Int, info: CommentRequest)
 }
 
 extension ClothesAPI: TargetType {
@@ -44,7 +44,7 @@ extension ClothesAPI: TargetType {
             return "/keep-or-drop/\(id)/vote"
         case .comments(let id):
             return "/keep-or-drop/\(id)/comments"
-        case .newComment(let id):
+        case .newComment(let id, _):
             return "/keep-or-drop/\(id)/comments"
         }
     }
@@ -89,7 +89,7 @@ extension ClothesAPI: TargetType {
             return .uploadMultipart(fromData)
         case .vote(let param):
             return .requestJSONEncodable(param)
-        case .newComment(let param):
+        case .newComment(_, let param):
             return .requestJSONEncodable(param)
         }
     }

@@ -25,7 +25,7 @@ struct CommentsModel: Decodable {
 struct CommentModel: Decodable {
     let nickname: String?
     let comment: String?
-    let children: [ReCommentModel]?
+    let children: [Comment]?
     let createdAt: String?
     
     enum CodingKeys: String, CodingKey {
@@ -36,7 +36,8 @@ struct CommentModel: Decodable {
     }
 }
 
-struct ReCommentModel: Decodable {
+struct Comment: Decodable {
+    var type: Int?
     let nickname: String?
     let comment: String?
     let createdAt: String?

@@ -84,7 +84,8 @@ final class CommonTextFieldView: UIView {
             contentTextView.text = placeholder
             
             contentTextView.snp.makeConstraints {
-                $0.left.top.right.equalToSuperview().inset(16)
+                $0.top.right.equalToSuperview().inset(16)
+                $0.left.equalToSuperview().offset(10)
                 $0.bottom.equalToSuperview()
             }
         } else {

@@ -13,7 +13,17 @@ final class StackContainerView: UIView {
     //MARK: - Properties
     private var numberOfCardsToShow: Int = 0
     private var cardsToBeVisible: Int = 3
-    private var cardViews : [SwipeCardView] = []
+    private var cardViews : [SwipeCardView] = [] {
+        didSet {
+            if cardViews.isEmpty {
+                if let view = dataSource?.emptyView() {
+                    addSubview(view)
+                }
+            } else {
+                
+            }
+        }
+    }
     private var remainingcards: Int = 0
     
     private let horizontalInset: CGFloat = 10.0
