@@ -98,6 +98,7 @@ playground.xcworkspace
 # Package.pins
 # Package.resolved
 .build/
+TMapSDK.framework
 
 # CocoaPods
 # We recommend against adding the Pods directory to your .gitignore. However
