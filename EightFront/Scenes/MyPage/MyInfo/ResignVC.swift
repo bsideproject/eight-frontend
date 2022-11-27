@@ -185,7 +185,8 @@ class ResignVC: UIViewController {
     
     private func bind() {
         
-        viewModel.$isChecked.receive(on: DispatchQueue.main)
+        viewModel.$isChecked
+            .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] in
                 $0 ? self?.confirmCheckBox.setImage(Images.Report.checkboxSelect.image) : self?.confirmCheckBox.setImage(Images.Report.checkboxNone.image)
@@ -195,12 +196,14 @@ class ResignVC: UIViewController {
                 
             }.store(in: &viewModel.bag)
         
-        confirmView.gesture().receive(on: DispatchQueue.main)
+        confirmView.gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.viewModel.isChecked.toggle()
             }.store(in: &viewModel.bag)
         
-        resignButtonView.gesture().receive(on: DispatchQueue.main)
+        resignButtonView.gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 if self?.viewModel.isChecked == true {
                     let accessToken = KeyChainManager.shared.readAccessToken()
@@ -215,8 +218,6 @@ class ResignVC: UIViewController {
                             self?.viewModel.kakaoResign { bool in
                                 if bool {
                                     if KeyChainManager.shared.deleteAccessToken() {
-                                        UserDefaults.standard.removeObject(forKey: "nickName")
-                                        UserDefaults.standard.removeObject(forKey: "email")
                                         let resignVC = ResignSuccessVC()
                                         self?.navigationController?.pushViewController(resignVC, animated: true)
                                     } else {

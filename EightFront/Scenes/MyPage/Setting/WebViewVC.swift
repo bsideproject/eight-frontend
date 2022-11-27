@@ -51,7 +51,8 @@ final class WebViewVC: UIViewController {
     }
     
     private func bind() {
-        commonNavigationView.backButton.gesture().receive(on: DispatchQueue.main)
+        commonNavigationView.backButton.gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.navigationController?.popViewController(animated: true)
             }.store(in: &bag)

@@ -17,7 +17,6 @@ import Moya
 
 final class MyPageVC: UIViewController {
     let viewModel = MyPageViewModel()
-    let authProvider = MoyaProvider<AuthAPI>()
     
     //MARK: - Properties
     private let navigationView = CommonNavigationView().then {
@@ -53,23 +52,8 @@ final class MyPageVC: UIViewController {
         configure()
         makeUI()
         bind()
-    }
-   
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        authProvider.requestPublisher(.userInfo)
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    LogUtil.d("유저 정보 가져오기 API 호출 완료")
-                case .failure(let error):
-                    LogUtil.e(error)
-                }
-            } receiveValue: { [weak self] response in
-                let data = try? response.map(UserInfoResponse.self)
-                self?.nicknameLabel.text = data?.data?.content.nickname
-            }.store(in: &viewModel.bag)
+        
+        viewModel.reqeustUserInfo()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

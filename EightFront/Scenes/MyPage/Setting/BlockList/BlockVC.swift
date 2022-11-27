@@ -25,7 +25,7 @@ class BlockVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.fetchBlockList()
+        viewModel.requestBlockList()
     }
     
     override func viewDidLoad() {
@@ -60,7 +60,8 @@ class BlockVC: UIViewController {
                 self?.navigationController?.popViewController(animated: true)
             }.store(in: &viewModel.bag)
         
-        viewModel.$blockList.receive(on: DispatchQueue.main)
+        viewModel.$blockList
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.blockTableView.reloadData()
             }.store(in: &viewModel.bag)

@@ -31,7 +31,7 @@ class ReportLogViewModel {
         return reportList[indexPath.row]
     }
     
-    func fetchReportList() {
+    func requestReportList() {
         provider.requestPublisher(.clothingBeanReport)
             .sink { completion in
                 switch completion {

@@ -20,7 +20,7 @@ class NoticeViewModel {
     ]
     
     // 알림 목록 불러오기
-    func fetchNotice() {
+    func requestNotice() {
     }
     
     func cellForRowAt(indexPath: IndexPath) -> NoticeModel {

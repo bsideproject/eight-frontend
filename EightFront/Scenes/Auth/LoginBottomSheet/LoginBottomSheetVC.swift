@@ -17,21 +17,10 @@ protocol BottomSheetDelegate: AnyObject {
     func loginSuccess()
 }
 
-enum signType {
-    case apple
-    case kakao
-    case email
-    
-    var type: String {
-        switch self {
-        case .apple:
-            return "apple"
-        case .kakao:
-            return "kakao"
-        case .email:
-            return "email"
-        }
-    }
+enum SignType: String {
+    case apple = "apple"
+    case kakao = "kakao"
+    case email = "email"
 }
 
 final class LoginBottomSheetVC: UIViewController {
@@ -274,14 +263,7 @@ final class LoginBottomSheetVC: UIViewController {
                             if content.type == "sign-in" {
                                 guard let accessToken = content.accessToken else { return }
                                 if KeyChainManager.shared.createAccessToken(accessToken) {
-                                    self.dismiss(animated: false) { [weak self] in
-//                                        self?.bottomSheetDelegate?.loginSuccess(
-//                                            userInfo: UserInfo(
-//                                                accessToken: "",
-//                                                nickName: content.nickName,
-//                                                email: content.email,
-//                                                type: ""))
-                                    }
+                                    self.dismiss(animated: false)
                                 } else {
                                     LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
                                 }
@@ -291,7 +273,7 @@ final class LoginBottomSheetVC: UIViewController {
                                 KeyChainManager.shared.accessToken = accessToken
                                     self.dismiss(animated: false) {
                                         let termsVC = TermsVC()
-                                        termsVC.type = signType.kakao.type
+                                        termsVC.type = SignType.kakao.rawValue
                                         UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
                                     }
                             }
@@ -302,13 +284,16 @@ final class LoginBottomSheetVC: UIViewController {
             }
         } else {
             UserApi.shared.loginWithKakaoAccount { [weak self](oauthToken, error) in
+                
+                guard let oauthToken else { return }
+                    
                 if let error = error {
                     LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
                 }
                 
                 self?.authProvider.request(.socialSignIn(
                     param: SocialSignInRequest(
-                    accessToken: oauthToken?.accessToken ?? "",
+                    accessToken: oauthToken.accessToken,
                     social: "kakao"
                     ))) { reponse in
                         switch reponse {
@@ -339,7 +324,7 @@ final class LoginBottomSheetVC: UIViewController {
                                 // 회원가입
                                 self?.dismiss(animated: false) {
                                     let termsVC = TermsVC()
-                                    termsVC.type = signType.kakao.type
+                                    termsVC.type = SignType.kakao.rawValue
                                     UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
                                 }
                             }

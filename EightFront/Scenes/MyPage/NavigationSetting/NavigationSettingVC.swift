@@ -144,7 +144,8 @@ class NavigationSettingVC: UIViewController {
                 self?.viewModel.navagation = "kakao"
             }.store(in: &viewModel.bag)
         
-        viewModel.$navagation.receive(on: DispatchQueue.main)
+        viewModel.$navagation
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.naverMapView.layer.borderColor = $0 == "naver" ? UIColor.black.cgColor : Colors.gray006.color.cgColor
                 self?.kakaoMapView.layer.borderColor = $0 == "kakao" ? UIColor.black.cgColor : Colors.gray006.color.cgColor

@@ -26,17 +26,14 @@ class ReportLogVC: UIViewController {
 //        $0.separatorStyle = .none
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.fetchReportList()
-    }
-    
     // MARK: - Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
         makeUI()
         bind()
+        
+        viewModel.requestReportList()
     }
     
     // MARK: - makeUI
@@ -72,7 +69,8 @@ class ReportLogVC: UIViewController {
                 self?.navigationController?.popViewController(animated: true)
             }.store(in: &viewModel.bag)
         
-        viewModel.$reportList.receive(on: DispatchQueue.main)
+        viewModel.$reportList
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.reportTableView.reloadData()
             }.store(in: &viewModel.bag)

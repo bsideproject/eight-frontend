@@ -22,7 +22,7 @@ class BlockTableViewModel {
     }
     
     // 차단 목록 불러오기
-    func fetchBlockList() {
+    func requestBlockList() {
         blockProvider.requestPublisher(.blockList)
             .sink { completion in
                 switch completion {

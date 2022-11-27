@@ -40,8 +40,14 @@ final class ResignSuccessVC: UIViewController {
     // MARK: - Lift Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        configure()
         makeUI()
         bind()
+    }
+    
+    // MARK: - Configure()
+    private func configure() {
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     // MARK: - MakeUI

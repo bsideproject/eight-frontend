@@ -9,9 +9,11 @@ import Foundation
 import UIKit
 
 import Combine
+import Moya
 
 final class MyPageViewModel {
     
+    let authProvider = MoyaProvider<AuthAPI>()
     var bag = Set<AnyCancellable>()
     
     @Published var nickname = ""
@@ -60,6 +62,22 @@ final class MyPageViewModel {
                 return SettingVC()
             }
         }
+    }
+    
+    func reqeustUserInfo() {
+        authProvider.requestPublisher(.userInfo)
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    LogUtil.d("유저 정보 가져오기 API 호출 완료")
+                case .failure(let error):
+                    LogUtil.e(error)
+                }
+            } receiveValue: { [weak self] response in
+                let data = try? response.map(UserInfoResponse.self)
+                self?.nickname = data?.data?.content.nickname ?? "김에잇"
+            }.store(in: &bag)
     }
     
     func numberOfRowsInSection() -> Int {

@@ -15,7 +15,6 @@ class SimpleSignUpVC: UIViewController {
     
     // MARK: - Properties
     private let authProvider = MoyaProvider<AuthAPI>()
-    private var disposeBag = Set<AnyCancellable>()
     private let viewModel = SimpleSignUpVieModel()
     
     private let commonNavigationView = CommonNavigationView().then {
@@ -59,16 +58,17 @@ class SimpleSignUpVC: UIViewController {
         tabBarController?.tabBar.isHidden.toggle()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        tabBarController?.tabBar.isHidden.toggle()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
         bind()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden.toggle()
+    }
+
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
@@ -129,41 +129,23 @@ class SimpleSignUpVC: UIViewController {
     
     // MARK: - Binding
     private func bind() {
-        let accessToken = KeyChainManager.shared.accessToken
-        guard let nickname = nicknameTextField.contentTextField.text else { return }
         signUpButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 if self?.viewModel.isSignUpButtonValid == true {
-                    self?.authProvider.request(
-                        .socialSignUp(
-                            param: SocialSignUpRequest(
-                            accessToken: accessToken,
-                            nickName: nickname
-                        ))) { [weak self] response in
-                            switch response {
-                            case .success(let result):
-                                guard let data = try? result.map(SimpleSignUpResponse.self).data else {
-                                    LogUtil.d("Response Decoding 실패")
-                                    return
-                                }
-                                guard let content = data.content else {
-                                    LogUtil.e("data.content unWrapping 실패")
-                                    return
-                                }
-                                guard let accessToken = content.accessToken else { return }
-                                if KeyChainManager.shared.createAccessToken(accessToken) {
-                                    let signUpSuccessVC = SignUpSuccessVC()
-                                    self?.navigationController?.pushViewController(signUpSuccessVC, animated: true)
-                                } else {
-                                    LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
-                                }
-                            case .failure(let error):
-                                LogUtil.e("간편 회원가입 실패 > \(error.localizedDescription)")
-                            }
-                        }
+                    self?.viewModel.requestSignUp()
                 }
-            }.store(in: &disposeBag)
+            }.store(in: &viewModel.bag)
+        
+        viewModel.$isSignUp
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] in
+                if $0 {
+                    let successVC = SignUpSuccessVC()
+                    self?.navigationController?.pushViewController(successVC, animated: true)
+                }
+            }.store(in: &viewModel.bag)
         
         nicknameTextField.contentTextField.textPublisher
             .compactMap { $0 }
@@ -177,38 +159,34 @@ class SimpleSignUpVC: UIViewController {
         
         nicknameCheckButtonView.gesture()
             .sink { [weak self] _ in
-                guard let nickname = self?.nicknameTextField.contentTextField.text else { return }
-                self?.authProvider.request(.nicknameCheck(nickname: nickname)) { result in
-                    switch result {
-                    case .success(let response):
-                        guard let data = try? response.map(NicknameResponse.self).data else {
-                            LogUtil.d("Response Decoding 실패")
-                            return
-                        }
-                        
-                        guard let content = data.content else { return }
-                        if content {
-                            self?.viewModel.isSignUpButtonValid = false
-                            self?.nicknameDuplicateedLabel.isHidden = false
-                        } else {
-                            self?.viewModel.isSignUpButtonValid = true
-                            self?.nicknameDuplicateedLabel.isHidden = true
-                        }
-                        self?.view.endEditing(true)
-                    case .failure(let error):
-                        LogUtil.e(error)
+                self?.viewModel.requestNickNameCheck()
+            }.store(in: &viewModel.bag)
+        
+        viewModel.$isNicknameCheck
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] isNicknameCheck in
+                if isNicknameCheck {
+                    self?.viewModel.isSignUpButtonValid = true
+                    self?.nicknameDuplicateedLabel.isHidden = true
+                } else {
+                    self?.viewModel.isSignUpButtonValid = false
+                    if self?.viewModel.inputNickname.count ?? 0 > 0 {
+                        self?.nicknameDuplicateedLabel.isHidden = false
                     }
                 }
             }.store(in: &viewModel.bag)
         
-        viewModel.isNicknameValid.receive(on: DispatchQueue.main)
+        viewModel.isNicknameValid
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.nicknameCheckButtonView.backgroundColor = $0 ? Colors.gray001.color : Colors.gray006.color
                 self?.nicknameCheckButtonLabel.textColor = $0 ? Colors.point.color :
                 UIColor.white
             }.store(in: &viewModel.bag)
         
-        viewModel.$isSignUpButtonValid.receive(on: DispatchQueue.main)
+        viewModel.$isSignUpButtonValid
+            .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] isButtonEnabled in
                 self?.signUpButton.backgroundColor = isButtonEnabled ? Colors.gray001.color : Colors.gray006.color

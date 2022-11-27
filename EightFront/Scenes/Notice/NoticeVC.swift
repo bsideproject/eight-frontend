@@ -31,7 +31,7 @@ final class NoticeVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.fetchNotice()
+        viewModel.requestNotice()
     }
     
     override func viewDidLoad() {
@@ -68,7 +68,8 @@ final class NoticeVC: UIViewController {
     
     //MARK: - Binding..
     private func bind() {
-        viewModel.$notices.receive(on: DispatchQueue.main)
+        viewModel.$notices
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.noticeTableView.reloadData()
             }.store(in: &viewModel.bag)
