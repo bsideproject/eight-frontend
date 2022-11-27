@@ -204,11 +204,14 @@ class SettingVC: UIViewController {
     
     // MARK: - bind
     private func bind() {
-        
         notificationSwitch.isOnPublisher
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
-            .assign(to: \.isNotification, on: viewModel)
+            .sink(receiveValue: { [weak self] isOn in
+                UserDefaults.standard.set(isOn, forKey: "isNotification")
+                // 유저 DB에 알림 여부 설정 필요
+                self?.viewModel.requestIsNotification()
+            })
             .store(in: &viewModel.bag)
         
         blockListView.gesture()
@@ -253,8 +256,6 @@ class SettingVC: UIViewController {
             .sink { [weak self] _ in
                 // TODO: 로그아웃
                 if KeyChainManager.shared.deleteAccessToken() {
-                    UserDefaults.standard.removeObject(forKey: "nickName")
-                    UserDefaults.standard.removeObject(forKey: "email")
                     self?.navigationController?.popToRootViewController(animated: true)
                 }
             }.store(in: &viewModel.bag)

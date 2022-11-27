@@ -29,8 +29,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in}
         
-        
         DataManager.shared.fetchData()
+        
+        if UserDefaults.standard.object(forKey: "navigation") == nil {
+            UserDefaults.standard.set("naver", forKey: "navigation")
+        }
+        
+        if UserDefaults.standard.object(forKey: "isNotification") == nil {
+            UserDefaults.standard.set(true, forKey: "isNotification")
+        }
         
         return true
     }

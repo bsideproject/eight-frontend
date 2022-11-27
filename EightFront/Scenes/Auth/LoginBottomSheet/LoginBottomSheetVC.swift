@@ -312,10 +312,7 @@ final class LoginBottomSheetVC: UIViewController {
                                 self?.dismiss(animated: false) {
                                     guard let accessToken = content.accessToken else { return }
                                     if KeyChainManager.shared.createAccessToken(accessToken) {
-                                        UserDefaults.standard.set([
-                                            "email": content.email,
-                                            "nickName": content.nickName
-                                        ], forKey: "userInfo")
+                                        LogUtil.d("액세스 토큰 저장 성공")
                                     } else {
                                         LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
                                     }

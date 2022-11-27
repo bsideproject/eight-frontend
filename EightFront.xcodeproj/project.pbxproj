@@ -79,8 +79,6 @@
 		E927FCB028D7587300A91F11 /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = E927FCAF28D7587300A91F11 /* NMapsMap */; };
 		E92DA3BD28E95FD10054EFFA /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = E92DA3BC28E95FD10054EFFA /* Toast */; };
 		E92DA3C028E9601A0054EFFA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E92DA3BF28E9601A0054EFFA /* Lottie */; };
-		E9460AE328E9DC7D00932351 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9460ADF28E9DC7100932351 /* TMapSDK.framework */; };
-		E9460AE428E9DC7E00932351 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9460ADF28E9DC7100932351 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9460AEF28E9DDDB00932351 /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E9460AE628E9DDDA00932351 /* Pretendard-Bold.ttf */; };
 		E9460AF028E9DDDB00932351 /* Pretendard-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E9460AE728E9DDDA00932351 /* Pretendard-ExtraLight.ttf */; };
 		E9460AF128E9DDDB00932351 /* Pretendard-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E9460AE828E9DDDA00932351 /* Pretendard-ExtraBold.ttf */; };
@@ -194,7 +192,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E9460AE428E9DC7E00932351 /* TMapSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -268,8 +265,6 @@
 		E927FCA528D71BDD00A91F11 /* swiftgen.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; name = swiftgen.yml; path = EightFront/swiftgen.yml; sourceTree = SOURCE_ROOT; };
 		E927FCAA28D7217A00A91F11 /* ColorAssets+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ColorAssets+Generated.swift"; sourceTree = "<group>"; };
 		E927FCAC28D7223300A91F11 /* ImageAssets+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageAssets+Generated.swift"; sourceTree = "<group>"; };
-		E92DA3C228E9D7E00054EFFA /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
-		E9460ADF28E9DC7100932351 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = EightFront/TMapSDK.framework; sourceTree = "<group>"; };
 		E9460AE628E9DDDA00932351 /* Pretendard-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.ttf"; sourceTree = "<group>"; };
 		E9460AE728E9DDDA00932351 /* Pretendard-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraLight.ttf"; sourceTree = "<group>"; };
 		E9460AE828E9DDDA00932351 /* Pretendard-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -388,7 +383,6 @@
 				E9EA260228D838880078A069 /* FirebaseDatabase in Frameworks */,
 				E9BFC3FC28E88DF800951604 /* CombineMoya in Frameworks */,
 				E9DFC5EB28DA0E010074D32C /* CombineCocoa in Frameworks */,
-				E9460AE328E9DC7D00932351 /* TMapSDK.framework in Frameworks */,
 				E9BFC3FE28E88DF800951604 /* Moya in Frameworks */,
 				E927FC7528D34B3A00A91F11 /* Then in Frameworks */,
 			);
@@ -473,6 +467,13 @@
 				28A4BF4129324A32001726B6 /* BlockListResponse.swift */,
 			);
 			path = Block;
+			sourceTree = "<group>";
+		};
+		28A4BF4A29339CEC001726B6 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
 			sourceTree = "<group>";
 		};
 		28BAB95A293120A600ECD943 /* Recovered References */ = {
@@ -726,8 +727,6 @@
 			isa = PBXGroup;
 			children = (
 				28A4BF3F2931A761001726B6 /* WebKit.framework */,
-				E9460ADF28E9DC7100932351 /* TMapSDK.framework */,
-				E92DA3C228E9D7E00054EFFA /* TMapSDK.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -939,6 +938,7 @@
 		E975ED0728D34A050013E94F /* EightFront */ = {
 			isa = PBXGroup;
 			children = (
+				28A4BF4A29339CEC001726B6 /* New Group */,
 				E9EA260728D83A250078A069 /* EightFront.entitlements */,
 				E927FC7728D34DD900A91F11 /* AppDelegate */,
 				E927FC9428D3519700A91F11 /* Utility */,
