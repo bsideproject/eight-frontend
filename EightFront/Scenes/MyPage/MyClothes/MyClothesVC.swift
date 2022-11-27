@@ -40,16 +40,13 @@ class MyClothesVC: UIViewController {
 
     // MARK: - Lift Cycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.fetchMyClothes()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
         configure()
         bind()
+        
+        viewModel.requestMyClothes()
     }
     
     // MARK: - configure
@@ -107,7 +104,8 @@ class MyClothesVC: UIViewController {
                 self?.navigationController?.popViewController(animated: true)
             }.store(in: &bag)
         
-        viewModel.$clothesList.receive(on: DispatchQueue.main)
+        viewModel.$clothesList
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.clothesTableView.reloadData()
             }.store(in: &viewModel.bag)

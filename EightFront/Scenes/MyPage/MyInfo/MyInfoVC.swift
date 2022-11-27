@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Combine
 import Moya
 import KakaoSDKUser
 import JWTDecode
@@ -55,7 +56,7 @@ class MyInfoVC: UIViewController {
     
     private var nicknameTextField = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.")
     
-    private var nicknameDuplicateedLabel = UILabel().then {
+    private var nicknameDuplicatedLabel = UILabel().then {
         $0.text = "* 닉네임이 중복되었어요."
         $0.textColor = Colors.warning.color
         $0.font = Fonts.Templates.caption2.font
@@ -111,15 +112,12 @@ class MyInfoVC: UIViewController {
     
     // MARK: - Lift Cycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.fetchUserInfo()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
         bind()
+        
+        viewModel.reqeustUserInfo()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -189,8 +187,8 @@ class MyInfoVC: UIViewController {
             $0.height.equalTo(46)
         }
         
-        view.addSubview(nicknameDuplicateedLabel)
-        nicknameDuplicateedLabel.snp.makeConstraints {
+        view.addSubview(nicknameDuplicatedLabel)
+        nicknameDuplicatedLabel.snp.makeConstraints {
             $0.top.equalTo(nicknameTextField.snp.bottom).offset(8)
             $0.left.equalToSuperview().inset(16)
         }
@@ -251,8 +249,9 @@ class MyInfoVC: UIViewController {
     }
     
     private func bind() {
-
-        resignButton.gesture().receive(on: DispatchQueue.main)
+    
+        resignButton.gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 let resignVC = ResignVC()
                 self?.navigationController?.pushViewController(resignVC, animated: true)
@@ -270,67 +269,57 @@ class MyInfoVC: UIViewController {
         
         nicknameCheckButtonView.gesture()
             .sink { [weak self] _ in
-                guard let nickname = self?.nicknameTextField.contentTextField.text else { return }
-                self?.authProvider.request(.nicknameCheck(nickname: nickname)) { result in
-                    switch result {
-                    case .success(let response):
-                        guard let data = try? response.map(NicknameResponse.self).data else {
-                            LogUtil.e("Response Decoding 실패")
-                            return
-                        }
-                        if data.content == false {
-                            self?.viewModel.isButtonEnabled = true
-                            self?.nicknameDuplicateedLabel.isHidden = true
-                        } else {
-                            self?.viewModel.isButtonEnabled = false
-                            self?.nicknameDuplicateedLabel.isHidden = false
-                        }
-                        self?.view.endEditing(true)
-                    case .failure(let error):
-                        LogUtil.e(error)
+                self?.viewModel.requestNickNameCheck()
+            }.store(in: &viewModel.bag)
+        
+        viewModel.$isNicknameCheck
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] isNicknameCheck in
+                if isNicknameCheck {
+                    self?.viewModel.isButtonEnabled = true
+                } else {
+                    self?.viewModel.isButtonEnabled = false
+                    if self?.viewModel.inputNickname.count ?? 0 > 0 {
+                        self?.nicknameDuplicatedLabel.isHidden = false
                     }
                 }
             }.store(in: &viewModel.bag)
         
-        viewModel.isNicknameValid.receive(on: DispatchQueue.main)
+        viewModel.isNicknameValid
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.nicknameCheckButtonView.backgroundColor = $0 ? Colors.gray001.color : Colors.gray006.color
                 self?.nicknameCheckButtonLabel.textColor = $0 ? Colors.point.color :
                 UIColor.white
             }.store(in: &viewModel.bag)
         
-        viewModel.$userEmail.receive(on: DispatchQueue.main)
+        viewModel.$userEmail
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.emailLabel.text = $0
             }.store(in: &viewModel.bag)
         
-        viewModel.$isButtonEnabled.receive(on: DispatchQueue.main)
+        viewModel.$isButtonEnabled
+            .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] isButtonEnabled in
                 self?.editButtonView.backgroundColor = isButtonEnabled ? Colors.gray001.color :Colors.gray006.color
                 self?.editButtonLabel.textColor = isButtonEnabled ? Colors.point.color : UIColor.white
             }.store(in: &viewModel.bag)
         
-        editButtonView.gesture().receive(on: DispatchQueue.main)
+        editButtonView.gesture()
+            .receive(on: DispatchQueue.main)
             .sink {[weak self] _ in
-                if self?.viewModel.isButtonEnabled == true {
-                    let accessToken = KeyChainManager.shared.readAccessToken()
-                    let jwt = try? JWTDecode.decode(jwt: accessToken)
-                    guard let memberId = jwt?.subject else { return }
-                    guard let inputNickname = self?.viewModel.inputNickname else { return }
-                    self?.authProvider.request(.nicknameChange(memberId: memberId, nickName: inputNickname)) { result in
-                        switch result {
-                        case .success(let response):
-                            guard let data = try? response.map(NicknameResponse.self).data else { return }
-                            if data.content == true {
-                                self?.navigationController?.popToRootViewController(animated: true)
-                            } else {
-                                LogUtil.e("변경 실패")
-                            }
-                        case .failure(let error):
-                            LogUtil.e(error)
-                        }
-                    }
+                self?.viewModel.requestNicknameChange()
+            }.store(in: &viewModel.bag)
+        
+        viewModel.$isNickNameChanged
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] in
+                if $0 {
+                    self?.navigationController?.popViewController(animated: true)
                 }
             }.store(in: &viewModel.bag)
         
@@ -339,7 +328,6 @@ class MyInfoVC: UIViewController {
             .sink { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             }.store(in: &viewModel.bag)
-        
     }
     
     // MARK: - Configure

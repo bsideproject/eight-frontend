@@ -205,19 +205,22 @@ class SettingVC: UIViewController {
     // MARK: - bind
     private func bind() {
         
-        notificationSwitch.isOnPublisher.receive(on: DispatchQueue.main)
+        notificationSwitch.isOnPublisher
+            .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .assign(to: \.isNotification, on: viewModel)
             .store(in: &viewModel.bag)
         
-        blockListView.gesture().receive(on: DispatchQueue.main)
+        blockListView.gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 // TODO: 차단 목록 이동
                 let blockTableVC = BlockVC()
                 self?.navigationController?.pushViewController(blockTableVC, animated: true)
             }.store(in: &viewModel.bag)
         
-        policyView.gesture().receive(on: DispatchQueue.main)
+        policyView.gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 let webViewVC = WebViewVC()
                 webViewVC.url = "https://sites.google.com/view/droptheclothuse"
@@ -225,7 +228,8 @@ class SettingVC: UIViewController {
                 self?.navigationController?.pushViewController(webViewVC, animated: true)
             }.store(in: &viewModel.bag)
         
-        locationView.gesture().receive(on: DispatchQueue.main)
+        locationView.gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 // TODO: 위치 기반 서비스
                 let webViewVC = WebViewVC()
@@ -234,7 +238,8 @@ class SettingVC: UIViewController {
                 self?.navigationController?.pushViewController(webViewVC, animated: true)
             }.store(in: &viewModel.bag)
         
-        privacyView.gesture().receive(on: DispatchQueue.main)
+        privacyView.gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 // TODO: 개인 정보 처리 방침
                 let webViewVC = WebViewVC()
@@ -243,7 +248,8 @@ class SettingVC: UIViewController {
                 self?.navigationController?.pushViewController(webViewVC, animated: true)
             }.store(in: &viewModel.bag)
         
-        logoutView.gesture().receive(on: DispatchQueue.main)
+        logoutView.gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 // TODO: 로그아웃
                 if KeyChainManager.shared.deleteAccessToken() {
@@ -253,7 +259,8 @@ class SettingVC: UIViewController {
                 }
             }.store(in: &viewModel.bag)
         
-        viewModel.$isNotification.receive(on: DispatchQueue.main)
+        viewModel.$isNotification
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] isNotification in
                 self?.notificationSwitch.isOn = isNotification
             }.store(in: &viewModel.bag)

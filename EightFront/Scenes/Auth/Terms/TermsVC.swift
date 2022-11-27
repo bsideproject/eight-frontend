@@ -13,23 +13,6 @@ import SnapKit
 
 final class TermsVC: UIViewController {
     
-    enum signType {
-        case apple
-        case kakao
-        case email
-        
-        var type: String {
-            switch self {
-            case .apple:
-                return "apple"
-            case .kakao:
-                return "kakao"
-            case .email:
-                return "email"
-            }
-        }
-    }
-    
     var type: String = "email"
     
     // MARK: - properties
@@ -179,7 +162,7 @@ final class TermsVC: UIViewController {
         nextButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                if self?.type == signType.kakao.type {
+                if self?.type == SignType.kakao.rawValue {
                     let simpleSignInVC = SimpleSignUpVC()
                     self?.navigationController?.pushViewController(simpleSignInVC, animated: true)
                 } else {

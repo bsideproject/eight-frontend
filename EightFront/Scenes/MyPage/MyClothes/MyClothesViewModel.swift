@@ -25,7 +25,7 @@ class MyClothesViewModel {
         return clothesList[indexPath.row]
     }
     
-    func fetchMyClothes() {
+    func requestMyClothes() {
         clothesProvier.requestPublisher(.myPosts)
             .sink { completion in
                 switch completion {

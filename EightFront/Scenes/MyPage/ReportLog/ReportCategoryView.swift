@@ -122,7 +122,8 @@ class ReportCategoryView: UIView {
             }.store(in: &viewModel.bag)
         
         
-        viewModel.$selectedCategory.receive(on: DispatchQueue.main)
+        viewModel.$selectedCategory
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 // 전체
                 self?.allLabel.textColor = $0 == .all ? UIColor.black : Colors.gray006.color

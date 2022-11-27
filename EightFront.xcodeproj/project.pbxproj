@@ -46,7 +46,6 @@
 		28D12AE42920DA12001A7B32 /* ReportLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AE32920DA12001A7B32 /* ReportLogViewModel.swift */; };
 		28D12AE82921065F001A7B32 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12AE72921065F001A7B32 /* SettingViewModel.swift */; };
 		28D12AED29212587001A7B32 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		28E1F110292F98AD0084C3EF /* UserInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E1F10F292F98AD0084C3EF /* UserInfoManager.swift */; };
 		28E1F112292FAEB00084C3EF /* BlockAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E1F111292FAEB00084C3EF /* BlockAPI.swift */; };
 		28E1F114292FB7B80084C3EF /* MyClothesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E1F113292FB7B80084C3EF /* MyClothesTableViewCell.swift */; };
 		28E1F116292FBFF50084C3EF /* LogoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E1F115292FBFF50084C3EF /* LogoutView.swift */; };
@@ -241,7 +240,6 @@
 		28D12AE12920D947001A7B32 /* ReportTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewCell.swift; sourceTree = "<group>"; };
 		28D12AE32920DA12001A7B32 /* ReportLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportLogViewModel.swift; sourceTree = "<group>"; };
 		28D12AE72921065F001A7B32 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
-		28E1F10F292F98AD0084C3EF /* UserInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoManager.swift; sourceTree = "<group>"; };
 		28E1F111292FAEB00084C3EF /* BlockAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockAPI.swift; sourceTree = "<group>"; };
 		28E1F113292FB7B80084C3EF /* MyClothesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyClothesTableViewCell.swift; sourceTree = "<group>"; };
 		28E1F115292FBFF50084C3EF /* LogoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutView.swift; sourceTree = "<group>"; };
@@ -707,7 +705,6 @@
 				E95FBF6628F70FDF002CA5A9 /* ImagePickerManager.swift */,
 				2850D18A291BEB0F001A848C /* FCMManager.swift */,
 				E910ECAF2927F37900E7881E /* DateManager.swift */,
-				28E1F10F292F98AD0084C3EF /* UserInfoManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -843,8 +840,8 @@
 		E970691B2917EEEC00014FB9 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				E97069202917EEEC00014FB9 /* MyPageTableViewCell.swift */,
 				E97069212917EEEC00014FB9 /* MyPageVC.swift */,
+				E97069202917EEEC00014FB9 /* MyPageTableViewCell.swift */,
 				E97069282917EEEC00014FB9 /* MyPageViewModel.swift */,
 				E970691C2917EEEC00014FB9 /* MyInfo */,
 				E970691E2917EEEC00014FB9 /* ReportLog */,
@@ -1310,7 +1307,6 @@
 				E975ED0B28D34A050013E94F /* SceneDelegate.swift in Sources */,
 				E9BEA565292E413B002BEDC7 /* SimpleAuthRequest.swift in Sources */,
 				E99AC31228E88AA800AF1F84 /* BoxesAPI.swift in Sources */,
-				28E1F110292F98AD0084C3EF /* UserInfoManager.swift in Sources */,
 				28E1F112292FAEB00084C3EF /* BlockAPI.swift in Sources */,
 				E9EAB9DD2920BC7A00926893 /* ProfileCell.swift in Sources */,
 				E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */,

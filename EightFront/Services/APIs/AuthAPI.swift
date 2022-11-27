@@ -29,7 +29,6 @@ extension AuthAPI: TargetType {
     var path: String {
         switch self {
         case .socialSignIn:
-//            let social = param.category.rawValue
             let path = "/api/oauth2/kakao"
             return path
         case .socialSignUp:

@@ -38,10 +38,27 @@ final class SignUpSuccessVC: UIViewController {
     }
     
     // MARK: - Lift Cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        configure()
         makeUI()
         bind()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
+    
+    // MARK: - Configure() {
+    private func configure() {
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     // MARK: - MakeUI
