@@ -164,7 +164,7 @@ extension MainTabbarController: UITabBarControllerDelegate {
 }
 
 extension MainTabbarController: BottomSheetDelegate {
-    func loginSuccess(userInfo: UserInfo) {
+    func loginSuccess() {
         self.tabBarController?.selectedIndex = 3
     }
 }

@@ -18,7 +18,7 @@ enum AuthAPI {
     case memberResign(memberId: String)
     case nicknameCheck(nickname: String)
     case nicknameChange(memberId: String, nickName: String)
-    case userInfo(memberId: String)
+    case userInfo
 }
 
 extension AuthAPI: TargetType {
@@ -33,9 +33,12 @@ extension AuthAPI: TargetType {
             let path = "/api/oauth2/kakao"
             return path
         case .socialSignUp:
-//            let social = param.category.rawValue
             let path = "/api/oauth2/kakao/signup"
             return path
+        case .appleSignIn:
+            return "/api/oauth2/apple"
+        case .appleSignUp:
+            return "/api/oauth2/apple/signup"
 //        case .emailSignIn:
 //            return ""
 //        case .emailSignUp:
@@ -46,12 +49,8 @@ extension AuthAPI: TargetType {
             return "/api/oauth2/\(nickname)"
         case .nicknameChange(let memberId, _):
             return "/api/oauth2/\(memberId)"
-        case .appleSignIn:
-            return "/api/oauth2/apple"
-        case .appleSignUp:
-            return "/api/oauth2/apple/signup"
         case .userInfo:
-            return "/api/oauth2/profile"
+            return "/api/my/info"
         }
     }
     
@@ -60,6 +59,10 @@ extension AuthAPI: TargetType {
         case .socialSignIn:
             return .post
         case .socialSignUp:
+            return .post
+        case .appleSignIn:
+            return .post
+        case .appleSignUp:
             return .post
 //        case .emailSignIn:
 //            return .post
@@ -71,10 +74,6 @@ extension AuthAPI: TargetType {
             return .get
         case .nicknameChange:
             return .put
-        case .appleSignIn:
-            return .post
-        case .appleSignUp:
-            return .post
         case .userInfo:
             return .get
         }
@@ -103,17 +102,16 @@ extension AuthAPI: TargetType {
             return .requestJSONEncodable(param)
         case .appleSignUp(let param):
             return .requestJSONEncodable(param)
-        case .userInfo(let memberId):
-            return .requestParameters(
-                parameters: [
-                    "memberId" : memberId
-                ], encoding: URLEncoding.queryString)
+        case .userInfo:
+            return .requestPlain
         }
     }
     
     var headers: [String : String]? {
+        let bearer = "Bearer \(KeyChainManager.shared.readAccessToken())"
         return [
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            "Authorization": bearer
         ]
     }
 }

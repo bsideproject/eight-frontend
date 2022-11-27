@@ -22,6 +22,12 @@ class BlockVC: UIViewController {
     }
     
     // MARK: - lifeCycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchBlockList()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
@@ -53,13 +59,17 @@ class BlockVC: UIViewController {
             .sink { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             }.store(in: &viewModel.bag)
+        
+        viewModel.$blockList.receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.blockTableView.reloadData()
+            }.store(in: &viewModel.bag)
     }
     
     private func configure() {
         blockTableView.delegate = self
         blockTableView.dataSource = self
     }
-    
 }
 
 extension BlockVC: UITableViewDataSource {
@@ -80,6 +90,7 @@ extension BlockVC: UITableViewDataSource {
 
 extension BlockVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("눌렀다")
+        viewModel.unBlockUser(indexPath: indexPath)
+        tableView.reloadData()
     }
 }

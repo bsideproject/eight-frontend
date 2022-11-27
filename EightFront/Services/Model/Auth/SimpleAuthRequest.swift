@@ -15,7 +15,6 @@ enum SocialCategory: String, Codable {
 struct SocialSignInRequest: Codable {
     var accessToken: String?
     var identityToken: String?
-    var authorizationCode: String?
     var type: String?
     var social: String?
 }

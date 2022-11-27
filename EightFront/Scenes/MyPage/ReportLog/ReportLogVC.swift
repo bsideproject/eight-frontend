@@ -100,6 +100,7 @@ extension ReportLogVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportTableViewCell.identifier, for: indexPath) as? ReportTableViewCell else { return UITableViewCell() }
         cell.configure(report: viewModel.cellForRowAt(indexPath: indexPath))
+        cell.selectionStyle = .none
         return cell
     }
     

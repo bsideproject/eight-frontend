@@ -34,6 +34,11 @@
 		288BFD7128FBC9C900A85F13 /* EmailSignUpTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7028FBC9C900A85F13 /* EmailSignUpTextFieldView.swift */; };
 		288BFD7328FBE79C00A85F13 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD7228FBE79C00A85F13 /* AuthAPI.swift */; };
 		289C11AE29017C0000AECF52 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C11AD29017C0000AECF52 /* TermsView.swift */; };
+		28A4BF3E2931A722001726B6 /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A4BF3D2931A722001726B6 /* WebViewVC.swift */; };
+		28A4BF402931A761001726B6 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A4BF3F2931A761001726B6 /* WebKit.framework */; };
+		28A4BF4229324A32001726B6 /* BlockListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A4BF4129324A32001726B6 /* BlockListResponse.swift */; };
+		28A4BF452932F60A001726B6 /* NoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A4BF442932F60A001726B6 /* NoticeViewModel.swift */; };
+		28A4BF472932F72C001726B6 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A4BF462932F72C001726B6 /* NoticeTableViewCell.swift */; };
 		28BAB95C293120DD00ECD943 /* UserInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BAB95B293120DD00ECD943 /* UserInfoResponse.swift */; };
 		28D12ADE2920C45A001A7B32 /* MyInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12ADD2920C45A001A7B32 /* MyInfoViewModel.swift */; };
 		28D12AE02920CEA6001A7B32 /* NavigationSettinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D12ADF2920CEA6001A7B32 /* NavigationSettinViewModel.swift */; };
@@ -225,6 +230,11 @@
 		288BFD7028FBC9C900A85F13 /* EmailSignUpTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpTextFieldView.swift; sourceTree = "<group>"; };
 		288BFD7228FBE79C00A85F13 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		289C11AD29017C0000AECF52 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
+		28A4BF3D2931A722001726B6 /* WebViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewVC.swift; sourceTree = "<group>"; };
+		28A4BF3F2931A761001726B6 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		28A4BF4129324A32001726B6 /* BlockListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListResponse.swift; sourceTree = "<group>"; };
+		28A4BF442932F60A001726B6 /* NoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModel.swift; sourceTree = "<group>"; };
+		28A4BF462932F72C001726B6 /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		28BAB95B293120DD00ECD943 /* UserInfoResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoResponse.swift; sourceTree = "<group>"; };
 		28D12ADD2920C45A001A7B32 /* MyInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewModel.swift; sourceTree = "<group>"; };
 		28D12ADF2920CEA6001A7B32 /* NavigationSettinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSettinViewModel.swift; sourceTree = "<group>"; };
@@ -364,6 +374,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28A4BF402931A761001726B6 /* WebKit.framework in Frameworks */,
 				E9EA260428D838880078A069 /* FirebaseMessaging in Frameworks */,
 				E927FC7228D34B0600A91F11 /* Kingfisher in Frameworks */,
 				E97069182917EE4300014FB9 /* JWTDecode in Frameworks */,
@@ -458,6 +469,14 @@
 			path = SignUp;
 			sourceTree = "<group>";
 		};
+		28A4BF4329324AFE001726B6 /* Block */ = {
+			isa = PBXGroup;
+			children = (
+				28A4BF4129324A32001726B6 /* BlockListResponse.swift */,
+			);
+			path = Block;
+			sourceTree = "<group>";
+		};
 		28BAB95A293120A600ECD943 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -549,11 +568,12 @@
 		E927FC7C28D34E5500A91F11 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2852EED829312EA3009213DD /* Report */,
 				E9008D402911580100F70B6B /* Common */,
 				E9BEA55B292E40F9002BEDC7 /* Auth */,
+				2852EED829312EA3009213DD /* Report */,
 				E9008D3F291157E700F70B6B /* ClothingBins */,
 				E970693F291AC43B00014FB9 /* KeepOrDrop */,
+				28A4BF4329324AFE001726B6 /* Block */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -708,6 +728,7 @@
 		E92DA3C128E9D7E00054EFFA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				28A4BF3F2931A761001726B6 /* WebKit.framework */,
 				E9460ADF28E9DC7100932351 /* TMapSDK.framework */,
 				E92DA3C228E9D7E00054EFFA /* TMapSDK.framework */,
 			);
@@ -864,6 +885,7 @@
 				E97069232917EEEC00014FB9 /* SettingVC.swift */,
 				28D12AE72921065F001A7B32 /* SettingViewModel.swift */,
 				28E1F115292FBFF50084C3EF /* LogoutView.swift */,
+				28A4BF3D2931A722001726B6 /* WebViewVC.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -959,6 +981,8 @@
 			isa = PBXGroup;
 			children = (
 				E99929B528D882B5006FCFC7 /* NoticeVC.swift */,
+				28A4BF442932F60A001726B6 /* NoticeViewModel.swift */,
+				28A4BF462932F72C001726B6 /* NoticeTableViewCell.swift */,
 			);
 			path = Notice;
 			sourceTree = "<group>";
@@ -1231,6 +1255,7 @@
 				E9008D432911584100F70B6B /* ReportRequest.swift in Sources */,
 				2852EED52931266C009213DD /* MyClothesViewModel.swift in Sources */,
 				E97069332917EFAB00014FB9 /* SignUpSuccessVC.swift in Sources */,
+				28A4BF3E2931A722001726B6 /* WebViewVC.swift in Sources */,
 				2806474A28E86AFF000DED5B /* UIButton+.swift in Sources */,
 				28D12AE42920DA12001A7B32 /* ReportLogViewModel.swift in Sources */,
 				E970692F2917EEEC00014FB9 /* MyClothesVC.swift in Sources */,
@@ -1265,6 +1290,7 @@
 				E9EAB9E32920C30B00926893 /* DetailSelectionCell.swift in Sources */,
 				E9494A6228F067DB005285C0 /* SearchBarViewModel.swift in Sources */,
 				E9BF49AD28D9F45F007BBC3D /* UIView+.swift in Sources */,
+				28A4BF4229324A32001726B6 /* BlockListResponse.swift in Sources */,
 				E9BEA564292E413B002BEDC7 /* SimpleSignUpResponse.swift in Sources */,
 				E9EEA4A02916C2370073001F /* ReportPostVC.swift in Sources */,
 				28D12AE02920CEA6001A7B32 /* NavigationSettinViewModel.swift in Sources */,
@@ -1295,6 +1321,7 @@
 				E96BC92528EB2E7E002EBA7E /* SearchMapViewModel.swift in Sources */,
 				E927FCAD28D7223300A91F11 /* ImageAssets+Generated.swift in Sources */,
 				2852EED729312BB0009213DD /* ReportAPI.swift in Sources */,
+				28A4BF472932F72C001726B6 /* NoticeTableViewCell.swift in Sources */,
 				E910ECBA29292A6900E7881E /* ReportPostViewModel.swift in Sources */,
 				E970692C2917EEEC00014FB9 /* MyPageVC.swift in Sources */,
 				E97069342917EFAB00014FB9 /* SimpleSignUpVC.swift in Sources */,
@@ -1312,6 +1339,7 @@
 				E910ECBD29292AE700E7881E /* ReportPostCell.swift in Sources */,
 				28379E8628F718DE00B2D4DD /* Pretendard+.swift in Sources */,
 				E9EEA49D2916C1090073001F /* DetailPostViewModel.swift in Sources */,
+				28A4BF452932F60A001726B6 /* NoticeViewModel.swift in Sources */,
 				E910ECAC2927D4C400E7881E /* CommentsCell.swift in Sources */,
 				28379E8228F718A400B2D4DD /* LoginVC.swift in Sources */,
 				E98A04EE28F435B7009F055B /* ReportCompletedVC.swift in Sources */,

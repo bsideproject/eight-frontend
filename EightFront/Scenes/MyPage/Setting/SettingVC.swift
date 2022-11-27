@@ -219,35 +219,28 @@ class SettingVC: UIViewController {
         
         policyView.gesture().receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                // TODO: 이용 약관
-                let alert = UIAlertController(title: "이용 약관", message: "미구현", preferredStyle: .alert)
-                let okay = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-                    self?.dismiss(animated: true)
-                }
-                alert.addAction(okay)
-                self?.present(alert, animated: true)
+                let webViewVC = WebViewVC()
+                webViewVC.url = "https://sites.google.com/view/droptheclothuse"
+                webViewVC.titleLabel = "서비스 이용 약관"
+                self?.navigationController?.pushViewController(webViewVC, animated: true)
             }.store(in: &viewModel.bag)
         
         locationView.gesture().receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 // TODO: 위치 기반 서비스
-                let alert = UIAlertController(title: "위치 기반 서비스", message: "미구현", preferredStyle: .alert)
-                let okay = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-                    self?.dismiss(animated: true)
-                }
-                alert.addAction(okay)
-                self?.present(alert, animated: true)
+                let webViewVC = WebViewVC()
+                webViewVC.url = "https://sites.google.com/view/droptheclothgpsuse"
+                webViewVC.titleLabel = "위치기반 서비스약관"
+                self?.navigationController?.pushViewController(webViewVC, animated: true)
             }.store(in: &viewModel.bag)
         
         privacyView.gesture().receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 // TODO: 개인 정보 처리 방침
-                let alert = UIAlertController(title: "개인 정보 처리 방침", message: "미구현", preferredStyle: .alert)
-                let okay = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-                    self?.dismiss(animated: true)
-                }
-                alert.addAction(okay)
-                self?.present(alert, animated: true)
+                let webViewVC = WebViewVC()
+                webViewVC.url = "https://sites.google.com/view/droptheclothprivacy"
+                webViewVC.titleLabel = "개인정보 처리방침"
+                self?.navigationController?.pushViewController(webViewVC, animated: true)
             }.store(in: &viewModel.bag)
         
         logoutView.gesture().receive(on: DispatchQueue.main)
@@ -262,7 +255,7 @@ class SettingVC: UIViewController {
         
         viewModel.$isNotification.receive(on: DispatchQueue.main)
             .sink { [weak self] isNotification in
-                self?.notificationSwitch.isOn = isNotification 
+                self?.notificationSwitch.isOn = isNotification
             }.store(in: &viewModel.bag)
         
         commonNavigationView.backButton.tapPublisher

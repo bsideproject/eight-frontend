@@ -72,15 +72,16 @@ class ReportTableViewCell: UITableViewCell {
     func configure(report: Report) {
         addressLabel.text = report.address
         stateLabel.text = report.status
-//        if report.state == "처리중" {
-//            stateView.backgroundColor = Colors.Report.reportIngBackgroundColor.color
-//            stateLabel.textColor = Colors.Report.reportIngFontColor.color
+        
+        if report.status == "PENDING"{
+            stateView.backgroundColor = Colors.Report.reportIngBackgroundColor.color
+            stateLabel.textColor = Colors.Report.reportIngFontColor.color
 //        } else if report.state == "완료" {
 //            stateView.backgroundColor = Colors.Report.reportCompletedBackgroudColor.color
 //            stateLabel.textColor = Colors.Report.reportCompletedFontColor.color
 //        } else if report.state == "반려" {
 //            stateView.backgroundColor = Colors.Report.reportRejectBackgroundColor.color
 //            stateLabel.textColor = Colors.Report.reportRejectFontColor.color
-//        }
+        }
     }
 }

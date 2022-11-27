@@ -14,7 +14,7 @@ import Moya
 import JWTDecode
 
 protocol BottomSheetDelegate: AnyObject {
-    func loginSuccess(userInfo: UserInfo)
+    func loginSuccess()
 }
 
 enum signType {
@@ -39,7 +39,7 @@ final class LoginBottomSheetVC: UIViewController {
     // MARK: - Properties
     private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = LoginBottomSheetViewModel()
-    private var bottomHeight: CGFloat = 279
+    private var bottomSheetHeight: CGFloat = 279
     
     weak var bottomSheetDelegate: BottomSheetDelegate?
     
@@ -120,11 +120,9 @@ final class LoginBottomSheetVC: UIViewController {
         dimmedBackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-        let topConstant = view.safeAreaInsets.bottom + view.safeAreaLayoutGuide.layoutFrame.height
-        
+
         bottomSheetView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(topConstant)
+            $0.height.equalTo(bottomSheetHeight)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
@@ -213,14 +211,6 @@ final class LoginBottomSheetVC: UIViewController {
     
     // 바텀 시트 표출 애니메이션
     private func showBottomSheet() {
-        
-        let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
-        let bottomPadding: CGFloat = view.safeAreaInsets.bottom
-        
-        bottomSheetView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset((safeAreaHeight + bottomPadding) - bottomHeight)
-        }
-        
         let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeIn)
         animator.addAnimations {
             self.dimmedBackView.alpha = 0.5
@@ -285,12 +275,12 @@ final class LoginBottomSheetVC: UIViewController {
                                 guard let accessToken = content.accessToken else { return }
                                 if KeyChainManager.shared.createAccessToken(accessToken) {
                                     self.dismiss(animated: false) { [weak self] in
-                                        self?.bottomSheetDelegate?.loginSuccess(
-                                            userInfo: UserInfo(
-                                                accessToken: "",
-                                                nickName: content.nickName,
-                                                email: content.email,
-                                                type: ""))
+//                                        self?.bottomSheetDelegate?.loginSuccess(
+//                                            userInfo: UserInfo(
+//                                                accessToken: "",
+//                                                nickName: content.nickName,
+//                                                email: content.email,
+//                                                type: ""))
                                     }
                                 } else {
                                     LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
@@ -393,18 +383,19 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
             }
 
             authProvider.request(
-                .socialSignIn(param: SocialSignInRequest(
-                    identityToken: identityTorknStr, authorizationCode: authorizationCodeStr))) { result in
-                        switch result {
-                        case .success(let response):
-                            guard let data = try? response.map(SimpleSignInResponse.self).data else {
-                                LogUtil.e("Response Decoding 실패")
-                                return
-                            }
-                            LogUtil.d(data)
-                        case .failure(let error):
-                            LogUtil.e(error)
+                .appleSignIn(param: SocialSignInRequest(
+                    identityToken: identityTorknStr
+                ))) { result in
+                    switch result {
+                    case .success(let response):
+                        guard let data = try? response.map(SimpleSignInResponse.self).data else {
+                            LogUtil.e("Response Decoding 실패")
+                            return
                         }
+                        LogUtil.d(data)
+                    case .failure(let error):
+                        LogUtil.e(error)
+                    }
             }
         }
     }

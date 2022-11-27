@@ -17,7 +17,7 @@ final class MyClothesTableViewCell: UITableViewCell {
         $0.textColor = Colors.gray001.color
     }
     
-    private let contentLabel = UILabel().then {
+    private let descriptionLabel = UILabel().then {
         $0.text = "산지 5년정도 된 옷이라 고민중 이에요 ㅠ"
         $0.font = Fonts.Templates.body1.font
         $0.textColor = Colors.gray005.color
@@ -52,8 +52,8 @@ final class MyClothesTableViewCell: UITableViewCell {
             $0.left.equalToSuperview().inset(16)
         }
             
-        addSubview(contentLabel)
-        contentLabel.snp.makeConstraints {
+        addSubview(descriptionLabel)
+        descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
             $0.left.equalToSuperview().inset(16)
             $0.right.equalTo(rightArrow.snp.left).offset(16)
@@ -64,9 +64,9 @@ final class MyClothesTableViewCell: UITableViewCell {
         
     }
     
-    func configure(myCloth: MyCloth) {
+    func configure(myCloth: PostModel) {
         self.titleLabel.text = myCloth.title
-        self.contentLabel.text = myCloth.content
+        self.descriptionLabel.text = myCloth.description
     }
     
 }

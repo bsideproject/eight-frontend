@@ -8,24 +8,40 @@
 import Foundation
 import Combine
 
+import Moya
+
 class MyClothesViewModel {
     
+    var clothesProvier = MoyaProvider<ClothesAPI>()
     var bag = Set<AnyCancellable>()
     
-//    var clothesList = [MyClothes]()
-    
-    var clothesList = [
-        MyCloth(title: "파타고니아 후리스", content: "산지 5년 정도 된 옷이라 고민 중 이에요 ㅠ"),
-        MyCloth(title: "패딩", content: "김밥 패딩"),
-        MyCloth(title: "플리스 자켓", content: "알파카")
-    ]
+    @Published var clothesList = [PostModel]()
     
     func numberOfRowsInSection() -> Int {
         return clothesList.count
     }
     
-    func indexPath(indexPath: IndexPath) -> MyCloth {
+    func indexPath(indexPath: IndexPath) -> PostModel {
         return clothesList[indexPath.row]
+    }
+    
+    func fetchMyClothes() {
+        clothesProvier.requestPublisher(.myPosts)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    LogUtil.d("평가 중인 내 중고 의류 API 호출 완료")
+                case .failure(let error):
+                    LogUtil.e(error)
+                }
+            } receiveValue: { [weak self] reponse in
+                let data = try? reponse.map(PostsResponse.self)
+                self?.clothesList = data?.data?.posts ?? []
+            }.store(in: &bag)
+    }
+    
+    func didSelectRowAt(indexPath: IndexPath) -> Int? {
+        return clothesList[indexPath.row].id
     }
     
 }

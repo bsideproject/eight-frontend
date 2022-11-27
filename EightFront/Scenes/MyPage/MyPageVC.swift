@@ -11,11 +11,13 @@ import SnapKit
 
 import JWTDecode
 import KakaoSDKUser
+import Moya
 
 //MARK: 마이페이지 VC
 
 final class MyPageVC: UIViewController {
     let viewModel = MyPageViewModel()
+    let authProvider = MoyaProvider<AuthAPI>()
     
     //MARK: - Properties
     private let navigationView = CommonNavigationView().then {
@@ -42,6 +44,7 @@ final class MyPageVC: UIViewController {
     
     private let myPageTableView = UITableView().then {
         $0.separatorStyle = .none
+        $0.alwaysBounceVertical = false
     }
     
     //MARK: - Life Cycle
@@ -54,17 +57,19 @@ final class MyPageVC: UIViewController {
    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let accessToken = KeyChainManager.shared.readAccessToken()
-        if accessToken == "" {
-            let bottomSheetVC = LoginBottomSheetVC()
-            bottomSheetVC.modalPresentationStyle = .overFullScreen
-//            bottomSheetVC.bottomSheetDelegate = self
-            self.present(bottomSheetVC, animated: false)
-        } else {
-            UserInfoManager.shared.fetchUserInfo { [weak self] userInfo in
-                self?.viewModel.nickname = userInfo?.nickName ?? "김에잇"
-            }
-        }
+        authProvider.requestPublisher(.userInfo)
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    LogUtil.d("유저 정보 가져오기 API 호출 완료")
+                case .failure(let error):
+                    LogUtil.e(error)
+                }
+            } receiveValue: { [weak self] response in
+                let data = try? response.map(UserInfoResponse.self)
+                self?.nicknameLabel.text = data?.data?.content.nickname
+            }.store(in: &viewModel.bag)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -178,11 +183,7 @@ extension MyPageVC:UITableViewDataSource {
 }
 
 extension MyPageVC: BottomSheetDelegate {
-    func loginSuccess(userInfo: UserInfo) {
-        nicknameLabel.text = userInfo.nickName
-    }
-    
-    func moveToHome() {
+    func loginSuccess() {
         self.tabBarController?.selectedIndex = 0
     }
 }

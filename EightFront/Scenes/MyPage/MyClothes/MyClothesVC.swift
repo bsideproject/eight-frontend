@@ -39,6 +39,12 @@ class MyClothesVC: UIViewController {
     }
 
     // MARK: - Lift Cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchMyClothes()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
@@ -101,6 +107,11 @@ class MyClothesVC: UIViewController {
                 self?.navigationController?.popViewController(animated: true)
             }.store(in: &bag)
         
+        viewModel.$clothesList.receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.clothesTableView.reloadData()
+            }.store(in: &viewModel.bag)
+        
     }
     
     // MARK: - Configure
@@ -111,7 +122,12 @@ class MyClothesVC: UIViewController {
 }
 
 extension MyClothesVC: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let id = viewModel.didSelectRowAt(indexPath: indexPath) {
+            let detailVC = DetailPostVC(id: id)
+            navigationController?.pushViewController(detailVC, animated: true)
+        }
+    }
 }
 
 extension MyClothesVC: UITableViewDataSource {

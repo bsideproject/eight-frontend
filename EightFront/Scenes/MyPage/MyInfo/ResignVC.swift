@@ -195,8 +195,8 @@ class ResignVC: UIViewController {
                 
             }.store(in: &viewModel.bag)
         
-        confirmCheckBox.tapPublisher.receive(on: DispatchQueue.main)
-            .sink { [weak self] in
+        confirmView.gesture().receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
                 self?.viewModel.isChecked.toggle()
             }.store(in: &viewModel.bag)
         

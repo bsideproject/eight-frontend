@@ -35,23 +35,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // background에서 foregrond로 앱 진입 시 위치 추적 시작
         LocationManager.shared.startUpdating()
         
-        // 앱  로그인 한 유저인지 확인
         let accessToken = KeyChainManager.shared.readAccessToken()
-        if accessToken != "" {
-            let jwt = try? JWTDecode.decode(jwt: accessToken)
-            if let memeberId = jwt?.body["sub"] as? String {
-                authProvider.request(.userInfo(memberId: memeberId)) { result in
-                    switch result {
-                    case .success(let response):
-                        let data = try? JSONDecoder().decode(UserInfo.self, from: response.data)
-                        UserInfoManager.shared.userInfo = UserInfo(accessToken: data?.accessToken,
-                                                                   nickName: data?.nickName,
-                                                                   email: data?.email,
-                                                                   type: data?.type)
-                    case .failure(let moyaError):
-                        LogUtil.e(moyaError)
-                    }
-                }
+        LogUtil.d(accessToken)
+        
+        let center = UNUserNotificationCenter.current()
+        center.getNotificationSettings { settings in
+            switch settings.alertSetting {
+            case .enabled:
+                UserDefaults.standard.set(true, forKey: "isNotification")
+            default:
+                UserDefaults.standard.set(false, forKey: "isNotification")
             }
         }
     }

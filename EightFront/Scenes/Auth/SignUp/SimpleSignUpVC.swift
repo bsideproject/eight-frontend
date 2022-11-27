@@ -53,6 +53,17 @@ class SimpleSignUpVC: UIViewController {
     }
     
     // MARK: - LifeCycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden.toggle()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden.toggle()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
@@ -123,33 +134,35 @@ class SimpleSignUpVC: UIViewController {
         signUpButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.authProvider.request(
-                    .socialSignUp(
-                        param: SocialSignUpRequest(
-                        accessToken: accessToken,
-                        nickName: nickname
-                    ))) { [weak self] response in
-                        switch response {
-                        case .success(let result):
-                            guard let data = try? result.map(SimpleSignUpResponse.self).data else {
-                                LogUtil.d("Response Decoding 실패")
-                                return
+                if self?.viewModel.isSignUpButtonValid == true {
+                    self?.authProvider.request(
+                        .socialSignUp(
+                            param: SocialSignUpRequest(
+                            accessToken: accessToken,
+                            nickName: nickname
+                        ))) { [weak self] response in
+                            switch response {
+                            case .success(let result):
+                                guard let data = try? result.map(SimpleSignUpResponse.self).data else {
+                                    LogUtil.d("Response Decoding 실패")
+                                    return
+                                }
+                                guard let content = data.content else {
+                                    LogUtil.e("data.content unWrapping 실패")
+                                    return
+                                }
+                                guard let accessToken = content.accessToken else { return }
+                                if KeyChainManager.shared.createAccessToken(accessToken) {
+                                    let signUpSuccessVC = SignUpSuccessVC()
+                                    self?.navigationController?.pushViewController(signUpSuccessVC, animated: true)
+                                } else {
+                                    LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
+                                }
+                            case .failure(let error):
+                                LogUtil.e("간편 회원가입 실패 > \(error.localizedDescription)")
                             }
-                            guard let content = data.content else {
-                                LogUtil.e("data.content unWrapping 실패")
-                                return
-                            }
-                            guard let accessToken = content.accessToken else { return }
-                            if KeyChainManager.shared.createAccessToken(accessToken) {
-                                let signUpSuccessVC = SignUpSuccessVC()
-                                self?.navigationController?.pushViewController(signUpSuccessVC, animated: true)
-                            } else {
-                                LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
-                            }
-                        case .failure(let error):
-                            LogUtil.e("간편 회원가입 실패 > \(error.localizedDescription)")
                         }
-                    }
+                }
             }.store(in: &disposeBag)
         
         nicknameTextField.contentTextField.textPublisher

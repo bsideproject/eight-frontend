@@ -52,11 +52,11 @@ extension BlockAPI: TargetType {
     
     var headers: [String : String]? {
         
-        let accessToken = KeyChainManager.shared.accessToken
+        let bearer = "Bearer \(KeyChainManager.shared.readAccessToken())"
         
         return [
             "Content-type": "application/json",
-            "accessToken": accessToken
+            "accessToken": bearer
         ]
     }
 }

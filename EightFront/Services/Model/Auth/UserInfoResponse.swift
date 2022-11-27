@@ -9,13 +9,16 @@ import Foundation
 
 struct UserInfoResponse: Decodable {
     let result: ApiResponse?
-    let data: UserInfo?
+    let data: UserInfoResponseContent?
+}
+
+struct UserInfoResponseContent: Decodable {
+    let content: UserInfo
 }
 
 struct UserInfo: Decodable {
-    let accessToken: String?
-    let nickName: String?
-    let email: String?
-    let type: String?
+    let email: String
+    let nickname: String
+    let profileImage: String?
 }
 

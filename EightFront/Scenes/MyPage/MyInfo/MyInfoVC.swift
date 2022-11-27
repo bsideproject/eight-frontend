@@ -11,11 +11,9 @@ import Moya
 import KakaoSDKUser
 import JWTDecode
 
-
 class MyInfoVC: UIViewController {
     
     // MARK: - Properties
-    
     private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = MyInfoViewModel()
     
@@ -38,10 +36,6 @@ class MyInfoVC: UIViewController {
         let image = Images.Mypage.myInfoEdit.image
         $0.image = image
         $0.layer.cornerRadius = 29/2
-    }
-    
-    private let nicknameLabel = UILabel().then {
-        $0.font = Fonts.Templates.title2.font
     }
     
     private let emailTitleLabel = UILabel().then {
@@ -116,6 +110,12 @@ class MyInfoVC: UIViewController {
     }
     
     // MARK: - Lift Cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchUserInfo()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
@@ -313,21 +313,23 @@ class MyInfoVC: UIViewController {
         
         editButtonView.gesture().receive(on: DispatchQueue.main)
             .sink {[weak self] _ in
-                let accessToken = KeyChainManager.shared.readAccessToken()
-                let jwt = try? JWTDecode.decode(jwt: accessToken)
-                guard let memberId = jwt?.subject else { return }
-                guard let inputNickname = self?.viewModel.inputNickname else { return }
-                self?.authProvider.request(.nicknameChange(memberId: memberId, nickName: inputNickname)) { result in
-                    switch result {
-                    case .success(let response):
-                        guard let data = try? response.map(NicknameResponse.self).data else { return }
-                        if data.content == true {
-                            self?.navigationController?.popToRootViewController(animated: true)
-                        } else {
-                            LogUtil.e("변경 실패")
+                if self?.viewModel.isButtonEnabled == true {
+                    let accessToken = KeyChainManager.shared.readAccessToken()
+                    let jwt = try? JWTDecode.decode(jwt: accessToken)
+                    guard let memberId = jwt?.subject else { return }
+                    guard let inputNickname = self?.viewModel.inputNickname else { return }
+                    self?.authProvider.request(.nicknameChange(memberId: memberId, nickName: inputNickname)) { result in
+                        switch result {
+                        case .success(let response):
+                            guard let data = try? response.map(NicknameResponse.self).data else { return }
+                            if data.content == true {
+                                self?.navigationController?.popToRootViewController(animated: true)
+                            } else {
+                                LogUtil.e("변경 실패")
+                            }
+                        case .failure(let error):
+                            LogUtil.e(error)
                         }
-                    case .failure(let error):
-                        LogUtil.e(error)
                     }
                 }
             }.store(in: &viewModel.bag)

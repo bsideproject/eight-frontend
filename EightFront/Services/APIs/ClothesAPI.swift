@@ -23,6 +23,8 @@ enum ClothesAPI {
     case comments(id: Int)
     /// 버릴까 말까 글 댓글 등록
     case newComment(id: Int, info: CommentRequest)
+    /// 나의 버릴까 말까 글 목록 조회
+    case myPosts
 }
 
 extension ClothesAPI: TargetType {
@@ -46,12 +48,14 @@ extension ClothesAPI: TargetType {
             return "/keep-or-drop/\(id)/comments"
         case .newComment(let id, _):
             return "/keep-or-drop/\(id)/comments"
+        case .myPosts:
+            return "/my/keep-or-drop/article"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .posts, .post, .categories, .comments:
+        case .posts, .post, .categories, .comments, .myPosts:
             return .get
         case .newPost, .vote, .newComment:
             return .post
@@ -91,12 +95,18 @@ extension ClothesAPI: TargetType {
             return .requestJSONEncodable(param)
         case .newComment(_, let param):
             return .requestJSONEncodable(param)
+        case .myPosts:
+            return .requestPlain
         }
     }
     
     var headers: [String : String]? {
+        
+        let bearer = "Bearer \(KeyChainManager.shared.readAccessToken())"
+        
         return [
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            "Authorization": bearer
         ]
     }
 }

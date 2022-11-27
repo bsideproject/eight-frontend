@@ -21,3 +21,4 @@ struct Report: Decodable {
     let createdAt: String
     let status: String
 }
+

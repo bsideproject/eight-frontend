@@ -62,6 +62,16 @@ final class TermsVC: UIViewController {
     
     // MARK: - LifeCycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden.toggle()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden.toggle()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
