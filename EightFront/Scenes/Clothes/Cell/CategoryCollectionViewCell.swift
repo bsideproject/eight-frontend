@@ -11,7 +11,7 @@ import UIKit
 //MARK: CategoryCollectionViewCell
 final class CategoryCollectionViewCell: UICollectionViewCell {
     //MARK: - Properties
-    private let titleLabel = UILabel().then {
+    let titleLabel = UILabel().then {
         $0.textColor = Colors.gray004.color
         $0.textAlignment = .center
         $0.font = Fonts.Templates.body2.font

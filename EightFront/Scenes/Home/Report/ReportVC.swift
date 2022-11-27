@@ -21,15 +21,15 @@ final class ReportVC: UIViewController {
         $0.image = viewModel.type == .addPost ? Images.Report.bottomArrow.image : Images.Report.search.image
     }
     private lazy var addressView = CommonTextFieldView(isTitleHidden: viewModel.type == .addPost,
-                                                       placeholder: viewModel.type == .addPost ? "품목 선택" : nil,
+                                                       placeholder: viewModel.type == .addPost ? "품목 선택" : "장소를 검색해주세요",
                                                        titleWidth: viewModel.type == .addPost ? .zero : 56.0,
                                                        contentTrailing: 52.0).then {
         $0.titleLabel.text = viewModel.type == .addPost ? "" : "주소"
         $0.contentTextField.isUserInteractionEnabled = false
     }
-    private let detailView = CommonTextFieldView(isTitleHidden: true,
-                                                 placeholder: "옷 이름이 뭐에요?",
-                                                 titleWidth: .zero).then {
+    private lazy var detailView = CommonTextFieldView(isTitleHidden: viewModel.type == .addPost,
+                                                      placeholder: viewModel.type == .addPost ? "옷 이름이 뭐에요?" : "입력해주세요",
+                                                      titleWidth: viewModel.type == .addPost ? .zero : 56.0).then {
         $0.titleLabel.text = "상세주소"
     }
     private lazy var questionLabel = UILabel().then {
@@ -163,7 +163,7 @@ final class ReportVC: UIViewController {
         }
         requestButton.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().offset(isNew ? -24 : -38)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(isNew ? -24 : -38)
             $0.height.equalTo(58)
         }
         agreePhotoView.snp.makeConstraints {

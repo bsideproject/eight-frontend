@@ -26,7 +26,7 @@ final class BottomAddressView: UIView {
         $0.layer.masksToBounds = true
     }
     let submitButton = UIButton().then {
-        $0.setTitle("등록하기")
+        $0.setTitle("이 위치로 주소 설정")
         $0.setTitleColor(Colors.point.color)
         $0.titleLabel?.font = Fonts.Templates.subheader.font
         $0.backgroundColor = Colors.gray002.color
