@@ -13,8 +13,8 @@ import KakaoSDKUser
 import Moya
 import JWTDecode
 
-protocol LoginDelegate: AnyObject {
-    func loginSuccess(userInfo: UserInfo)
+protocol BottomSheetDelegate: AnyObject {
+    func loginSuccess()
 }
 
 enum signType {
@@ -39,9 +39,9 @@ final class LoginBottomSheetVC: UIViewController {
     // MARK: - Properties
     private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = LoginBottomSheetViewModel()
-    private var bottomHeight: CGFloat = 279
+    private var bottomSheetHeight: CGFloat = 279
     
-    weak var delegate: LoginDelegate?
+    weak var bottomSheetDelegate: BottomSheetDelegate?
     
     private let dimmedBackView = UIView().then {
         $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
@@ -65,7 +65,7 @@ final class LoginBottomSheetVC: UIViewController {
         $0.textAlignment = .center
     }
     private let appleLoginButton = ASAuthorizationAppleIDButton(
-        authorizationButtonType: .signUp,
+        authorizationButtonType: .signIn,
         authorizationButtonStyle: .black
     )
     private let kakaoLoginButton = UIButton().then {
@@ -120,11 +120,9 @@ final class LoginBottomSheetVC: UIViewController {
         dimmedBackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-        let topConstant = view.safeAreaInsets.bottom + view.safeAreaLayoutGuide.layoutFrame.height
-        
+
         bottomSheetView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(topConstant)
+            $0.height.equalTo(bottomSheetHeight)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
@@ -213,14 +211,6 @@ final class LoginBottomSheetVC: UIViewController {
     
     // 바텀 시트 표출 애니메이션
     private func showBottomSheet() {
-        
-        let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
-        let bottomPadding: CGFloat = view.safeAreaInsets.bottom
-        
-        bottomSheetView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset((safeAreaHeight + bottomPadding) - bottomHeight)
-        }
-        
         let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeIn)
         animator.addAnimations {
             self.dimmedBackView.alpha = 0.5
@@ -231,18 +221,11 @@ final class LoginBottomSheetVC: UIViewController {
     
     // 바텀 시트 사라지는 애니메이션
     private func hideBottomSheetAndGoBack() {
-        let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeIn)
-        animator.addAnimations {
-            self.dimmedBackView.alpha = 0.0
-            self.view.layoutIfNeeded()
-            if self.presentationController != nil {
-                self.dismiss(animated: false) {
-                    let tabbarVC = MainTabbarController()
-                    UIWindow().visibleViewController?.navigationController?.pushViewController(tabbarVC, animated: true)
-                }
-            }
+        self.dimmedBackView.alpha = 0.0
+        self.view.layoutIfNeeded()
+        if self.presentationController != nil {
+            self.dismiss(animated: false)
         }
-        animator.startAnimation()
     }
     
     // MARK: - Actions
@@ -273,7 +256,9 @@ final class LoginBottomSheetVC: UIViewController {
                 
                 self.authProvider.request(.socialSignIn(
                     param: SocialSignInRequest(
-                        accessToken: oauthToken?.accessToken ?? ""))) { reponse in
+                        accessToken: oauthToken?.accessToken ?? "",
+                        social: "kakao"
+                    ))) { reponse in
                         switch reponse {
                         case .success(let result):
                             guard let data = try? result.map(SimpleSignInResponse.self).data else {
@@ -289,10 +274,13 @@ final class LoginBottomSheetVC: UIViewController {
                             if content.type == "sign-in" {
                                 guard let accessToken = content.accessToken else { return }
                                 if KeyChainManager.shared.createAccessToken(accessToken) {
-                                    UserDefaults.standard.set(content.nickName, forKey: "nickName")
-                                    UserDefaults.standard.set(content.email, forKey: "email")
                                     self.dismiss(animated: false) { [weak self] in
-                                        self?.delegate?.loginSuccess(userInfo: UserInfo(nickName: content.nickName, email: content.email))
+//                                        self?.bottomSheetDelegate?.loginSuccess(
+//                                            userInfo: UserInfo(
+//                                                accessToken: "",
+//                                                nickName: content.nickName,
+//                                                email: content.email,
+//                                                type: ""))
                                     }
                                 } else {
                                     LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
@@ -320,7 +308,9 @@ final class LoginBottomSheetVC: UIViewController {
                 
                 self?.authProvider.request(.socialSignIn(
                     param: SocialSignInRequest(
-                    accessToken: oauthToken?.accessToken ?? ""))) { reponse in
+                    accessToken: oauthToken?.accessToken ?? "",
+                    social: "kakao"
+                    ))) { reponse in
                         switch reponse {
                         case .success(let result):
                             guard let data = try? result.map(SimpleSignInResponse.self).data else {
@@ -391,23 +381,22 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
                   let authorizationCodeStr = String(data: authorizationCode, encoding: .utf8) else {
                 return
             }
-            
+
             authProvider.request(
-                .socialSignIn(
-                    param: SocialSignInRequest(
-                        accessToken: identityTorknStr))) { result in
-                            switch result {
-                            case .success(let response):
-                                LogUtil.d("성공 > \(response)")
-                            case .failure(let error):
-                                LogUtil.d("실패 > \(error)")
-                            }
+                .appleSignIn(param: SocialSignInRequest(
+                    identityToken: identityTorknStr
+                ))) { result in
+                    switch result {
+                    case .success(let response):
+                        guard let data = try? response.map(SimpleSignInResponse.self).data else {
+                            LogUtil.e("Response Decoding 실패")
+                            return
                         }
-            
-            LogUtil.d("""
-            identityTorknStr: \(identityTorknStr)
-            authorizationCodeStr: \(authorizationCodeStr)
-            """)
+                        LogUtil.d(data)
+                    case .failure(let error):
+                        LogUtil.e(error)
+                    }
+            }
         }
     }
     

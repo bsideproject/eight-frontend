@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "naver_circle_icon.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "naver_circle_icon.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

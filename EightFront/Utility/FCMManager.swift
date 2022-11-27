@@ -11,5 +11,4 @@ class FCMManager {
     static let shared = FCMManager()
     
     var fcmToken: String? = nil
-    
 }

@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "kakao_circle_icon.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "kakao_circle_icon.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

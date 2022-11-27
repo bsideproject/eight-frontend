@@ -12,6 +12,6 @@ class SettingViewModel {
     
     var bag = Set<AnyCancellable>()
     
-    @Published var isNotification: Bool = false
+    @Published var isNotification: Bool = UserDefaults.standard.bool(forKey: "isNotification")
     
 }

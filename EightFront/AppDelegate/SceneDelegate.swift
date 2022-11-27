@@ -8,9 +8,12 @@
 import UIKit
 
 import KakaoSDKAuth
+import JWTDecode
+import Moya
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
+    let authProvider = MoyaProvider<AuthAPI>()
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -29,14 +32,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         UIApplication.shared.applicationIconBadgeNumber = 0
         
-        // 앱 시작시 위치 추적 시작
+        // background에서 foregrond로 앱 진입 시 위치 추적 시작
         LocationManager.shared.startUpdating()
         
+        let accessToken = KeyChainManager.shared.readAccessToken()
+        LogUtil.d(accessToken)
+        
+        let center = UNUserNotificationCenter.current()
+        center.getNotificationSettings { settings in
+            switch settings.alertSetting {
+            case .enabled:
+                UserDefaults.standard.set(true, forKey: "isNotification")
+            default:
+                UserDefaults.standard.set(false, forKey: "isNotification")
+            }
+        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
-        
-        // 앱 켜지면 위치 추적 시작
+        // 앱 꺼지면 위치 추적 멈춤
         LocationManager.shared.stopUpdating()
     }
 

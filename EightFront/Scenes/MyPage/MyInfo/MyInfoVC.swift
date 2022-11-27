@@ -11,21 +11,31 @@ import Moya
 import KakaoSDKUser
 import JWTDecode
 
-
 class MyInfoVC: UIViewController {
     
     // MARK: - Properties
-    
     private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = MyInfoViewModel()
     
-    private let commontNavigationView = CommonNavigationView().then {
+    private let commonNavigationView = CommonNavigationView().then {
         $0.titleLabel.text = "내 정보 수정"
     }
     
-    private let profileImageView = UIImageView().then {
-        $0.backgroundColor = Colors.gray006.color
-        $0.layer.cornerRadius = 44
+    private let myInfoView = UIView()
+    private let profileImageView = UIView().then {
+        $0.backgroundColor = Colors.gray007.color
+        $0.layer.cornerRadius = 109/2
+    }
+    private let profileImage = UIImageView().then {
+        let image = Images.dropIcon.image
+        $0.image = image
+    }
+    
+    private let editImageView = UIView()
+    private let editImage = UIImageView().then {
+        let image = Images.Mypage.myInfoEdit.image
+        $0.image = image
+        $0.layer.cornerRadius = 29/2
     }
     
     private let emailTitleLabel = UILabel().then {
@@ -47,16 +57,18 @@ class MyInfoVC: UIViewController {
     
     private var nicknameDuplicateedLabel = UILabel().then {
         $0.text = "* 닉네임이 중복되었어요."
-        $0.textColor = .red
+        $0.textColor = Colors.warning.color
+        $0.font = Fonts.Templates.caption2.font
         $0.isHidden = true
     }
     
     private var nicknameCheckButtonView = UIView().then {
         $0.backgroundColor = Colors.gray006.color
+        $0.layer.cornerRadius = 4
     }
-    
     private var nicknameCheckButtonLabel = UILabel().then {
         $0.text = "확인"
+        $0.font = Fonts.Templates.body1.font
         $0.textColor = UIColor.white
     }
     
@@ -78,17 +90,32 @@ class MyInfoVC: UIViewController {
     // 새 비밀번호
     // 새 비밀번호 확인
     
-    private let editButton = UIButton().then {
-        $0.setTitle("수정")
+    private var editButtonView = UIView().then {
+        $0.backgroundColor = Colors.gray006.color
         $0.layer.cornerRadius = 4
+    }
+    private var editButtonLabel = UILabel().then {
+        $0.text = "수정하기"
+        $0.font = Fonts.Templates.body1.font
+        $0.textColor = UIColor.white
     }
     
     private let resignButton = UILabel().then {
         $0.text = "회원탈퇴"
-        $0.font = Fonts.Templates.subheader.font
+        $0.font = Fonts.Templates.caption1.font
+    }
+    
+    private let resignButtonDivider = UIView().then {
+        $0.backgroundColor = Colors.gray006.color
     }
     
     // MARK: - Lift Cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchUserInfo()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
@@ -103,34 +130,54 @@ class MyInfoVC: UIViewController {
     private func makeUI() {
         view.backgroundColor = .white
         
-        view.addSubview(commontNavigationView)
-        commontNavigationView.snp.makeConstraints {
+        view.addSubview(commonNavigationView)
+        commonNavigationView.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(47)
         }
         
-        view.addSubview(profileImageView)
-        profileImageView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(107)
-            $0.size.equalTo(88)
+        view.addSubview(myInfoView)
+        myInfoView.snp.makeConstraints {
+            $0.top.equalTo(commonNavigationView.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(178)
+            
+            myInfoView.addSubview(profileImageView)
+            profileImageView.snp.makeConstraints {
+                $0.center.equalToSuperview()
+                $0.size.equalTo(109)
+                
+                profileImageView.addSubview(profileImage)
+                profileImage.snp.makeConstraints {
+                    $0.center.equalToSuperview()
+                    $0.width.equalTo(57)
+                    $0.height.equalTo(68)
+                }
+                
+                profileImageView.addSubview(editImage)
+                editImage.snp.makeConstraints {
+                    $0.right.equalTo(profileImageView.snp.right).inset(1)
+                    $0.bottom.equalTo(profileImageView.snp.bottom).inset(3)
+                    $0.size.equalTo(29)
+                }
+            }
         }
         
         view.addSubview(emailTitleLabel)
         emailTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(profileImageView.snp.bottom).offset(28)
+            $0.top.equalTo(myInfoView.snp.bottom)
             $0.left.equalToSuperview().inset(16)
         }
         
         view.addSubview(emailLabel)
         emailLabel.snp.makeConstraints {
-            $0.top.equalTo(profileImageView.snp.bottom).offset(54)
+            $0.top.equalTo(emailTitleLabel.snp.bottom).offset(8)
             $0.left.equalToSuperview().inset(16)
         }
         
         view.addSubview(nicknameTitleLabel)
         nicknameTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(emailLabel.snp.bottom).offset(12)
+            $0.top.equalTo(emailLabel.snp.bottom).offset(24)
             $0.left.equalToSuperview().inset(16)
         }
         
@@ -175,17 +222,31 @@ class MyInfoVC: UIViewController {
             $0.width.equalTo(62)
         }
         
-        view.addSubview(editButton)
-        editButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(44)
+        // 수정하기 버튼
+        view.addSubview(editButtonView)
+        editButtonView.snp.makeConstraints {
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(38)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(58)
+            
+            editButtonView.addSubview(editButtonLabel)
+            editButtonLabel.snp.makeConstraints {
+                $0.center.equalToSuperview()
+            }
         }
         
         view.addSubview(resignButton)
         resignButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(8)
+        }
+        
+        view.addSubview(resignButtonDivider)
+        resignButtonDivider.snp.makeConstraints {
+            $0.top.equalTo(resignButton.snp.bottom).offset(1)
+            $0.centerX.equalTo(resignButton.snp.centerX)
+            $0.height.equalTo(1)
+            $0.width.equalTo(resignButton.snp.width)
         }
     }
     
@@ -213,8 +274,8 @@ class MyInfoVC: UIViewController {
                 self?.authProvider.request(.nicknameCheck(nickname: nickname)) { result in
                     switch result {
                     case .success(let response):
-                        guard let data = try? response.map(NicknameCheckResponse.self).data else {
-                            LogUtil.d("Response Decoding 실패")
+                        guard let data = try? response.map(NicknameResponse.self).data else {
+                            LogUtil.e("Response Decoding 실패")
                             return
                         }
                         if data.content == false {
@@ -246,30 +307,37 @@ class MyInfoVC: UIViewController {
         viewModel.$isButtonEnabled.receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] isButtonEnabled in
-                self?.editButton.backgroundColor = isButtonEnabled ? Colors.gray001.color : Colors.gray006.color
-                self?.editButton.setTitleColor(isButtonEnabled ? Colors.point.color : UIColor.white)
+                self?.editButtonView.backgroundColor = isButtonEnabled ? Colors.gray001.color :Colors.gray006.color
+                self?.editButtonLabel.textColor = isButtonEnabled ? Colors.point.color : UIColor.white
             }.store(in: &viewModel.bag)
         
-        editButton.tapPublisher.receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                let accessToken = KeyChainManager.shared.readAccessToken()
-                let jwt = try? JWTDecode.decode(jwt: accessToken)
-                guard let memberId = jwt?.subject else { return }
-                guard let inputNickname = self?.viewModel.inputNickname else { return }
-                
-                self?.authProvider.request(.nicknameChange(memberId: memberId, nickname: inputNickname)) { result in
-                    switch result {
-                    case .success(let response):
-                        guard let data = try? response.map(NicknameCheckResponse.self).data else { return }
-                        if data.content == false {
-                            self?.navigationController?.popToRootViewController(animated: true)
-                        } else {
-                            LogUtil.d("수정 실패")
+        editButtonView.gesture().receive(on: DispatchQueue.main)
+            .sink {[weak self] _ in
+                if self?.viewModel.isButtonEnabled == true {
+                    let accessToken = KeyChainManager.shared.readAccessToken()
+                    let jwt = try? JWTDecode.decode(jwt: accessToken)
+                    guard let memberId = jwt?.subject else { return }
+                    guard let inputNickname = self?.viewModel.inputNickname else { return }
+                    self?.authProvider.request(.nicknameChange(memberId: memberId, nickName: inputNickname)) { result in
+                        switch result {
+                        case .success(let response):
+                            guard let data = try? response.map(NicknameResponse.self).data else { return }
+                            if data.content == true {
+                                self?.navigationController?.popToRootViewController(animated: true)
+                            } else {
+                                LogUtil.e("변경 실패")
+                            }
+                        case .failure(let error):
+                            LogUtil.e(error)
                         }
-                    case .failure(let error):
-                        LogUtil.e(error)
                     }
                 }
+            }.store(in: &viewModel.bag)
+        
+        commonNavigationView.backButton.tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
             }.store(in: &viewModel.bag)
         
     }

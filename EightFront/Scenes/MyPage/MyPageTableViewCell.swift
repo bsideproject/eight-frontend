@@ -12,7 +12,9 @@ final class MyPageTableViewCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "MyPageTableViewCell"
     
-    let title = UILabel()
+    let title = UILabel().then {
+        $0.font = Fonts.Templates.subheader.font
+    }
     let iconView = UIView().then {
         $0.layer.cornerRadius = 6
     }
@@ -20,6 +22,10 @@ final class MyPageTableViewCell: UITableViewCell {
     let icon = UIImageView().then {
         $0.contentMode = .scaleAspectFit
         $0.tintColor = .white
+    }
+    
+    let rightArrow = UIImageView().then {
+        $0.image = Images.Trade.rightArrow.image
     }
     
     // MARK: - LifeCycle
@@ -35,16 +41,12 @@ final class MyPageTableViewCell: UITableViewCell {
     
     func configure(myPageMenus: MyPageViewModel.MyPageMenus) {
         title.text = myPageMenus.title
-        icon.image = UIImage(systemName: myPageMenus.image)
-        iconView.backgroundColor = UIColor(cgColor: myPageMenus.backgroundColor)
+        icon.image = myPageMenus.image
     }
     
     // MARK: - makeUI
     private func makeUI() {
-        
         addSubview(iconView)
-        addSubview(title)
-        
         iconView.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
@@ -52,14 +54,23 @@ final class MyPageTableViewCell: UITableViewCell {
             
             iconView.addSubview(icon)
             icon.snp.makeConstraints {
-                $0.size.equalTo(23)
+                $0.size.equalTo(24)
                 $0.center.equalToSuperview()
             }
         }
         
+        addSubview(title)
         title.snp.makeConstraints {
             $0.leading.equalTo(iconView.snp.trailing).offset(16)
             $0.centerY.equalToSuperview()
+        }
+        
+        addSubview(rightArrow)
+        rightArrow.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().inset(25)
+            $0.width.equalTo(11)
+            $0.height.equalTo(16)
         }
     }
     

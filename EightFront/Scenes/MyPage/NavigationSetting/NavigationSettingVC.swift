@@ -11,7 +11,7 @@ class NavigationSettingVC: UIViewController {
     
     // MARK: - Properties
     private let viewModel = NavigationSettinViewModel()
-    private let commontNavigationView = CommonNavigationView().then {
+    private let commonNavigationView = CommonNavigationView().then {
         $0.titleLabel.text = "네비게이션 앱 설정"
     }
     
@@ -28,7 +28,7 @@ class NavigationSettingVC: UIViewController {
     }
     
     private var naverIcon = UIImageView().then {
-        let image = UIImage(named: "naver_circle_icon")!
+        let image = Images.NavigationIcon.naverCircleIcon.image
         $0.image = image
     }
     
@@ -50,7 +50,7 @@ class NavigationSettingVC: UIViewController {
     }
     
     private var kakaoIcon = UIImageView().then {
-        let image = UIImage(named: "kakao_circle_icon")!
+        let image = Images.NavigationIcon.kakaoCircleIcon.image
         $0.image = image
     }
 
@@ -58,8 +58,6 @@ class NavigationSettingVC: UIViewController {
         $0.text = "카카오맵"
         $0.font = Fonts.Templates.subheader3.font
     }
-    
-    
     
     // MARK: - Lift Cycle
     override func viewDidLoad() {
@@ -72,8 +70,8 @@ class NavigationSettingVC: UIViewController {
     private func makeUI() {
         view.backgroundColor = .white
         
-        view.addSubview(commontNavigationView)
-        commontNavigationView.snp.makeConstraints {
+        view.addSubview(commonNavigationView)
+        commonNavigationView.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(47)
         }
@@ -154,6 +152,12 @@ class NavigationSettingVC: UIViewController {
                 self?.naverCoverView.backgroundColor = $0 == "naver" ? UIColor.clear : UIColor.white.withAlphaComponent(0.75)
                 self?.kakaoCoverView.backgroundColor = $0 == "kakao" ? UIColor.clear : UIColor.white.withAlphaComponent(0.75)
                 
+            }.store(in: &viewModel.bag)
+        
+        commonNavigationView.backButton.tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
             }.store(in: &viewModel.bag)
         
     }

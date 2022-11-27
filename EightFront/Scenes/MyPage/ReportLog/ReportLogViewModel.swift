@@ -7,12 +7,7 @@
 
 import Foundation
 import Combine
-
-struct Report {
-    let address: String
-    let time: String
-    let state: String
-}
+import Moya
 
 class ReportLogViewModel {
     
@@ -22,17 +17,11 @@ class ReportLogViewModel {
         case add
     }
     
+    let provider = MoyaProvider<ReportAPI>()
     var bag = Set<AnyCancellable>()
     
     @Published var selectedCategory = Category.all
-    
-    var reportList = [
-        Report(address: "마포구 마포18길 12", time: "2022.01.21 08:00", state: "처리중"),
-        Report(address: "마포구 마포18길 12", time: "2022.02.21 08:00", state: "완료"),
-        Report(address: "마포구 마포18길 12", time: "2022.03.21 08:00", state: "반려"),
-        Report(address: "마포구 마포18길 12", time: "2022.04.21 08:00", state: "완료"),
-        Report(address: "마포구 마포18길 12", time: "2022.05.21 08:00", state: "반려"),
-    ]
+    @Published var reportList = [Report]()
     
     func numberOfRowsInSection() -> Int {
         return reportList.count
@@ -40,6 +29,22 @@ class ReportLogViewModel {
     
     func cellForRowAt(indexPath: IndexPath) -> Report {
         return reportList[indexPath.row]
+    }
+    
+    func fetchReportList() {
+        provider.requestPublisher(.clothingBeanReport)
+            .sink { completion in
+                switch completion {
+                case .failure(let error):
+                    LogUtil.e(error)
+                case .finished:
+                    LogUtil.d("제보 내역 호출")
+                }
+            } receiveValue: { response in
+                let data = try? response.map(ReportResponse.self)
+                self.reportList = data?.data.contents ?? []
+            }.store(in: &bag)
+
     }
     
 }
