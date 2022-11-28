@@ -107,6 +107,8 @@ extension CollectionCell: UICollectionViewDataSource, UICollectionViewDelegate, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withType: PhotoCollectionViewCell.self, indexPath: indexPath)
         
+        cell.removePhotoButton.isHidden = true
+        cell.removePhotoImageView.isHidden = true
         cell.configure(with: imageUrls[indexPath.item])
         
         return cell

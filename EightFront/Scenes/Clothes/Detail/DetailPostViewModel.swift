@@ -27,7 +27,7 @@ final class DetailPostViewModel {
         }
     }
     var id: Int?
-    
+    var isRequestComment: Bool = false
     
     //MARK: Initializer
     init(id: Int?) {
@@ -55,13 +55,8 @@ final class DetailPostViewModel {
         input.requestComment
             .compactMap { $0 }
             .sink { [weak self] comment in
+                self?.isRequestComment = true
                 self?.requestComment(text: comment)
-            }
-            .store(in: &bag)
-        
-        input.requestPostVote
-            .sink { [weak self] in
-                self?.requestKeepOrLock(with: $0)
             }
             .store(in: &bag)
         
@@ -78,7 +73,6 @@ extension DetailPostViewModel {
     struct Input {
         let requestPost = PassthroughSubject<Int?, Never>()
         let requestComments = PassthroughSubject<Int?, Never>()
-        let requestPostVote = PassthroughSubject<String, Never>()
         let requestComment = PassthroughSubject<String?, Never>()
     }
     
@@ -142,25 +136,6 @@ extension DetailPostViewModel {
                 
                 self?.comments = comments
             }
-            .store(in: &bag)
-    }
-    
-    private func requestKeepOrLock(with vote: String) {
-        clothesProvider
-            .requestPublisher(.vote(type: VoteRequest(voteType: vote)))
-            .sink { [weak self] completion in
-                switch completion {
-                case .failure(let error):
-                    LogUtil.d(error.localizedDescription)
-                    
-                    guard (self?.apiCall ?? 3) < 3 else { return }
-                    self?.apiCall += 1
-                    self?.requestKeepOrLock(with: vote)
-                case .finished:
-                    LogUtil.d("Successed")
-                    self?.apiCall = 0
-                }
-            } receiveValue: { _ in }
             .store(in: &bag)
     }
     

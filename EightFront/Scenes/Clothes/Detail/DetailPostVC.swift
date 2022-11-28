@@ -17,6 +17,7 @@ protocol ReportPopupOpenDelegate: AnyObject {
 //MARK: 게시물 상세보기 VC
 final class DetailPostVC: UIViewController {
     //MARK: - Properties
+    weak var delegate: DetailSelectionDelegate?
     var viewModel: DetailPostViewModel!
     var keyboardHeight: CGFloat = .zero
     private let navigationView = CommonNavigationView().then {
@@ -150,6 +151,13 @@ final class DetailPostVC: UIViewController {
                 let lineCell = IndexPath(item: 5, section: 0)
                 let commentsCell = IndexPath(item: 6, section: 0)
                 self?.tableView.reloadRows(at: [lineCell, commentsCell], with: .none)
+                
+                guard self?.viewModel.isRequestComment ?? false else { return }
+                self?.viewModel.isRequestComment = false
+                let point = CGPoint(x: 0.0, y: .greatestFiniteMagnitude)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self?.tableView.setContentOffset(point, animated: false)
+                }
             }
             .store(in: &viewModel.bag)
         
@@ -189,6 +197,7 @@ final class DetailPostVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
+                self?.viewModel.isRequestComment = true
                 self?.viewModel.input.requestComment.send(self?.commentInputView.inputTextField.text)
                 self?.commentInputView.inputTextField.text = nil
                 self?.commentInputView.inputTextField.resignFirstResponder()
@@ -205,8 +214,10 @@ final class DetailPostVC: UIViewController {
                 self.keyboardHeight = keyboardFrame.height
                 self.tableView.contentOffset.y = self.tableView.contentOffset.y + keyboardFrame.height
                 
-                self.commentInputView.snp.updateConstraints {
-                    $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-keyboardFrame.height)
+                self.commentInputView.snp.remakeConstraints {
+                    $0.left.right.equalToSuperview()
+                    $0.bottom.equalToSuperview().offset(-self.keyboardHeight)
+                    $0.height.equalTo(59)
                 }
             }
             
@@ -215,8 +226,10 @@ final class DetailPostVC: UIViewController {
     }
     
     @objc func keyboardWillHide(_ sender: Notification) {
-        self.commentInputView.snp.updateConstraints {
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
+        commentInputView.snp.remakeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(59)
         }
     }
     
@@ -392,13 +405,18 @@ extension DetailPostVC: CutOffPopupViewDelegate {
 }
 
 extension DetailPostVC: DetailSelectionDelegate {
-    func lock() {
-        viewModel.input.requestPostVote.send("DROP")
+    func keep() {
         navigationController?.popViewController(animated: true)
+        delegate?.keep()
     }
     
-    func keep() {
-        viewModel.input.requestPostVote.send("KEEP")
+    func drop() {
         navigationController?.popViewController(animated: true)
+        delegate?.drop()
+    }
+    
+    func skip() {
+        navigationController?.popViewController(animated: true)
+        delegate?.skip()
     }
 }

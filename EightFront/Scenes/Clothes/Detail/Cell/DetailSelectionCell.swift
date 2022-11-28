@@ -10,8 +10,9 @@ import SnapKit
 import UIKit
 
 protocol DetailSelectionDelegate: AnyObject {
-    func lock()
     func keep()
+    func drop()
+    func skip()
 }
 
 //MARK: 디테일 페이지 셀렉션 셀
@@ -19,30 +20,20 @@ final class DetailSelectionCell: DetailPostCell {
     //MARK: - Properties
     weak var delegate: DetailSelectionDelegate?
     private let choiceLabel = UILabel().then {
-        $0.text = "나였다면?"
-        $0.textColor = UIColor(colorSet: 117)
+        $0.text = "Skip"
+        $0.textColor = Colors.gray005.color
         $0.textAlignment = .center
-        $0.font = Fonts.Pretendard.regular.font(size: 14)
+        $0.font = Fonts.Pretendard.regular.font(size: 18)
     }
     private let storageButton = ChoiceView(isLeftImage: true).then {
         $0.titleLabel.text = "보관해요"
-        $0.titleLabel.textColor = Colors.gray005.color
-        let image = Images.Trade.leftArrow.image.withRenderingMode(.alwaysTemplate)
-        $0.imageView.image = image
-        $0.imageView.tintColor = Colors.gray005.color
-        $0.layer.cornerRadius = 20
-        $0.layer.borderWidth = 1.0
-        $0.layer.borderColor = Colors.gray005.color.cgColor
+        $0.imageView.image = Images.Trade.leftArrow.image
+        $0.layer.cornerRadius = 20.0
     }
     private let throwButton = ChoiceView(isLeftImage: false).then {
         $0.titleLabel.text = "버릴래요"
-        $0.titleLabel.textColor = Colors.gray005.color
-        let image = Images.Trade.rightArrow.image.withRenderingMode(.alwaysTemplate)
-        $0.imageView.image = image
-        $0.imageView.tintColor = Colors.gray005.color
-        $0.layer.cornerRadius = 20
-        $0.layer.borderWidth = 1.0
-        $0.layer.borderColor = Colors.gray005.color.cgColor
+        $0.imageView.image = Images.Trade.rightArrow.image
+        $0.layer.cornerRadius = 20.0
     }
     
     //MARK: - Initializer
@@ -91,12 +82,12 @@ final class DetailSelectionCell: DetailPostCell {
     
     @objc
     private func lockButtonTapped() {
-        delegate?.lock()
+        delegate?.keep()
     }
     
     @objc
     private func throwButtonTapped() {
-        delegate?.keep()
+        delegate?.drop()
     }
 }
 //MARK: - 사이즈 관련
