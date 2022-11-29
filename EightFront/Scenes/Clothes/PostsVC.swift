@@ -15,11 +15,14 @@ final class PostsVC: UIViewController {
         return .darkContent
     }
     
-    private var viewModel = PostsViewModel()
-    private let stackContainer = StackContainerView()
     var snapshot: CategoriesSnapShot!
     var dataSource: CategoriesDataSource!
+    private var viewModel = PostsViewModel()
+    private lazy var stackContainer = StackContainerView().then {
+        $0.selectionDelegate = self
+    }
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setupFlowLayout()).then {
+        $0.delegate = self
         $0.backgroundColor = .clear
         $0.alwaysBounceHorizontal = false
         $0.allowsMultipleSelection = false
@@ -36,24 +39,21 @@ final class PostsVC: UIViewController {
         $0.titleLabel.text = "최신순"
     }
     private let choiceLabel = UILabel().then {
-        $0.text = "나였다면?"
+        $0.text = "Skip"
+        $0.textColor = Colors.gray005.color
         $0.textAlignment = .center
-        $0.font = Fonts.Pretendard.semiBold.font(size: 18)
+        $0.font = Fonts.Pretendard.regular.font(size: 18)
     }
     private let storageButton = ChoiceView(isLeftImage: true).then {
         $0.titleLabel.text = "보관해요"
-        let image = Images.Trade.leftArrow.image.withRenderingMode(.alwaysTemplate)
-        $0.imageView.image = image
-        $0.imageView.tintColor = Colors.gray001.color
-        $0.backgroundColor = Colors.point.color
+        $0.imageView.image = Images.Trade.leftArrow.image
     }
     private let throwButton = ChoiceView(isLeftImage: false).then {
         $0.titleLabel.text = "버릴래요"
-        $0.titleLabel.textColor = Colors.point.color
-        let image = Images.Trade.rightArrow.image.withRenderingMode(.alwaysTemplate)
-        $0.imageView.image = image
-        $0.imageView.tintColor = Colors.point.color
-        $0.backgroundColor = Colors.gray001.color
+        $0.imageView.image = Images.Trade.rightArrow.image
+    }
+    private let skipLineView = UIView().then {
+        $0.backgroundColor = Colors.gray005.color
     }
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -83,10 +83,8 @@ final class PostsVC: UIViewController {
         view.addSubview(storageButton)
         view.addSubview(throwButton)
         view.addSubview(stackContainer)
-        
-        let cardWidth = UIScreen.main.bounds.width - 32
-        let cardHeight = 400 * (cardWidth / 343)
-        
+        view.addSubview(skipLineView)
+                
         navigationView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.right.equalToSuperview()
@@ -105,7 +103,15 @@ final class PostsVC: UIViewController {
         }
         choiceLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
+            $0.width.equalTo(72)
+            $0.height.equalTo(26)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-44)
+        }
+        skipLineView.snp.makeConstraints {
+            $0.top.equalTo(choiceLabel.snp.bottom)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(32)
+            $0.height.equalTo(1)
         }
         storageButton.snp.makeConstraints {
             $0.left.equalToSuperview().offset(16)
@@ -171,7 +177,9 @@ final class PostsVC: UIViewController {
                 
                 self.collectionView.collectionViewLayout = self.createLayout(with: categories)
                 self.updateDataSnapshot(with: categories)
-                self.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .left)
+                self.collectionView.selectItem(at: IndexPath(item: 0, section: 0),
+                                               animated: false,
+                                               scrollPosition: .centeredHorizontally)
             }
             .store(in: &viewModel.bag)
         
@@ -183,6 +191,17 @@ final class PostsVC: UIViewController {
                 self?.stackContainer.reloadData()
             }
             .store(in: &viewModel.bag)
+        
+        choiceLabel
+            .gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard !(self?.stackContainer.subviews.isEmpty ?? true) else { return }
+                
+                self?.stackContainer.skipCardTapAnimation()
+            }
+            .store(in: &viewModel.bag)
+        
         
         viewModel.input.requestCategroies.send(nil)
         viewModel.input.requestPosts.send("")
@@ -201,11 +220,15 @@ final class PostsVC: UIViewController {
     
     @objc
     private func storageTapped() {
+        guard !stackContainer.subviews.isEmpty else { return }
+        
         stackContainer.removeCardTapAnimation()
     }
     
     @objc
     private func throwTapped() {
+        guard !stackContainer.subviews.isEmpty else { return }
+        
         stackContainer.removeCardTapAnimation(isLeft: false)
     }
     
@@ -248,7 +271,8 @@ extension PostsVC: SwipeCardsDataSource {
 
 extension PostsVC: SwipeCardsDelegate {
     func swipeDidSelect(view: SwipeCardView, at index: Int) {
-        let detailVC = DetailPostVC(id: 1)
+        let detailVC = DetailPostVC(id: viewModel.posts[index].id ?? 0)
+        detailVC.delegate = self
         navigationController?.pushViewController(detailVC, animated: true)
     }
     
@@ -308,5 +332,38 @@ extension PostsVC {
         section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 16.0, bottom: .zero, trailing: 100.0)
         
         return UICollectionViewCompositionalLayout(section: section)
+    }
+}
+
+extension PostsVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell,
+              var category = cell.titleLabel.text else { return }
+        
+        if category == "전체" { category = "" }
+        viewModel.input.requestPosts.send(category)
+    }
+}
+
+extension PostsVC: DetailSelectionDelegate {
+    func keep() {
+        stackContainer.removeCardTapAnimation()
+    }
+    
+    func drop() {
+        stackContainer.removeCardTapAnimation(isLeft: false)
+    }
+    
+    func skip() {
+        stackContainer.skipCardTapAnimation()
+    }
+}
+
+extension PostsVC: StackContainerViewDelegate {
+    func keepOrDrop(isKeep: Bool?) {
+        guard let isKeep else { return }
+        
+        let result = isKeep ? "KEEP" : "DROP"
+        viewModel.input.requestPostVote.send(result)
     }
 }

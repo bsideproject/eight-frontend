@@ -11,11 +11,12 @@ import Kingfisher
 final class SwipeCardView: UIView {
     //MARK: - Properties
     let shadowView = UIView().then {
-        $0.backgroundColor = .clear
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 8
         $0.layer.shadowColor = UIColor.black.cgColor
         $0.layer.shadowOffset = CGSize(width: 0, height: 0)
-        $0.layer.shadowOpacity = 0.8
-        $0.layer.shadowRadius = 4.0
+        $0.layer.shadowOpacity = 0.4
+        $0.layer.shadowRadius = 3.0
     }
     let swipeView = UIView().then {
         $0.layer.cornerRadius = 8
@@ -37,7 +38,6 @@ final class SwipeCardView: UIView {
     var imageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
-        $0.layer.cornerRadius = 12.0
     }
     let backgroundView = UIView().then {
         $0.alpha = 0.0
@@ -77,14 +77,15 @@ final class SwipeCardView: UIView {
     
     //MARK: - Make UI
     private func makeUI() {
+        backgroundColor = .clear
         self.isUserInteractionEnabled = true
         
         addSubview(shadowView)
-        shadowView.addSubview(swipeView)
+        addSubview(swipeView)
+        swipeView.addSubview(imageView)
         swipeView.addSubview(bottomLineView)
         swipeView.addSubview(bottomTitleLabel)
         swipeView.addSubview(bottomSubTitleLabel)
-        swipeView.addSubview(imageView)
         swipeView.addSubview(backgroundView)
         backgroundView.addSubview(backgroundLabel)
         
@@ -92,7 +93,7 @@ final class SwipeCardView: UIView {
             $0.edges.equalToSuperview()
         }
         swipeView.snp.makeConstraints {
-            $0.edges.equalTo(shadowView)
+            $0.edges.equalToSuperview().inset(7)
         }
         bottomLineView.snp.makeConstraints {
             $0.left.bottom.right.equalTo(swipeView)
@@ -102,14 +103,17 @@ final class SwipeCardView: UIView {
             $0.top.equalTo(bottomLineView.snp.top).offset(18)
             $0.left.equalToSuperview().offset(24)
             $0.right.equalToSuperview().offset(-16)
+            $0.height.equalTo(26)
         }
         bottomSubTitleLabel.snp.makeConstraints {
             $0.top.equalTo(bottomTitleLabel.snp.bottom).offset(3)
             $0.left.equalToSuperview().offset(24)
             $0.right.equalToSuperview().offset(-16)
+            $0.height.equalTo(22)
         }
         imageView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(7)
+            $0.left.top.right.equalToSuperview()
+            $0.bottom.equalTo(bottomLineView.snp.top)
         }
         backgroundView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -122,7 +126,6 @@ final class SwipeCardView: UIView {
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGesture)))
     }
     
-    //MARK: - Handlers
     @objc func handlePanGesture(sender: UIPanGestureRecognizer) {
         guard let card = sender.view as? SwipeCardView else { return }
         let point = sender.translation(in: self)
@@ -143,7 +146,7 @@ final class SwipeCardView: UIView {
                 }
                 
                 animator.addCompletion { [weak self] _ in
-                    self?.delegate?.swipeDidEnd(on: card)
+                    self?.delegate?.swipeDidEnd(on: card, isKeep: true)
                 }
             } else if distanceFromCenter < -90 {
                 animator.addAnimations {
@@ -152,7 +155,7 @@ final class SwipeCardView: UIView {
                 }
                 
                 animator.addCompletion { [weak self] _ in
-                    self?.delegate?.swipeDidEnd(on: card)
+                    self?.delegate?.swipeDidEnd(on: card, isKeep: false)
                 }
             } else {
                 animator.addAnimations {
@@ -181,6 +184,4 @@ final class SwipeCardView: UIView {
         guard let view = sender.view as? SwipeCardView else { return }
         delegate?.swipeDidSelect(view: view)
     }
-    
-    
 }

@@ -8,22 +8,18 @@
 import Then
 import SnapKit
 import UIKit
+
+protocol StackContainerViewDelegate: AnyObject {
+    func keepOrDrop(isKeep: Bool?)
+}
+
 //MARK: StackContainerView
 final class StackContainerView: UIView {
     //MARK: - Properties
+    weak var selectionDelegate: StackContainerViewDelegate?
     private var numberOfCardsToShow: Int = 0
     private var cardsToBeVisible: Int = 3
-    private var cardViews : [SwipeCardView] = [] {
-        didSet {
-            if cardViews.isEmpty {
-                if let view = dataSource?.emptyView() {
-                    addSubview(view)
-                }
-            } else {
-                
-            }
-        }
-    }
+    private var cardViews : [SwipeCardView] = []
     private var remainingcards: Int = 0
     
     private let horizontalInset: CGFloat = 10.0
@@ -97,23 +93,42 @@ final class StackContainerView: UIView {
     func removeCardTapAnimation(isLeft: Bool = true) {
         guard let card = visibleCards.last else { return }
         
-        
         var cardViewFrame = bounds
-        cardViewFrame.origin.x = isLeft ? -cardViewFrame.width : UIScreen.main.bounds.width + cardViewFrame.width
+        let cardWidth = UIScreen.main.bounds.width - 32
+        cardViewFrame.origin.x = isLeft ? -cardWidth : cardWidth + 16.0
         
-        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut)
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut)
         
         animator.addAnimations { [weak self] in
             card.frame = cardViewFrame
-            let xFromCenter = (isLeft ? -UIScreen.main.bounds.width : UIScreen.main.bounds.width) - (cardViewFrame.maxX / 2)
-            let divisor = ((UIScreen.main.bounds.width / 2) / 0.61)
-            let angle = tan(xFromCenter / divisor)
-            card.transform = CGAffineTransform(rotationAngle: angle)
+            let angle = cardWidth / (cardWidth * 2)
+            card.transform = CGAffineTransform(rotationAngle: isLeft ? -angle : angle)
             self?.layoutIfNeeded()
         }
         
         animator.addCompletion { [weak self] _ in
-            self?.swipeDidEnd(on: card)
+            self?.swipeDidEnd(on: card, isKeep: isLeft)
+        }
+        
+        animator.startAnimation()
+    }
+    
+    func skipCardTapAnimation() {
+        guard let card = visibleCards.last else { return }
+        
+        var cardViewFrame = bounds
+        cardViewFrame.origin.y = -UIScreen.main.bounds.height
+        
+        let animator = UIViewPropertyAnimator(duration: 0.41
+                                              , curve: .easeInOut)
+        
+        animator.addAnimations { [weak self] in
+            card.frame = cardViewFrame
+            self?.layoutIfNeeded()
+        }
+        
+        animator.addCompletion { [weak self] _ in
+            self?.swipeDidEnd(on: card, isKeep: nil)
         }
         
         animator.startAnimation()
@@ -121,7 +136,7 @@ final class StackContainerView: UIView {
 }
 
 extension StackContainerView: SwipeCardDelegate {
-    func swipeDidEnd(on view: SwipeCardView) {
+    func swipeDidEnd(on view: SwipeCardView, isKeep: Bool?) {
         guard let datasource = dataSource else { return }
         view.removeFromSuperview()
         
@@ -141,6 +156,8 @@ extension StackContainerView: SwipeCardDelegate {
             
             animator.startAnimation()
         }
+        
+        selectionDelegate?.keepOrDrop(isKeep: isKeep)
     }
     
     func swipeDidSelect(view: SwipeCardView) {

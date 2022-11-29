@@ -39,6 +39,12 @@ final class PostsViewModel {
                 self?.requestPosts(category: $0)
             }
             .store(in: &bag)
+        
+        input.requestPostVote
+            .sink { [weak self] in
+                self?.requestKeepOrLock(with: $0)
+            }
+            .store(in: &bag)
     }
 }
 
@@ -51,6 +57,7 @@ extension PostsViewModel {
     struct Input {
         var requestCategroies = PassthroughSubject<Void?, Never>()
         var requestPosts = PassthroughSubject<String, Never>()
+        let requestPostVote = PassthroughSubject<String, Never>()
     }
     
     struct Output {
@@ -79,7 +86,9 @@ extension PostsViewModel {
             } receiveValue: { [weak self] response in
                 guard let responseData = try? response.map(CategoryResponse.self).data else { return }
                 
-                self?.output.requestCategroies.send(responseData.categories ?? [])
+                var categories = ["전체"]
+                categories.append(contentsOf: responseData.categories ?? [])
+                self?.output.requestCategroies.send(categories)
             }
             .store(in: &bag)
     }
@@ -105,6 +114,25 @@ extension PostsViewModel {
                 self?.posts = responseData.posts ?? []
                 self?.output.requestPosts.send(nil)
             }
+            .store(in: &bag)
+    }
+    
+    private func requestKeepOrLock(with vote: String) {
+        clothesProvider
+            .requestPublisher(.vote(type: VoteRequest(voteType: vote)))
+            .sink { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    LogUtil.d(error.localizedDescription)
+                    
+                    guard (self?.apiCall ?? 3) < 3 else { return }
+                    self?.apiCall += 1
+                    self?.requestKeepOrLock(with: vote)
+                case .finished:
+                    LogUtil.d("Successed")
+                    self?.apiCall = 0
+                }
+            } receiveValue: { _ in }
             .store(in: &bag)
     }
 }

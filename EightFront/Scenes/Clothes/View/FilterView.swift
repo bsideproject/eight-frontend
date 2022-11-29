@@ -47,15 +47,14 @@ final class FilterView: UIView {
             $0.edges.equalToSuperview()
         }
         titleLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview().offset(-9)
+            $0.centerX.equalToSuperview().offset(-10.5)
             $0.centerY.equalToSuperview()
             $0.height.equalTo(22)
         }
         bottomArrowImage.snp.makeConstraints {
-            $0.left.equalTo(titleLabel.snp.right).offset(6)
+            $0.left.equalTo(titleLabel.snp.right).offset(3)
             $0.centerY.equalToSuperview()
-            $0.width.equalTo(12)
-            $0.height.equalTo(6)
+            $0.size.equalTo(18)
         }
     }
 }

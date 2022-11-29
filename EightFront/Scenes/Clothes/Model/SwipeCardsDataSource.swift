@@ -19,6 +19,6 @@ protocol SwipeCardsDelegate: AnyObject {
 }
 
 protocol SwipeCardDelegate: AnyObject {
-    func swipeDidEnd(on view: SwipeCardView)
+    func swipeDidEnd(on view: SwipeCardView, isKeep: Bool?)
     func swipeDidSelect(view: SwipeCardView)
 }

@@ -29,7 +29,13 @@ final class ChoiceView: UIView {
     
     //MARK: - Make UI
     private func makeUI(isLeftImage: Bool) {
+        backgroundColor = .white
         layer.cornerRadius = 23
+        layer.borderWidth = 1.0
+        layer.borderColor = Colors.gray001.color.cgColor
+        layer.applyFigmaShadow(x: 0, y: 4,
+                               color: UIColor(red: 24 / 255, green: 39 / 255, blue: 75 / 255).withAlphaComponent(0.08),
+                               blur: 4, spread: -2)
         
         addSubview(imageView)
         addSubview(titleLabel)
