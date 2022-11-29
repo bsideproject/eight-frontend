@@ -12,21 +12,20 @@ import Combine
 //MARK: ReportPostViewModel
 final class ReportPostViewModel {
     //MARK: - Properties
+    private var apiCall = 0
     var bag = Set<AnyCancellable>()
-    var apiCall = 0
     let input = Input()
     let output = Output()
-    let clothesProvider = MoyaProvider<ClothesAPI>()
-    let type: SelectType
-    var datas = [String]()
+    private let clothesProvider = MoyaProvider<ClothesAPI>()
+    @Published var type: SelectType
     
     let reports = [
-    "음란물",
-    "불법정보를 포함",
-    "청소년에게 유해한 내용",
-    "욕설/생명경시/혐오/차별적 표현",
-    "개인정보 노출 게시물",
-    "불쾌한 표현"
+        "음란물",
+        "불법정보를 포함",
+        "청소년에게 유해한 내용",
+        "욕설/생명경시/혐오/차별적 표현",
+        "개인정보 노출 게시물",
+        "불쾌한 표현"
     ]
     
     //MARK: Initializer
@@ -46,7 +45,7 @@ final class ReportPostViewModel {
             .store(in: &bag)
         
         if type == .report {
-            datas = reports
+            output.requestCategroies.send(reports)
         } else {
             input.requestCategroies.send(nil)
         }
@@ -69,7 +68,7 @@ extension ReportPostViewModel {
     }
     
     struct Output {
-        var requestCategroies = PassthroughSubject<[String], Never>()
+        var requestCategroies = CurrentValueSubject<[String], Never>([])
     }
 }
 

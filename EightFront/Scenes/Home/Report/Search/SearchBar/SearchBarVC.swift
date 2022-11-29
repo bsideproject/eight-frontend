@@ -18,11 +18,10 @@ protocol SearchBarDelegate: AnyObject {
 //MARK: SearchBarVC
 final class SearchBarVC: UIViewController {
     //MARK: - Properties
-    enum Section {
-        case search
-    }
     weak var delegate: SearchBarDelegate?
     private let viewModel = SearchBarViewModel()
+    var snapshot: SearchDataSnapShot!
+    var dataSource: SearchDataSource!
     let navigationView = CommonNavigationView().then {
         $0.titleLabel.text = "주소 검색"
     }
@@ -58,7 +57,6 @@ final class SearchBarVC: UIViewController {
         $0.showsHorizontalScrollIndicator = false
         SearchResultCell.register($0)
     }
-    var dataSource: UITableViewDiffableDataSource<Section, ResponsePOI>?
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -173,8 +171,12 @@ final class SearchBarVC: UIViewController {
 
 //MARK:- DiffDataSource
 extension SearchBarVC: UITableViewDelegate {
+    typealias SearchDataSource = UITableViewDiffableDataSource<DiffableSection, ResponsePOI>
+    typealias SearchDataSnapShot = NSDiffableDataSourceSnapshot<DiffableSection, ResponsePOI>
+    
     private func performDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, ResponsePOI>(tableView: searchResultTableView, cellProvider: { [weak self] tableView, indexPath, poi in
+        dataSource = SearchDataSource(tableView: searchResultTableView,
+                                      cellProvider: { [weak self] tableView, indexPath, poi in
             let cell = tableView.dequeueReusableCell(withType: SearchResultCell.self, for: indexPath)
             
             let attrString = NSMutableAttributedString(string: poi.name ?? "")
@@ -197,8 +199,8 @@ extension SearchBarVC: UITableViewDelegate {
     }
     
     private func performDataSnapShot(pois: [ResponsePOI]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ResponsePOI>()
-        snapshot.appendSections([.search])
+        snapshot = NSDiffableDataSourceSnapshot<DiffableSection, ResponsePOI>()
+        snapshot.appendSections([.main])
         
         snapshot.appendItems(pois)
         self.dataSource?.apply(snapshot, animatingDifferences: false)

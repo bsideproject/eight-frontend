@@ -18,20 +18,18 @@ protocol ReportPostVCDelegate: AnyObject {
 //MARK: 게시물 신고하기 VC
 final class ReportPostVC: UIViewController {
     //MARK: - Properties
-    var bag = Set<AnyCancellable>()
     weak var delegate: ReportPostVCDelegate?
     private let viewModel: ReportPostViewModel
-    lazy var navigationView = CommonNavigationView().then {
-        $0.titleLabel.text = viewModel.type == .report ? "신고하기" : "카테고리 선택"
-    }
-    private lazy var titleLabel = UILabel().then {
-        $0.text = viewModel.type == .report ? "신고 사유" : "품목"
+    private var snapshot: ReportPostSnapshot!
+    private var dataSource: ReportPostDataSource!
+    private let navigationView = CommonNavigationView()
+    private let titleLabel = UILabel().then {
         $0.font = Fonts.Pretendard.semiBold.font(size: 16)
     }
-    private lazy var tableView = UITableView().then {
+    private lazy var tableView = UITableView().then { [weak self] in
         $0.delegate = self
-        $0.dataSource = self
         $0.separatorStyle = .none
+        $0.isMultipleTouchEnabled = false
         ReportPostCell.register($0)
     }
     private lazy var sumitButton = UIButton().then {
@@ -98,6 +96,8 @@ final class ReportPostVC: UIViewController {
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(sumitButton.snp.top).offset(-16)
         }
+        
+        applyDataSource()
     }
     
     //MARK: - Binding..
@@ -108,7 +108,17 @@ final class ReportPostVC: UIViewController {
             .sink { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             }
-            .store(in: &bag)
+            .store(in: &viewModel.bag)
+        
+        viewModel.$type
+            .map { $0 == .report ? "신고하기" : "카테고리 선택" }
+            .assign(to: \.text, on: navigationView.titleLabel)
+            .store(in: &viewModel.bag)
+        
+        viewModel.$type
+            .map { $0 == .report ? "신고 사유" : "품목" }
+            .assign(to: \.text, on: titleLabel)
+            .store(in: &viewModel.bag)
         
         sumitButton
             .tapPublisher
@@ -123,48 +133,49 @@ final class ReportPostVC: UIViewController {
             .output
             .requestCategroies
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] categories in
-                self?.viewModel.datas = categories
-                self?.tableView.reloadData()
+            .sink { [weak self] in
+                self?.applyDataSnapShot(with: $0)
             }
             .store(in: &viewModel.bag)
     }
 }
 
-extension ReportPostVC: UITableViewDataSource, UITableViewDelegate {
+extension ReportPostVC: UITableViewDelegate {
+    typealias ReportPostSnapshot = NSDiffableDataSourceSnapshot<DiffableSection, String>
+    typealias ReportPostDataSource = UITableViewDiffableDataSource<DiffableSection, String>
+    
+    private func applyDataSource() {
+        dataSource = ReportPostDataSource(tableView: tableView,
+                                          cellProvider: { tableView, indexPath, data in
+            let cell = tableView.dequeueReusableCell(withType: ReportPostCell.self, for: indexPath)
+            
+            cell.configure(with: data)
+            
+            return cell
+        })
+    }
+    
+    private func applyDataSnapShot(with datas: [String]) {
+        snapshot = ReportPostSnapshot()
+        snapshot.appendSections([.main])
+        
+        snapshot.appendItems(datas)
+        self.dataSource.apply(snapshot, animatingDifferences: false)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50.0
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.datas.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withType: ReportPostCell.self, for: indexPath)
-        
-        cell.configure(with: viewModel.datas[indexPath.row])
-        
-        return cell
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-        
         if viewModel.type == .report {
-            cell.isSelected = true
             sumitButton.isEnabled = true
             sumitButton.setTitleColor(Colors.point.color)
             sumitButton.backgroundColor = Colors.gray002.color
         } else {
-            delegate?.select(category: viewModel.datas[indexPath.row])
+            guard let category = dataSource.itemIdentifier(for: indexPath) else { return }
+            delegate?.select(category: category)
             navigationController?.popViewController(animated: true)
         }
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-        
-        cell.isSelected = false
     }
 }

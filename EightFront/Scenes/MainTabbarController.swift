@@ -6,11 +6,16 @@
 //
 
 import UIKit
+import Lottie
 import Firebase
 
 final class MainTabbarController: UITabBarController {
     //MARK: - Properties
     private var ref: DatabaseReference?
+    private let animationView = AnimationView(name: "handmotion").then {
+        $0.contentMode = .scaleAspectFit
+        $0.backgroundColor = .white
+    }
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -56,6 +61,16 @@ final class MainTabbarController: UITabBarController {
         myPageVC.tabBarItem.selectedImage = Images.Tabbar.myPageSelect.image.withRenderingMode(.alwaysOriginal)
 
         viewControllers = [homeNavi, postsNavi, noticeVC, myPageVC]
+        
+        view.addSubview(animationView)
+        
+        animationView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        animationView.play { _ in
+            self.animationView.removeFromSuperview()
+        }
     }
     
     //MARK: - 버전 체크

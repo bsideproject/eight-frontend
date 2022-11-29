@@ -11,18 +11,13 @@ import UIKit
 //MARK: ReportPostCell
 final class ReportPostCell: UITableViewCell {
     //MARK: - Properties
-    let titlaLabel = UILabel().then {
+    private let titlaLabel = UILabel().then {
         $0.textColor = Colors.gray005.color
         $0.font = Fonts.Templates.subheader.font
     }
-    let checkboxButton = UIButton().then {
+    private let checkboxButton = UIButton().then {
         $0.setImage(Images.Report.checkboxSelectNone.image)
-    }
-    
-    override var isSelected: Bool {
-        didSet {
-            checkboxButton.setImage(isSelected ? Images.Report.checkboxSelect.image : Images.Report.checkboxSelectNone.image)
-        }
+        $0.setImage(Images.Report.checkboxSelect.image, for: .selected)
     }
     
     //MARK: - Initializer
@@ -30,6 +25,12 @@ final class ReportPostCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         makeUI()
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        checkboxButton.isSelected = selected
     }
     
     required init?(coder: NSCoder) {
