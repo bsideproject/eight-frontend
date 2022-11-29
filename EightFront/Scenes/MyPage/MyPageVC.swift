@@ -52,7 +52,7 @@ final class MyPageVC: UIViewController {
         super.viewWillAppear(animated)
         let accessToken = KeyChainManager.shared.readAccessToken()
         if accessToken.isEmpty {
-            tabBarController?.selectedIndex = 0
+            self.tabBarController?.selectedIndex = 0
         }
     }
     
