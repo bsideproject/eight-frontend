@@ -47,6 +47,15 @@ final class MyPageVC: UIViewController {
     }
     
     //MARK: - Life Cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let accessToken = KeyChainManager.shared.readAccessToken()
+        if accessToken.isEmpty {
+            tabBarController?.selectedIndex = 0
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
