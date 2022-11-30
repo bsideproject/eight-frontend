@@ -12,7 +12,7 @@ enum ClothesAPI {
     /// 카테고리 조회
     case categories
     /// 버릴까 말까 글 리스트 조회
-    case posts(order: String, category: String)
+    case posts(page: Int, order: String, categories: [String])
     /// 버릴까 말까 글 조회
     case post(id: Int)
     /// 버릴까 말까 글 등록
@@ -64,10 +64,11 @@ extension ClothesAPI: TargetType {
     
     var task: Moya.Task {
         switch self {
-        case .posts(let order, let category):
+        case .posts(let page, let order, let categories):
             let params: [String: Any] = [
+                "page": page,
                 "orderType": order,
-                "category": category
+                "categories": categories
             ]
             
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)

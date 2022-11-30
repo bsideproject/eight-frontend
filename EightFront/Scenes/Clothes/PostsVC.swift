@@ -35,8 +35,16 @@ final class PostsVC: UIViewController {
         $0.titleLabel.text = "버릴까 말까"
         $0.rightButton.setImage(Images.Navigation.post.image)
     }
-    private let filterView = FilterView().then {
-        $0.titleLabel.text = "최신순"
+    private lazy var filterView = FilterView().then {
+        if let type = UserDefaults.standard.object(forKey: viewModel.orderTypeForKey) as? String {
+            if type == "LATEST" {
+                $0.titleLabel.text = "최신순"
+            } else {
+                $0.titleLabel.text = "인기순"
+            }
+        } else {
+            $0.titleLabel.text = "최신순"
+        }
     }
     private let choiceLabel = UILabel().then {
         $0.text = "Skip"
@@ -172,11 +180,11 @@ final class PostsVC: UIViewController {
             .output
             .requestCategroies
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] categories in
-                guard let self, !categories.isEmpty else { return }
+            .sink { [weak self] _ in
+                guard let self, !self.viewModel.categories.isEmpty else { return }
                 
-                self.collectionView.collectionViewLayout = self.createLayout(with: categories)
-                self.updateDataSnapshot(with: categories)
+                self.collectionView.collectionViewLayout = self.createLayout(with: self.viewModel.categories)
+                self.updateDataSnapshot(with: self.viewModel.categories)
                 self.collectionView.selectItem(at: IndexPath(item: 0, section: 0),
                                                animated: false,
                                                scrollPosition: .centeredHorizontally)
@@ -204,7 +212,7 @@ final class PostsVC: UIViewController {
         
         
         viewModel.input.requestCategroies.send(nil)
-        viewModel.input.requestPosts.send("")
+        viewModel.input.requestPosts.send(nil)
     }
     
     private func configure() {
@@ -234,7 +242,27 @@ final class PostsVC: UIViewController {
     
     @objc
     private func filterTapped() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let latest = UIAlertAction(title: "최신순", style: .default) { [weak self] _ in
+            guard let self else { return }
+            
+            UserDefaults.standard.set("LATEST", forKey: self.viewModel.orderTypeForKey)
+            self.filterView.titleLabel.text = "최신순"
+            self.viewModel.input.requestPosts.send(nil)
+        }
         
+        let popular = UIAlertAction(title: "인기순", style: .default) { [weak self] _ in
+            guard let self else { return }
+            
+            UserDefaults.standard.set("POPULARITY", forKey: self.viewModel.orderTypeForKey)
+            self.filterView.titleLabel.text = "인기순"
+            self.viewModel.input.requestPosts.send(nil)
+        }
+        
+        alert.addAction(latest)
+        alert.addAction(popular)
+        
+        present(alert, animated: true)
     }
 }
 
@@ -295,10 +323,13 @@ extension PostsVC {
     }
     
     private func configureDataSource() {
-        dataSource = CategoriesDataSource(collectionView: collectionView) { collectionView, indexPath, category in
+        dataSource = CategoriesDataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, category in
+            guard let self else { return UICollectionViewCell() }
+            
             let cell = collectionView.dequeueReusableCell(withType: CategoryCollectionViewCell.self, indexPath: indexPath)
             
-            cell.configure(name: category)
+            cell.configure(name: category,
+                           isSelected: self.viewModel.selectedCategoryItem.contains(indexPath.row))
             
             return cell
         }
@@ -337,11 +368,17 @@ extension PostsVC {
 
 extension PostsVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell,
-              var category = cell.titleLabel.text else { return }
+        if indexPath.item == 0 {
+            viewModel.selectedCategoryItem = Set<Int>([0])
+        } else {
+            if viewModel.selectedCategoryItem.contains(0) {
+                viewModel.selectedCategoryItem.remove(0)
+            }
+            viewModel.selectedCategoryItem.insert(indexPath.row)
+        }
         
-        if category == "전체" { category = "" }
-        viewModel.input.requestPosts.send(category)
+        viewModel.input.requestPosts.send(nil)
+        collectionView.reloadData()
     }
 }
 

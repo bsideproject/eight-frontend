@@ -17,13 +17,6 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
         $0.font = Fonts.Templates.body2.font
     }
     
-    override var isSelected: Bool {
-        didSet {
-            contentView.backgroundColor = isSelected ? Colors.gray001.color : .white
-            titleLabel.textColor = isSelected ? Colors.point.color : Colors.gray004.color
-        }
-    }
-    
     //MARK: - Initializer
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -55,8 +48,11 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(name: String?) {
+    func configure(name: String?, isSelected: Bool) {
         titleLabel.text = name
+        
+        contentView.backgroundColor = isSelected ? Colors.gray001.color : .white
+        titleLabel.textColor = isSelected ? Colors.point.color : Colors.gray004.color
     }
     
     static func width(text: String) -> CGFloat {

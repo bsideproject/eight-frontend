@@ -222,7 +222,7 @@ final class HomeVC: UIViewController {
         guard let coordinate = location?.coordinate else { return }
         let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
         
-        mapView.moveCamera(NMFCameraUpdate(scrollTo: latLng))
+        mapView.moveCamera(NMFCameraUpdate(scrollTo: latLng, zoomTo: 17.0))
     }
     
     private func showMarker(boxes: [CollectionBox]?) {
@@ -242,7 +242,7 @@ final class HomeVC: UIViewController {
             marker.touchHandler = { [weak self] overlay -> Bool in
                 self?.viewModel.selectedMarker = marker
                 
-                let cameraUpdate = NMFCameraUpdate(scrollTo: marker.position, zoomTo: 16.0)
+                let cameraUpdate = NMFCameraUpdate(scrollTo: marker.position, zoomTo: 17.0)
                 cameraUpdate.animation = .easeIn
                 self?.mapView.moveCamera(cameraUpdate)
                 self?.markerTapped(location: position, info: box)

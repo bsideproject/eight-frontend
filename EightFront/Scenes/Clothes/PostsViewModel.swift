@@ -18,6 +18,10 @@ final class PostsViewModel {
     var apiCall = 0
     let clothesProvider = MoyaProvider<ClothesAPI>()
     var posts = [PostModel]()
+    var currentPage = 1
+    var orderTypeForKey = "KEEP_OR_DROP_ORDER_TYPE"
+    var categories = [String]()
+    var selectedCategoryItem = Set<Int>()
     
     //MARK: Initializer
     init() {
@@ -35,8 +39,10 @@ final class PostsViewModel {
         
         input
             .requestPosts
-            .sink { [weak self] in
-                self?.requestPosts(category: $0)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                let selectCategories = self.selectedCategoryItem.compactMap { self.categories[$0] }
+                self.requestPosts(categories: selectCategories)
             }
             .store(in: &bag)
         
@@ -50,18 +56,20 @@ final class PostsViewModel {
 
 //MARK: - I/O & Error
 extension PostsViewModel {
+    typealias PostsInput = (category: String, order: String)
+    
     enum ErrorResult: Error {
         case someError
     }
     
     struct Input {
         var requestCategroies = PassthroughSubject<Void?, Never>()
-        var requestPosts = PassthroughSubject<String, Never>()
+        var requestPosts = PassthroughSubject<Void?, Never>()
         let requestPostVote = PassthroughSubject<String, Never>()
     }
     
     struct Output {
-        var requestCategroies = PassthroughSubject<[String], Never>()
+        var requestCategroies = PassthroughSubject<Void?, Never>()
         var requestPosts = PassthroughSubject<Void?, Never>()
     }
 }
@@ -88,14 +96,26 @@ extension PostsViewModel {
                 
                 var categories = ["전체"]
                 categories.append(contentsOf: responseData.categories ?? [])
-                self?.output.requestCategroies.send(categories)
+                
+                self?.categories = categories
+                self?.selectedCategoryItem = Set<Int>([0])
+                self?.output.requestCategroies.send(nil)
             }
             .store(in: &bag)
     }
     
-    private func requestPosts(order: String = "LATEST", category: String = "") {
+    private func requestPosts(categories: [String]) {
+        var order = ""
+        
+        if let saveOrder = UserDefaults.standard.object(forKey: orderTypeForKey) as? String {
+            order = saveOrder
+        } else {
+            UserDefaults.standard.set("LATEST", forKey: orderTypeForKey)
+            order = "LATEST"
+        }
+        
         clothesProvider
-            .requestPublisher(.posts(order: order, category: category))
+            .requestPublisher(.posts(page: currentPage, order: order, categories: categories))
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):

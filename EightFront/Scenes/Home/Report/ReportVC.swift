@@ -15,7 +15,14 @@ final class ReportVC: UIViewController {
     //MARK: - Properties
     private let viewModel = ReportViewModel()
     private lazy var navigationView = CommonNavigationView().then {
-        $0.titleLabel.text = viewModel.type == .addPost ? "버릴까 말까" : "지도정보수정"
+        switch viewModel.type {
+        case .addPost:
+            $0.titleLabel.text = "버릴까 말까"
+        case .new:
+            $0.titleLabel.text = "지도정보수정"
+        case .none:
+            break
+        }
     }
     private lazy var searchImageView = UIImageView().then {
         $0.image = viewModel.type == .addPost ? Images.Report.bottomArrow.image : Images.Report.search.image

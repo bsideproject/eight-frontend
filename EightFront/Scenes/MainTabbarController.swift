@@ -14,7 +14,6 @@ final class MainTabbarController: UITabBarController {
     private var ref: DatabaseReference?
     private let animationView = AnimationView(name: "splashscreen").then {
         $0.contentMode = .scaleAspectFit
-        $0.animationSpeed = 0.8
         $0.backgroundColor = Colors.point.color
     }
 
