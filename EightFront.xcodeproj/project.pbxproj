@@ -118,6 +118,7 @@
 		E95FBF6C28FC1644002CA5A9 /* Pretendard+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95FBF6B28FC1644002CA5A9 /* Pretendard+.swift */; };
 		E965DDB12935E513000AEA74 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E965DDB02935E512000AEA74 /* TMapSDK.framework */; };
 		E965DDB4293CCD36000AEA74 /* splashscreen.json in Resources */ = {isa = PBXBuildFile; fileRef = E965DDB3293CCD36000AEA74 /* splashscreen.json */; };
+		E965DDB6293CF02E000AEA74 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E965DDB5293CF02E000AEA74 /* RefreshView.swift */; };
 		E96BC92028EB2988002EBA7E /* SearchMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC91F28EB2988002EBA7E /* SearchMapVC.swift */; };
 		E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */; };
 		E96BC92528EB2E7E002EBA7E /* SearchMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92428EB2E7E002EBA7E /* SearchMapViewModel.swift */; };
@@ -311,6 +312,7 @@
 		E95FBF6B28FC1644002CA5A9 /* Pretendard+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pretendard+.swift"; sourceTree = "<group>"; };
 		E965DDB02935E512000AEA74 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = EightFront/TMapSDK.framework; sourceTree = "<group>"; };
 		E965DDB3293CCD36000AEA74 /* splashscreen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splashscreen.json; sourceTree = "<group>"; };
+		E965DDB5293CF02E000AEA74 /* RefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
 		E96BC91F28EB2988002EBA7E /* SearchMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapVC.swift; sourceTree = "<group>"; };
 		E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomAddressView.swift; sourceTree = "<group>"; };
 		E96BC92428EB2E7E002EBA7E /* SearchMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapViewModel.swift; sourceTree = "<group>"; };
@@ -749,6 +751,7 @@
 				E9460AFD28E9E51D00932351 /* HomeSearchView.swift */,
 				E9460B0E28EAC69300932351 /* NaverMapMarker.swift */,
 				E9494A6C28F1C816005285C0 /* BoxCollectionView.swift */,
+				E965DDB5293CF02E000AEA74 /* RefreshView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1366,6 +1369,7 @@
 				E98A04EE28F435B7009F055B /* ReportCompletedVC.swift in Sources */,
 				E9460B0D28EAC0B100932351 /* CommonNavigationViewController.swift in Sources */,
 				284F962A292950C600597708 /* SimpleSignUpVieModel.swift in Sources */,
+				E965DDB6293CF02E000AEA74 /* RefreshView.swift in Sources */,
 				E9EAB9DF2920BDA700926893 /* UIColor+.swift in Sources */,
 				E9160C1828E30A60007B1307 /* DataManager.swift in Sources */,
 				284F9624292932D600597708 /* ResignViewModel.swift in Sources */,

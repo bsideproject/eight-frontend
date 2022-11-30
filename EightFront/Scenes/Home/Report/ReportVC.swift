@@ -19,8 +19,10 @@ final class ReportVC: UIViewController {
         case .addPost:
             $0.titleLabel.text = "버릴까 말까"
         case .new:
-            $0.titleLabel.text = "지도정보수정"
-        case .none:
+            $0.titleLabel.text = "신규 장소 등록"
+        case .update:
+            $0.titleLabel.text = "지도 정보 수정"
+        default:
             break
         }
     }

@@ -46,12 +46,7 @@ final class HomeVC: UIViewController {
     private lazy var boxInfoView = BoxCollectionView().then {
         $0.layer.cornerRadius = 8
     }
-    private let refreshButton = UIButton().then {
-        $0.setTitle("여기에서 재검색")
-        $0.titleLabel?.font = Fonts.Templates.caption2.font
-        $0.layer.cornerRadius = 15
-        $0.backgroundColor = Colors.gray002.color
-    }
+    private let refreshButton = RefreshView()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -88,9 +83,9 @@ final class HomeVC: UIViewController {
             $0.height.equalTo(101)
         }
         refreshButton.snp.makeConstraints {
-            $0.width.equalTo(80)
-            $0.height.equalTo(30)
-            $0.top.equalTo(headerView.snp.bottom).offset(8)
+            $0.width.equalTo(120)
+            $0.height.equalTo(26)
+            $0.top.equalTo(headerView.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
         }
         
@@ -184,9 +179,9 @@ final class HomeVC: UIViewController {
             .store(in: &viewModel.cancelBag)
         
         refreshButton
-            .tapPublisher
+            .gesture()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
+            .sink { [weak self] _ in
                 guard let lat = self?.mapView.latitude, let lng = self?.mapView.longitude else { return }
                 let location = CLLocation(latitude: lat, longitude: lng)
                 self?.viewModel.input.requestClothingBins.send(location)

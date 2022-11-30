@@ -32,6 +32,7 @@ internal enum Images {
     internal static let alarm = ImageAsset(name: "alarm")
     internal static let detail = ImageAsset(name: "detail")
     internal static let list = ImageAsset(name: "list")
+    internal static let refresh = ImageAsset(name: "refresh")
     internal static let search = ImageAsset(name: "search")
   }
   internal enum KakaoLoginButton {

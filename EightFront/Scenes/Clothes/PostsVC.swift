@@ -54,11 +54,13 @@ final class PostsVC: UIViewController {
     }
     private let storageButton = ChoiceView(isLeftImage: true).then {
         $0.titleLabel.text = "보관해요"
-        $0.imageView.image = Images.Trade.leftArrow.image
+        $0.imageView.image = Images.Trade.leftArrow.image.withRenderingMode(.alwaysTemplate)
+        $0.imageView.tintColor = Colors.gray001.color
     }
     private let throwButton = ChoiceView(isLeftImage: false).then {
         $0.titleLabel.text = "버릴래요"
-        $0.imageView.image = Images.Trade.rightArrow.image
+        $0.imageView.image = Images.Trade.rightArrow.image.withRenderingMode(.alwaysTemplate)
+        $0.imageView.tintColor = Colors.gray001.color
     }
     private let skipLineView = UIView().then {
         $0.backgroundColor = Colors.gray005.color
@@ -230,14 +232,30 @@ final class PostsVC: UIViewController {
     private func storageTapped() {
         guard !stackContainer.subviews.isEmpty else { return }
         
-        stackContainer.removeCardTapAnimation()
+        self.storageButton.backgroundColor = Colors.gray001.color
+        self.storageButton.titleLabel.textColor = Colors.point.color
+        self.storageButton.imageView.tintColor = Colors.point.color
+        
+        stackContainer.removeCardTapAnimation() { [weak self] in
+            self?.storageButton.backgroundColor = .white
+            self?.storageButton.titleLabel.textColor = Colors.gray001.color
+            self?.storageButton.imageView.tintColor = Colors.gray001.color
+        }
     }
     
     @objc
     private func throwTapped() {
         guard !stackContainer.subviews.isEmpty else { return }
         
-        stackContainer.removeCardTapAnimation(isLeft: false)
+        self.throwButton.backgroundColor = Colors.gray001.color
+        self.throwButton.titleLabel.textColor = Colors.point.color
+        self.throwButton.imageView.tintColor = Colors.point.color
+        
+        stackContainer.removeCardTapAnimation(isLeft: false) { [weak self] in
+            self?.throwButton.backgroundColor = .white
+            self?.throwButton.titleLabel.textColor = Colors.gray001.color
+            self?.throwButton.imageView.tintColor = Colors.gray001.color
+        }
     }
     
     @objc
