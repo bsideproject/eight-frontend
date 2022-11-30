@@ -37,6 +37,10 @@ class MyClothesVC: UIViewController {
     private let clothesTableView = UITableView().then {
         $0.register(MyClothesTableViewCell.self, forCellReuseIdentifier: MyClothesTableViewCell.identifier)
     }
+    
+    private let contentEmptyView = CommonContentEmptyView().then {
+        $0.titleLabel.text = "평가중인 의류가 없어요"
+    }
 
     // MARK: - Lift Cycle
     
@@ -95,6 +99,13 @@ class MyClothesVC: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
+        view.addSubview(contentEmptyView)
+        contentEmptyView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.equalTo(174)
+            $0.height.equalTo(143)
+        }
+        
     }
     
     private func bind() {
@@ -108,6 +119,14 @@ class MyClothesVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.clothesTableView.reloadData()
+            }.store(in: &viewModel.bag)
+        
+        viewModel.$clothesList
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] in
+                self?.contentEmptyView.isHidden = $0.isEmpty ? false : true
+                self?.clothesTableView.isHidden = $0.isEmpty ? true : false
             }.store(in: &viewModel.bag)
         
     }
