@@ -17,6 +17,8 @@ class SimpleSignUpVC: UIViewController {
     private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = SimpleSignUpVieModel()
     
+    var type: String?
+    
     private let commonNavigationView = CommonNavigationView().then {
         $0.titleLabel.text = "회원가입"
     }

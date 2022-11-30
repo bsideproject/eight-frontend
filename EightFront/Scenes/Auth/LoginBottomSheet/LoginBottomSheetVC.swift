@@ -359,26 +359,44 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
                 return
             }
             
-            guard let identityTorknStr = String(data: identityToken, encoding: .utf8),
+            guard let identityTokenStr = String(data: identityToken, encoding: .utf8),
                   let authorizationCodeStr = String(data: authorizationCode, encoding: .utf8) else {
                 return
             }
-
-            authProvider.request(
-                .appleSignIn(param: SocialSignInRequest(
-                    identityToken: identityTorknStr
-                ))) { result in
-                    switch result {
-                    case .success(let response):
-                        guard let data = try? response.map(SimpleSignInResponse.self).data else {
-                            LogUtil.e("Response Decoding 실패")
-                            return
-                        }
-                        LogUtil.d(data)
-                    case .failure(let error):
-                        LogUtil.e(error)
+            
+            authProvider.requestPublisher(.appleSignIn(param: SocialSignInRequest(
+                identityToken: identityTokenStr
+            )))
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        LogUtil.d("애플 로그인 API 호출 완료")
+                    case .failure(let moyaError):
+                        LogUtil.e(moyaError)
                     }
-            }
+                } receiveValue: { [weak self] response in
+                    let data = try? response.map(SimpleSignInResponse.self)
+                    guard let content = data?.data?.content else { return }
+                    if content.type == "sign-in" {
+                        self?.dismiss(animated: false) {
+                            guard let accessToken = content.accessToken else { return }
+                            if KeyChainManager.shared.createAccessToken(accessToken) {
+                                LogUtil.d("액세스 토큰 저장 성공")
+                            } else {
+                                LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
+                            }
+                        }
+                    } else if content.type == "sign-up" {
+                        // 회원가입
+                        self?.dismiss(animated: false) {
+                            let termsVC = TermsVC()
+                            termsVC.type = SignType.apple.rawValue
+                            UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
+                        }
+                    }
+                }.store(in: &viewModel.bag)
+
+            
         }
     }
     

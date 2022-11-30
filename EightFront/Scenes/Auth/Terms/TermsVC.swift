@@ -162,8 +162,12 @@ final class TermsVC: UIViewController {
         nextButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                if self?.type == SignType.kakao.rawValue {
+                
+                guard let signType = self?.type else { return }
+                
+                if signType == SignType.kakao.rawValue || signType == SignType.apple.rawValue {
                     let simpleSignInVC = SimpleSignUpVC()
+                    simpleSignInVC.type = signType
                     self?.navigationController?.pushViewController(simpleSignInVC, animated: true)
                 } else {
                     let emailSignUpVC = EmailSignUpVC()
