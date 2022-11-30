@@ -23,7 +23,10 @@ class ReportLogVC: UIViewController {
     
     private let reportTableView = UITableView().then {
         $0.register(ReportTableViewCell.self, forCellReuseIdentifier: ReportTableViewCell.identifier)
-//        $0.separatorStyle = .none
+    }
+    
+    private let contentEmptyView = CommonContentEmptyView().then {
+        $0.titleLabel.text = "아직 제보가 없어요"
     }
     
     // MARK: - Lift Cycle
@@ -59,6 +62,13 @@ class ReportLogVC: UIViewController {
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+        
+        view.addSubview(contentEmptyView)
+        contentEmptyView.snp.makeConstraints { 
+            $0.center.equalToSuperview()
+            $0.width.equalTo(174)
+            $0.height.equalTo(143)
+        }
     }
     
     // MARK: - bind
@@ -71,7 +81,10 @@ class ReportLogVC: UIViewController {
         
         viewModel.$reportList
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
+            .compactMap { $0 }
+            .sink { [weak self] in
+                self?.contentEmptyView.isHidden = $0.isEmpty ? false : true
+                self?.reportTableView.isHidden = $0.isEmpty ? true : false
                 self?.reportTableView.reloadData()
             }.store(in: &viewModel.bag)
         
