@@ -28,6 +28,9 @@
 		2852EED52931266C009213DD /* MyClothesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2852EED42931266C009213DD /* MyClothesViewModel.swift */; };
 		2852EED729312BB0009213DD /* ReportAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2852EED629312BB0009213DD /* ReportAPI.swift */; };
 		2852EEDA29312EAD009213DD /* ReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2852EED929312EAD009213DD /* ReportResponse.swift */; };
+		285A726F293649A800BED615 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285A726D2936437400BED615 /* TMapSDK.framework */; };
+		285A7270293649A800BED615 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 285A726D2936437400BED615 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		285A72922937DD5900BED615 /* CommonContentEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285A72912937DD5900BED615 /* CommonContentEmptyView.swift */; };
 		288BFD6728FAF86F00A85F13 /* EmailSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6628FAF86F00A85F13 /* EmailSignUpVC.swift */; };
 		288BFD6D28FBAEAA00A85F13 /* EmailSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */; };
 		288BFD6F28FBC17500A85F13 /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6E28FBC17500A85F13 /* TermsViewModel.swift */; };
@@ -48,7 +51,6 @@
 		28D12AED29212587001A7B32 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		28E1F112292FAEB00084C3EF /* BlockAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E1F111292FAEB00084C3EF /* BlockAPI.swift */; };
 		28E1F114292FB7B80084C3EF /* MyClothesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E1F113292FB7B80084C3EF /* MyClothesTableViewCell.swift */; };
-		28E1F116292FBFF50084C3EF /* LogoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E1F115292FBFF50084C3EF /* LogoutView.swift */; };
 		28F20CFA28E93BA600CEE89D /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F20CF928E93BA600CEE89D /* UITextField+.swift */; };
 		E9008D432911584100F70B6B /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9008D422911584100F70B6B /* ReportRequest.swift */; };
 		E9077A59292C023200FB5CFB /* Gesture+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9077A58292C023200FB5CFB /* Gesture+Combine.swift */; };
@@ -192,6 +194,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				285A7270293649A800BED615 /* TMapSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -220,6 +223,8 @@
 		2852EED42931266C009213DD /* MyClothesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyClothesViewModel.swift; sourceTree = "<group>"; };
 		2852EED629312BB0009213DD /* ReportAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAPI.swift; sourceTree = "<group>"; };
 		2852EED929312EAD009213DD /* ReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportResponse.swift; sourceTree = "<group>"; };
+		285A726D2936437400BED615 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = EightFront/TMapSDK.framework; sourceTree = "<group>"; };
+		285A72912937DD5900BED615 /* CommonContentEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonContentEmptyView.swift; sourceTree = "<group>"; };
 		288BFD6628FAF86F00A85F13 /* EmailSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpVC.swift; sourceTree = "<group>"; };
 		288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpViewModel.swift; sourceTree = "<group>"; };
 		288BFD6E28FBC17500A85F13 /* TermsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewModel.swift; sourceTree = "<group>"; };
@@ -239,7 +244,6 @@
 		28D12AE72921065F001A7B32 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		28E1F111292FAEB00084C3EF /* BlockAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockAPI.swift; sourceTree = "<group>"; };
 		28E1F113292FB7B80084C3EF /* MyClothesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyClothesTableViewCell.swift; sourceTree = "<group>"; };
-		28E1F115292FBFF50084C3EF /* LogoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutView.swift; sourceTree = "<group>"; };
 		28F20CF928E93BA600CEE89D /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		E9008D422911584100F70B6B /* ReportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
 		E9077A58292C023200FB5CFB /* Gesture+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gesture+Combine.swift"; sourceTree = "<group>"; };
@@ -384,6 +388,7 @@
 				E9BFC3FC28E88DF800951604 /* CombineMoya in Frameworks */,
 				E9DFC5EB28DA0E010074D32C /* CombineCocoa in Frameworks */,
 				E9BFC3FE28E88DF800951604 /* Moya in Frameworks */,
+				285A726F293649A800BED615 /* TMapSDK.framework in Frameworks */,
 				E927FC7528D34B3A00A91F11 /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -628,6 +633,7 @@
 				E9494A5E28F060A5005285C0 /* CommonNavigationView.swift */,
 				E9460B0C28EAC0B100932351 /* CommonNavigationViewController.swift */,
 				E95ACEA128F3161400057900 /* CommonTextFieldView.swift */,
+				285A72912937DD5900BED615 /* CommonContentEmptyView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -726,6 +732,7 @@
 		E92DA3C128E9D7E00054EFFA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				285A726D2936437400BED615 /* TMapSDK.framework */,
 				28A4BF3F2931A761001726B6 /* WebKit.framework */,
 			);
 			name = Frameworks;
@@ -880,7 +887,6 @@
 				284F96182928C58E00597708 /* BlockList */,
 				E97069232917EEEC00014FB9 /* SettingVC.swift */,
 				28D12AE72921065F001A7B32 /* SettingViewModel.swift */,
-				28E1F115292FBFF50084C3EF /* LogoutView.swift */,
 				28A4BF3D2931A722001726B6 /* WebViewVC.swift */,
 			);
 			path = Setting;
@@ -1272,7 +1278,6 @@
 				288BFD6F28FBC17500A85F13 /* TermsViewModel.swift in Sources */,
 				E9494A6528F068A4005285C0 /* ResponsePOI.swift in Sources */,
 				E9EFE7C3290AD7B700EA514B /* SwipeCardView.swift in Sources */,
-				28E1F116292FBFF50084C3EF /* LogoutView.swift in Sources */,
 				E95FBF6A28F70FDF002CA5A9 /* LogUtil.swift in Sources */,
 				E910ECAA2927CEE000E7881E /* DetailCountCell.swift in Sources */,
 				E9460AFE28E9E51D00932351 /* HomeSearchView.swift in Sources */,
@@ -1360,6 +1365,7 @@
 				E910ECA82927C94500E7881E /* DetailDescriptionCell.swift in Sources */,
 				E9460B0F28EAC69300932351 /* NaverMapMarker.swift in Sources */,
 				E9EFE7C2290AD7B700EA514B /* StackContainerView.swift in Sources */,
+				285A72922937DD5900BED615 /* CommonContentEmptyView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
