@@ -12,11 +12,17 @@ import Moya
 import KakaoSDKUser
 import JWTDecode
 
+protocol UserInfoReloadDelegate: AnyObject {
+    func userInfoReload()
+}
+
 class MyInfoVC: UIViewController {
     
     // MARK: - Properties
     private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = MyInfoViewModel()
+    
+    weak var delegate: UserInfoReloadDelegate?
     
     private let commonNavigationView = CommonNavigationView().then {
         $0.titleLabel.text = "내 정보 수정"
@@ -319,6 +325,7 @@ class MyInfoVC: UIViewController {
             .compactMap { $0 }
             .sink { [weak self] in
                 if $0 {
+                    self?.delegate?.userInfoReload()
                     self?.navigationController?.popViewController(animated: true)
                 }
             }.store(in: &viewModel.bag)
