@@ -256,7 +256,9 @@ class SettingVC: UIViewController {
             .sink { [weak self] _ in
                 // TODO: 로그아웃
                 if KeyChainManager.shared.deleteAccessToken() {
-                    self?.navigationController?.popToRootViewController(animated: true)
+                    let tabbar = MainTabbarController()
+                    let navi = CommonNavigationViewController(rootViewController: tabbar)
+                    self?.view.window?.rootViewController = navi
                 }
             }.store(in: &viewModel.bag)
         

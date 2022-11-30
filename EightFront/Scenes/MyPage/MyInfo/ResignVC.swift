@@ -218,8 +218,9 @@ class ResignVC: UIViewController {
                             self?.viewModel.kakaoResign { bool in
                                 if bool {
                                     if KeyChainManager.shared.deleteAccessToken() {
-                                        let resignVC = ResignSuccessVC()
-                                        self?.navigationController?.pushViewController(resignVC, animated: true)
+                                        let tabbar = MainTabbarController()
+                                        let navi = CommonNavigationViewController(rootViewController: tabbar)
+                                        self?.view.window?.rootViewController = navi
                                     } else {
                                         print("키체인 제거 실패")
                                     }
