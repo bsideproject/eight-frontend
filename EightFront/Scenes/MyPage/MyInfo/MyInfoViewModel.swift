@@ -58,7 +58,7 @@ class MyInfoViewModel {
             .sink { completion in
                 switch completion {
                 case .finished:
-                    LogUtil.d("닉네임 변경 API 호출 완료")
+                    LogUtil.d("닉네임 중복확인 API 호출 완료")
                 case .failure(let error):
                     LogUtil.e(error)
                 }

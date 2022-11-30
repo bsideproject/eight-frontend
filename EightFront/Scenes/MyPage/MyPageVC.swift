@@ -132,6 +132,7 @@ final class MyPageVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 let myInfo = MyInfoVC()
+                myInfo.delegate = self
                 self?.navigationController?.pushViewController(myInfo, animated: true)
             }.store(in: &viewModel.bag)
         
@@ -143,14 +144,14 @@ final class MyPageVC: UIViewController {
     }
 }
 
-extension MyPageVC:UITableViewDelegate {
+extension MyPageVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destinationVC = viewModel.didSelectRowAt(indexPath: indexPath).destination
         navigationController?.pushViewController(destinationVC, animated: true)
     }
 }
 
-extension MyPageVC:UITableViewDataSource {
+extension MyPageVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfRowsInSection()
     }
@@ -170,5 +171,11 @@ extension MyPageVC:UITableViewDataSource {
 extension MyPageVC: BottomSheetDelegate {
     func loginSuccess() {
         self.tabBarController?.selectedIndex = 0
+    }
+}
+
+extension MyPageVC: UserInfoReloadDelegate {
+    func userInfoReload() {
+        viewModel.reqeustUserInfo()
     }
 }
