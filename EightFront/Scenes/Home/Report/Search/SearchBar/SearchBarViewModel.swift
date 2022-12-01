@@ -16,9 +16,12 @@ final class SearchBarViewModel {
     let input = Input()
     let output = Output()
     var pois = [ResponsePOI]()
+    let type: SearchType
     
     //MARK: Initializer
-    init() {
+    init(type: SearchType) {
+        self.type = type
+        
         bind()
     }
     
@@ -39,6 +42,11 @@ final class SearchBarViewModel {
 
 //MARK: - I/O & Error
 extension SearchBarViewModel {
+    enum SearchType {
+        case home
+        case report
+    }
+    
     enum ErrorResult: Error {
         case searchError(Error?)
     }

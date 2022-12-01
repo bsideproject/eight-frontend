@@ -152,7 +152,7 @@ final class SearchMapVC: UIViewController {
     @objc
     private func addressViewTapped() {
         viewModel.isMove = false
-        let searchBarVC = SearchBarVC()
+        let searchBarVC = SearchBarVC(type: .report)
         searchBarVC.delegate = self
         navigationController?.pushViewController(searchBarVC, animated: true)
     }

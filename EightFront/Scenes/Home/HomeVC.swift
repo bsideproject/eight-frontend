@@ -203,8 +203,9 @@ final class HomeVC: UIViewController {
     
     @objc
     func searchButtonTapped() {
-//        let homeSearchVC = HomeSearchVC()
-//        tabBarController?.navigationController?.pushViewController(homeSearchVC, animated: true)
+        let homeSearchVC = SearchBarVC(type: .home)
+        homeSearchVC.delegate = self
+        tabBarController?.navigationController?.pushViewController(homeSearchVC, animated: true)
     }
     
     private func reportButtonTapped() {
@@ -317,3 +318,12 @@ extension HomeVC: NMFMapViewTouchDelegate {
     }
 }
 
+extension HomeVC: SearchBarDelegate {
+    func fetch(coordinate: CLLocationCoordinate2D?) {
+        guard let coordinate else { return }
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        
+        viewModel.input.requestClothingBins.send(location)
+        moveMap(location: location)
+    }
+}

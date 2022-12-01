@@ -19,7 +19,7 @@ protocol SearchBarDelegate: AnyObject {
 final class SearchBarVC: UIViewController {
     //MARK: - Properties
     weak var delegate: SearchBarDelegate?
-    private let viewModel = SearchBarViewModel()
+    private let viewModel: SearchBarViewModel!
     var snapshot: SearchDataSnapShot!
     var dataSource: SearchDataSource!
     let navigationView = CommonNavigationView().then {
@@ -31,10 +31,6 @@ final class SearchBarVC: UIViewController {
         let attrString = NSMutableAttributedString(string: "변경하실 의류 수거함\n주소를 입력해주세요")
         $0.attributedText = attrString.apply(word: "의류 수거함",
                                              attrs: [.font: Fonts.Pretendard.semiBold.font(size: 20)])
-    }
-    let addressTitleLabel = UILabel().then {
-        $0.text = "의류 수거함 주소"
-        $0.font = Fonts.Templates.subheader3.font
     }
     let searchImageView = UIImageView().then {
         $0.image = Images.Report.search.image.withRenderingMode(.alwaysTemplate)
@@ -59,6 +55,16 @@ final class SearchBarVC: UIViewController {
     }
     
     //MARK: - Life Cycle
+    init(type: SearchBarViewModel.SearchType) {
+        self.viewModel = SearchBarViewModel(type: type)
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -84,7 +90,6 @@ final class SearchBarVC: UIViewController {
         
         view.addSubview(navigationView)
         view.addSubview(introduceLabel)
-        view.addSubview(addressTitleLabel)
         view.addSubview(searchBarView)
         view.addSubview(searchImageView)
         view.addSubview(searchResultTableView)
@@ -94,16 +99,14 @@ final class SearchBarVC: UIViewController {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(47)
         }
-        introduceLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationView.snp.bottom).offset(24)
-            $0.left.right.equalToSuperview().inset(16)
-        }
-        addressTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(introduceLabel.snp.bottom).offset(25)
-            $0.left.right.equalToSuperview().inset(16)
+        if viewModel.type == .report {
+            introduceLabel.snp.makeConstraints {
+                $0.top.equalTo(navigationView.snp.bottom).offset(24)
+                $0.left.right.equalToSuperview().inset(16)
+            }
         }
         searchBarView.snp.makeConstraints {
-            $0.top.equalTo(addressTitleLabel.snp.bottom).offset(8)
+            $0.top.equalTo(viewModel.type == .report ? introduceLabel.snp.bottom : navigationView.snp.bottom).offset(24)
             $0.left.right.equalToSuperview().inset(16)
             $0.height.equalTo(54)
         }
