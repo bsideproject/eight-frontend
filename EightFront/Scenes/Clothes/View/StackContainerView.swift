@@ -144,6 +144,7 @@ final class StackContainerView: UIView {
 extension StackContainerView: SwipeCardDelegate {
     func swipeDidEnd(on view: SwipeCardView, isKeep: Bool?) {
         guard let datasource = dataSource else { return }
+        
         view.removeFromSuperview()
         
         let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeInOut)
@@ -164,6 +165,7 @@ extension StackContainerView: SwipeCardDelegate {
         }
         
         selectionDelegate?.keepOrDrop(isKeep: isKeep)
+        delegate?.swipeCards(isEmpty: self.subviews.isEmpty)
     }
     
     func swipeDidSelect(view: SwipeCardView) {

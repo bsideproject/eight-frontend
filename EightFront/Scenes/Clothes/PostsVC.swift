@@ -65,6 +65,27 @@ final class PostsVC: UIViewController {
     private let skipLineView = UIView().then {
         $0.backgroundColor = Colors.gray005.color
     }
+    private let emptyView = UIView().then {
+        $0.isHidden = false
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 12.0
+        $0.layer.applyFigmaShadow(x: 0, y: 0,
+                                  color: UIColor(red: 24, green: 39, blue: 75).withAlphaComponent(0.75),
+                                  blur: 4, spread: 0)
+    }
+    let emptyBackgroundView = UIView().then {
+        $0.backgroundColor = UIColor(colorSet: 238)
+        $0.layer.cornerRadius = 12.0
+    }
+    let emptyImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.image = Images.Trade.empty.image
+    }
+    private let emptyLabel = UILabel().then {
+        $0.text = "다른 사용자의 글을 기다리는 중이에요..."
+        $0.textAlignment = .center
+        $0.font = Fonts.Pretendard.semiBold.font(size: 16)
+    }
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,6 +107,8 @@ final class PostsVC: UIViewController {
     private func makeUI() {
         view.backgroundColor = .white
         
+
+        
         view.addSubview(navigationView)
         view.addSubview(collectionView)
         view.addSubview(filterView)
@@ -94,7 +117,12 @@ final class PostsVC: UIViewController {
         view.addSubview(throwButton)
         view.addSubview(stackContainer)
         view.addSubview(skipLineView)
+        view.addSubview(emptyView)
                 
+        emptyView.addSubview(emptyBackgroundView)
+        emptyBackgroundView.addSubview(emptyImageView)
+        emptyBackgroundView.addSubview(emptyLabel)
+        
         navigationView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.right.equalToSuperview()
@@ -140,6 +168,25 @@ final class PostsVC: UIViewController {
             $0.bottom.equalTo(throwButton.snp.top).offset(-28)
             $0.left.right.equalToSuperview().inset(16)
         }
+        emptyView.snp.makeConstraints {
+            $0.top.equalTo(collectionView.snp.bottom).offset(54)
+            $0.bottom.equalTo(throwButton.snp.top).offset(-28)
+            $0.left.right.equalToSuperview().inset(16)
+        }
+        emptyBackgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(10)
+        }
+        emptyImageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview().multipliedBy(0.75)
+            $0.width.equalTo(166)
+            $0.height.equalTo(161)
+        }
+        emptyLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(emptyImageView.snp.bottom).offset(26)
+        }
+        
         configureDataSource()
     }
     
@@ -197,7 +244,8 @@ final class PostsVC: UIViewController {
             .output
             .requestPosts
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] categories in
+            .sink { [weak self] count in
+                self?.emptyView.isHidden = count != 0
                 self?.stackContainer.reloadData()
             }
             .store(in: &viewModel.bag)
@@ -211,7 +259,6 @@ final class PostsVC: UIViewController {
                 self?.stackContainer.skipCardTapAnimation()
             }
             .store(in: &viewModel.bag)
-        
         
         viewModel.input.requestCategroies.send(nil)
         viewModel.input.requestPosts.send(nil)
@@ -295,27 +342,13 @@ extension PostsVC: SwipeCardsDataSource {
         card.dataSource = viewModel.posts[index]
         return card
     }
-
-    func emptyView() -> UIView? {
-        let view = UIView()
-        view.backgroundColor = UIColor(colorSet: 238)
-        
-        let imageView = UIImageView()
-        imageView.image = Images.Trade.empty.image
-        view.addSubview(imageView)
-        
-        imageView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(49)
-            $0.width.equalTo(166)
-            $0.height.equalTo(161)
-        }
-        
-        return view
-    }   
 }
 
 extension PostsVC: SwipeCardsDelegate {
+    func swipeCards(isEmpty: Bool) {
+        emptyView.isHidden = !isEmpty
+    }
+    
     func swipeDidSelect(view: SwipeCardView, at index: Int) {
         let detailVC = DetailPostVC(id: viewModel.posts[index].id ?? 0)
         detailVC.delegate = self

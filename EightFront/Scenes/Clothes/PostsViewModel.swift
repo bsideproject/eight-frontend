@@ -70,7 +70,7 @@ extension PostsViewModel {
     
     struct Output {
         var requestCategroies = PassthroughSubject<Void?, Never>()
-        var requestPosts = PassthroughSubject<Void?, Never>()
+        var requestPosts = PassthroughSubject<Int, Never>()
     }
 }
 
@@ -131,8 +131,9 @@ extension PostsViewModel {
             } receiveValue: { [weak self] response in
                 guard let responseData = try? response.map(PostsResponse.self).data else { return }
                 
-                self?.posts = responseData.posts ?? []
-                self?.output.requestPosts.send(nil)
+                let result = responseData.posts ?? []
+                self?.posts = result
+                self?.output.requestPosts.send(result.count)
             }
             .store(in: &bag)
     }

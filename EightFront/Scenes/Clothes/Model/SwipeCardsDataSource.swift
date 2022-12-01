@@ -11,10 +11,10 @@ import UIKit
 protocol SwipeCardsDataSource: AnyObject {
     func numberOfCardsToShow() -> Int
     func card(at index: Int) -> SwipeCardView
-    func emptyView() -> UIView?
 }
 
 protocol SwipeCardsDelegate: AnyObject {
+    func swipeCards(isEmpty: Bool)
     func swipeDidSelect(view: SwipeCardView, at index: Int)
 }
 

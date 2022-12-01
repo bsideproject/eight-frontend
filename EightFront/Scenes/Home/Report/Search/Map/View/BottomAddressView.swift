@@ -33,7 +33,7 @@ final class BottomAddressView: UIView {
         $0.layer.cornerRadius = 4
     }
     private let editImageView = UIImageView().then {
-        $0.image = Images.Map.boxEdit.image
+        $0.image = Images.Navigation.post.image
     }
     
     //MARK: - Initializer
