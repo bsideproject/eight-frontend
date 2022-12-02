@@ -20,7 +20,8 @@ struct SocialSignInRequest: Codable {
 }
 
 struct SocialSignUpRequest: Codable {
-    var accessToken: String
+    var accessToken: String?
+    var identityToken: String?
     var nickName: String
 }
 
