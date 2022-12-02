@@ -23,4 +23,5 @@ struct Content: Decodable {
     let accessToken: String?
     let refreshToken: String?
     let type: String?
+    let identityToken: String?
 }

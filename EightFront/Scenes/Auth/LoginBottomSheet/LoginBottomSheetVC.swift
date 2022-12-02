@@ -242,7 +242,6 @@ final class LoginBottomSheetVC: UIViewController {
                 if let error = error {
                     LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
                 }
-                
                 self.authProvider.request(.socialSignIn(
                     param: SocialSignInRequest(
                         accessToken: oauthToken?.accessToken ?? "",
@@ -259,7 +258,6 @@ final class LoginBottomSheetVC: UIViewController {
                                 LogUtil.e("data.content unWrapping 실패")
                                 return
                             }
-                            
                             if content.type == "sign-in" {
                                 guard let accessToken = content.accessToken else { return }
                                 if KeyChainManager.shared.createAccessToken(accessToken) {
@@ -271,11 +269,11 @@ final class LoginBottomSheetVC: UIViewController {
                                 // 회원가입
                                 guard let accessToken = content.accessToken else { return }
                                 KeyChainManager.shared.accessToken = accessToken
-                                    self.dismiss(animated: false) {
-                                        let termsVC = TermsVC()
-                                        termsVC.type = SignType.kakao.rawValue
-                                        UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
-                                    }
+                                self.dismiss(animated: false) {
+                                    let termsVC = TermsVC()
+                                    termsVC.configure(type: SignType.kakao)
+                                    UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
+                                }
                             }
                         case .failure(let error):
                             LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
@@ -284,13 +282,10 @@ final class LoginBottomSheetVC: UIViewController {
             }
         } else {
             UserApi.shared.loginWithKakaoAccount { [weak self](oauthToken, error) in
-                
                 guard let oauthToken else { return }
-                    
                 if let error = error {
                     LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
                 }
-                
                 self?.authProvider.request(.socialSignIn(
                     param: SocialSignInRequest(
                     accessToken: oauthToken.accessToken,
@@ -319,9 +314,11 @@ final class LoginBottomSheetVC: UIViewController {
                                 }
                             } else if content.type == "sign-up" {
                                 // 회원가입
+                                guard let accessToken = content.accessToken else { return }
+                                KeyChainManager.shared.accessToken = accessToken
                                 self?.dismiss(animated: false) {
                                     let termsVC = TermsVC()
-                                    termsVC.type = SignType.kakao.rawValue
+                                    termsVC.configure(type: SignType.kakao)
                                     UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
                                 }
                             }
@@ -353,50 +350,48 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            
-            guard let identityToken = credential.identityToken,
-                  let authorizationCode = credential.authorizationCode else{
+            guard
+                let identityToken = credential.identityToken,
+                let identityTokenStr = String(data: identityToken,
+                                              encoding: .utf8)
+            else{
                 return
             }
-            
-            guard let identityTokenStr = String(data: identityToken, encoding: .utf8),
-                  let authorizationCodeStr = String(data: authorizationCode, encoding: .utf8) else {
-                return
-            }
-            
-            authProvider.requestPublisher(.appleSignIn(param: SocialSignInRequest(
-                identityToken: identityTokenStr
-            )))
-                .sink { completion in
-                    switch completion {
-                    case .finished:
-                        LogUtil.d("애플 로그인 API 호출 완료")
-                    case .failure(let moyaError):
-                        LogUtil.e(moyaError)
-                    }
-                } receiveValue: { [weak self] response in
-                    let data = try? response.map(SimpleSignInResponse.self)
-                    guard let content = data?.data?.content else { return }
-                    if content.type == "sign-in" {
-                        self?.dismiss(animated: false) {
-                            guard let accessToken = content.accessToken else { return }
-                            if KeyChainManager.shared.createAccessToken(accessToken) {
-                                LogUtil.d("액세스 토큰 저장 성공")
-                            } else {
-                                LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
-                            }
-                        }
-                    } else if content.type == "sign-up" {
-                        // 회원가입
-                        self?.dismiss(animated: false) {
-                            let termsVC = TermsVC()
-                            termsVC.type = SignType.apple.rawValue
-                            UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
+            authProvider.requestPublisher(.appleSignIn(
+                param: SocialSignInRequest(
+                    identityToken: identityTokenStr
+                )
+            ))
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    LogUtil.d("애플 로그인 API 호출 완료")
+                case .failure(let moyaError):
+                    LogUtil.e(moyaError)
+                }
+            } receiveValue: { [weak self] response in
+                let data = try? response.map(SimpleSignInResponse.self)
+                guard let content = data?.data?.content else { return }
+                if content.type == "sign-in" {
+                    self?.dismiss(animated: false) {
+                        guard let accessToken = content.accessToken else { return }
+                        if KeyChainManager.shared.createAccessToken(accessToken) {
+                            LogUtil.d("액세스 토큰 저장 성공")
+                        } else {
+                            LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
                         }
                     }
-                }.store(in: &viewModel.bag)
-
-            
+                } else if content.type == "sign-up" {
+                    // 회원가입
+                    guard let accessToken = content.identityToken else { return }
+                    KeyChainManager.shared.accessToken = accessToken
+                    self?.dismiss(animated: false) {
+                        let termsVC = TermsVC()
+                        termsVC.configure(type: SignType.apple)
+                        UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
+                    }
+                }
+            }.store(in: &viewModel.bag)
         }
     }
     
