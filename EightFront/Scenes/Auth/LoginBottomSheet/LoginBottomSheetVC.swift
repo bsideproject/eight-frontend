@@ -186,6 +186,31 @@ final class LoginBottomSheetVC: UIViewController {
                 self?.emailSignUpButtonTapped()
             }.store(in: &viewModel.bag)
         
+        viewModel.$signType
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] signType in
+                guard let accessToken = self?.viewModel.content?.accessToken else { return }
+                switch signType {
+                case .signIn:
+                    self?.dismiss(animated: false) {
+                        if KeyChainManager.shared.createAccessToken(accessToken) {
+                            LogUtil.d("액세스 토큰 저장 성공")
+                        } else {
+                            LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
+                        }
+                    }
+                case .signUp:
+                    // 회원가입
+                    KeyChainManager.shared.accessToken = accessToken
+                    self?.dismiss(animated: false) {
+                        let termsVC = TermsVC()
+                        termsVC.configure(type: SignType.apple)
+                        UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
+                    }
+                }
+            }.store(in: &viewModel.bag)
+        
     }
     
     // MARK: - Functions
@@ -357,41 +382,7 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
             else{
                 return
             }
-            authProvider.requestPublisher(.appleSignIn(
-                param: SocialSignInRequest(
-                    identityToken: identityTokenStr
-                )
-            ))
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    LogUtil.d("애플 로그인 API 호출 완료")
-                case .failure(let moyaError):
-                    LogUtil.e(moyaError)
-                }
-            } receiveValue: { [weak self] response in
-                let data = try? response.map(SimpleSignInResponse.self)
-                guard let content = data?.data?.content else { return }
-                if content.type == "sign-in" {
-                    self?.dismiss(animated: false) {
-                        guard let accessToken = content.accessToken else { return }
-                        if KeyChainManager.shared.createAccessToken(accessToken) {
-                            LogUtil.d("액세스 토큰 저장 성공")
-                        } else {
-                            LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
-                        }
-                    }
-                } else if content.type == "sign-up" {
-                    // 회원가입
-                    guard let accessToken = content.identityToken else { return }
-                    KeyChainManager.shared.accessToken = accessToken
-                    self?.dismiss(animated: false) {
-                        let termsVC = TermsVC()
-                        termsVC.configure(type: SignType.apple)
-                        UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
-                    }
-                }
-            }.store(in: &viewModel.bag)
+            viewModel.appleSignIn(identityToken: identityTokenStr)
         }
     }
     
