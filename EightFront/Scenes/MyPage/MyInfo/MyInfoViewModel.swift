@@ -63,7 +63,7 @@ class MyInfoViewModel {
                     LogUtil.e(error)
                 }
             } receiveValue: { [weak self] response in
-                let data = try? response.map(NicknameResponse.self)
+                let data = try? response.map(NicknameCheckResponse.self)
                 if let content = data?.data?.content {
                     if content {
                         // 중복된 닉네임이 있을 때
@@ -77,11 +77,7 @@ class MyInfoViewModel {
     }
     
     func requestNicknameChange() {
-        let accessToken = KeyChainManager.shared.readAccessToken()
-        let jwt = try? JWTDecode.decode(jwt: accessToken)
-        guard let memberId = jwt?.subject else { return }
-        
-        authProvider.requestPublisher(.nicknameChange(memberId: memberId, nickName: inputNickname))
+        authProvider.requestPublisher(.nicknameChange(nickName: inputNickname))
             .sink { completion in
                 switch completion {
                 case .finished:
@@ -90,9 +86,13 @@ class MyInfoViewModel {
                     LogUtil.e(error)
                 }
             } receiveValue: { [weak self] response in
-                if let data = try? response.map(NicknameResponse.self).data {
-                    if data.content == true {
-                        self?.isNickNameChanged = true
+                if let response = try? response.map(NicknameChangeResponse.self) {
+                    if let resultCode = response.header?.code {
+                        if resultCode == 0 {
+                            self?.isNickNameChanged = true
+                        } else {
+                            LogUtil.e("닉네임 변경 실패")
+                        }
                     }
                 }
             }.store(in: &bag)

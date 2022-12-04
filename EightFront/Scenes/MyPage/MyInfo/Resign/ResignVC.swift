@@ -10,8 +10,6 @@ import JWTDecode
 import Moya
 
 class ResignVC: UIViewController {
-    
-    private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = ResignViewModel()
     
     private let commonNavigationView = CommonNavigationView().then {
@@ -205,29 +203,17 @@ class ResignVC: UIViewController {
         resignButtonView.gesture()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                if self?.viewModel.isChecked == true {
-                    let accessToken = KeyChainManager.shared.readAccessToken()
-                    let jwt = try? JWTDecode.decode(jwt: accessToken)
-                    guard let memberId = jwt?.subject else { return }
-                    self?.authProvider.request(.memberResign(memberId: memberId)) { [weak self] result in
-                        switch result {
-                        case .failure(let error):
-                            LogUtil.e(error)
-                        case .success(let response):
-                            LogUtil.d(response)
-                            self?.viewModel.kakaoResign { bool in
-                                if bool {
-                                    if KeyChainManager.shared.deleteAccessToken() {
-                                        let tabbar = MainTabbarController()
-                                        let navi = CommonNavigationViewController(rootViewController: tabbar)
-                                        self?.view.window?.rootViewController = navi
-                                    } else {
-                                        print("키체인 제거 실패")
-                                    }
-                                }
-                            }
-                        }
-                    }
+                self?.viewModel.resign()
+            }.store(in: &viewModel.bag)
+        
+        viewModel.$isResigned
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] isResigned in
+                if isResigned {
+                    let tabbar = MainTabbarController()
+                    let navi = CommonNavigationViewController(rootViewController: tabbar)
+                    self?.view.window?.rootViewController = navi
                 }
             }.store(in: &viewModel.bag)
         

@@ -30,8 +30,6 @@ class MyClothesVC: UIViewController {
     }
     
     private let searchTextField = UITextField().then {
-        $0.placeholder = "수거함 위치를 검색해보세요."
-        $0.font = Fonts.Templates.caption1.font
     }
     
     private let clothesTableView = UITableView().then {
