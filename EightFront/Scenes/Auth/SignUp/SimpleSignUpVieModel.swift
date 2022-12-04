@@ -44,7 +44,7 @@ class SimpleSignUpVieModel {
                     LogUtil.e(error)
                 }
             } receiveValue: { [weak self] response in
-                let data = try? response.map(NicknameResponse.self)
+                let data = try? response.map(NicknameCheckResponse.self)
                 if let content = data?.data?.content {
                     if content {
                         // 중복된 닉네임이 있을 때
@@ -74,6 +74,7 @@ class SimpleSignUpVieModel {
                             if let data = try? response.map(SimpleSignUpResponse.self).data {
                                 guard let accessToken = data.content?.accessToken else { return }
                                 if KeyChainManager.shared.createAccessToken(accessToken) {
+                                    UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
                                     self?.isSignUp = true
                                 }
                             }
@@ -94,6 +95,7 @@ class SimpleSignUpVieModel {
                             if let data = try? response.map(SimpleSignUpResponse.self).data {
                                 guard let accessToken = data.content?.accessToken else { return }
                                 if KeyChainManager.shared.createAccessToken(accessToken) {
+                                    UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
                                     self?.isSignUp = true
                                 }
                             }

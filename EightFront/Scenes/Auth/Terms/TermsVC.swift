@@ -179,16 +179,6 @@ final class TermsVC: UIViewController {
                     LogUtil.e("오류")
                 }
                 
-//                guard let signType = self?.type else { return }
-//
-//                if signType == SignType.kakao.rawValue || signType == SignType.apple.rawValue {
-//                    let simpleSignInVC = SimpleSignUpVC()
-//                    simpleSignInVC.type = signType
-//                    self?.navigationController?.pushViewController(simpleSignInVC, animated: true)
-//                } else {
-//                    let emailSignUpVC = EmailSignUpVC()
-//                    self?.navigationController?.pushViewController(emailSignUpVC, animated: true)
-//                }
             }
             .store(in: &viewModel.bag)
         

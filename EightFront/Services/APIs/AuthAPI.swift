@@ -15,9 +15,9 @@ enum AuthAPI {
     case appleSignUp(param: SocialSignUpRequest)
 //    case emailSignIn(param: KakaoSignInRequest)
 //    case emailSignUp(param: KakaoSignUpRequest)
-    case memberResign(memberId: String)
+    case memberResign
     case nicknameCheck(nickname: String)
-    case nicknameChange(memberId: String, nickName: String)
+    case nicknameChange(nickName: String)
     case userInfo
 }
 
@@ -42,12 +42,12 @@ extension AuthAPI: TargetType {
 //            return ""
 //        case .emailSignUp:
 //            return ""
-        case .memberResign(let memberId):
-            return "/api/oauth2/\(memberId)"
+        case .memberResign:
+            return "/api/oauth2/member"
         case .nicknameCheck(let nickname):
             return "/api/oauth2/\(nickname)"
-        case .nicknameChange(let memberId, _):
-            return "/api/oauth2/\(memberId)"
+        case .nicknameChange:
+            return "/api/my/info/nickname"
         case .userInfo:
             return "/api/my/info"
         }
@@ -92,11 +92,12 @@ extension AuthAPI: TargetType {
             return .requestPlain
         case .nicknameCheck:
             return .requestPlain
-        case .nicknameChange(_, let nickname):
+        case .nicknameChange(let nickname):
             return .requestParameters(
                 parameters: [
-                    "nickName": nickname
-                ], encoding: JSONEncoding.default)
+                    "nickname": nickname
+                ], encoding: URLEncoding.queryString)
+//            .requestParameters(parameters: ["keyword" : keyword], encoding: URLEncoding.queryString)
         case .appleSignIn(let param):
             return .requestJSONEncodable(param)
         case .appleSignUp(let param):

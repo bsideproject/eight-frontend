@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct NicknameResponse: Decodable {
+struct NicknameCheckResponse: Decodable {
     let result: ApiResponse?
-    let data: Nickname?
+    let data: NicknameCheck?
 }
 
-struct Nickname: Decodable {
+struct NicknameCheck: Decodable {
     let content: Bool?
 }
