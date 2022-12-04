@@ -419,13 +419,18 @@ extension PostsVC {
 
 extension PostsVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item == 0 {
-            viewModel.selectedCategoryItem = Set<Int>([0])
+        if viewModel.selectedCategoryItem.contains(0) && indexPath.item != 0 {
+            viewModel.selectedCategoryItem.remove(0)
+        }
+        
+        if viewModel.selectedCategoryItem.contains(indexPath.item) {
+            viewModel.selectedCategoryItem.remove(indexPath.item)
         } else {
-            if viewModel.selectedCategoryItem.contains(0) {
-                viewModel.selectedCategoryItem.remove(0)
-            }
             viewModel.selectedCategoryItem.insert(indexPath.row)
+        }
+        
+        if viewModel.selectedCategoryItem.isEmpty {
+            viewModel.selectedCategoryItem.insert(0)
         }
         
         viewModel.input.requestPosts.send(nil)
