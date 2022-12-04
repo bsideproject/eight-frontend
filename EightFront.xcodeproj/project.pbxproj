@@ -30,6 +30,7 @@
 		2852EEDA29312EAD009213DD /* ReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2852EED929312EAD009213DD /* ReportResponse.swift */; };
 		285A726F293649A800BED615 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285A726D2936437400BED615 /* TMapSDK.framework */; };
 		285A7270293649A800BED615 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 285A726D2936437400BED615 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		285A72922937DD5900BED615 /* CommonContentEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285A72912937DD5900BED615 /* CommonContentEmptyView.swift */; };
 		2880C713293B2ED40094595F /* NicknameChangeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880C712293B2ED40094595F /* NicknameChangeResponse.swift */; };
 		2880C715293B6CDB0094595F /* ProfileImageChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880C714293B6CDB0094595F /* ProfileImageChangeVC.swift */; };
 		2880C717293B70840094595F /* ProfileImageChangeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880C716293B70840094595F /* ProfileImageChangeViewModel.swift */; };
@@ -234,6 +235,7 @@
 		2852EED629312BB0009213DD /* ReportAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAPI.swift; sourceTree = "<group>"; };
 		2852EED929312EAD009213DD /* ReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportResponse.swift; sourceTree = "<group>"; };
 		285A726D2936437400BED615 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = EightFront/TMapSDK.framework; sourceTree = "<group>"; };
+		285A72912937DD5900BED615 /* CommonContentEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonContentEmptyView.swift; sourceTree = "<group>"; };
 		2880C712293B2ED40094595F /* NicknameChangeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameChangeResponse.swift; sourceTree = "<group>"; };
 		2880C714293B6CDB0094595F /* ProfileImageChangeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageChangeVC.swift; sourceTree = "<group>"; };
 		2880C716293B70840094595F /* ProfileImageChangeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageChangeViewModel.swift; sourceTree = "<group>"; };
@@ -667,6 +669,7 @@
 				E9494A5E28F060A5005285C0 /* CommonNavigationView.swift */,
 				E9460B0C28EAC0B100932351 /* CommonNavigationViewController.swift */,
 				E95ACEA128F3161400057900 /* CommonTextFieldView.swift */,
+				285A72912937DD5900BED615 /* CommonContentEmptyView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -720,6 +723,8 @@
 		E927FC8928D34FED00A91F11 /* SwiftGen */ = {
 			isa = PBXGroup;
 			children = (
+				E927FCAC28D7223300A91F11 /* ImageAssets+Generated.swift */,
+				E927FCAA28D7217A00A91F11 /* ColorAssets+Generated.swift */,
 				E9460AF828E9DE2200932351 /* Fonts+Generated.swift */,
 				E927FCAA28D7217A00A91F11 /* ColorAssets+Generated.swift */,
 				E927FCAC28D7223300A91F11 /* ImageAssets+Generated.swift */,
@@ -1422,6 +1427,7 @@
 				E910ECA82927C94500E7881E /* DetailDescriptionCell.swift in Sources */,
 				E9460B0F28EAC69300932351 /* NaverMapMarker.swift in Sources */,
 				E9EFE7C2290AD7B700EA514B /* StackContainerView.swift in Sources */,
+				285A72922937DD5900BED615 /* CommonContentEmptyView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
