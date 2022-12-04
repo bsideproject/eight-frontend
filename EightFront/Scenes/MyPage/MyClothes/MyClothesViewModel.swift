@@ -17,6 +17,10 @@ class MyClothesViewModel {
     
     @Published var clothesList = [PostModel]()
     
+    func isContentEmptyViewHidden() -> Bool {
+        return clothesList.isEmpty
+    }
+    
     func numberOfRowsInSection() -> Int {
         return clothesList.count
     }

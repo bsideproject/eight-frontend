@@ -21,6 +21,10 @@ class BlockVC: UIViewController {
         $0.register(BlockTableViewCell.self, forCellReuseIdentifier: BlockTableViewCell.identity)
     }
     
+    private let contentEmptyView = CommonContentEmptyView().then {
+        $0.titleLabel.text = "차단 목록이 없어요"
+    }
+    
     // MARK: - lifeCycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +55,14 @@ class BlockVC: UIViewController {
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+        
+        view.addSubview(contentEmptyView)
+        contentEmptyView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.equalTo(174)
+            $0.height.equalTo(143)
+        }
+        
     }
     
     private func bind() {
@@ -62,9 +74,13 @@ class BlockVC: UIViewController {
         
         viewModel.$blockList
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
+            .compactMap { $0 }
+            .sink { [weak self] in
+                self?.contentEmptyView.isHidden = $0.isEmpty ? false : true
+                self?.blockTableView.isHidden = $0.isEmpty ? true : false
                 self?.blockTableView.reloadData()
             }.store(in: &viewModel.bag)
+        
     }
     
     private func configure() {

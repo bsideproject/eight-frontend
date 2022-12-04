@@ -20,6 +20,7 @@ struct SignUpContent: Decodable {
     let nickName: String?
     let email: String?
     let accessToken: String?
+    let identityToken: String?
     let refreshToken: String?
     let type: String?
 }

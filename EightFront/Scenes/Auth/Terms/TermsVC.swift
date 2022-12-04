@@ -13,7 +13,7 @@ import SnapKit
 
 final class TermsVC: UIViewController {
     
-    var type: String = "email"
+    var signType: SignType?
     
     // MARK: - properties
     let viewModel = TermsViewModel()
@@ -61,8 +61,12 @@ final class TermsVC: UIViewController {
         bind()
     }
     
-    // MARK: - MakeUI
+    // MARK: - Configure
+    func configure(type: SignType) {
+        self.signType = type
+    }
     
+    // MARK: - MakeUI
     private func makeUI() {
         view.backgroundColor = .white
         
@@ -118,7 +122,6 @@ final class TermsVC: UIViewController {
     // MARK: Bind
     
     private func bind() {
-        
         navigationView.backButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
@@ -162,22 +165,39 @@ final class TermsVC: UIViewController {
         nextButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                
-                guard let signType = self?.type else { return }
-                
-                if signType == SignType.kakao.rawValue || signType == SignType.apple.rawValue {
-                    let simpleSignInVC = SimpleSignUpVC()
-                    simpleSignInVC.type = signType
-                    self?.navigationController?.pushViewController(simpleSignInVC, animated: true)
-                } else {
-                    let emailSignUpVC = EmailSignUpVC()
-                    self?.navigationController?.pushViewController(emailSignUpVC, animated: true)
+                switch self?.signType {
+                case .kakao,
+                     .apple:
+                    let simpleSignupVC = SimpleSignUpVC()
+                    guard let signType = self?.signType else { return }
+                    simpleSignupVC.configure(type: signType)
+                    self?.navigationController?.pushViewController(simpleSignupVC, animated: true)
+                case .email:
+                    let emailSignVC = EmailSignUpVC()
+                    self?.navigationController?.pushViewController(emailSignVC, animated: true)
+                default:
+                    LogUtil.e("오류")
                 }
+                
+//                guard let signType = self?.type else { return }
+//
+//                if signType == SignType.kakao.rawValue || signType == SignType.apple.rawValue {
+//                    let simpleSignInVC = SimpleSignUpVC()
+//                    simpleSignInVC.type = signType
+//                    self?.navigationController?.pushViewController(simpleSignInVC, animated: true)
+//                } else {
+//                    let emailSignUpVC = EmailSignUpVC()
+//                    self?.navigationController?.pushViewController(emailSignUpVC, animated: true)
+//                }
             }
             .store(in: &viewModel.bag)
         
         Publishers
-            .CombineLatest3(viewModel.$isPolicy, viewModel.$isPrivacy, viewModel.$isLocation)
+            .CombineLatest3(
+                viewModel.$isPolicy,
+                viewModel.$isPrivacy,
+                viewModel.$isLocation
+            )
             .compactMap {
                 $0 && $1 && $2
             }.sink { [weak self] isValid in
@@ -198,7 +218,6 @@ final class TermsVC: UIViewController {
                 self?.policy.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
                 self?.policy.checkButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
-
         viewModel.$isPrivacy
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
@@ -206,7 +225,6 @@ final class TermsVC: UIViewController {
                 self?.privacy.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
                 self?.privacy.checkButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
-
         viewModel.$isLocation
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
@@ -214,7 +232,6 @@ final class TermsVC: UIViewController {
                 self?.location.titleLabel.textColor = isValid ? Colors.gray001.color : Colors.gray005.color
                 self?.location.checkButton.setImage(isValid ? Images.Report.checkboxSelect.image : Images.Report.checkboxNone.image )
             }.store(in: &viewModel.bag)
-        
     }
     
     // MARK: - Functions

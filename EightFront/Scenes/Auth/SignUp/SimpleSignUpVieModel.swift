@@ -13,6 +13,8 @@ class SimpleSignUpVieModel {
     
     var bag = Set<AnyCancellable>()
     var authProvider = MoyaProvider<AuthAPI>()
+    
+    @Published var signType: SignType?
 
     @Published var inputNickname = ""
     @Published var isSignUpButtonValid = false
@@ -57,24 +59,53 @@ class SimpleSignUpVieModel {
     
     func requestSignUp() {
         let accessToken = KeyChainManager.shared.accessToken
-        authProvider.request(
-            .socialSignUp(
-                param: SocialSignUpRequest(
-                accessToken: accessToken,
-                nickName: inputNickname
-            ))) { [weak self] result in
-                switch result {
-                case .success(let response):
-                    LogUtil.d("회원가입 API 호출 성공")
-                    if let data = try? response.map(SimpleSignUpResponse.self).data {
-                        guard let accessToken = data.content?.accessToken else { return }
-                        if KeyChainManager.shared.createAccessToken(accessToken) {
-                            self?.isSignUp = true
+        switch signType {
+        case .kakao:
+            LogUtil.d("카카오 회원가입")
+            authProvider.request(
+                .socialSignUp(
+                    param: SocialSignUpRequest(
+                        accessToken: accessToken,
+                        nickName: inputNickname
+                    ))) { [weak self] result in
+                        switch result {
+                        case .success(let response):
+                            LogUtil.d("회원가입 API 호출 성공")
+                            if let data = try? response.map(SimpleSignUpResponse.self).data {
+                                guard let accessToken = data.content?.accessToken else { return }
+                                if KeyChainManager.shared.createAccessToken(accessToken) {
+                                    self?.isSignUp = true
+                                }
+                            }
+                        case .failure(let error):
+                            LogUtil.e(error)
                         }
                     }
-                case .failure(let error):
-                    LogUtil.e(error)
-                }
-            }
+        case .apple:
+            authProvider.request(
+                .appleSignUp(
+                    param: SocialSignUpRequest(
+                        identityToken: accessToken,
+                        nickName: inputNickname
+                    ))) { [weak self] result in
+                        switch result {
+                        case .success(let response):
+                            LogUtil.d("회원가입 API 호출 성공")
+                            if let data = try? response.map(SimpleSignUpResponse.self).data {
+                                guard let accessToken = data.content?.accessToken else { return }
+                                if KeyChainManager.shared.createAccessToken(accessToken) {
+                                    self?.isSignUp = true
+                                }
+                            }
+                        case .failure(let error):
+                            LogUtil.e(error)
+                        }
+                    }
+        default:
+            LogUtil.e("오류")
+        }
+        
+        
+        
     }
 }

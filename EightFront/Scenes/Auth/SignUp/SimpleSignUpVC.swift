@@ -17,8 +17,6 @@ class SimpleSignUpVC: UIViewController {
     private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = SimpleSignUpVieModel()
     
-    var type: String?
-    
     private let commonNavigationView = CommonNavigationView().then {
         $0.titleLabel.text = "회원가입"
     }
@@ -76,6 +74,10 @@ class SimpleSignUpVC: UIViewController {
         self.view.endEditing(true)
     }
     
+    // MARK: - Configure {
+    func configure(type: SignType) {
+        viewModel.signType = type
+    }
     
     // MARK: - makeUI
     private func makeUI() {
