@@ -90,8 +90,13 @@ final class StackContainerView: UIView {
         cardViews = []
     }
     
-    func removeCardTapAnimation(isLeft: Bool = true) {
+    func removeCardTapAnimation(isLeft: Bool = true, completion: (() -> ())? = nil) {
         guard let card = visibleCards.last else { return }
+        
+        card.backgroundLabel.text = isLeft ? "보관해요😉" : "버릴래요😅"
+        card.backgroundLabel.textColor = isLeft ? .white : .black
+        card.backgroundView.alpha = 1.0
+        card.backgroundView.backgroundColor = isLeft ? Colors.gray001.color : Colors.point.color
         
         var cardViewFrame = bounds
         let cardWidth = UIScreen.main.bounds.width - 32
@@ -108,6 +113,7 @@ final class StackContainerView: UIView {
         
         animator.addCompletion { [weak self] _ in
             self?.swipeDidEnd(on: card, isKeep: isLeft)
+            completion?()
         }
         
         animator.startAnimation()

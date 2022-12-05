@@ -121,8 +121,9 @@
 		E95FBF6928F70FDF002CA5A9 /* ImagePickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95FBF6628F70FDF002CA5A9 /* ImagePickerManager.swift */; };
 		E95FBF6A28F70FDF002CA5A9 /* LogUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95FBF6728F70FDF002CA5A9 /* LogUtil.swift */; };
 		E95FBF6C28FC1644002CA5A9 /* Pretendard+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95FBF6B28FC1644002CA5A9 /* Pretendard+.swift */; };
-		E965DDAF2935E3C8000AEA74 /* splashscreen.json in Resources */ = {isa = PBXBuildFile; fileRef = E965DDAE2935E3C8000AEA74 /* splashscreen.json */; };
 		E965DDB12935E513000AEA74 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E965DDB02935E512000AEA74 /* TMapSDK.framework */; };
+		E965DDB4293CCD36000AEA74 /* splashscreen.json in Resources */ = {isa = PBXBuildFile; fileRef = E965DDB3293CCD36000AEA74 /* splashscreen.json */; };
+		E965DDB6293CF02E000AEA74 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E965DDB5293CF02E000AEA74 /* RefreshView.swift */; };
 		E96BC92028EB2988002EBA7E /* SearchMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC91F28EB2988002EBA7E /* SearchMapVC.swift */; };
 		E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */; };
 		E96BC92528EB2E7E002EBA7E /* SearchMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96BC92428EB2E7E002EBA7E /* SearchMapViewModel.swift */; };
@@ -320,8 +321,9 @@
 		E95FBF6628F70FDF002CA5A9 /* ImagePickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerManager.swift; sourceTree = "<group>"; };
 		E95FBF6728F70FDF002CA5A9 /* LogUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogUtil.swift; sourceTree = "<group>"; };
 		E95FBF6B28FC1644002CA5A9 /* Pretendard+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pretendard+.swift"; sourceTree = "<group>"; };
-		E965DDAE2935E3C8000AEA74 /* splashscreen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splashscreen.json; sourceTree = "<group>"; };
 		E965DDB02935E512000AEA74 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = EightFront/TMapSDK.framework; sourceTree = "<group>"; };
+		E965DDB3293CCD36000AEA74 /* splashscreen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splashscreen.json; sourceTree = "<group>"; };
+		E965DDB5293CF02E000AEA74 /* RefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
 		E96BC91F28EB2988002EBA7E /* SearchMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapVC.swift; sourceTree = "<group>"; };
 		E96BC92228EB2D66002EBA7E /* BottomAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomAddressView.swift; sourceTree = "<group>"; };
 		E96BC92428EB2E7E002EBA7E /* SearchMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapViewModel.swift; sourceTree = "<group>"; };
@@ -726,8 +728,6 @@
 				E927FCAC28D7223300A91F11 /* ImageAssets+Generated.swift */,
 				E927FCAA28D7217A00A91F11 /* ColorAssets+Generated.swift */,
 				E9460AF828E9DE2200932351 /* Fonts+Generated.swift */,
-				E927FCAA28D7217A00A91F11 /* ColorAssets+Generated.swift */,
-				E927FCAC28D7223300A91F11 /* ImageAssets+Generated.swift */,
 				E927FCA528D71BDD00A91F11 /* swiftgen.yml */,
 			);
 			path = SwiftGen;
@@ -736,7 +736,7 @@
 		E927FC9328D3513300A91F11 /* Splash */ = {
 			isa = PBXGroup;
 			children = (
-				E965DDAE2935E3C8000AEA74 /* splashscreen.json */,
+				E965DDB3293CCD36000AEA74 /* splashscreen.json */,
 			);
 			path = Splash;
 			sourceTree = "<group>";
@@ -785,6 +785,7 @@
 				E9460AFD28E9E51D00932351 /* HomeSearchView.swift */,
 				E9460B0E28EAC69300932351 /* NaverMapMarker.swift */,
 				E9494A6C28F1C816005285C0 /* BoxCollectionView.swift */,
+				E965DDB5293CF02E000AEA74 /* RefreshView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -902,6 +903,7 @@
 			children = (
 				E970691D2917EEEC00014FB9 /* MyInfoVC.swift */,
 				28D12ADD2920C45A001A7B32 /* MyInfoViewModel.swift */,
+				284F96212928E64C00597708 /* ResignVC.swift */,
 				2880C71D293B76480094595F /* Resign */,
 				2880C71C293B76350094595F /* ProfileImageChange */,
 			);
@@ -1047,6 +1049,8 @@
 		E9BEA55B292E40F9002BEDC7 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				28BAB95B293120DD00ECD943 /* UserInfoResponse.swift */,
+				E9BEA55E292E413A002BEDC7 /* NicknameResponse.swift */,
 				E9BEA560292E413B002BEDC7 /* SimpleAuthRequest.swift */,
 				28BAB95B293120DD00ECD943 /* UserInfoResponse.swift */,
 				E9BEA55E292E413A002BEDC7 /* NicknameCheckResponse.swift */,
@@ -1237,11 +1241,11 @@
 				E9460AF728E9DDDB00932351 /* Pretendard-SemiBold.ttf in Resources */,
 				E927FC8828D34FDA00A91F11 /* Colors.xcassets in Resources */,
 				E9460AF028E9DDDB00932351 /* Pretendard-ExtraLight.ttf in Resources */,
+				E965DDB4293CCD36000AEA74 /* splashscreen.json in Resources */,
 				E9460AF228E9DDDB00932351 /* Pretendard-Regular.ttf in Resources */,
 				E9460AEF28E9DDDB00932351 /* Pretendard-Bold.ttf in Resources */,
 				E9460AF628E9DDDB00932351 /* Pretendard-Light.ttf in Resources */,
 				E975ED1228D34A060013E94F /* Images.xcassets in Resources */,
-				E965DDAF2935E3C8000AEA74 /* splashscreen.json in Resources */,
 				E9460AF428E9DDDB00932351 /* Pretendard-Medium.ttf in Resources */,
 				E9460AF128E9DDDB00932351 /* Pretendard-ExtraBold.ttf in Resources */,
 				E9460AF328E9DDDB00932351 /* Pretendard-Black.ttf in Resources */,
@@ -1407,6 +1411,7 @@
 				E98A04EE28F435B7009F055B /* ReportCompletedVC.swift in Sources */,
 				E9460B0D28EAC0B100932351 /* CommonNavigationViewController.swift in Sources */,
 				284F962A292950C600597708 /* SimpleSignUpVieModel.swift in Sources */,
+				E965DDB6293CF02E000AEA74 /* RefreshView.swift in Sources */,
 				E9EAB9DF2920BDA700926893 /* UIColor+.swift in Sources */,
 				E9160C1828E30A60007B1307 /* DataManager.swift in Sources */,
 				284F9624292932D600597708 /* ResignViewModel.swift in Sources */,
