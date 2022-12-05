@@ -17,7 +17,7 @@ import KakaoSDKAuth
 
 class LoginBottomSheetViewModel {
     
-    enum SignType: String {
+    enum SignInUp: String {
         case signIn = "sign-in"
         case signUp = "sign-up"
     }
@@ -30,7 +30,7 @@ class LoginBottomSheetViewModel {
     @Published var deviceID: String = ""
     
     @Published var identityToken: String = ""
-    @Published var signType: SignType?
+    @Published var signType: SignInUp?
     @Published var content: Content?
     
     lazy var isLoginButtonValid: AnyPublisher<Bool, Never> = Publishers
@@ -38,7 +38,7 @@ class LoginBottomSheetViewModel {
         .map { $0 == "" || $1 == "" ? false : true }
         .eraseToAnyPublisher()
     
-    func appleSignIn(identityToken: String) {
+    func appleSignIn(identityToken: String, authorizationCode: String) {
         authProvider.requestPublisher(.appleSignIn(
             param: SocialSignInRequest(
                 identityToken: identityToken
@@ -55,10 +55,17 @@ class LoginBottomSheetViewModel {
             let data = try? response.map(SimpleSignInResponse.self)
             guard let responseContent = data?.data?.content else { return }
             self?.content = responseContent
-            if responseContent.type == SignType.signIn.rawValue {
-                self?.signType = SignType.signIn
+            _ = KeyChainManager.shared.delete(type: .authorizationCode)
+            if responseContent.type == SignInUp.signIn.rawValue {
+                if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
+                    UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
+                    self?.signType = SignInUp.signIn
+                }
             } else {
-                self?.signType = SignType.signUp
+                if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
+                    UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
+                    self?.signType = SignInUp.signUp
+                }
             }
         }.store(in: &bag)
     }

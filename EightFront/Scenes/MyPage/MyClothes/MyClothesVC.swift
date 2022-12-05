@@ -29,10 +29,7 @@ class MyClothesVC: UIViewController {
         $0.image = image
     }
     
-    private let searchTextField = UITextField().then {
-        $0.placeholder = "수거함 위치를 검색해보세요."
-        $0.font = Fonts.Templates.caption1.font
-    }
+    private let searchTextField = UITextField()
     
     private let clothesTableView = UITableView().then {
         $0.register(MyClothesTableViewCell.self, forCellReuseIdentifier: MyClothesTableViewCell.identifier)

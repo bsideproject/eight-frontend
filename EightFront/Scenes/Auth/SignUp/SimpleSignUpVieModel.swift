@@ -44,7 +44,7 @@ class SimpleSignUpVieModel {
                     LogUtil.e(error)
                 }
             } receiveValue: { [weak self] response in
-                let data = try? response.map(NicknameResponse.self)
+                let data = try? response.map(NicknameCheckResponse.self)
                 if let content = data?.data?.content {
                     if content {
                         // 중복된 닉네임이 있을 때
@@ -73,7 +73,8 @@ class SimpleSignUpVieModel {
                             LogUtil.d("회원가입 API 호출 성공")
                             if let data = try? response.map(SimpleSignUpResponse.self).data {
                                 guard let accessToken = data.content?.accessToken else { return }
-                                if KeyChainManager.shared.createAccessToken(accessToken) {
+                                if KeyChainManager.shared.create(accessToken, type: .accessToken) {
+                                    UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
                                     self?.isSignUp = true
                                 }
                             }
@@ -93,7 +94,8 @@ class SimpleSignUpVieModel {
                             LogUtil.d("회원가입 API 호출 성공")
                             if let data = try? response.map(SimpleSignUpResponse.self).data {
                                 guard let accessToken = data.content?.accessToken else { return }
-                                if KeyChainManager.shared.createAccessToken(accessToken) {
+                                if KeyChainManager.shared.create(accessToken, type: .accessToken) {
+                                    UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
                                     self?.isSignUp = true
                                 }
                             }
@@ -104,8 +106,5 @@ class SimpleSignUpVieModel {
         default:
             LogUtil.e("오류")
         }
-        
-        
-        
     }
 }

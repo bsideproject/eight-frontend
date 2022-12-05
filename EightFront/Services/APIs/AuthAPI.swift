@@ -15,9 +15,9 @@ enum AuthAPI {
     case appleSignUp(param: SocialSignUpRequest)
 //    case emailSignIn(param: KakaoSignInRequest)
 //    case emailSignUp(param: KakaoSignUpRequest)
-    case memberResign(memberId: String)
+    case memberResign(param: String)
     case nicknameCheck(nickname: String)
-    case nicknameChange(memberId: String, nickName: String)
+    case nicknameChange(nickName: String)
     case userInfo
 }
 
@@ -42,12 +42,12 @@ extension AuthAPI: TargetType {
 //            return ""
 //        case .emailSignUp:
 //            return ""
-        case .memberResign(let memberId):
-            return "/api/oauth2/\(memberId)"
+        case .memberResign:
+            return "/api/oauth2/member"
         case .nicknameCheck(let nickname):
             return "/api/oauth2/\(nickname)"
-        case .nicknameChange(let memberId, _):
-            return "/api/oauth2/\(memberId)"
+        case .nicknameChange:
+            return "/api/my/info/nickname"
         case .userInfo:
             return "/api/my/info"
         }
@@ -82,35 +82,53 @@ extension AuthAPI: TargetType {
         switch self {
         case .socialSignIn(let param):
             return .requestJSONEncodable(param)
+            
         case .socialSignUp(let param):
             return .requestJSONEncodable(param)
-//        case .emailSignIn(let param):
-//            return .requestJSONEncodable(param)
-//        case .emailSignUp(let param):
-//            return .requestJSONEncodable(param)
-        case .memberResign:
-            return .requestPlain
+            
+        case .memberResign(let authCode):
+            if authCode.isEmpty {
+                return .requestPlain
+            } else {
+                let params = [
+                    "authorizationCode": authCode
+                ]
+                return .requestParameters(parameters: params, encoding: URLEncoding.httpBody)
+            }
         case .nicknameCheck:
             return .requestPlain
-        case .nicknameChange(_, let nickname):
+            
+        case .nicknameChange(let nickname):
             return .requestParameters(
                 parameters: [
-                    "nickName": nickname
-                ], encoding: JSONEncoding.default)
+                    "nickname": nickname
+                ], encoding: URLEncoding.queryString)
+
         case .appleSignIn(let param):
             return .requestJSONEncodable(param)
+            
         case .appleSignUp(let param):
             return .requestJSONEncodable(param)
+            
         case .userInfo:
             return .requestPlain
         }
     }
     
     var headers: [String : String]? {
-        let bearer = "Bearer \(KeyChainManager.shared.readAccessToken())"
-        return [
-            "Content-type": "application/json",
-            "Authorization": bearer
-        ]
+        switch self {
+        case .memberResign:
+            let bearer = "Bearer \(KeyChainManager.shared.read(type: .accessToken))"
+            return [
+                "Content-type": "application/x-www-form-urlencoded",
+                "Authorization": bearer
+            ]
+        default:
+            let bearer = "Bearer \(KeyChainManager.shared.read(type: .accessToken))"
+            return [
+                "Content-type": "application/json",
+                "Authorization": bearer
+            ]
+        }
     }
 }

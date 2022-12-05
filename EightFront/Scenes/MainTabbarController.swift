@@ -165,7 +165,7 @@ extension MainTabbarController: UITabBarControllerDelegate {
             return true
         }
         
-        let accessToken = KeyChainManager.shared.readAccessToken()
+        let accessToken = KeyChainManager.shared.read(type: .accessToken)
         
         if accessToken.isEmpty {
             let bottomSheetVC = LoginBottomSheetVC()
