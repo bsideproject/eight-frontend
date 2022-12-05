@@ -40,7 +40,9 @@ final class HomeVC: UIViewController {
     }
     private let reportButton = UIButton().then {
         $0.layer.cornerRadius = 25
-        $0.setImage(Images.Home.add.image)
+        let image = Images.Home.add.image.withRenderingMode(.alwaysTemplate)
+        $0.setImage(image)
+        $0.tintColor = Colors.point.color
         $0.backgroundColor = Colors.gray002.color
     }
     private lazy var boxInfoView = BoxCollectionView().then {
@@ -203,6 +205,9 @@ final class HomeVC: UIViewController {
     
     @objc
     func searchButtonTapped() {
+        deselection()
+        updateBottomInfoView(isOpen: false)
+        
         let homeSearchVC = SearchBarVC(type: .home)
         homeSearchVC.delegate = self
         tabBarController?.navigationController?.pushViewController(homeSearchVC, animated: true)

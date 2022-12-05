@@ -90,6 +90,7 @@ final class ReportVC: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         self.viewModel.type = type
+        self.viewModel.box = box
         configure(with: box)
     }
     
@@ -259,12 +260,9 @@ final class ReportVC: UIViewController {
                     
                     self.viewModel.input.newPostRequest.send(post)
                 } else {
-                    let report = ReportRequest(memberId: "", // TODO: 추후에 로그인 완성후에 추가
-                                               address: self.addressView.contentTextField.text ?? "",
-                                               detailedAddress: self.detailView.contentTextField.text ?? "",
-                                               latitude: self.viewModel.box?.latitude ?? .zero,
-                                               longitude: self.viewModel.box?.longitude ?? .zero,
-                                               comment: self.questionView.contentTextView.text ?? "")
+                    let report = BoxInfoRequest(address: self.addressView.contentTextField.text ?? "",
+                                                detailedAddress: self.detailView.contentTextField.text ?? "",
+                                                comment: self.questionView.contentTextView.text ?? "")
                     
                     self.viewModel.input.updateReport.send(report)
                 }

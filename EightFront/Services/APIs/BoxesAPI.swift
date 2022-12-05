@@ -12,9 +12,9 @@ enum BoxesAPI {
     /// 주변 수거함 조회
     case clothingBins(latitude: Double, longitude: Double)
     /// 수거함 등록
-    case newReport(info: ReportRequest, images: [UIImage])
+    case newReport(info: BoxInfoRequest, images: [UIImage])
     /// 수거함 정보 수정
-    case updateReport(id: String, info: ReportRequest, images: [UIImage])
+    case updateReport(id: String, info: BoxInfoRequest, images: [UIImage])
     /// 수거함 삭제
     case deleteReport(id: String)
 }
@@ -60,23 +60,10 @@ extension BoxesAPI: TargetType {
             
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
         case .newReport(let info, let images):
-            var fromData = [MultipartFormData]()
+            let data = ReportRequest(request: info,
+                                     images: images.compactMap { $0.jpegData(compressionQuality: 0.3) })
             
-            if let report = try? JSONEncoder().encode(info) {
-                fromData.append(MultipartFormData(provider: .data(report), name: "request"))
-            }
-            
-            images.first?.jpegData(compressionQuality: 0.3)
-            
-            for image in images {
-                guard let jpegData = image.jpegData(compressionQuality: 0.3) else { continue }
-                let name = UUID().uuidString
-                fromData.append(MultipartFormData(provider: .data(jpegData),
-                                                  name: name,
-                                                  fileName: "\(name).jpeg",
-                                                  mimeType: "image/jpeg"))
-            }
-            return .uploadMultipart(fromData)
+            return .requestJSONEncodable(data)
         case let .updateReport(_, info, images):
             var fromData = [MultipartFormData]()
             
@@ -101,8 +88,13 @@ extension BoxesAPI: TargetType {
     }
     
     var headers: [String : String]? {
-        return [
-            "Content-type": "application/json"
-        ]
+        switch self {
+        case .newReport, .updateReport:
+            return ["Content-Type": "application/json",
+                    "Authorization": "Bearer \(KeyChainManager.shared.read(type: .accessToken))"]
+        default:
+            return ["Content-Type": "application/json",
+                    "Authorization": "Bearer \(KeyChainManager.shared.read(type: .accessToken))"]
+        }
     }
 }

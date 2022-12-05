@@ -5,13 +5,15 @@
 //  Created by wargi on 2022/11/01.
 //
 
-import Foundation
+import UIKit
 
 struct ReportRequest: Encodable {
-    var memberId: String
+    var request: BoxInfoRequest
+    var images: [Data]
+}
+
+struct BoxInfoRequest: Encodable {
     var address: String
     var detailedAddress: String
-    var latitude: Double
-    var longitude: Double
     var comment: String
 }

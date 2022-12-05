@@ -90,7 +90,7 @@ extension ReportViewModel {
         var isDetailAddress = CurrentValueSubject<Bool, Never>.init(false)
         var isIncludePhoto = CurrentValueSubject<Bool, Never>.init(false)
         var newPostRequest = PassthroughSubject<PostRequest, Never>()
-        var updateReport = PassthroughSubject<ReportRequest, Never>()
+        var updateReport = PassthroughSubject<BoxInfoRequest, Never>()
         var deleteReport = PassthroughSubject<Void?, Never>()
     }
     
@@ -132,7 +132,9 @@ extension ReportViewModel {
                     LogUtil.d("Successed")
                     self?.output.requestReport.send(true)
                 }
-            } receiveValue: { _ in }
+            } receiveValue: { result in
+                LogUtil.d(String(decoding: result.data, as: UTF8.self))
+            }
             .store(in: &bag)
     }
     

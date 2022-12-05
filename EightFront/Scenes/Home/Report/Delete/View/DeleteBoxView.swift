@@ -24,7 +24,7 @@ final class DeleteBoxView: UIView {
         $0.font = Fonts.Templates.title.font
     }
     let subTitleLabel = UILabel().then {
-        $0.text = "N건 이상 접수된 건은 삭제 완료 처리됩니다."
+        $0.text = "3건 이상 접수된 건은 삭제 완료 처리됩니다."
         $0.textColor = Colors.gray005.color
         $0.font = Fonts.Templates.body1.font
     }
