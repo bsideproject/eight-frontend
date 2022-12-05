@@ -73,7 +73,7 @@ class SimpleSignUpVieModel {
                             LogUtil.d("회원가입 API 호출 성공")
                             if let data = try? response.map(SimpleSignUpResponse.self).data {
                                 guard let accessToken = data.content?.accessToken else { return }
-                                if KeyChainManager.shared.createAccessToken(accessToken) {
+                                if KeyChainManager.shared.create(accessToken, type: .accessToken) {
                                     UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
                                     self?.isSignUp = true
                                 }
@@ -94,7 +94,7 @@ class SimpleSignUpVieModel {
                             LogUtil.d("회원가입 API 호출 성공")
                             if let data = try? response.map(SimpleSignUpResponse.self).data {
                                 guard let accessToken = data.content?.accessToken else { return }
-                                if KeyChainManager.shared.createAccessToken(accessToken) {
+                                if KeyChainManager.shared.create(accessToken, type: .accessToken) {
                                     UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
                                     self?.isSignUp = true
                                 }
@@ -106,8 +106,5 @@ class SimpleSignUpVieModel {
         default:
             LogUtil.e("오류")
         }
-        
-        
-        
     }
 }

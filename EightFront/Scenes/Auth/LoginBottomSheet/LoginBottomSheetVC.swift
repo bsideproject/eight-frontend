@@ -194,7 +194,7 @@ final class LoginBottomSheetVC: UIViewController {
                 switch signType {
                 case .signIn:
                     self?.dismiss(animated: false) {
-                        if KeyChainManager.shared.createAccessToken(accessToken) {
+                        if KeyChainManager.shared.create(accessToken, type: .accessToken) {
                             LogUtil.d("액세스 토큰 저장 성공")
                         } else {
                             LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
@@ -288,7 +288,7 @@ final class LoginBottomSheetVC: UIViewController {
                             }
                             if content.type == "sign-in" {
                                 guard let accessToken = content.accessToken else { return }
-                                if KeyChainManager.shared.createAccessToken(accessToken) {
+                                if KeyChainManager.shared.create(accessToken, type: .accessToken) {
                                     UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
                                     self.dismiss(animated: false)
                                 } else {
@@ -335,7 +335,7 @@ final class LoginBottomSheetVC: UIViewController {
                             if content.type == "sign-in" {
                                 self?.dismiss(animated: false) {
                                     guard let accessToken = content.accessToken else { return }
-                                    if KeyChainManager.shared.createAccessToken(accessToken) {
+                                    if KeyChainManager.shared.create(accessToken, type: .accessToken) {
                                         UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
                                         LogUtil.d("액세스 토큰 저장 성공")
                                     } else {
@@ -382,12 +382,13 @@ extension LoginBottomSheetVC: ASAuthorizationControllerDelegate {
         if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
             guard
                 let identityToken = credential.identityToken,
-                let identityTokenStr = String(data: identityToken,
-                                              encoding: .utf8)
+                let authorizationCode = credential.authorizationCode,
+                let identityTokenStr = String(data: identityToken, encoding: .utf8),
+                let authorizationCodeStr = String(data: authorizationCode, encoding: .utf8)
             else{
                 return
             }
-            viewModel.appleSignIn(identityToken: identityTokenStr)
+            viewModel.appleSignIn(identityToken: identityTokenStr, authorizationCode: authorizationCodeStr)
         }
     }
     

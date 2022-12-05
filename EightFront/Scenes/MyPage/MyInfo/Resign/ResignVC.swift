@@ -182,16 +182,13 @@ class ResignVC: UIViewController {
     }
     
     private func bind() {
-        
         viewModel.$isChecked
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] in
                 $0 ? self?.confirmCheckBox.setImage(Images.Report.checkboxSelect.image) : self?.confirmCheckBox.setImage(Images.Report.checkboxNone.image)
-                
                 self?.resignButtonView.backgroundColor = $0 ? Colors.gray001.color : Colors.gray006.color
                 self?.resignButtonLabel.textColor = $0 ? Colors.point.color : .white
-                
             }.store(in: &viewModel.bag)
         
         confirmView.gesture()

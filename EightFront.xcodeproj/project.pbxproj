@@ -20,7 +20,6 @@
 		284F961C2928C5EC00597708 /* BlockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F961B2928C5EC00597708 /* BlockTableViewCell.swift */; };
 		284F961E2928C7BB00597708 /* BlockTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F961D2928C7BB00597708 /* BlockTableViewModel.swift */; };
 		284F96202928D87D00597708 /* ReportCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F961F2928D87D00597708 /* ReportCategoryView.swift */; };
-		284F96222928E64C00597708 /* ResignVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F96212928E64C00597708 /* ResignVC.swift */; };
 		284F9624292932D600597708 /* ResignViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F9623292932D600597708 /* ResignViewModel.swift */; };
 		284F962629293AE700597708 /* ResignSuccessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F962529293AE700597708 /* ResignSuccessVC.swift */; };
 		284F962A292950C600597708 /* SimpleSignUpVieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F9629292950C600597708 /* SimpleSignUpVieModel.swift */; };
@@ -196,6 +195,7 @@
 		E9EFE7C5290AD7E200EA514B /* PostsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7C4290AD7E200EA514B /* PostsViewModel.swift */; };
 		E9EFE7C7290AD89B00EA514B /* ClothingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7C6290AD89B00EA514B /* ClothingResponse.swift */; };
 		F156DEED293CEC8A007AEF60 /* CommonContentEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156DEEC293CEC8A007AEF60 /* CommonContentEmptyView.swift */; };
+		F156DEEF293E1730007AEF60 /* ResignVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156DEEE293E1730007AEF60 /* ResignVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -227,7 +227,6 @@
 		284F961B2928C5EC00597708 /* BlockTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockTableViewCell.swift; sourceTree = "<group>"; };
 		284F961D2928C7BB00597708 /* BlockTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockTableViewModel.swift; sourceTree = "<group>"; };
 		284F961F2928D87D00597708 /* ReportCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCategoryView.swift; sourceTree = "<group>"; };
-		284F96212928E64C00597708 /* ResignVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignVC.swift; sourceTree = "<group>"; };
 		284F9623292932D600597708 /* ResignViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignViewModel.swift; sourceTree = "<group>"; };
 		284F962529293AE700597708 /* ResignSuccessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignSuccessVC.swift; sourceTree = "<group>"; };
 		284F9629292950C600597708 /* SimpleSignUpVieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSignUpVieModel.swift; sourceTree = "<group>"; };
@@ -385,6 +384,7 @@
 		E9EFE7C4290AD7E200EA514B /* PostsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsViewModel.swift; sourceTree = "<group>"; };
 		E9EFE7C6290AD89B00EA514B /* ClothingResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClothingResponse.swift; sourceTree = "<group>"; };
 		F156DEEC293CEC8A007AEF60 /* CommonContentEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonContentEmptyView.swift; sourceTree = "<group>"; };
+		F156DEEE293E1730007AEF60 /* ResignVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResignVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -462,7 +462,7 @@
 		2880C71D293B76480094595F /* Resign */ = {
 			isa = PBXGroup;
 			children = (
-				284F96212928E64C00597708 /* ResignVC.swift */,
+				F156DEEE293E1730007AEF60 /* ResignVC.swift */,
 				284F9623292932D600597708 /* ResignViewModel.swift */,
 				284F962529293AE700597708 /* ResignSuccessVC.swift */,
 			);
@@ -903,7 +903,6 @@
 			children = (
 				E970691D2917EEEC00014FB9 /* MyInfoVC.swift */,
 				28D12ADD2920C45A001A7B32 /* MyInfoViewModel.swift */,
-				284F96212928E64C00597708 /* ResignVC.swift */,
 				2880C71D293B76480094595F /* Resign */,
 				2880C71C293B76350094595F /* ProfileImageChange */,
 			);
@@ -1049,8 +1048,6 @@
 		E9BEA55B292E40F9002BEDC7 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				28BAB95B293120DD00ECD943 /* UserInfoResponse.swift */,
-				E9BEA55E292E413A002BEDC7 /* NicknameResponse.swift */,
 				E9BEA560292E413B002BEDC7 /* SimpleAuthRequest.swift */,
 				28BAB95B293120DD00ECD943 /* UserInfoResponse.swift */,
 				E9BEA55E292E413A002BEDC7 /* NicknameCheckResponse.swift */,
@@ -1293,7 +1290,6 @@
 				E975ED0928D34A050013E94F /* AppDelegate.swift in Sources */,
 				E9EEA4992916BA790073001F /* ReportPopupView.swift in Sources */,
 				F156DEED293CEC8A007AEF60 /* CommonContentEmptyView.swift in Sources */,
-				284F96222928E64C00597708 /* ResignVC.swift in Sources */,
 				2841347928D9D93700A758F2 /* UIApplication+.swift in Sources */,
 				28E1F114292FB7B80084C3EF /* MyClothesTableViewCell.swift in Sources */,
 				284F961E2928C7BB00597708 /* BlockTableViewModel.swift in Sources */,
@@ -1381,6 +1377,7 @@
 				E9460B0728EA0BBF00932351 /* ReportVC.swift in Sources */,
 				E910ECB529290C6D00E7881E /* CommentInputView.swift in Sources */,
 				E9EEA4932916A2610073001F /* UILabel+.swift in Sources */,
+				F156DEEF293E1730007AEF60 /* ResignVC.swift in Sources */,
 				E9EFE7C7290AD89B00EA514B /* ClothingResponse.swift in Sources */,
 				E99929B628D882B5006FCFC7 /* NoticeVC.swift in Sources */,
 				E96BC92528EB2E7E002EBA7E /* SearchMapViewModel.swift in Sources */,

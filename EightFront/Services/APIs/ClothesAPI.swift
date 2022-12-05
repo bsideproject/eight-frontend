@@ -103,7 +103,7 @@ extension ClothesAPI: TargetType {
     
     var headers: [String : String]? {
         
-        let bearer = "Bearer \(KeyChainManager.shared.readAccessToken())"
+        let bearer = "Bearer \(KeyChainManager.shared.read(type: .accessToken))"
         
         return [
             "Content-type": "application/json",

@@ -63,10 +63,7 @@ class MyInfoVC: UIViewController {
     private var nicknameTextField = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.")
     
     private var nicknameDuplicatedLabel = UILabel().then {
-        $0.text = "* 닉네임이 중복되었어요."
-        $0.textColor = Colors.warning.color
         $0.font = Fonts.Templates.caption2.font
-        $0.isHidden = true
     }
     
     private var nicknameCheckButtonView = UIView().then {
@@ -284,12 +281,13 @@ class MyInfoVC: UIViewController {
             .sink { [weak self] isNicknameCheck in
                 if isNicknameCheck {
                     self?.viewModel.isButtonEnabled = true
+                    // TODO: 사용 가능할 때 보여 줄 파란색 색상 필요
+                    self?.nicknameDuplicatedLabel.textColor = UIColor.blue
                 } else {
                     self?.viewModel.isButtonEnabled = false
-                    if self?.viewModel.inputNickname.count ?? 0 > 0 {
-                        self?.nicknameDuplicatedLabel.isHidden = false
-                    }
+                    self?.nicknameDuplicatedLabel.textColor = Colors.warning.color
                 }
+                self?.nicknameDuplicatedLabel.text = self?.viewModel.nicknameCheckLabel
             }.store(in: &viewModel.bag)
         
         viewModel.isNicknameValid
@@ -339,15 +337,15 @@ class MyInfoVC: UIViewController {
         profileImage.gesture()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                let alertSheet = UIAlertController(title: "프로필 변경", message: "", preferredStyle: .actionSheet)
-                let action1 = UIAlertAction(title: "드랍 더 옷 이미지로 변경", style: .default) { _ in
-                    let profileImageChangeVC = ProfileImageChangeVC()
-                    self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
-                }
-                let action2 = UIAlertAction(title: "사진첩에서 가져오기", style: .default)
-                alertSheet.addAction(action1)
-                alertSheet.addAction(action2)
-                self?.present(alertSheet, animated: true)
+//                let alertSheet = UIAlertController(title: "프로필 변경", message: "", preferredStyle: .actionSheet)
+//                let action1 = UIAlertAction(title: "드랍 더 옷 이미지로 변경", style: .default) { _ in
+//                    let profileImageChangeVC = ProfileImageChangeVC()
+//                    self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
+//                }
+//                let action2 = UIAlertAction(title: "사진첩에서 가져오기", style: .default)
+//                alertSheet.addAction(action1)
+//                alertSheet.addAction(action2)
+//                self?.present(alertSheet, animated: true)
             }.store(in: &viewModel.bag)
         
     }

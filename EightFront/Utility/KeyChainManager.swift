@@ -15,10 +15,14 @@ final class KeyChainManager {
     
     enum KeyChainCategory {
         case accessToken
+        case authorizationCode
+        
         var account: String {
             switch self {
             case .accessToken:
                 return "accessToken"
+            case .authorizationCode:
+                return "authorizationCode"
             }
         }
     }
@@ -28,24 +32,24 @@ final class KeyChainManager {
     var accessToken = ""
     
     /// keyChain에 입력 받은 값(token)을 저장
-    func createAccessToken(_ token: String) -> Bool {
+    func create(_ token: String, type: KeyChainCategory) -> Bool {
         guard let service = self.service else { return false }
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,
-            kSecAttrAccount: KeyChainCategory.accessToken.account,
+            kSecAttrAccount: type.account,
             kSecAttrGeneric: token.data(using: .utf8)
         ]
         return SecItemAdd(query as CFDictionary, nil) == errSecSuccess
     }
     
     /// keyChain에서 AccessToken을 가져옴
-    func readAccessToken() -> String {
+    func read(type: KeyChainCategory) -> String {
         guard let service = self.service else { return "" }
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,
-            kSecAttrAccount: KeyChainCategory.accessToken.account,
+            kSecAttrAccount: type.account,
             kSecMatchLimit : kSecMatchLimitOne,
             kSecReturnAttributes: true,
             kSecReturnData: true
@@ -70,13 +74,13 @@ final class KeyChainManager {
         return accessToken
     }
 
-    func deleteAccessToken() -> Bool {
+    func delete(type: KeyChainCategory) -> Bool {
         guard let service = self.service else { return false }
         // 키 체인 쿼리 정의
         let query:[CFString: Any]=[
             kSecClass: kSecClassGenericPassword, // 보안 데이터 저장
             kSecAttrService: service, // 키 체인에서 해당 앱을 식별하는 값 (앱만의 고유한 값)
-            kSecAttrAccount : KeyChainCategory.accessToken.account] // 앱 내에서 데이터를 식별하기 위한 키에 해당하는 값 (사용자 계정)
+            kSecAttrAccount : type.account] // 앱 내에서 데이터를 식별하기 위한 키에 해당하는 값 (사용자 계정)
         // 현재 저장되어 있는 값 삭제
         let status: OSStatus = SecItemDelete(query as CFDictionary)
         if status == errSecSuccess {

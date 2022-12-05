@@ -24,6 +24,7 @@ class MyInfoViewModel {
     @Published var isButtonEnabled = false
     @Published var isNicknameCheck = false
     @Published var isNickNameChanged = false
+    @Published var nicknameCheckLabel = ""
     
     lazy var isNicknameValid: AnyPublisher<Bool, Never> = $inputNickname
         .compactMap {
@@ -54,47 +55,53 @@ class MyInfoViewModel {
     }
     
     func requestNickNameCheck() {
-        authProvider.requestPublisher(.nicknameCheck(nickname: inputNickname))
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    LogUtil.d("닉네임 중복확인 API 호출 완료")
-                case .failure(let error):
-                    LogUtil.e(error)
-                }
-            } receiveValue: { [weak self] response in
-                let data = try? response.map(NicknameCheckResponse.self)
-                if let content = data?.data?.content {
-                    if content {
-                        // 중복된 닉네임이 있을 때
-                        self?.isNicknameCheck = false
-                    } else {
-                        // 일치하는 닉네임이 없을 때
-                        self?.isNicknameCheck = true
+        if inputNickname.count > 1 {
+            authProvider.requestPublisher(.nicknameCheck(nickname: inputNickname))
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        LogUtil.d("닉네임 중복확인 API 호출 완료")
+                    case .failure(let error):
+                        LogUtil.e(error)
                     }
-                }
-            }.store(in: &bag)
+                } receiveValue: { [weak self] response in
+                    let data = try? response.map(NicknameCheckResponse.self)
+                    if let content = data?.data?.content {
+                        if content {
+                            // 중복된 닉네임이 있을 때
+                            self?.isNicknameCheck = false
+                            self?.nicknameCheckLabel = "* 닉네임이 중복되었어요"
+                        } else {
+                            // 일치하는 닉네임이 없을 때
+                            self?.isNicknameCheck = true
+                            self?.nicknameCheckLabel = "* 사용 가능한 닉네임 입니다"
+                        }
+                    }
+                }.store(in: &bag)
+        }
     }
     
     func requestNicknameChange() {
-        authProvider.requestPublisher(.nicknameChange(nickName: inputNickname))
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    LogUtil.d("닉네임 변경 API 호출 완료")
-                case .failure(let error):
-                    LogUtil.e(error)
-                }
-            } receiveValue: { [weak self] response in
-                if let response = try? response.map(NicknameChangeResponse.self) {
-                    if let resultCode = response.header?.code {
-                        if resultCode == 0 {
-                            self?.isNickNameChanged = true
-                        } else {
-                            LogUtil.e("닉네임 변경 실패")
+        if inputNickname.count > 1 {
+            authProvider.requestPublisher(.nicknameChange(nickName: inputNickname))
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        LogUtil.d("닉네임 변경 API 호출 완료")
+                    case .failure(let error):
+                        LogUtil.e(error)
+                    }
+                } receiveValue: { [weak self] response in
+                    if let response = try? response.map(NicknameChangeResponse.self) {
+                        if let resultCode = response.header?.code {
+                            if resultCode == 0 {
+                                self?.isNickNameChanged = true
+                            } else {
+                                LogUtil.e("닉네임 변경 실패")
+                            }
                         }
                     }
-                }
-            }.store(in: &bag)
+                }.store(in: &bag)
+        }
     }
 }

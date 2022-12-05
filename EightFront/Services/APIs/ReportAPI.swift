@@ -41,7 +41,7 @@ extension ReportAPI: TargetType {
     var headers: [String : String]? {
         return [
             "Content-type": "application/json",
-            "Authorization": "Bearer \(KeyChainManager.shared.readAccessToken())"
+            "Authorization": "Bearer \(KeyChainManager.shared.read(type: .accessToken))"
         ]
     }
 }
