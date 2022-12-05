@@ -193,6 +193,7 @@
 		E9EFE7C3290AD7B700EA514B /* SwipeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7C1290AD7B700EA514B /* SwipeCardView.swift */; };
 		E9EFE7C5290AD7E200EA514B /* PostsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7C4290AD7E200EA514B /* PostsViewModel.swift */; };
 		E9EFE7C7290AD89B00EA514B /* ClothingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7C6290AD89B00EA514B /* ClothingResponse.swift */; };
+		E9F5984E29549EE7008A6F40 /* IntroClothesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F5984D29549EE7008A6F40 /* IntroClothesView.swift */; };
 		F156DEED293CEC8A007AEF60 /* CommonContentEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156DEEC293CEC8A007AEF60 /* CommonContentEmptyView.swift */; };
 		F156DEEF293E1730007AEF60 /* ResignVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156DEEE293E1730007AEF60 /* ResignVC.swift */; };
 /* End PBXBuildFile section */
@@ -381,6 +382,7 @@
 		E9EFE7C1290AD7B700EA514B /* SwipeCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCardView.swift; sourceTree = "<group>"; };
 		E9EFE7C4290AD7E200EA514B /* PostsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsViewModel.swift; sourceTree = "<group>"; };
 		E9EFE7C6290AD89B00EA514B /* ClothingResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClothingResponse.swift; sourceTree = "<group>"; };
+		E9F5984D29549EE7008A6F40 /* IntroClothesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroClothesView.swift; sourceTree = "<group>"; };
 		F156DEEC293CEC8A007AEF60 /* CommonContentEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonContentEmptyView.swift; sourceTree = "<group>"; };
 		F156DEEE293E1730007AEF60 /* ResignVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResignVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1133,6 +1135,7 @@
 				E9EFE7C1290AD7B700EA514B /* SwipeCardView.swift */,
 				E9B074F4291639B300C8D9D2 /* ChoiceView.swift */,
 				E9EEA48E2916955E0073001F /* FilterView.swift */,
+				E9F5984D29549EE7008A6F40 /* IntroClothesView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1291,6 +1294,7 @@
 				28E1F114292FB7B80084C3EF /* MyClothesTableViewCell.swift in Sources */,
 				284F961E2928C7BB00597708 /* BlockTableViewModel.swift in Sources */,
 				E927FCAB28D7217A00A91F11 /* ColorAssets+Generated.swift in Sources */,
+				E9F5984E29549EE7008A6F40 /* IntroClothesView.swift in Sources */,
 				28379E8A28F8550400B2D4DD /* TermsVC.swift in Sources */,
 				288BFD6728FAF86F00A85F13 /* EmailSignUpVC.swift in Sources */,
 				E9706945291ACD2A00014FB9 /* PostResponse.swift in Sources */,

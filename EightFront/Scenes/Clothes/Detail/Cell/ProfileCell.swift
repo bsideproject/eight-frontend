@@ -17,7 +17,9 @@ final class ProfileCell: DetailPostCell {
     //MARK: - Properties
     weak var delegate: ReportPopupOpenDelegate?
     let profileImageView = UIImageView().then {
-        $0.image = Images.Detail.defaultProfile.image
+        $0.contentMode = .scaleAspectFill
+        $0.image = Images.dropIcon.image
+        $0.layer.cornerRadius = 16.675
     }
     let nicknameLabel = UILabel().then {
         $0.font = Fonts.Pretendard.semiBold.font(size: 14)
@@ -58,7 +60,7 @@ final class ProfileCell: DetailPostCell {
         profileImageView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(14)
             $0.left.equalToSuperview().offset(10)
-            $0.size.equalTo(46)
+            $0.size.equalTo(33.35)
         }
         nicknameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)

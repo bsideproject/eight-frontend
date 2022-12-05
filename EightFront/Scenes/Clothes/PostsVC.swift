@@ -21,6 +21,7 @@ final class PostsVC: UIViewController {
     private lazy var stackContainer = StackContainerView().then {
         $0.selectionDelegate = self
     }
+    private let introView = IntroClothesView()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setupFlowLayout()).then {
         $0.delegate = self
         $0.backgroundColor = .clear
@@ -68,14 +69,9 @@ final class PostsVC: UIViewController {
     private let emptyView = UIView().then {
         $0.isHidden = false
         $0.backgroundColor = .white
-        $0.layer.cornerRadius = 12.0
-        $0.layer.applyFigmaShadow(x: 0, y: 0,
-                                  color: UIColor(red: 24, green: 39, blue: 75).withAlphaComponent(0.75),
-                                  blur: 4, spread: 0)
     }
     let emptyBackgroundView = UIView().then {
-        $0.backgroundColor = UIColor(colorSet: 238)
-        $0.layer.cornerRadius = 12.0
+        $0.backgroundColor = .white
     }
     let emptyImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
@@ -84,7 +80,7 @@ final class PostsVC: UIViewController {
     private let emptyLabel = UILabel().then {
         $0.text = "다른 사용자의 글을 기다리는 중이에요..."
         $0.textAlignment = .center
-        $0.font = Fonts.Pretendard.semiBold.font(size: 16)
+        $0.font = Fonts.Pretendard.medium.font(size: 16)
     }
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -123,6 +119,12 @@ final class PostsVC: UIViewController {
         emptyBackgroundView.addSubview(emptyImageView)
         emptyBackgroundView.addSubview(emptyLabel)
         
+        view.addSubview(introView)
+        
+        introView.snp.makeConstraints {
+            $0.top.left.right.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
         navigationView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.right.equalToSuperview()
@@ -185,6 +187,10 @@ final class PostsVC: UIViewController {
         emptyLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(emptyImageView.snp.bottom).offset(26)
+        }
+        
+        if let isShowIntro = UserDefaults.standard.object(forKey: "isShowIntro") as? Bool {
+            introView.isHidden = isShowIntro
         }
         
         configureDataSource()
@@ -257,6 +263,14 @@ final class PostsVC: UIViewController {
                 guard !(self?.stackContainer.subviews.isEmpty ?? true) else { return }
                 
                 self?.stackContainer.skipCardTapAnimation()
+            }
+            .store(in: &viewModel.bag)
+        introView
+            .gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.introView.isHidden = true
+                UserDefaults.standard.set(true, forKey: "isShowIntro")
             }
             .store(in: &viewModel.bag)
         
