@@ -12,7 +12,7 @@ import UIKit
 final class BoxCollectionView: UIView {
     //MARK: - Properties
     let thumnailImageView = UIImageView().then {
-        $0.image = Images.Map.boxThumnail.image
+        $0.image = Images.Home.iconEmpty.image
     }
     let titleLabel = UILabel().then {
         $0.numberOfLines = 1
@@ -70,9 +70,9 @@ final class BoxCollectionView: UIView {
         let fixButtonWidth = screenWidth / 3
         
         thumnailImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(33)
+            $0.top.equalToSuperview().offset(30)
             $0.left.equalToSuperview().offset(16)
-            $0.size.equalTo(83)
+            $0.size.equalTo(90)
         }
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(36)

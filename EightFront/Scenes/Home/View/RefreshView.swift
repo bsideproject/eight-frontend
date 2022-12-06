@@ -11,13 +11,15 @@ import UIKit
 //MARK: 이 지역 재검색
 final class RefreshView: UIView {
     //MARK: - Properties
-    private let titleLabel = UILabel().then {
+    let titleLabel = UILabel().then {
         $0.text = "이 지역 재검색"
         $0.textColor = Colors.gray002.color
         $0.font = Fonts.Pretendard.medium.font(size: 12)
     }
-    private let logoImageView = UIImageView().then {
-        $0.image = Images.Home.refresh.image
+    let logoImageView = UIImageView().then {
+        let image = Images.Home.refresh.image
+        $0.image = image.withRenderingMode(.alwaysTemplate)
+        $0.tintColor = .black
     }
     
     //MARK: - Initializer
