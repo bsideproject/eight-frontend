@@ -12,9 +12,14 @@ import UIKit
 final class CommentCell: UITableViewCell {
     //MARK: - Properties
     weak var delegate: ReportPopupOpenDelegate?
+    let profileBackgroundView = UIView().then {
+        $0.backgroundColor = Colors.gray007.color
+        $0.layer.cornerRadius = 16.675
+    }
     let profileImageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFill
-        $0.image = Images.Detail.defaultProfile.image
+        $0.image = Images.dropIcon.image
+        $0.contentMode = .scaleToFill
+        $0.backgroundColor = Colors.gray007.color
     }
     let nicknameLabel = UILabel().then {
         $0.font = Fonts.Pretendard.semiBold.font(size: 14)
@@ -56,7 +61,7 @@ final class CommentCell: UITableViewCell {
         let isParent = comment.type == 0
         replyButton.isHidden = !isParent
         
-        profileImageView.snp.updateConstraints {
+        profileBackgroundView.snp.updateConstraints {
             $0.left.equalToSuperview().offset(isParent ? 10 : 56)
         }
         
@@ -67,26 +72,33 @@ final class CommentCell: UITableViewCell {
     private func makeUI() {
         selectionStyle = .none
         
-        contentView.addSubview(profileImageView)
+        contentView.addSubview(profileBackgroundView)
+        profileBackgroundView.addSubview(profileImageView)
+        
         contentView.addSubview(nicknameLabel)
         contentView.addSubview(moreButton)
         contentView.addSubview(commentLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(replyButton)
         
-        profileImageView.snp.makeConstraints {
+        profileBackgroundView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)
-            $0.left.equalToSuperview().offset(10)
-            $0.size.equalTo(48)
+            $0.left.equalToSuperview().offset(22)
+            $0.size.equalTo(34)
+        }
+        profileImageView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.equalTo(16)
+            $0.height.equalTo(19.428571)
         }
         moreButton.snp.makeConstraints {
-            $0.top.equalTo(profileImageView.snp.top)
+            $0.top.equalTo(profileBackgroundView.snp.top)
             $0.right.equalToSuperview().offset(-20)
             $0.size.equalTo(22)
         }
         nicknameLabel.snp.makeConstraints {
-            $0.top.equalTo(profileImageView.snp.top)
-            $0.left.equalTo(profileImageView.snp.right).offset(3)
+            $0.top.equalTo(profileBackgroundView.snp.top)
+            $0.left.equalTo(profileBackgroundView.snp.right).offset(15)
             $0.right.equalTo(moreButton.snp.left).offset(-3)
             $0.height.equalTo(22)
         }

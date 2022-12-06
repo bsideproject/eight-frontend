@@ -16,10 +16,14 @@ typealias DetailPostCell = UITableViewCell & DetailPostProtocol
 final class ProfileCell: DetailPostCell {
     //MARK: - Properties
     weak var delegate: ReportPopupOpenDelegate?
+    let profileBackgroundView = UIView().then {
+        $0.backgroundColor = Colors.gray007.color
+        $0.layer.cornerRadius = 17
+    }
     let profileImageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFill
         $0.image = Images.dropIcon.image
-        $0.layer.cornerRadius = 16.675
+        $0.contentMode = .scaleToFill
+        $0.backgroundColor = Colors.gray007.color
     }
     let nicknameLabel = UILabel().then {
         $0.font = Fonts.Pretendard.semiBold.font(size: 14)
@@ -30,10 +34,10 @@ final class ProfileCell: DetailPostCell {
         $0.textColor = UIColor(colorSet: 117)
         $0.textAlignment = .left
     }
-    let moreButton = UIButton().then {
-        $0.setImage(Images.Detail.more.image, for: .normal)
-        $0.setImage(Images.Detail.more.image, for: .highlighted)
+    let moreImageView = UIImageView().then {
+        $0.image = Images.Detail.more.image
     }
+    let moreButton = UIButton()
     
     //MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -52,15 +56,23 @@ final class ProfileCell: DetailPostCell {
     private func makeUI() {
         selectionStyle = .none
         
-        contentView.addSubview(profileImageView)
+        contentView.addSubview(profileBackgroundView)
+        profileBackgroundView.addSubview(profileImageView)
+        
         contentView.addSubview(nicknameLabel)
         contentView.addSubview(dateLabel)
+        contentView.addSubview(moreImageView)
         contentView.addSubview(moreButton)
         
-        profileImageView.snp.makeConstraints {
+        profileBackgroundView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(14)
             $0.left.equalToSuperview().offset(10)
-            $0.size.equalTo(33.35)
+            $0.size.equalTo(34)
+        }
+        profileImageView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.equalTo(16)
+            $0.height.equalTo(19.428571)
         }
         nicknameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)
@@ -76,6 +88,10 @@ final class ProfileCell: DetailPostCell {
             $0.top.bottom.equalToSuperview()
             $0.right.equalToSuperview()
             $0.width.equalTo(56)
+        }
+        moreImageView.snp.makeConstraints {
+            $0.center.equalTo(moreButton)
+            $0.size.equalTo(24)
         }
     }
     
