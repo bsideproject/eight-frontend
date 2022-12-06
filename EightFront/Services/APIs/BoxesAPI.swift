@@ -60,10 +60,18 @@ extension BoxesAPI: TargetType {
             
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
         case .newReport(let info, let images):
-            let data = ReportRequest(request: info,
-                                     images: images.compactMap { $0.jpegData(compressionQuality: 0.3) })
+            let report = ReportRequest(request: info,
+                                       images: images.compactMap { $0.jpegData(compressionQuality: 0.3) })
             
-            return .requestJSONEncodable(data)
+            
+            
+            
+            
+            if let data = try? JSONEncoder().encode(report) {
+                return .requestData(data)
+            }
+            
+            return .requestParameters(parameters: [:], encoding: JSONEncoding.default)
         case let .updateReport(_, info, images):
             var fromData = [MultipartFormData]()
             

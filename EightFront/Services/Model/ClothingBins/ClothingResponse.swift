@@ -26,6 +26,9 @@ struct CollectionBox: Decodable {
     let id: Int?
     let name: String?
     let address: String?
+    let roadName: String?
+    let buildingIndex: String?
+    let imageUrlString: String?
     let detailedAddress: String?
     let latitude: Double?
     let longitude: Double?
@@ -36,6 +39,9 @@ struct CollectionBox: Decodable {
         case id = "clothingBinId"
         case name = "name"
         case address = "address"
+        case roadName = "roadName"
+        case buildingIndex = "buildingIndex"
+        case imageUrlString = "image"
         case detailedAddress = "detailedAddress"
         case latitude = "latitude"
         case longitude = "longitude"

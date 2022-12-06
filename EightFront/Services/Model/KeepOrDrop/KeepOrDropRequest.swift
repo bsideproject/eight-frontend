@@ -22,4 +22,5 @@ struct VoteRequest: Encodable {
 /// 게시물 댓글 요청
 struct CommentRequest: Encodable {
     var comment: String
+    var parentId: Int?
 }

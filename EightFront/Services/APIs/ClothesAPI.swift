@@ -18,7 +18,7 @@ enum ClothesAPI {
     /// 버릴까 말까 글 등록
     case newPost(info: PostRequest, images: [UIImage])
     /// 버릴까 말까 글 투표
-    case vote(type: VoteRequest)
+    case vote(id: Int, vote: String)
     /// 버릴까 말까 글 댓글 조회
     case comments(id: Int)
     /// 버릴까 말까 글 댓글 등록
@@ -42,8 +42,8 @@ extension ClothesAPI: TargetType {
             return "/keep-or-drop/\(id)"
         case .newPost:
             return "/keep-or-drop/article"
-        case .vote(let id):
-            return "/keep-or-drop/\(id)/vote"
+        case .vote(let id, let vote):
+            return "/keep-or-drop/\(id)/vote/\(vote)"
         case .comments(let id):
             return "/keep-or-drop/\(id)/comments"
         case .newComment(let id, _):
@@ -92,8 +92,8 @@ extension ClothesAPI: TargetType {
                                                   mimeType: "image/jpeg"))
             }
             return .uploadMultipart(fromData)
-        case .vote(let param):
-            return .requestJSONEncodable(param)
+        case .vote:
+            return .requestParameters(parameters: [:], encoding: URLEncoding.queryString)
         case .newComment(_, let param):
             return .requestJSONEncodable(param)
         case .myPosts:
@@ -102,12 +102,9 @@ extension ClothesAPI: TargetType {
     }
     
     var headers: [String : String]? {
-        
-        let bearer = "Bearer \(KeyChainManager.shared.read(type: .accessToken))"
-        
         return [
-            "Content-type": "application/json",
-            "Authorization": bearer
+            "Content-Type": "application/json",
+            "Authorization": "Bearer \(KeyChainManager.shared.read(type: .accessToken))"
         ]
     }
 }

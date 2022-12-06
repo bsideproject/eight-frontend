@@ -23,12 +23,14 @@ struct CommentsModel: Decodable {
 }
 
 struct CommentModel: Decodable {
+    let id: Int?
     let nickname: String?
     let comment: String?
     let children: [Comment]?
     let createdAt: String?
     
     enum CodingKeys: String, CodingKey {
+        case id = "commentId"
         case nickname = "nickname"
         case comment = "comment"
         case children = "children"
@@ -37,12 +39,14 @@ struct CommentModel: Decodable {
 }
 
 struct Comment: Decodable {
-    var type: Int?
+    var parentId: Int?
+    let id: Int?
     let nickname: String?
     let comment: String?
     let createdAt: String?
     
     enum CodingKeys: String, CodingKey {
+        case id = "commentId"
         case nickname = "nickname"
         case comment = "comment"
         case createdAt = "createdAt"

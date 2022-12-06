@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ApiResponse: Decodable {
+struct ApiResponse: Codable {
     let code: Int
     let message: String
     
@@ -15,4 +15,9 @@ struct ApiResponse: Decodable {
         case code = "resultCode"
         case message = "resultMessage"
     }
+}
+
+struct ResponseResult: Decodable {
+    let header: ApiResponse?
+    let data: Data?
 }
