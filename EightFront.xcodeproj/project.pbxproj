@@ -194,6 +194,7 @@
 		E9EFE7C7290AD89B00EA514B /* ClothingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7C6290AD89B00EA514B /* ClothingResponse.swift */; };
 		E9F5984E29549EE7008A6F40 /* IntroClothesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F5984D29549EE7008A6F40 /* IntroClothesView.swift */; };
 		E9F598502954B9DA008A6F40 /* splashscreen.json in Resources */ = {isa = PBXBuildFile; fileRef = E9F5984F2954B9DA008A6F40 /* splashscreen.json */; };
+		E9F598522957864A008A6F40 /* ReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F598512957864A008A6F40 /* ReplyView.swift */; };
 		F156DEED293CEC8A007AEF60 /* CommonContentEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156DEEC293CEC8A007AEF60 /* CommonContentEmptyView.swift */; };
 		F156DEEF293E1730007AEF60 /* ResignVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156DEEE293E1730007AEF60 /* ResignVC.swift */; };
 /* End PBXBuildFile section */
@@ -383,6 +384,7 @@
 		E9EFE7C6290AD89B00EA514B /* ClothingResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClothingResponse.swift; sourceTree = "<group>"; };
 		E9F5984D29549EE7008A6F40 /* IntroClothesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroClothesView.swift; sourceTree = "<group>"; };
 		E9F5984F2954B9DA008A6F40 /* splashscreen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splashscreen.json; sourceTree = "<group>"; };
+		E9F598512957864A008A6F40 /* ReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyView.swift; sourceTree = "<group>"; };
 		F156DEEC293CEC8A007AEF60 /* CommonContentEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonContentEmptyView.swift; sourceTree = "<group>"; };
 		F156DEEE293E1730007AEF60 /* ResignVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResignVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1106,6 +1108,7 @@
 				E9EEA4982916BA790073001F /* ReportPopupView.swift */,
 				E9EEA4942916B33C0073001F /* CutOffPopupView.swift */,
 				E910ECB429290C6D00E7881E /* CommentInputView.swift */,
+				E9F598512957864A008A6F40 /* ReplyView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1418,6 +1421,7 @@
 				E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */,
 				284F96202928D87D00597708 /* ReportCategoryView.swift in Sources */,
 				E910ECAE2927D5A600E7881E /* CommentCell.swift in Sources */,
+				E9F598522957864A008A6F40 /* ReplyView.swift in Sources */,
 				E9160C1C28E3177C007B1307 /* HomeViewModel.swift in Sources */,
 				2841347D28D9DA0F00A758F2 /* UIWindow+.swift in Sources */,
 				E9160C1628E2FBC4007B1307 /* DataModel.xcdatamodeld in Sources */,
