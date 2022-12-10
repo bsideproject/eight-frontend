@@ -12,6 +12,7 @@ import UIKit
 final class CommentsCell: UITableViewCell {
     //MARK: - Properties
     weak var delegate: ReportPopupOpenDelegate?
+    weak var replyDelegate: CommentCellDelegate?
     var comments = [Comment]()
     lazy var tableView = UITableView().then {
         $0.delegate = self
@@ -57,7 +58,7 @@ extension CommentsCell {
         
         for comment in comments {
             height += 64.0
-            let isParent = comment.type == 0
+            let isParent = comment.parentId == 0
             var width = UIScreen.main.bounds.width
             width -= isParent ? 30.0 : 79.0
             height += UILabel.textHeight(withWidth: width,
@@ -82,6 +83,7 @@ extension CommentsCell: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withType: CommentCell.self, for: indexPath)
         
         cell.delegate = self
+        cell.replyDelegate = self
         cell.configure(with: comments[indexPath.row])
         
         return cell
@@ -91,5 +93,11 @@ extension CommentsCell: UITableViewDataSource, UITableViewDelegate {
 extension CommentsCell: ReportPopupOpenDelegate {
     func openPopup() {
         delegate?.openPopup()
+    }
+}
+
+extension CommentsCell: CommentCellDelegate {
+    func reply(comment: Comment?) {
+        replyDelegate?.reply(comment: comment)
     }
 }

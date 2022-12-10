@@ -8,9 +8,16 @@
 import Then
 import SnapKit
 import UIKit
+
+protocol CommentCellDelegate: AnyObject {
+    func reply(comment: Comment?)
+}
+
 //MARK: 댓글 셀
 final class CommentCell: UITableViewCell {
     //MARK: - Properties
+    var info: Comment?
+    weak var replyDelegate: CommentCellDelegate?
     weak var delegate: ReportPopupOpenDelegate?
     let profileBackgroundView = UIView().then {
         $0.backgroundColor = Colors.gray007.color
@@ -47,6 +54,7 @@ final class CommentCell: UITableViewCell {
         
         makeUI()
         moreButton.addTarget(self, action: #selector(moreButtonTouched), for: .touchUpInside)
+        replyButton.addTarget(self, action: #selector(replyButtonTouched), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -54,11 +62,12 @@ final class CommentCell: UITableViewCell {
     }
     
     func configure(with comment: Comment) {
+        self.info = comment
         nicknameLabel.text = comment.nickname
         commentLabel.text = comment.comment
         dateLabel.text = DateManager.shared.timeString(target: comment.createdAt)
         
-        let isParent = comment.type == 0
+        let isParent = comment.parentId == 0
         replyButton.isHidden = !isParent
         
         profileBackgroundView.snp.updateConstraints {
@@ -124,12 +133,17 @@ final class CommentCell: UITableViewCell {
     private func moreButtonTouched() {
         delegate?.openPopup()
     }
+    
+    @objc
+    private func replyButtonTouched() {
+        replyDelegate?.reply(comment: info)
+    }
 }
 
 extension CommentCell {
     static func height(with comment: Comment) -> CGFloat {
         var height: CGFloat = 64.0
-        let isParent = comment.type == 0
+        let isParent = comment.parentId == 0
         var width = UIScreen.main.bounds.width
         width -= isParent ? 30.0 : 76.0
         height += UILabel.textHeight(withWidth: width,
