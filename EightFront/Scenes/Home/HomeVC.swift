@@ -188,7 +188,7 @@ final class HomeVC: UIViewController {
                 let location = CLLocation(latitude: lat, longitude: lng)
                 self?.viewModel.input.requestClothingBins.send(location)
                 
-                let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear)
+                let animator = UIViewPropertyAnimator(duration: 0.2, curve: .linear)
                 
                 animator.addAnimations { [weak self] in
                     self?.refreshButton.backgroundColor = Colors.gray006.color
@@ -200,6 +200,7 @@ final class HomeVC: UIViewController {
                     self?.refreshButton.backgroundColor = .white
                     self?.refreshButton.titleLabel.textColor = .black
                     self?.refreshButton.logoImageView.tintColor = .black
+                    self?.updateBottomInfoView(isOpen: false)
                 }
                 
                 animator.startAnimation()
@@ -327,9 +328,15 @@ final class HomeVC: UIViewController {
     }
     
     func markerTapped(location: NMGLatLng, info: CollectionBox?) {
-        boxInfoView.titleLabel.text = info?.name
-        boxInfoView.addressLabel.text = info?.address
-        boxInfoView.detailAddressLabel.text = info?.detailedAddress
+        var title = info?.roadName ?? ""
+        title += " " + (info?.buildingIndex ?? "")
+        
+        boxInfoView.titleLabel.text = title
+        boxInfoView.addressLabel.text = info?.detailedAddress
+        
+        if let imageUrl = URL(string: info?.imageUrlString ?? "") {
+            boxInfoView.thumnailImageView.kf.setImage(with: imageUrl)
+        }
     }
 }
 

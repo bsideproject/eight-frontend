@@ -33,6 +33,7 @@ internal enum Images {
   internal static let currentLocation = ImageAsset(name: "current-location")
   internal enum Detail {
     internal static let defaultProfile = ImageAsset(name: "default_profile")
+    internal static let iconX = ImageAsset(name: "icon_x")
     internal static let more = ImageAsset(name: "more")
   }
   internal enum Home {

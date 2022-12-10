@@ -138,7 +138,7 @@ extension ReportViewModel {
             .store(in: &bag)
     }
     
-    private func request(post: PostRequest) {
+    private func request(post: PostRequest) {        
         clothesProvider
             .requestPublisher(.newPost(info: post, images: imageList))
             .sink { [weak self] completion in
@@ -149,7 +149,9 @@ extension ReportViewModel {
                     LogUtil.d("Successed")
                     self?.output.requestReport.send(true)
                 }
-            } receiveValue: { _ in }
+            } receiveValue: { result in
+                LogUtil.d(String(decoding: result.data, as: UTF8.self))
+            }
             .store(in: &bag)
     }
 }
