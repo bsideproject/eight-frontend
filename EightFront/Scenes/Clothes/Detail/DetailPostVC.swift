@@ -37,6 +37,9 @@ final class DetailPostVC: UIViewController {
         CommentsCell.register($0)
     }
     let commentInputView = CommentInputView()
+    let replyView = ReplyView().then {
+        $0.isHidden = true
+    }
     let backgroundView = UIView().then {
         $0.isHidden = true
         $0.alpha = .zero
@@ -51,6 +54,10 @@ final class DetailPostVC: UIViewController {
         $0.alpha = .zero
         $0.isHidden = true
         $0.delegate = self
+        $0.backgroundColor = .white
+    }
+    let safeAreaBottom = UIView().then {
+        $0.isHidden = true
         $0.backgroundColor = .white
     }
     
@@ -99,9 +106,11 @@ final class DetailPostVC: UIViewController {
         view.addSubview(navigationView)
         view.addSubview(tableView)
         view.addSubview(commentInputView)
+        view.addSubview(replyView)
         view.addSubview(backgroundView)
         view.addSubview(reportPopupView)
         view.addSubview(cutOffView)
+        view.addSubview(safeAreaBottom)
         
         navigationView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -122,14 +131,23 @@ final class DetailPostVC: UIViewController {
             $0.edges.equalToSuperview()
         }
         reportPopupView.snp.makeConstraints {
-            $0.top.equalTo(view.snp.bottom)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(300)
             $0.left.right.equalToSuperview()
-            $0.height.equalTo(300)
+            $0.height.equalTo(182)
         }
         cutOffView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.width.equalTo(317)
             $0.height.equalTo(236)
+        }
+        safeAreaBottom.snp.makeConstraints {
+            $0.left.bottom.right.equalToSuperview()
+            $0.height.equalTo(view.safeAreaInsets.bottom)
+        }
+        replyView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalTo(commentInputView.snp.top)
+            $0.height.equalTo(34)
         }
     }
     
@@ -154,15 +172,14 @@ final class DetailPostVC: UIViewController {
                 
                 guard self?.viewModel.isRequestComment ?? false else { return }
                 self?.viewModel.isRequestComment = false
-                let point = CGPoint(x: 0.0, y: .greatestFiniteMagnitude)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self?.tableView.setContentOffset(point, animated: false)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.125) {
+                    self?.tableView.scrollToRow(at: commentsCell, at: .bottom, animated: false)
                 }
             }
             .store(in: &viewModel.bag)
         
         Publishers
-            .CombineLatest(viewModel.output.requestPost, viewModel.output.requestComments)
+            .Zip(viewModel.output.requestPost, viewModel.output.requestComments)
             .receive(on: DispatchQueue.main)
             .compactMap { $0 && $1 }
             .sink { [weak self] _ in
@@ -197,10 +214,24 @@ final class DetailPostVC: UIViewController {
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.viewModel.isRequestComment = true
-                self?.viewModel.input.requestComment.send(self?.commentInputView.inputTextField.text)
+                self?.viewModel.isRequestComment = self?.replyView.isHidden ?? true
+                self?.replyView.isHidden = true
+                self?.viewModel.input.requestComment.send((id: self?.commentInputView.id,
+                                                           comment: self?.commentInputView.inputTextField.text))
+                self?.commentInputView.id = 0
                 self?.commentInputView.inputTextField.text = nil
                 self?.commentInputView.inputTextField.resignFirstResponder()
+            }
+            .store(in: &viewModel.bag)
+        
+        replyView
+            .replyCancelButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.replyView.isHidden = true
+                self?.commentInputView.id = 0
+                self?.commentInputView.inputTextField.text = nil
             }
             .store(in: &viewModel.bag)
     }
@@ -321,11 +352,14 @@ extension DetailPostVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withType: CommentsCell.self, for: indexPath)
             
             cell.delegate = self
+            cell.replyDelegate = self
             cell.configure(with: viewModel.comments)
             
             return cell
         case .none:
-            return UITableViewCell()
+            let cell = UITableViewCell()
+            cell.selectionStyle = .none
+            return cell
         }
     }
 }
@@ -333,6 +367,7 @@ extension DetailPostVC: UITableViewDataSource, UITableViewDelegate {
 //MARK: - 옵션 선택(신고/차단)
 extension DetailPostVC: ReportPopupOpenDelegate, ReportPopupViewDelegate {
     func openPopup() {
+        safeAreaBottom.isHidden = false
         backgroundView.isHidden = false
         reportPopupView.isHidden = false
         
@@ -342,7 +377,7 @@ extension DetailPostVC: ReportPopupOpenDelegate, ReportPopupViewDelegate {
             
             self.backgroundView.alpha = 0.65
             self.reportPopupView.snp.updateConstraints {
-                $0.top.equalTo(self.view.snp.bottom).offset(-182)
+                $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
             }
         }
         
@@ -351,6 +386,7 @@ extension DetailPostVC: ReportPopupOpenDelegate, ReportPopupViewDelegate {
     
     func endPopup() {
         cutOffView.isHidden = true
+        safeAreaBottom.isHidden = true
         backgroundView.isHidden = true
         reportPopupView.isHidden = true
         
@@ -418,5 +454,18 @@ extension DetailPostVC: DetailSelectionDelegate {
     func skip() {
         navigationController?.popViewController(animated: true)
         delegate?.skip()
+    }
+}
+
+extension DetailPostVC: CommentCellDelegate {
+    func reply(comment: Comment?) {
+        commentInputView.id = comment?.id ?? 0
+        replyView.isHidden = false
+        let attrString = NSMutableAttributedString(string: "@\(comment?.nickname ?? "") 님에게 답글 남기는 중")
+        replyView.titleLabel.attributedText = attrString.apply(word: "@\(comment?.nickname ?? "")",
+                                                               attrs: [.font: Fonts.Pretendard.medium.font(size: 12),
+                                                                       .foregroundColor: Colors.gray005.color])
+        commentInputView.inputTextField.text = "@\(comment?.nickname ?? "") "
+        commentInputView.inputTextField.becomeFirstResponder()
     }
 }

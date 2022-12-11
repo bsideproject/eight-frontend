@@ -54,9 +54,8 @@ final class DetailPostViewModel {
         
         input.requestComment
             .compactMap { $0 }
-            .sink { [weak self] comment in
-                self?.isRequestComment = true
-                self?.requestComment(text: comment)
+            .sink { [weak self] request in
+                self?.requestComment(parentId: request.id, comment: request.comment)
             }
             .store(in: &bag)
         
@@ -73,7 +72,7 @@ extension DetailPostViewModel {
     struct Input {
         let requestPost = PassthroughSubject<Int?, Never>()
         let requestComments = PassthroughSubject<Int?, Never>()
-        let requestComment = PassthroughSubject<String?, Never>()
+        let requestComment = PassthroughSubject<(id: Int?, comment: String?), Never>()
     }
     
     struct Output {
@@ -127,11 +126,16 @@ extension DetailPostViewModel {
                 var comments = [Comment]()
                 
                 for component in responseData.comments ?? [] {
-                    comments.append(Comment(type: 0,
+                    comments.append(Comment(parentId: 0,
+                                            id: component.id,
                                             nickname: component.nickname,
                                             comment: component.comment,
                                             createdAt: component.createdAt))
-                    comments.append(contentsOf: component.children ?? [])
+                    let children = (component.children ?? []).map {
+                        Comment(parentId: component.id, id: $0.id, nickname: $0.nickname,
+                                comment: $0.comment, createdAt: $0.createdAt)
+                    }
+                    comments.append(contentsOf: children)
                 }
                 
                 self?.comments = comments
@@ -139,10 +143,10 @@ extension DetailPostViewModel {
             .store(in: &bag)
     }
     
-    private func requestComment(text: String?) {
-        guard let id, let text else { return }
+    private func requestComment(parentId: Int?, comment: String?) {
+        guard let id, let parentId, let comment else { return }
         
-        let param = CommentRequest(comment: text)
+        let param = CommentRequest(comment: comment, parentId: parentId == 0 ? nil : parentId)
         
         clothesProvider
             .requestPublisher(.newComment(id: id, info: param))
@@ -159,7 +163,9 @@ extension DetailPostViewModel {
                     self?.apiCall = 0
                     self?.input.requestComments.send(self?.id)
                 }
-            } receiveValue: { _ in }
+            } receiveValue: { response in
+                LogUtil.d(String(data: response.data, encoding: .utf8))
+            }
             .store(in: &bag)
     }
 }
