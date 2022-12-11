@@ -11,11 +11,12 @@ import UIKit
 //MARK: CommentInputView
 final class CommentInputView: UIView {
     //MARK: - Properties
+    var id: Int = 0
     let topLineView = UIView().then {
         $0.backgroundColor = UIColor(colorSet: 234)
     }
     let profileBackgroundView = UIView().then {
-        $0.backgroundColor = Colors.gray007.color
+        $0.backgroundColor = Colors.gray006.color
         $0.layer.cornerRadius = 17
     }
     let profileImageView = UIImageView().then {
@@ -66,13 +67,9 @@ final class CommentInputView: UIView {
         inputBackgroundView.addSubview(sumitButton)
         profileBackgroundView.addSubview(profileImageView)
         
-        topLineView.snp.makeConstraints {
-            $0.left.top.right.equalToSuperview()
-            $0.height.equalTo(1)
-        }
         profileBackgroundView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(16.33)
+            $0.bottom.equalToSuperview().offset(-12)
+            $0.left.equalToSuperview().offset(16)
             $0.size.equalTo(34)
         }
         profileImageView.snp.makeConstraints {
@@ -82,9 +79,9 @@ final class CommentInputView: UIView {
         }
         inputBackgroundView.snp.makeConstraints {
             $0.height.equalTo(42)
-            $0.left.equalTo(profileBackgroundView.snp.right).offset(8.32)
+            $0.left.equalTo(profileBackgroundView.snp.right).offset(8)
             $0.right.equalToSuperview().offset(-19)
-            $0.centerY.equalToSuperview()
+            $0.centerY.equalTo(profileBackgroundView.snp.centerY)
         }
         sumitButton.snp.makeConstraints {
             $0.top.right.bottom.equalToSuperview()
@@ -94,6 +91,11 @@ final class CommentInputView: UIView {
             $0.left.equalToSuperview().offset(13)
             $0.right.equalTo(sumitButton.snp.left)
             $0.top.bottom.equalToSuperview()
+        }
+        topLineView.snp.makeConstraints {
+            $0.bottom.equalTo(profileBackgroundView.snp.top).offset(-8)
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(1)
         }
     }
 }
