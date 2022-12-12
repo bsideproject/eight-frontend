@@ -75,8 +75,13 @@ final class MyPageViewModel {
                     LogUtil.e(error)
                 }
             } receiveValue: { [weak self] response in
-                let data = try? response.map(UserInfoResponse.self)
-                self?.nickname = data?.data?.content.nickname ?? "김에잇"
+                guard
+                    let data = try? response.map(UserInfoResponse.self),
+                    let nickname = data.data?.content.nickname
+                else {
+                    return
+                }
+                self?.nickname = nickname
             }.store(in: &bag)
     }
     

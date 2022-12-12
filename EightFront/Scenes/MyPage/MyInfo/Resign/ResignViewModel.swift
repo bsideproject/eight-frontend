@@ -32,7 +32,7 @@ class ResignViewModel {
     
     func resign() {
         if isChecked == true {
-            let signType = UserDefaults.standard.object(forKey: "signType") as? String
+            guard let signType = UserDefaults.standard.object(forKey: "signType") as? String else { return }
             if signType == SignType.kakao.rawValue {
                 authProvider.request(.memberResign(param: "")) { [weak self] result in
                     switch result {

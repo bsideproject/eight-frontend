@@ -17,8 +17,8 @@ struct UserInfoResponseContent: Decodable {
 }
 
 struct UserInfo: Decodable {
-    let email: String
-    let nickname: String
+    let email: String?
+    let nickname: String?
     let profileImage: String?
 }
 

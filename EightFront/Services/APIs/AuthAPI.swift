@@ -13,11 +13,9 @@ enum AuthAPI {
     case socialSignUp(param: SocialSignUpRequest)
     case appleSignIn(param: SocialSignInRequest)
     case appleSignUp(param: SocialSignUpRequest)
-//    case emailSignIn(param: KakaoSignInRequest)
-//    case emailSignUp(param: KakaoSignUpRequest)
     case memberResign(param: String)
     case nicknameCheck(nickname: String)
-    case nicknameChange(nickName: String)
+    case nicknameChange(nickname: String)
     case userInfo
 }
 
@@ -29,19 +27,13 @@ extension AuthAPI: TargetType {
     var path: String {
         switch self {
         case .socialSignIn:
-            let path = "/api/oauth2/kakao"
-            return path
+            return "/api/oauth2/kakao"
         case .socialSignUp:
-            let path = "/api/oauth2/kakao/signup"
-            return path
+            return "/api/oauth2/kakao/signup"
         case .appleSignIn:
             return "/api/oauth2/apple"
         case .appleSignUp:
             return "/api/oauth2/apple/signup"
-//        case .emailSignIn:
-//            return ""
-//        case .emailSignUp:
-//            return ""
         case .memberResign:
             return "/api/oauth2/member"
         case .nicknameCheck(let nickname):
@@ -55,18 +47,11 @@ extension AuthAPI: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .socialSignIn:
+        case .socialSignIn,
+             .socialSignUp,
+             .appleSignIn,
+             .appleSignUp:
             return .post
-        case .socialSignUp:
-            return .post
-        case .appleSignIn:
-            return .post
-        case .appleSignUp:
-            return .post
-//        case .emailSignIn:
-//            return .post
-//        case .emailSignUp:
-//            return .post
         case .memberResign:
             return .delete
         case .nicknameCheck:
