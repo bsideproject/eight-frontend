@@ -60,7 +60,7 @@ final class MainTabbarController: UITabBarController {
         myPageVC.tabBarItem.image = Images.Tabbar.myPageNone.image
         myPageVC.tabBarItem.selectedImage = Images.Tabbar.myPageSelect.image.withRenderingMode(.alwaysOriginal)
 
-        viewControllers = [homeNavi, postsNavi, noticeVC, myPageVC]
+        viewControllers = [homeNavi]
         
         view.addSubview(animationView)
         
