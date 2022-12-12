@@ -95,7 +95,8 @@ final class HomeVC: UIViewController {
         mapView.snp.makeConstraints {
             $0.top.equalTo(headerView.snp.bottom)
             $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+//            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalToSuperview()
         }
         currentLocationButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-18)
@@ -108,9 +109,9 @@ final class HomeVC: UIViewController {
             $0.size.equalTo(50)
         }
         boxInfoView.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(224)
+            $0.bottom.equalToSuperview().offset(244 + view.safeAreaInsets.bottom)
             $0.left.right.equalToSuperview()
-            $0.height.equalTo(224)
+            $0.height.equalTo(244 + view.safeAreaInsets.bottom)
         }
         
         view.addShadow(views: [currentLocationButton, reportButton])
@@ -279,7 +280,7 @@ final class HomeVC: UIViewController {
         viewModel.isOpenBottomInfoView.toggle()
         
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut)
-        let viewBottom: CGFloat = isOpen ? 0 : 224
+        let viewBottom: CGFloat = isOpen ? 0 : 244 + view.safeAreaInsets.bottom
         
         boxInfoView.snp.updateConstraints {
             $0.bottom.equalToSuperview().offset(viewBottom)

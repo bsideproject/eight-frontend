@@ -126,7 +126,7 @@ final class MainTabbarController: UITabBarController {
         let msg = "최신 버전의 앱으로 업데이트해주세요."
         let refreshAlert = UIAlertController(title: "업데이트 알림", message: msg, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-            let id = "" //TODO: 추후 앱 아이디 추가
+            let id = "6443527487" //TODO: 추후 앱 아이디 추가
             if let appURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)"),
                UIApplication.shared.canOpenURL(appURL) {
                 UIApplication.shared.open(appURL, options: [:]) { _ in
