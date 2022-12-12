@@ -10,7 +10,7 @@ import SnapKit
 import UIKit
 
 protocol StackContainerViewDelegate: AnyObject {
-    func keepOrDrop(isKeep: Bool?)
+    func keepOrDrop(id: Int?, isKeep: Bool?)
 }
 
 //MARK: StackContainerView
@@ -164,7 +164,7 @@ extension StackContainerView: SwipeCardDelegate {
             animator.startAnimation()
         }
         
-        selectionDelegate?.keepOrDrop(isKeep: isKeep)
+        selectionDelegate?.keepOrDrop(id: view.dataSource?.id, isKeep: isKeep)
         delegate?.swipeCards(isEmpty: self.subviews.isEmpty)
     }
     

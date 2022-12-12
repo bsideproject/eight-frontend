@@ -467,10 +467,10 @@ extension PostsVC: DetailSelectionDelegate {
 }
 
 extension PostsVC: StackContainerViewDelegate {
-    func keepOrDrop(isKeep: Bool?) {
+    func keepOrDrop(id: Int?, isKeep: Bool?) {
         guard let isKeep else { return }
         
-        let result = isKeep ? "KEEP" : "DROP"
-        viewModel.input.requestPostVote.send(result)
+        let vote = isKeep ? "KEEP" : "DROP"
+        viewModel.input.requestPostVote.send((id, vote))
     }
 }

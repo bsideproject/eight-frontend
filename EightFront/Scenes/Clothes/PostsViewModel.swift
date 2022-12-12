@@ -48,7 +48,8 @@ final class PostsViewModel {
         
         input.requestPostVote
             .sink { [weak self] in
-                self?.requestKeepOrLock(with: $0)
+                guard let id = $0.0, let type = $0.1 else { return }
+                self?.requestKeepOrLock(id: id, vote: type)
             }
             .store(in: &bag)
     }
@@ -65,7 +66,7 @@ extension PostsViewModel {
     struct Input {
         var requestCategroies = PassthroughSubject<Void?, Never>()
         var requestPosts = PassthroughSubject<Void?, Never>()
-        let requestPostVote = PassthroughSubject<String, Never>()
+        let requestPostVote = PassthroughSubject<(Int?, String?), Never>()
     }
     
     struct Output {
@@ -138,9 +139,9 @@ extension PostsViewModel {
             .store(in: &bag)
     }
     
-    private func requestKeepOrLock(with vote: String) {
+    private func requestKeepOrLock(id: Int, vote: String) {
         clothesProvider
-            .requestPublisher(.vote(type: VoteRequest(voteType: vote)))
+            .requestPublisher(.vote(id: id, vote: vote))
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
@@ -148,12 +149,17 @@ extension PostsViewModel {
                     
                     guard (self?.apiCall ?? 3) < 3 else { return }
                     self?.apiCall += 1
-                    self?.requestKeepOrLock(with: vote)
+                    self?.requestKeepOrLock(id: id, vote: vote)
                 case .finished:
-                    LogUtil.d("Successed")
                     self?.apiCall = 0
                 }
-            } receiveValue: { _ in }
+            } receiveValue: { response in
+                guard let result = try? JSONDecoder().decode(ResponseResult.self, from: response.data) else {
+                    LogUtil.d("Decoding Error")
+                    return
+                }
+                LogUtil.d(result.header?.message ?? "")
+            }
             .store(in: &bag)
     }
 }
