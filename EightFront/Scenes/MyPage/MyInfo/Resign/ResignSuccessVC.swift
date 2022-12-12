@@ -77,7 +77,7 @@ final class ResignSuccessVC: UIViewController {
 //            $0.right.equalToSuperview().inset(60)
         }
         homeButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(710)
+            $0.bottom.equalTo(view.safeAreaInsets.bottom).inset(24)
             $0.right.left.equalToSuperview().inset(16)
             $0.height.equalTo(58)
         }

@@ -66,28 +66,26 @@ final class SignUpSuccessVC: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(circleView)
-        circleView.addSubview(checkImageView)
-        
-        view.addSubview(successLabel)
-        view.addSubview(homeButton)
-        
         circleView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(276)
+            $0.top.equalToSuperview().offset(276)
             $0.centerX.equalToSuperview()
             $0.size.equalTo(78)
+            circleView.addSubview(checkImageView)
+            checkImageView.snp.makeConstraints {
+                $0.width.equalTo(38)
+                $0.height.equalTo(25)
+                $0.center.equalToSuperview()
+            }
         }
-        checkImageView.snp.makeConstraints {
-            $0.width.equalTo(38)
-            $0.height.equalTo(25)
-            $0.center.equalToSuperview()
-        }
+        view.addSubview(successLabel)
         successLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(378)
+            $0.top.equalTo(circleView.snp.bottom).offset(24)
             $0.left.equalToSuperview().inset(74)
             $0.right.equalToSuperview().inset(60)
         }
+        view.addSubview(homeButton)
         homeButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(710)
+            $0.bottom.equalTo(view.safeAreaInsets.bottom).inset(24)
             $0.right.left.equalToSuperview().inset(16)
             $0.height.equalTo(58)
         }

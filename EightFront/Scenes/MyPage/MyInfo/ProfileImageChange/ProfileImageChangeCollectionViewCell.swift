@@ -12,7 +12,7 @@ import Combine
 class ProfileImageChangeCollectionViewCell: UICollectionViewCell {
     
     var bag = Set<AnyCancellable>()
-
+    var profileImage: ProfileImage?
     static let identifier = "ProfileImageChangeCollectionViewCell"
     
     let profileView = UIView().then {
@@ -30,10 +30,13 @@ class ProfileImageChangeCollectionViewCell: UICollectionViewCell {
         $0.textColor = Colors.gray005.color
     }
     
+    override func prepareForReuse() {
+        profileView.layer.borderColor = Colors.gray006.color.cgColor
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         makeUI()
-        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -41,16 +44,12 @@ class ProfileImageChangeCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(item: ProfileImage) {
+        self.profileImage = item
         titleLabel.text = item.rawValue
-        guard let imageURL = URL(string: item.url) else {
-            profileImageView.image = item.image
-            return
-        }
-        profileImageView.kf.setImage(with: imageURL)
+        profileImageView.image = item.image
     }
     
     private func makeUI() {
-        
         addSubview(profileView)
         profileView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
@@ -62,15 +61,10 @@ class ProfileImageChangeCollectionViewCell: UICollectionViewCell {
                 $0.size.equalTo(70)
             }
         }
-        
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
-    }
-    
-    private func bind() {
-
     }
 }

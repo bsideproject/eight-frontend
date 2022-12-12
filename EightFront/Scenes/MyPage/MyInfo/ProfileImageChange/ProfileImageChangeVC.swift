@@ -61,7 +61,6 @@ final class ProfileImageChangeVC: UIViewController {
         makeUI()
         configure()
         bind()
-        
         viewModel.reqeustUserInfo()
     }
     // MARK: - configure {
@@ -138,18 +137,14 @@ final class ProfileImageChangeVC: UIViewController {
             .sink { [weak self] profileImage in
                 let image = profileImage.image
                 self?.selectedProfileImage.image = image
-                
                 let text = "현재\n"+profileImage.rawValue+" 사용 중"
                 let label = NSMutableAttributedString(string: text)
                 label.addAttribute(.foregroundColor,
                                        value: Colors.gray001.color,
                                        range: (text as NSString).range(of: profileImage.rawValue)
                 )
-                
                 self?.selectedTitlaLabel.attributedText = label
-                
                 self?.profileImageCollectionView.reloadData()
-                
             }.store(in: &viewModel.bag)
         
         viewModel.isChangeButtonValid.receive(on: DispatchQueue.main)
@@ -183,6 +178,7 @@ final class ProfileImageChangeVC: UIViewController {
 extension ProfileImageChangeVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.didSelectItemAt(indexPath: indexPath)
+//        profileImageCollectionView.reloadData()
     }
 }
 
@@ -200,11 +196,9 @@ extension ProfileImageChangeVC: UICollectionViewDataSource {
         else {
             return UICollectionViewCell()
         }
-        
         let item = viewModel.cellForItemAt(indexPath: indexPath)
         cell.configure(item: item)
-        
-        if viewModel.selectedImage == item {
+        if item == viewModel.selectedImage {
             cell.profileView.layer.borderColor = Colors.gray001.color.cgColor
         }
         return cell
