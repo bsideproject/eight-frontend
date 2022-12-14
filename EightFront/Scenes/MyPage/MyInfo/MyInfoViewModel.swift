@@ -49,8 +49,14 @@ class MyInfoViewModel {
                     LogUtil.e(error)
                 }
             } receiveValue: { [weak self] response in
-                let data = try? response.map(UserInfoResponse.self)
-                self?.userEmail = data?.data?.content.email ?? "김에잇"
+                guard
+                    let data = try? response.map(UserInfoResponse.self),
+                    let userEmail = data.data?.content.email
+                else {
+                    self?.userEmail = "이메일 비공개"
+                    return
+                }
+                self?.userEmail = userEmail
             }.store(in: &bag)
     }
     
@@ -83,7 +89,7 @@ class MyInfoViewModel {
     
     func requestNicknameChange() {
         if inputNickname.count > 1 {
-            authProvider.requestPublisher(.nicknameChange(nickName: inputNickname))
+            authProvider.requestPublisher(.nicknameChange(nickname: inputNickname))
                 .sink { completion in
                     switch completion {
                     case .finished:

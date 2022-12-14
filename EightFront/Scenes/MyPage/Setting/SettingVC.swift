@@ -92,7 +92,6 @@ class SettingVC: UIViewController {
         }
         
         // 알림
-        
         view.addSubview(notificationView)
         notificationView.snp.makeConstraints {
             $0.top.equalTo(commonNavigationView.snp.bottom).offset(16)
@@ -101,8 +100,8 @@ class SettingVC: UIViewController {
             
             notificationView.addSubview(notificationLabel)
             notificationLabel.snp.makeConstraints {
-                $0.left.equalToSuperview()
                 $0.centerY.equalToSuperview()
+                $0.left.equalToSuperview()
             }
             
             notificationView.addSubview(notificationSwitch)
@@ -115,7 +114,7 @@ class SettingVC: UIViewController {
         // 차단
         view.addSubview(blockListView)
         blockListView.snp.makeConstraints {
-            $0.top.equalTo(notificationLabel.snp.bottom).offset(13)
+            $0.top.equalTo(notificationView.snp.bottom).offset(13)
             $0.horizontalEdges.equalToSuperview().inset(19)
             $0.height.equalTo(45)
             
@@ -196,6 +195,7 @@ class SettingVC: UIViewController {
             
             logoutView.addSubview(logoutLabel)
             logoutLabel.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
                 $0.left.equalToSuperview()
             }
         }

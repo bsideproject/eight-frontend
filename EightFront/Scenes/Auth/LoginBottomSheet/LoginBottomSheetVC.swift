@@ -259,7 +259,7 @@ final class LoginBottomSheetVC: UIViewController {
         controller.performRequests()
     }
     
-    // 카카오 로그인
+    // MARK: -  카카오 로그인
     private func kakaoLoginButtonTapped() {
         /// 카카오톡 설치 여부 확인
         if (UserApi.isKakaoTalkLoginAvailable()) {

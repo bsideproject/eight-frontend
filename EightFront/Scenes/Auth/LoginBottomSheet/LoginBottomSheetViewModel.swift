@@ -39,6 +39,10 @@ class LoginBottomSheetViewModel {
         .eraseToAnyPublisher()
     
     func appleSignIn(identityToken: String, authorizationCode: String) {
+        
+        LogUtil.d(identityToken)
+        LogUtil.d(authorizationCode)
+        
         authProvider.requestPublisher(.appleSignIn(
             param: SocialSignInRequest(
                 identityToken: identityToken
@@ -56,15 +60,21 @@ class LoginBottomSheetViewModel {
             guard let responseContent = data?.data?.content else { return }
             self?.content = responseContent
             _ = KeyChainManager.shared.delete(type: .authorizationCode)
-            if responseContent.type == SignInUp.signIn.rawValue {
-                if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
-                    UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
-                    self?.signType = SignInUp.signIn
-                }
-            } else {
-                if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
-                    UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
-                    self?.signType = SignInUp.signUp
+            
+            if let signType = responseContent.type {
+                switch SignInUp(rawValue: signType) {
+                case .signIn:
+                    if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
+                        UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
+                        self?.signType = SignInUp.signIn
+                    }
+                case .signUp:
+                    if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
+                        UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
+                        self?.signType = SignInUp.signUp
+                    }
+                default:
+                    break
                 }
             }
         }.store(in: &bag)

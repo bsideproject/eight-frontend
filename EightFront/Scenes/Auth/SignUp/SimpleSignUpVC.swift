@@ -29,10 +29,8 @@ class SimpleSignUpVC: UIViewController {
     
     private var nicknameTextField = CommonTextFieldView(isTitleHidden: true, placeholder: "15자 이내의 닉네임을 입력해주세요.")
     
-    private var nicknameDuplicateedLabel = UILabel().then {
-        $0.text = "* 닉네임이 중복되었어요."
-        $0.textColor = .red
-        $0.isHidden = true
+    private var nicknameDuplicatedLabel = UILabel().then {
+        $0.font = Fonts.Templates.caption2.font
     }
     
     private var nicknameCheckButtonView = UIView().then {
@@ -104,8 +102,8 @@ class SimpleSignUpVC: UIViewController {
             $0.height.equalTo(46)
         }
         
-        view.addSubview(nicknameDuplicateedLabel)
-        nicknameDuplicateedLabel.snp.makeConstraints {
+        view.addSubview(nicknameDuplicatedLabel)
+        nicknameDuplicatedLabel.snp.makeConstraints {
             $0.top.equalTo(nicknameTextField.snp.bottom).offset(8)
             $0.left.equalToSuperview().inset(16)
         }
@@ -141,6 +139,33 @@ class SimpleSignUpVC: UIViewController {
                 }
             }.store(in: &viewModel.bag)
         
+        // 닉네임 입력
+        nicknameTextField.contentTextField.textPublisher
+            .compactMap { $0 }
+            .sink(receiveValue: { [weak self] in
+                self?.viewModel.inputNickname = $0
+            })
+            .store(in: &viewModel.bag)
+        
+        viewModel.$isNicknameCheck
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] isNicknameCheck in
+                if isNicknameCheck {
+                    self?.viewModel.isSignUpButtonValid = true
+                    self?.nicknameDuplicatedLabel.textColor = .blue
+                } else {
+                    self?.viewModel.isSignUpButtonValid = false
+                    self?.nicknameDuplicatedLabel.textColor = .red
+                }
+            }.store(in: &viewModel.bag)
+        
+        nicknameCheckButtonView.gesture()
+            .sink { [weak self] _ in
+                self?.viewModel.requestNickNameCheck()
+            }.store(in: &viewModel.bag)
+        
+        // 화면 이동
         viewModel.$isSignUp
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
@@ -151,42 +176,12 @@ class SimpleSignUpVC: UIViewController {
                 }
             }.store(in: &viewModel.bag)
         
-        nicknameTextField.contentTextField.textPublisher
-            .compactMap { $0 }
-            .sink(receiveValue: { [weak self] in
-                self?.viewModel.inputNickname = $0
-                if $0.count < 2 || $0.count > 15 {
-                    self?.viewModel.isSignUpButtonValid = false
-                }
-            })
-            .store(in: &viewModel.bag)
-        
-        nicknameCheckButtonView.gesture()
-            .sink { [weak self] _ in
-                self?.viewModel.requestNickNameCheck()
-            }.store(in: &viewModel.bag)
-        
-        viewModel.$isNicknameCheck
-            .receive(on: DispatchQueue.main)
-            .compactMap { $0 }
-            .sink { [weak self] isNicknameCheck in
-                if isNicknameCheck {
-                    self?.viewModel.isSignUpButtonValid = true
-                    self?.nicknameDuplicateedLabel.isHidden = true
-                } else {
-                    self?.viewModel.isSignUpButtonValid = false
-                    if self?.viewModel.inputNickname.count ?? 0 > 0 {
-                        self?.nicknameDuplicateedLabel.isHidden = false
-                    }
-                }
-            }.store(in: &viewModel.bag)
-        
         viewModel.isNicknameValid
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.nicknameCheckButtonView.backgroundColor = $0 ? Colors.gray001.color : Colors.gray006.color
-                self?.nicknameCheckButtonLabel.textColor = $0 ? Colors.point.color :
-                UIColor.white
+                self?.nicknameCheckButtonLabel.textColor = $0 ? Colors.point.color : UIColor.white
+//                self?.nicknameDuplicatedLabel.textColor = $0 ? UIColor.blue : UIColor.red
             }.store(in: &viewModel.bag)
         
         viewModel.$isSignUpButtonValid
@@ -197,5 +192,12 @@ class SimpleSignUpVC: UIViewController {
                 self?.signUpButton.setTitleColor(isButtonEnabled ? Colors.point.color : UIColor.white)
             }.store(in: &viewModel.bag)
     
+        viewModel.$nicknameDuplicateText
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] label in
+                self?.nicknameDuplicatedLabel.text = label
+            }.store(in: &viewModel.bag)
+        
     }
 }
