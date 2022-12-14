@@ -252,7 +252,7 @@ class MyInfoVC: UIViewController {
     }
     
     private func bind() {
-    
+
         resignButton.gesture()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -260,42 +260,39 @@ class MyInfoVC: UIViewController {
                 self?.navigationController?.pushViewController(resignVC, animated: true)
             }.store(in: &viewModel.bag)
         
+        // 닉네임 입력
         nicknameTextField.contentTextField.textPublisher
             .compactMap { $0 }
             .sink { [weak self] in
                 self?.viewModel.inputNickname = $0
-                if $0.count < 2 || $0.count > 15 {
-                    self?.viewModel.isButtonEnabled = false
-                }
             }
             .store(in: &viewModel.bag)
-        
-        nicknameCheckButtonView.gesture()
-            .sink { [weak self] _ in
-                self?.viewModel.requestNickNameCheck()
-            }.store(in: &viewModel.bag)
         
         viewModel.$isNicknameCheck
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] isNicknameCheck in
                 if isNicknameCheck {
-                    self?.viewModel.isButtonEnabled = true
-                    // TODO: 사용 가능할 때 보여 줄 파란색 색상 필요
-                    self?.nicknameDuplicatedLabel.textColor = UIColor.blue
+                    self?.viewModel.isSignUpButtonValid = true
+                    self?.nicknameDuplicatedLabel.textColor = .blue
                 } else {
-                    self?.viewModel.isButtonEnabled = false
-                    self?.nicknameDuplicatedLabel.textColor = Colors.warning.color
+                    self?.viewModel.isSignUpButtonValid = false
+                    self?.nicknameDuplicatedLabel.textColor = .red
                 }
-                self?.nicknameDuplicatedLabel.text = self?.viewModel.nicknameCheckLabel
             }.store(in: &viewModel.bag)
+        
+        // 닉네임 중복 확인 눌렀을 때
+        nicknameCheckButtonView.gesture()
+            .sink { [weak self] _ in
+                self?.viewModel.requestNickNameCheck()
+            }.store(in: &viewModel.bag)
+
         
         viewModel.isNicknameValid
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.nicknameCheckButtonView.backgroundColor = $0 ? Colors.gray001.color : Colors.gray006.color
-                self?.nicknameCheckButtonLabel.textColor = $0 ? Colors.point.color :
-                UIColor.white
+                self?.nicknameCheckButtonLabel.textColor = $0 ? Colors.point.color : UIColor.white
             }.store(in: &viewModel.bag)
         
         viewModel.$userEmail
@@ -304,7 +301,15 @@ class MyInfoVC: UIViewController {
                 self?.emailLabel.text = $0
             }.store(in: &viewModel.bag)
         
-        viewModel.$isButtonEnabled
+//        viewModel.$isButtonEnabled
+//            .receive(on: DispatchQueue.main)
+//            .compactMap { $0 }
+//            .sink { [weak self] isButtonEnabled in
+//                self?.editButtonView.backgroundColor = isButtonEnabled ? Colors.gray001.color :Colors.gray006.color
+//                self?.editButtonLabel.textColor = isButtonEnabled ? Colors.point.color : UIColor.white
+//            }.store(in: &viewModel.bag)
+        
+        viewModel.$isSignUpButtonValid
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] isButtonEnabled in
@@ -312,12 +317,21 @@ class MyInfoVC: UIViewController {
                 self?.editButtonLabel.textColor = isButtonEnabled ? Colors.point.color : UIColor.white
             }.store(in: &viewModel.bag)
         
+        viewModel.$nicknameDuplicateText
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] label in
+                self?.nicknameDuplicatedLabel.text = label
+            }.store(in: &viewModel.bag)
+        
+        // 수정 버튼 눌렀을 때
         editButtonView.gesture()
             .receive(on: DispatchQueue.main)
             .sink {[weak self] _ in
                 self?.viewModel.requestNicknameChange()
             }.store(in: &viewModel.bag)
         
+        // 수정 성공적으로 끝났을 때
         viewModel.$isNickNameChanged
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }

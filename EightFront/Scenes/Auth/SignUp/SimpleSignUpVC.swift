@@ -131,6 +131,7 @@ class SimpleSignUpVC: UIViewController {
     
     // MARK: - Binding
     private func bind() {
+        // 가입버튼 눌렀을 때
         signUpButton.tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
@@ -160,13 +161,14 @@ class SimpleSignUpVC: UIViewController {
                 }
             }.store(in: &viewModel.bag)
         
+        // 닉네임 중복 확인
         nicknameCheckButtonView.gesture()
             .sink { [weak self] _ in
                 self?.viewModel.requestNickNameCheck()
             }.store(in: &viewModel.bag)
         
         // 화면 이동
-        viewModel.$isSignUp
+        viewModel.$isNicknameChecked
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] in
@@ -181,7 +183,6 @@ class SimpleSignUpVC: UIViewController {
             .sink { [weak self] in
                 self?.nicknameCheckButtonView.backgroundColor = $0 ? Colors.gray001.color : Colors.gray006.color
                 self?.nicknameCheckButtonLabel.textColor = $0 ? Colors.point.color : UIColor.white
-//                self?.nicknameDuplicatedLabel.textColor = $0 ? UIColor.blue : UIColor.red
             }.store(in: &viewModel.bag)
         
         viewModel.$isSignUpButtonValid

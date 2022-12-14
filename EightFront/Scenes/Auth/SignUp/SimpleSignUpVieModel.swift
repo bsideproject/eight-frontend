@@ -23,17 +23,15 @@ class SimpleSignUpVieModel {
             nicknameDuplicateText = ""
         }
     }
-    
     @Published var nicknameDuplicateText = ""
     
     @Published var isNicknameCheck = false
     @Published var isSignUpButtonValid = false
     
-    @Published var isSignUp = false
+    @Published var isNicknameChecked = false
 
     lazy var isNicknameValid: AnyPublisher<Bool, Never> = $inputNickname
         .compactMap {
-            print(self.inputNickname.count)
             let nicknameRegEx = "^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]{2,16}"
             let nicknameValid = NSPredicate(format:"SELF MATCHES %@", nicknameRegEx).evaluate(with: $0)
             return nicknameValid
@@ -85,7 +83,7 @@ class SimpleSignUpVieModel {
                                     guard let accessToken = data.content?.accessToken else { return }
                                     if KeyChainManager.shared.create(accessToken, type: .accessToken) {
                                         UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
-                                        self?.isSignUp = true
+                                        self?.isNicknameChecked = true
                                     }
                                 }
                             case .failure(let error):
@@ -106,7 +104,7 @@ class SimpleSignUpVieModel {
                                     guard let accessToken = data.content?.accessToken else { return }
                                     if KeyChainManager.shared.create(accessToken, type: .accessToken) {
                                         UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
-                                        self?.isSignUp = true
+                                        self?.isNicknameChecked = true
                                     }
                                 }
                             case .failure(let error):
