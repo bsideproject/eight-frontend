@@ -351,15 +351,15 @@ class MyInfoVC: UIViewController {
         profileImage.gesture()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-//                let alertSheet = UIAlertController(title: "프로필 변경", message: "", preferredStyle: .actionSheet)
-//                let action1 = UIAlertAction(title: "드랍 더 옷 이미지로 변경", style: .default) { _ in
-//                    let profileImageChangeVC = ProfileImageChangeVC()
-//                    self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
-//                }
+                let alertSheet = UIAlertController(title: "", message: "프로필 변경", preferredStyle: .actionSheet)
+                let action1 = UIAlertAction(title: "드랍 더 옷 이미지로 변경", style: .default) { _ in
+                    let profileImageChangeVC = ProfileImageChangeVC()
+                    self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
+                }
 //                let action2 = UIAlertAction(title: "사진첩에서 가져오기", style: .default)
-//                alertSheet.addAction(action1)
+                alertSheet.addAction(action1)
 //                alertSheet.addAction(action2)
-//                self?.present(alertSheet, animated: true)
+                self?.present(alertSheet, animated: true)
             }.store(in: &viewModel.bag)
         
     }

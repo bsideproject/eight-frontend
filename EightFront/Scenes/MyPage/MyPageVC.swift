@@ -13,6 +13,8 @@ import JWTDecode
 import KakaoSDKUser
 import Moya
 
+import Kingfisher
+
 //MARK: 마이페이지 VC
 
 final class MyPageVC: UIViewController {
@@ -125,6 +127,17 @@ final class MyPageVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.nicknameLabel.text = $0
+            }.store(in: &viewModel.bag)
+        
+        viewModel.$profileImage
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] in
+                guard let imageURL = URL(string: $0) else {
+                    self?.profileImage.image = Images.dropIcon.image
+                    return
+                }
+                self?.profileImage.kf.setImage(with: imageURL)
             }.store(in: &viewModel.bag)
         
         myInfoView

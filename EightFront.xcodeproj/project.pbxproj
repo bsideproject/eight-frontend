@@ -34,7 +34,6 @@
 		2880C715293B6CDB0094595F /* ProfileImageChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880C714293B6CDB0094595F /* ProfileImageChangeVC.swift */; };
 		2880C717293B70840094595F /* ProfileImageChangeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880C716293B70840094595F /* ProfileImageChangeViewModel.swift */; };
 		2880C719293B71320094595F /* ProfileImageChangeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880C718293B71320094595F /* ProfileImageChangeCollectionViewCell.swift */; };
-		2880C71B293B762B0094595F /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880C71A293B762B0094595F /* ProfileImage.swift */; };
 		288BFD6728FAF86F00A85F13 /* EmailSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6628FAF86F00A85F13 /* EmailSignUpVC.swift */; };
 		288BFD6D28FBAEAA00A85F13 /* EmailSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */; };
 		288BFD6F28FBC17500A85F13 /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288BFD6E28FBC17500A85F13 /* TermsViewModel.swift */; };
@@ -240,7 +239,6 @@
 		2880C714293B6CDB0094595F /* ProfileImageChangeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageChangeVC.swift; sourceTree = "<group>"; };
 		2880C716293B70840094595F /* ProfileImageChangeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageChangeViewModel.swift; sourceTree = "<group>"; };
 		2880C718293B71320094595F /* ProfileImageChangeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageChangeCollectionViewCell.swift; sourceTree = "<group>"; };
-		2880C71A293B762B0094595F /* ProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
 		288BFD6628FAF86F00A85F13 /* EmailSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpVC.swift; sourceTree = "<group>"; };
 		288BFD6C28FBAEAA00A85F13 /* EmailSignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpViewModel.swift; sourceTree = "<group>"; };
 		288BFD6E28FBC17500A85F13 /* TermsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewModel.swift; sourceTree = "<group>"; };
@@ -454,7 +452,6 @@
 				2880C714293B6CDB0094595F /* ProfileImageChangeVC.swift */,
 				2880C716293B70840094595F /* ProfileImageChangeViewModel.swift */,
 				2880C718293B71320094595F /* ProfileImageChangeCollectionViewCell.swift */,
-				2880C71A293B762B0094595F /* ProfileImage.swift */,
 			);
 			path = ProfileImageChange;
 			sourceTree = "<group>";
@@ -1413,7 +1410,6 @@
 				E9160C1828E30A60007B1307 /* DataManager.swift in Sources */,
 				284F9624292932D600597708 /* ResignViewModel.swift in Sources */,
 				E95ACEA828F33BED00057900 /* ReportViewModel.swift in Sources */,
-				2880C71B293B762B0094595F /* ProfileImage.swift in Sources */,
 				E9706941291AC46500014FB9 /* KeepOrDropRequest.swift in Sources */,
 				E96BC92328EB2D66002EBA7E /* BottomAddressView.swift in Sources */,
 				284F96202928D87D00597708 /* ReportCategoryView.swift in Sources */,

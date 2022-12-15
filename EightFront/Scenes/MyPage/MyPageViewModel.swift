@@ -17,6 +17,7 @@ final class MyPageViewModel {
     var bag = Set<AnyCancellable>()
     
     @Published var nickname = ""
+    @Published var profileImage = ""
 
     enum MyPageMenus: CaseIterable {
         case myClothes
@@ -75,13 +76,12 @@ final class MyPageViewModel {
                     LogUtil.e(error)
                 }
             } receiveValue: { [weak self] response in
-                guard
-                    let data = try? response.map(UserInfoResponse.self),
-                    let nickname = data.data?.content.nickname
-                else {
+                guard let data = try? response.map(UserInfoResponse.self).data else {
+                    LogUtil.e("유저 정보 가져오기 실패")
                     return
                 }
-                self?.nickname = nickname
+                self?.nickname = data.content.nickname ?? ""
+                self?.profileImage = data.content.profileImage ?? ""
             }.store(in: &bag)
     }
     

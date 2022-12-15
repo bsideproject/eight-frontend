@@ -8,6 +8,9 @@
 #elseif os(tvOS) || os(watchOS)
   import UIKit
 #endif
+#if canImport(SwiftUI)
+  import SwiftUI
+#endif
 
 // Deprecated typealiases
 @available(*, deprecated, renamed: "ImageAsset.Image", message: "This typealias will be removed in SwiftGen 7.0")
@@ -21,6 +24,14 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 internal enum Images {
   internal static let dropIcon = ImageAsset(name: "DropIcon")
   internal static let hole = ImageAsset(name: "Hole")
+  internal enum ProfileImages {
+    internal static let 옷이라퍼 = ImageAsset(name: "옷이라퍼")
+    internal static let 우유부단 = ImageAsset(name: "우유부단")
+    internal static let 의세권주민 = ImageAsset(name: "의세권주민")
+    internal static let 풀소유 = ImageAsset(name: "풀소유")
+    internal static let 프로나눔러 = ImageAsset(name: "프로나눔러")
+    internal static let 프로이사러 = ImageAsset(name: "프로이사러")
+  }
   internal static let threeDot = ImageAsset(name: "ThreeDot")
   internal static let currentLocation = ImageAsset(name: "current-location")
   internal enum Detail {
@@ -143,6 +154,13 @@ internal struct ImageAsset {
     return result
   }
   #endif
+
+  #if canImport(SwiftUI)
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  internal var swiftUIImage: SwiftUI.Image {
+    SwiftUI.Image(asset: self)
+  }
+  #endif
 }
 
 internal extension ImageAsset.Image {
@@ -160,6 +178,26 @@ internal extension ImageAsset.Image {
     #endif
   }
 }
+
+#if canImport(SwiftUI)
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+internal extension SwiftUI.Image {
+  init(asset: ImageAsset) {
+    let bundle = BundleToken.bundle
+    self.init(asset.name, bundle: bundle)
+  }
+
+  init(asset: ImageAsset, label: Text) {
+    let bundle = BundleToken.bundle
+    self.init(asset.name, bundle: bundle, label: label)
+  }
+
+  init(decorative asset: ImageAsset) {
+    let bundle = BundleToken.bundle
+    self.init(decorative: asset.name, bundle: bundle)
+  }
+}
+#endif
 
 // swiftlint:disable convenience_type
 private final class BundleToken {
