@@ -8,7 +8,9 @@
 import Combine
 import UIKit
 
+import Moya
 import Kingfisher
+
 
 
 enum ProfileImage: String, CaseIterable {
@@ -40,13 +42,27 @@ enum ProfileImage: String, CaseIterable {
         case .옷이라퍼:   return Images.ProfileImages.옷이라퍼.image
         }
     }
+    
+    var imageServerName: String {
+        switch self {
+        case .프로나눔러: return "default5"
+        case .의세권주민: return "default3"
+        case .우유부단:   return "default2"
+        case .프로이사러: return "default6"
+        case .풀소유:     return "default4"
+        case .옷이라퍼:   return "default1"
+        }
+    }
 }
 
 class ProfileImageChangeViewModel {
     
     var bag = Set<AnyCancellable>()
+    let provider = MoyaProvider<AuthAPI>()
     
     @Published var selectedImage: ProfileImage?
+    
+    @Published var isChanged: Bool = false
     
     lazy var isChangeButtonValid: AnyPublisher<Bool, Never> = $selectedImage
         .compactMap { profileImage in
@@ -69,6 +85,23 @@ class ProfileImageChangeViewModel {
     }
     
     func profileImageChange() {
-        
+        guard let selectedImage else { return }
+        provider.requestPublisher(.profileImageChange(defaultImage: selectedImage.imageServerName))
+            .compactMap { $0 }
+            .sink { completion in
+                switch completion {
+                case .failure(let moyaError):
+                    LogUtil.e(moyaError)
+                case .finished:
+                    LogUtil.d("프로필 이미지 변경 API 호출")
+                }
+            } receiveValue: { [weak self] response in
+                let data = try? JSONSerialization.jsonObject(with: response.data) as? [String: Any]
+                let header = data?["header"] as? [String: Any]
+                let errorCode = header?["resultCode"] as? Int
+                if errorCode == 0 {
+                    self?.isChanged = true
+                }
+            }.store(in: &bag)
     }
 }

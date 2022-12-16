@@ -17,6 +17,7 @@ enum AuthAPI {
     case nicknameCheck(nickname: String)
     case nicknameChange(nickname: String)
     case userInfo
+    case profileImageChange(defaultImage: String)
 }
 
 extension AuthAPI: TargetType {
@@ -26,22 +27,15 @@ extension AuthAPI: TargetType {
     
     var path: String {
         switch self {
-        case .socialSignIn:
-            return "/api/oauth2/kakao"
-        case .socialSignUp:
-            return "/api/oauth2/kakao/signup"
-        case .appleSignIn:
-            return "/api/oauth2/apple"
-        case .appleSignUp:
-            return "/api/oauth2/apple/signup"
-        case .memberResign:
-            return "/api/oauth2/member"
-        case .nicknameCheck(let nickname):
-            return "/api/oauth2/\(nickname)"
-        case .nicknameChange:
-            return "/api/my/info/nickname"
-        case .userInfo:
-            return "/api/my/info"
+        case .socialSignIn:                return "/api/oauth2/kakao"
+        case .socialSignUp:                return "/api/oauth2/kakao/signup"
+        case .appleSignIn:                 return "/api/oauth2/apple"
+        case .appleSignUp:                 return "/api/oauth2/apple/signup"
+        case .memberResign:                return "/api/oauth2/member"
+        case .nicknameCheck(let nickname): return "/api/oauth2/\(nickname)"
+        case .nicknameChange:              return "/api/my/info/nickname"
+        case .userInfo:                    return "/api/my/info"
+        case .profileImageChange:          return "/api/my/info/profile-image"
         }
     }
     
@@ -50,27 +44,19 @@ extension AuthAPI: TargetType {
         case .socialSignIn,
              .socialSignUp,
              .appleSignIn,
-             .appleSignUp:
-            return .post
-        case .memberResign:
-            return .delete
-        case .nicknameCheck:
-            return .get
-        case .nicknameChange:
-            return .put
-        case .userInfo:
-            return .get
+             .appleSignUp:        return .post
+        case .memberResign:       return .delete
+        case .nicknameCheck:      return .get
+        case .nicknameChange:     return .put
+        case .userInfo:           return .get
+        case .profileImageChange: return .put
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .socialSignIn(let param):
-            return .requestJSONEncodable(param)
-            
-        case .socialSignUp(let param):
-            return .requestJSONEncodable(param)
-            
+        case .socialSignIn(let param): return .requestJSONEncodable(param)
+        case .socialSignUp(let param): return .requestJSONEncodable(param)
         case .memberResign(let authCode):
             if authCode.isEmpty {
                 return .requestPlain
@@ -80,8 +66,7 @@ extension AuthAPI: TargetType {
                 ]
                 return .requestParameters(parameters: params, encoding: URLEncoding.httpBody)
             }
-        case .nicknameCheck:
-            return .requestPlain
+        case .nicknameCheck: return .requestPlain
             
         case .nicknameChange(let nickname):
             return .requestParameters(
@@ -89,14 +74,13 @@ extension AuthAPI: TargetType {
                     "nickname": nickname
                 ], encoding: URLEncoding.queryString)
 
-        case .appleSignIn(let param):
-            return .requestJSONEncodable(param)
-            
-        case .appleSignUp(let param):
-            return .requestJSONEncodable(param)
-            
-        case .userInfo:
-            return .requestPlain
+        case .appleSignIn(let param): return .requestJSONEncodable(param)
+        case .appleSignUp(let param): return .requestJSONEncodable(param)
+        case .userInfo: return .requestPlain
+        case .profileImageChange(let defaultImage):
+            return .requestParameters(parameters: [
+                "defaultProfileImage": defaultImage
+            ], encoding: URLEncoding.queryString)
         }
     }
     

@@ -152,9 +152,17 @@ final class ProfileImageChangeVC: UIViewController {
         changeButton.gesture()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
+                self?.viewModel.profileImageChange()
             }.store(in: &viewModel.bag)
         
+        viewModel.$isChanged
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] in
+                if $0 {
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            }.store(in: &viewModel.bag)
     }
 }
 
