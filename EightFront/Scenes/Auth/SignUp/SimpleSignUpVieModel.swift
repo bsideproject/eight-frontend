@@ -66,10 +66,10 @@ class SimpleSignUpVieModel {
     
     func requestSignUp() {
         if isNicknameCheck && isSignUpButtonValid {
-            let accessToken = KeyChainManager.shared.accessToken
             switch signType {
             case .kakao:
                 LogUtil.d("카카오 회원가입")
+                let accessToken = KeyChainManager.shared.accessToken
                 authProvider.request(
                     .socialSignUp(
                         param: SocialSignUpRequest(
@@ -96,15 +96,16 @@ class SimpleSignUpVieModel {
                         }
                 
             case .apple:
+                let identityToken = KeyChainManager.shared.identityToken
                 authProvider.request(
                     .appleSignUp(
                         param: SocialSignUpRequest(
-                            identityToken: accessToken,
+                            identityToken: identityToken,
                             nickName: inputNickname
                         ))) { [weak self] result in
                             switch result {
                             case .success(let response):
-                                LogUtil.d("회원가입 API 호출 성공")
+                                LogUtil.d("회원가입 API 호출")
                                 if let data = try? response.map(SimpleSignUpResponse.self).data {
                                     guard let accessToken = data.content?.accessToken else { return }
                                     if KeyChainManager.shared.create(accessToken, type: .accessToken) {

@@ -53,13 +53,17 @@ class LoginBottomSheetViewModel {
                             let content = data.content,
                             let type = content.type
                         else {
-                            assertionFailure("parsing 실패")
+                            LogUtil.e("데이터 파싱 실패")
+                            return
+                        }
+                        
+                        guard let accessToken = content.accessToken else {
+                            LogUtil.e("엑세스 토큰 없음")
                             return
                         }
                         
                         if type == "sign-in" {
                             // 로그인
-                            guard let accessToken = content.accessToken else { return }
                             if KeyChainManager.shared.create(accessToken, type: .accessToken) {
                                 UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
                                 self?.signInUp = SignInUp(rawValue: type)
@@ -68,16 +72,6 @@ class LoginBottomSheetViewModel {
                             }
                         } else if type == "sign-up" {
                             // 회원가입
-                            guard let accessToken = content.accessToken else {
-                                assertionFailure("accessToken 없음")
-                                return
-                            }
-//                            if KeyChainManager.shared.create(accessToken, type: .accessToken) {
-//                                UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
-//                                self?.signInUp = SignInUp(rawValue: type)
-//                            } else {
-//                                LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
-//                            }
                             KeyChainManager.shared.accessToken = accessToken
                             UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
                             self?.signInUp = SignInUp(rawValue: type)
@@ -107,27 +101,52 @@ class LoginBottomSheetViewModel {
                 LogUtil.e(moyaError)
             }
         } receiveValue: { [weak self] response in
-            let data = try? response.map(SimpleSignInResponse.self)
-            guard let responseContent = data?.data?.content else { return }
-            self?.content = responseContent
-            _ = KeyChainManager.shared.delete(type: .authorizationCode)
-            
-            if let signType = responseContent.type {
-                switch SignInUp(rawValue: signType) {
-                case .signIn:
-                    if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
-                        UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
-                        self?.signInUp = SignInUp.signIn
-                    }
-                case .signUp:
-                    if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
-                        UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
-                        self?.signInUp = SignInUp.signUp
-                    }
-                default:
-                    break
-                }
+            guard
+                let data = try? response.map(SimpleSignInResponse.self).data,
+                let content = data.content,
+                let type = content.type
+            else {
+                assertionFailure("parsing 실패")
+                return
             }
+            
+            if type == "sign-in" {
+                // 로그인
+                guard let accessToken = content.accessToken else {
+                    assertionFailure("accessToken 없음")
+                    return
+                }
+                _ = KeyChainManager.shared.create(accessToken, type: .accessToken)
+                if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
+                    UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
+                    self?.signInUp = SignInUp(rawValue: type)
+                } else {
+                    LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
+                }
+            } else if type == "sign-up" {
+
+                KeyChainManager.shared.identityToken = identityToken
+                UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
+                self?.signInUp = SignInUp(rawValue: type)
+            }
+            
+            
+//            if let signType = responseContent.type {
+//                switch SignInUp(rawValue: signType) {
+//                case .signIn:
+//                    if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
+//                        UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
+//                        self?.signInUp = SignInUp.signIn
+//                    }
+//                case .signUp:
+//                    if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
+//                        UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
+//                        self?.signInUp = SignInUp.signUp
+//                    }
+//                default:
+//                    break
+//                }
+//            }
         }.store(in: &bag)
     }
     

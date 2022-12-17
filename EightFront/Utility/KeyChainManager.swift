@@ -20,7 +20,9 @@ final class KeyChainManager {
     
     static let shared = KeyChainManager()
     private let service = Bundle.main.bundleIdentifier
+    
     var accessToken = ""
+    var identityToken = ""
     
     /// keyChain에 입력 받은 값(token)을 저장
     func create(_ token: String, type: KeyChainCategory) -> Bool {

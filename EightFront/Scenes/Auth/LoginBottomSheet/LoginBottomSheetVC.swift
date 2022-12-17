@@ -190,30 +190,30 @@ final class LoginBottomSheetVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] signInUp in
-//                guard let accessToken = self?.viewModel.content?.accessToken else {
-//                    assertionFailure("액세스 토큰 없음")
-//                    return
-//                }
-//
                 switch signInUp {
                 case .signIn:
                     self?.dismiss(animated: false) {
-//                        if KeyChainManager.shared.create(accessToken, type: .accessToken) {
-//                            UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
-//                            LogUtil.d("액세스 토큰 저장 성공")
-//                        } else {
-//                            LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
-//                        }
-                        UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
                         LogUtil.d("액세스 토큰 저장 성공")
                     }
                 case .signUp:
                     // 회원가입
-//                    KeyChainManager.shared.accessToken = accessToken
                     self?.dismiss(animated: false) {
-                        UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
                         let termsVC = TermsVC()
-                        termsVC.signType = SignType.kakao
+                        
+                        guard
+                            let signType = UserDefaults.standard.object(forKey: "signType") as? String
+                        else {
+                            return
+                        }
+                        
+                        switch SignType(rawValue: signType) {
+                        case .apple:
+                            termsVC.signType = SignType.apple
+                        case .kakao:
+                            termsVC.signType = SignType.kakao
+                        default:
+                            break
+                        }
                         UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
                     }
                 }
