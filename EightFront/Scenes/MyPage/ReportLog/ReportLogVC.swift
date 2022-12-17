@@ -85,13 +85,13 @@ class ReportLogVC: UIViewController {
             .sink { [weak self] in
                 self?.contentEmptyView.isHidden = $0.isEmpty ? false : true
                 self?.reportTableView.isHidden = $0.isEmpty ? true : false
+                self?.reportCategoryView.isHidden = $0.isEmpty ? true : false
                 self?.reportTableView.reloadData()
             }.store(in: &viewModel.bag)
         
     }
     
     // MARK: - Configure
-    
     private func configure() {
         reportTableView.delegate = self
         reportTableView.dataSource = self

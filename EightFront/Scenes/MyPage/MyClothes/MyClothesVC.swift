@@ -124,6 +124,7 @@ class MyClothesVC: UIViewController {
             .sink { [weak self] in
                 self?.contentEmptyView.isHidden = $0.isEmpty ? false : true
                 self?.clothesTableView.isHidden = $0.isEmpty ? true : false
+                self?.searchView.isHidden = $0.isEmpty ? true : false
             }.store(in: &viewModel.bag)
         
     }

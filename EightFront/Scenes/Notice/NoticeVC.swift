@@ -27,6 +27,10 @@ final class NoticeVC: UIViewController {
         $0.separatorStyle = .none
     }
     
+    private let contentEmptyView = CommonContentEmptyView().then {
+        $0.titleLabel.text = "아직 알림이 오지 않았어요."
+    }
+    
     //MARK: - Life Cycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,14 +68,31 @@ final class NoticeVC: UIViewController {
             $0.horizontalEdges.equalToSuperview().inset(23)
             $0.bottom.equalToSuperview()
         }
+        
+        view.addSubview(contentEmptyView)
+        contentEmptyView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.equalTo(174)
+            $0.height.equalTo(143)
+        }
     }
     
     //MARK: - Binding..
     private func bind() {
+//        viewModel.$notices
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] _ in
+////                self?.noticeTableView.reloadData()
+//            }.store(in: &viewModel.bag)
+        
         viewModel.$notices
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.noticeTableView.reloadData()
+            .compactMap { $0 }
+            .sink { [weak self] noties in
+                
+                self?.noticeTableView.isHidden = noties.isEmpty ? true : false
+                self?.contentEmptyView.isHidden = noties.isEmpty ? false : true
+                
             }.store(in: &viewModel.bag)
     }
 }
@@ -84,13 +105,13 @@ extension NoticeVC: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension NoticeVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.notices.count
+        return viewModel.numberOfRowsInSection()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NoticeTableViewCell.identifier,
                                                        for: indexPath) as? NoticeTableViewCell else { return UITableViewCell() }
-        cell.configure(notice: viewModel.cellForRowAt(indexPath: indexPath))
+//        cell.configure(notice: viewModel.cellForRowAt(indexPath: indexPath))
         cell.selectionStyle = .none
         return cell
     }
