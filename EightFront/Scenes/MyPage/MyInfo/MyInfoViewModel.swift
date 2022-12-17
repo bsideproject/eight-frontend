@@ -27,6 +27,7 @@ class MyInfoViewModel {
         }
     }
     @Published var nicknameDuplicateText = ""
+    @Published var profileImage = ""
     
     @Published var isNicknameCheck = false
     @Published var isSignUpButtonValid = false
@@ -80,6 +81,14 @@ class MyInfoViewModel {
                     LogUtil.e(error)
                 }
             } receiveValue: { [weak self] response in
+                guard
+                    let data = try? response.map(UserInfoResponse.self),
+                    let profileImage = data.data?.content.profileImage
+                else {
+                    return
+                }
+                self?.profileImage = profileImage
+                
                 guard
                     let data = try? response.map(UserInfoResponse.self),
                     let userEmail = data.data?.content.email

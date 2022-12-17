@@ -80,8 +80,10 @@ final class MyPageViewModel {
                     LogUtil.e("유저 정보 가져오기 실패")
                     return
                 }
+                
                 self?.nickname = data.content.nickname ?? ""
                 self?.profileImage = data.content.profileImage ?? ""
+                
             }.store(in: &bag)
     }
     

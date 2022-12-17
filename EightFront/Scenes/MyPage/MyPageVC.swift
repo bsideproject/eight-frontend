@@ -31,8 +31,7 @@ final class MyPageVC: UIViewController {
         $0.layer.cornerRadius = 109/2
     }
     private let profileImage = UIImageView().then {
-        let image = UIImage(named: "DropIcon")
-        $0.image = image
+        $0.contentMode = .scaleAspectFill
     }
     
     private let nicknameLabel = UILabel().then {
@@ -49,14 +48,16 @@ final class MyPageVC: UIViewController {
     }
     
     //MARK: - Life Cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.reqeustUserInfo()
+    }
         
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
         makeUI()
         bind()
-        
-        viewModel.reqeustUserInfo()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

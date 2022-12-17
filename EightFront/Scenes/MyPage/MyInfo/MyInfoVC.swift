@@ -11,6 +11,7 @@ import Combine
 import Moya
 import KakaoSDKUser
 import JWTDecode
+import Kingfisher
 
 protocol UserInfoReloadDelegate: AnyObject {
     func userInfoReload()
@@ -33,9 +34,9 @@ class MyInfoVC: UIViewController {
         $0.backgroundColor = Colors.gray007.color
         $0.layer.cornerRadius = 109/2
     }
+    
     private let profileImage = UIImageView().then {
-        let image = Images.dropIcon.image
-        $0.image = image
+        $0.contentMode = .scaleAspectFill
     }
     
     private let editImageView = UIView()
@@ -115,12 +116,14 @@ class MyInfoVC: UIViewController {
     
     // MARK: - Lift Cycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.reqeustUserInfo()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
         bind()
-        
-        viewModel.reqeustUserInfo()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -301,13 +304,17 @@ class MyInfoVC: UIViewController {
                 self?.emailLabel.text = $0
             }.store(in: &viewModel.bag)
         
-//        viewModel.$isButtonEnabled
-//            .receive(on: DispatchQueue.main)
-//            .compactMap { $0 }
-//            .sink { [weak self] isButtonEnabled in
-//                self?.editButtonView.backgroundColor = isButtonEnabled ? Colors.gray001.color :Colors.gray006.color
-//                self?.editButtonLabel.textColor = isButtonEnabled ? Colors.point.color : UIColor.white
-//            }.store(in: &viewModel.bag)
+        viewModel.$profileImage
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] imageName in
+                if imageName == "" {
+                    self?.profileImage.image = Images.dropIcon.image
+                } else {
+                    let imageURL = URL(string: imageName)
+                    self?.profileImage.kf.setImage(with: imageURL)
+                }
+            }.store(in: &viewModel.bag)
         
         viewModel.$isSignUpButtonValid
             .receive(on: DispatchQueue.main)
