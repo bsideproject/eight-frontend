@@ -16,7 +16,7 @@ class ReportLogVC: UIViewController {
     
     
     private let commonNavigationView = CommonNavigationView().then {
-        $0.titleLabel.text = "의류수거함 정보수정&신규등록 제보확인"
+        $0.titleLabel.text = "의류수거함 수정 및 등록"
     }
     
     private let reportCategoryView = ReportCategoryView()
@@ -58,7 +58,7 @@ class ReportLogVC: UIViewController {
         
         view.addSubview(reportTableView)
         reportTableView.snp.makeConstraints {
-            $0.top.equalTo(reportCategoryView.snp.bottom).offset(8)
+            $0.top.equalTo(reportCategoryView.snp.bottom).offset(52)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }

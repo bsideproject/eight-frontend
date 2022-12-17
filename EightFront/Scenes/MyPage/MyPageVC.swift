@@ -95,8 +95,9 @@ final class MyPageVC: UIViewController {
                 profileImageView.addSubview(profileImage)
                 profileImage.snp.makeConstraints {
                     $0.center.equalToSuperview()
-                    $0.width.equalTo(57)
-                    $0.height.equalTo(68)
+//                    $0.width.equalTo(57)
+//                    $0.height.equalTo(68)
+                    $0.size.equalTo(60)
                 }
             }
             myInfoView.addSubview(nicknameLabel)

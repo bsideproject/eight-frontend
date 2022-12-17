@@ -154,8 +154,9 @@ class MyInfoVC: UIViewController {
                 profileImageView.addSubview(profileImage)
                 profileImage.snp.makeConstraints {
                     $0.center.equalToSuperview()
-                    $0.width.equalTo(57)
-                    $0.height.equalTo(68)
+//                    $0.width.equalTo(57)
+//                    $0.height.equalTo(68)
+                    $0.size.equalTo(60)
                 }
                 
                 profileImageView.addSubview(editImage)
@@ -189,7 +190,7 @@ class MyInfoVC: UIViewController {
         nicknameTextField.snp.makeConstraints {
             $0.top.equalTo(nicknameTitleLabel.snp.bottom).offset(8)
             $0.left.equalToSuperview().inset(16)
-            $0.width.equalTo(271)
+            $0.right.equalToSuperview().inset(8+64+16)
             $0.height.equalTo(46)
         }
         
@@ -202,9 +203,9 @@ class MyInfoVC: UIViewController {
         view.addSubview(nicknameCheckButtonView)
         nicknameCheckButtonView.snp.makeConstraints {
             $0.centerY.equalTo(nicknameTextField.snp.centerY)
+            $0.right.equalToSuperview().inset(16)
             $0.width.equalTo(64)
             $0.height.equalTo(46)
-            $0.right.equalToSuperview().inset(16)
             
             nicknameCheckButtonView.addSubview(nicknameCheckButtonLabel)
             nicknameCheckButtonLabel.snp.makeConstraints {
