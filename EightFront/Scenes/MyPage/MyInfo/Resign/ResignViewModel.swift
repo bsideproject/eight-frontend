@@ -32,8 +32,15 @@ class ResignViewModel {
     
     func resign() {
         if isChecked == true {
-            guard let signType = UserDefaults.standard.object(forKey: "signType") as? String else { return }
-            if signType == SignType.kakao.rawValue {
+            guard
+                let signType = UserDefaults.standard.object(forKey: "signType") as? String
+            else {
+                assertionFailure("signType 정의 되어있지 않음")
+                return
+            }
+            
+            switch SignType(rawValue: signType) {
+            case .kakao:
                 authProvider.request(.memberResign(param: "")) { [weak self] result in
                     switch result {
                     case .failure(let error):
@@ -41,30 +48,29 @@ class ResignViewModel {
                     case .success:
                         self?.kakaoResign { [weak self] bool in
                             if bool {
-                                if KeyChainManager.shared.delete(type: .accessToken) {
-                                    UserDefaults.standard.removeObject(forKey: "signType")
-                                    self?.isResigned = true
-                                } else {
-                                    print("키체인 제거 실패")
-                                }
+                                _ = KeyChainManager.shared.delete(type: .accessToken)
+                                _ = KeyChainManager.shared.delete(type: .authorizationCode)
+                                UserDefaults.resetStandardUserDefaults()
+                                self?.isResigned = true
                             }
                         }
                     }
                 }
-            } else if signType == SignType.apple.rawValue {
+            case .apple:
                 let authCode = KeyChainManager.shared.read(type: .authorizationCode)
                 authProvider.request(.memberResign(param: authCode)) { [weak self] result in
                     switch result {
                     case .failure(let error):
                         LogUtil.e(error)
                     case .success:
-                        LogUtil.d("애플 회원 탈퇴")
                         _ = KeyChainManager.shared.delete(type: .accessToken)
                         _ = KeyChainManager.shared.delete(type: .authorizationCode)
-                        UserDefaults.standard.removeObject(forKey: "signType")
+                        UserDefaults.resetStandardUserDefaults()
                         self?.isResigned = true
                     }
                 }
+            default:
+                assertionFailure("회원탈퇴 실패")
             }
         }
     }

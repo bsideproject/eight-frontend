@@ -172,45 +172,52 @@ final class LoginBottomSheetVC: UIViewController {
             }
             .store(in: &viewModel.bag)
         
-        emailLoginButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.emailLoginButtonTapped()
-            }.store(in: &viewModel.bag)
+//        emailLoginButton
+//            .tapPublisher
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] in
+//                self?.emailLoginButtonTapped()
+//            }.store(in: &viewModel.bag)
         
-        emailSignUpButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.emailSignUpButtonTapped()
-            }.store(in: &viewModel.bag)
+//        emailSignUpButton
+//            .tapPublisher
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] in
+//                self?.emailSignUpButtonTapped()
+//            }.store(in: &viewModel.bag)
         
-        viewModel.$signType
+        viewModel.$signInUp
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
-            .sink { [weak self] signType in
-                guard let accessToken = self?.viewModel.content?.accessToken else { return }
-                switch signType {
+            .sink { [weak self] signInUp in
+//                guard let accessToken = self?.viewModel.content?.accessToken else {
+//                    assertionFailure("액세스 토큰 없음")
+//                    return
+//                }
+//
+                switch signInUp {
                 case .signIn:
                     self?.dismiss(animated: false) {
-                        if KeyChainManager.shared.create(accessToken, type: .accessToken) {
-                            LogUtil.d("액세스 토큰 저장 성공")
-                        } else {
-                            LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
-                        }
+//                        if KeyChainManager.shared.create(accessToken, type: .accessToken) {
+//                            UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
+//                            LogUtil.d("액세스 토큰 저장 성공")
+//                        } else {
+//                            LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
+//                        }
+                        UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
+                        LogUtil.d("액세스 토큰 저장 성공")
                     }
                 case .signUp:
                     // 회원가입
-                    KeyChainManager.shared.accessToken = accessToken
+//                    KeyChainManager.shared.accessToken = accessToken
                     self?.dismiss(animated: false) {
+                        UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
                         let termsVC = TermsVC()
-                        termsVC.configure(type: SignType.apple)
+                        termsVC.signType = SignType.kakao
                         UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
                     }
                 }
             }.store(in: &viewModel.bag)
-        
     }
     
     // MARK: - Functions
@@ -261,118 +268,27 @@ final class LoginBottomSheetVC: UIViewController {
     
     // MARK: -  카카오 로그인
     private func kakaoLoginButtonTapped() {
-        /// 카카오톡 설치 여부 확인
-        if (UserApi.isKakaoTalkLoginAvailable()) {
-            UserApi.shared.loginWithKakaoTalk { oauthToken, error in
-                if let error = error {
-                    LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
-                }
-                self.authProvider.request(.socialSignIn(
-                    param: SocialSignInRequest(
-                        accessToken: oauthToken?.accessToken ?? "",
-                        social: "kakao"
-                    ))) { reponse in
-                        switch reponse {
-                        case .success(let result):
-                            guard
-                                let data = try? result.map(SimpleSignInResponse.self).data
-                            else {
-                                LogUtil.e("Response Decoding 실패")
-                                return
-                            }
-                            guard
-                                let content = data.content
-                            else {
-                                LogUtil.e("data.content unWrapping 실패")
-                                return
-                            }
-                            if content.type == "sign-in" {
-                                guard let accessToken = content.accessToken else { return }
-                                if KeyChainManager.shared.create(accessToken, type: .accessToken) {
-                                    UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
-                                    self.dismiss(animated: false)
-                                } else {
-                                    LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
-                                }
-                            } else if content.type == "sign-up" {
-                                // 회원가입
-                                guard let accessToken = content.accessToken else { return }
-                                KeyChainManager.shared.accessToken = accessToken
-                                self.dismiss(animated: false) {
-                                    let termsVC = TermsVC()
-                                    termsVC.configure(type: SignType.kakao)
-                                    UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
-                                }
-                            }
-                        case .failure(let error):
-                            LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
-                        }
-                    }
-            }
-        } else {
-            UserApi.shared.loginWithKakaoAccount { [weak self](oauthToken, error) in
-                guard let oauthToken else { return }
-                if let error = error {
-                    LogUtil.e("카카오 간편 로그인 실패 : \(error.localizedDescription)")
-                }
-                self?.authProvider.request(.socialSignIn(
-                    param: SocialSignInRequest(
-                    accessToken: oauthToken.accessToken,
-                    social: "kakao"
-                    ))) { reponse in
-                        switch reponse {
-                        case .success(let result):
-                            guard let data = try? result.map(SimpleSignInResponse.self).data else {
-                                LogUtil.e("Response Decoding 실패")
-                                return
-                            }
-                            
-                            guard let content = data.content else {
-                                LogUtil.e("data.content unWrapping 실패")
-                                return
-                            }
-                            
-                            if content.type == "sign-in" {
-                                self?.dismiss(animated: false) {
-                                    guard let accessToken = content.accessToken else { return }
-                                    if KeyChainManager.shared.create(accessToken, type: .accessToken) {
-                                        UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
-                                        LogUtil.d("액세스 토큰 저장 성공")
-                                    } else {
-                                        LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
-                                    }
-                                }
-                            } else if content.type == "sign-up" {
-                                // 회원가입
-                                guard let accessToken = content.accessToken else { return }
-                                KeyChainManager.shared.accessToken = accessToken
-                                self?.dismiss(animated: false) {
-                                    let termsVC = TermsVC()
-                                    termsVC.configure(type: SignType.kakao)
-                                    UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
-                                }
-                            }
-                        case .failure(let error):
-                            LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
-                        }
-                    }
-            }
-        }
+        
+        _ = KeyChainManager.shared.delete(type: .accessToken)
+        _ = KeyChainManager.shared.delete(type: .authorizationCode)
+        UserDefaults.resetStandardUserDefaults()
+        
+        viewModel.kakaoLogin()
     }
     
-    private func emailLoginButtonTapped() {
-        dismiss(animated: false) {
-            let loginVC = LoginVC()
-            UIWindow().visibleViewController?.navigationController?.pushViewController(loginVC, animated: true)
-        }
-    }
-    
-    private func emailSignUpButtonTapped() {
-        dismiss(animated: false) {
-            let termsVC = TermsVC()
-            UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
-        }
-    }
+//    private func emailLoginButtonTapped() {
+//        dismiss(animated: false) {
+//            let loginVC = LoginVC()
+//            UIWindow().visibleViewController?.navigationController?.pushViewController(loginVC, animated: true)
+//        }
+//    }
+//
+//    private func emailSignUpButtonTapped() {
+//        dismiss(animated: false) {
+//            let termsVC = TermsVC()
+//            UIWindow().visibleViewController?.navigationController?.pushViewController(termsVC, animated: true)
+//        }
+//    }
 }
 
 // MARK: - ASAuthorizationControllerDelegate

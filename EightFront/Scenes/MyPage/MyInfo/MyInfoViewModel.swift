@@ -81,22 +81,22 @@ class MyInfoViewModel {
                     LogUtil.e(error)
                 }
             } receiveValue: { [weak self] response in
-                guard
-                    let data = try? response.map(UserInfoResponse.self),
-                    let profileImage = data.data?.content.profileImage
-                else {
-                    return
-                }
-                self?.profileImage = profileImage
                 
-                guard
-                    let data = try? response.map(UserInfoResponse.self),
-                    let userEmail = data.data?.content.email
-                else {
-                    self?.userEmail = "이메일 비공개"
+                guard let data = try? response.map(UserInfoResponse.self) else {
+                    LogUtil.e("유저 정보 불러오기 실패")
                     return
                 }
-                self?.userEmail = userEmail
+                
+                if let profileImage = data.data?.content.profileImage {
+                    self?.profileImage = profileImage
+                }
+                
+                if let userEmail = data.data?.content.email {
+                    self?.userEmail = userEmail
+                } else {
+                    self?.userEmail = "이메일 비공개"
+                }
+                
             }.store(in: &bag)
     }
     

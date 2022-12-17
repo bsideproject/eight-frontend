@@ -62,9 +62,6 @@ final class TermsVC: UIViewController {
     }
     
     // MARK: - Configure
-    func configure(type: SignType) {
-        self.signType = type
-    }
     
     // MARK: - MakeUI
     private func makeUI() {
@@ -169,7 +166,12 @@ final class TermsVC: UIViewController {
                 case .kakao,
                      .apple:
                     let simpleSignupVC = SimpleSignUpVC()
-                    guard let signType = self?.signType else { return }
+                    guard
+                        let signType = self?.signType
+                    else {
+                        assertionFailure("회원가입 진행 실패")
+                        return
+                    }
                     simpleSignupVC.configure(type: signType)
                     self?.navigationController?.pushViewController(simpleSignupVC, animated: true)
                 case .email:

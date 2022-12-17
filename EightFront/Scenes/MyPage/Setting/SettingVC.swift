@@ -256,7 +256,7 @@ class SettingVC: UIViewController {
             .sink { [weak self] _ in
                 // TODO: 로그아웃
                 if KeyChainManager.shared.delete(type: .accessToken) {
-                    UserDefaults.standard.removeObject(forKey: "signType")
+                    UserDefaults.resetStandardUserDefaults()
                     let tabbar = MainTabbarController()
                     let navi = CommonNavigationViewController(rootViewController: tabbar)
                     self?.view.window?.rootViewController = navi

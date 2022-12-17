@@ -34,12 +34,12 @@ enum ProfileImage: String, CaseIterable {
     
     var image: UIImage {
         switch self {
-        case .프로나눔러: return Images.ProfileImages.프로나눔러.image
-        case .의세권주민: return Images.ProfileImages.의세권주민.image
-        case .우유부단:   return Images.ProfileImages.우유부단.image
-        case .프로이사러: return Images.ProfileImages.프로이사러.image
-        case .풀소유:     return Images.ProfileImages.풀소유.image
-        case .옷이라퍼:   return Images.ProfileImages.옷이라퍼.image
+        case .프로나눔러: return Images.ProfileImages.default5.image
+        case .의세권주민: return Images.ProfileImages.default3.image
+        case .우유부단:   return Images.ProfileImages.default2.image
+        case .프로이사러: return Images.ProfileImages.default6.image
+        case .풀소유:     return Images.ProfileImages.default4.image
+        case .옷이라퍼:   return Images.ProfileImages.default1.image
         }
     }
     

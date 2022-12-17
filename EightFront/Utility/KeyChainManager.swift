@@ -13,18 +13,9 @@ import JWTDecode
 
 final class KeyChainManager {
     
-    enum KeyChainCategory {
-        case accessToken
-        case authorizationCode
-        
-        var account: String {
-            switch self {
-            case .accessToken:
-                return "accessToken"
-            case .authorizationCode:
-                return "authorizationCode"
-            }
-        }
+    enum KeyChainCategory: String, CaseIterable {
+        case accessToken = "accessToken"
+        case authorizationCode = "authorizationCode"
     }
     
     static let shared = KeyChainManager()
@@ -37,7 +28,7 @@ final class KeyChainManager {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,
-            kSecAttrAccount: type.account,
+            kSecAttrAccount: type.rawValue,
             kSecAttrGeneric: token.data(using: .utf8)
         ]
         return SecItemAdd(query as CFDictionary, nil) == errSecSuccess
@@ -49,7 +40,7 @@ final class KeyChainManager {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,
-            kSecAttrAccount: type.account,
+            kSecAttrAccount: type.rawValue,
             kSecMatchLimit : kSecMatchLimitOne,
             kSecReturnAttributes: true,
             kSecReturnData: true
@@ -59,18 +50,13 @@ final class KeyChainManager {
             LogUtil.e("KeyChain AccessToken Read Failed")
             return ""
         }
-        guard let existingItem = item as? [String: Any] else {
+        guard let existingItem = item as? [String: Any],
+              let data = existingItem[kSecAttrGeneric as String] as? Data,
+              let accessToken = String(data: data, encoding: .utf8) else {
             LogUtil.e("existingItem Error")
             return ""
         }
-        guard let data = existingItem[kSecAttrGeneric as String] as? Data else {
-            LogUtil.e("data Error")
-            return ""
-        }
-        guard let accessToken = String(data: data, encoding: .utf8) else {
-            LogUtil.e("KeyChain AccessToken Read Failed ~! ")
-            return ""
-        }
+
         return accessToken
     }
 
@@ -80,7 +66,7 @@ final class KeyChainManager {
         let query:[CFString: Any]=[
             kSecClass: kSecClassGenericPassword, // 보안 데이터 저장
             kSecAttrService: service, // 키 체인에서 해당 앱을 식별하는 값 (앱만의 고유한 값)
-            kSecAttrAccount : type.account] // 앱 내에서 데이터를 식별하기 위한 키에 해당하는 값 (사용자 계정)
+            kSecAttrAccount : type.rawValue] // 앱 내에서 데이터를 식별하기 위한 키에 해당하는 값 (사용자 계정)
         // 현재 저장되어 있는 값 삭제
         let status: OSStatus = SecItemDelete(query as CFDictionary)
         if status == errSecSuccess {
@@ -90,6 +76,13 @@ final class KeyChainManager {
         else {
             LogUtil.e("키체인 삭제 실패")
             return false
+        }
+    }
+    
+    func keyChainClear() {
+        KeyChainCategory.allCases.forEach {
+            guard let category = KeyChainCategory(rawValue: $0.rawValue) else  { return }
+            _ = delete(type: category)
         }
     }
 }

@@ -31,6 +31,7 @@ extension AuthAPI: TargetType {
         case .socialSignUp:                return "/api/oauth2/kakao/signup"
         case .appleSignIn:                 return "/api/oauth2/apple"
         case .appleSignUp:                 return "/api/oauth2/apple/signup"
+            
         case .memberResign:                return "/api/oauth2/member"
         case .nicknameCheck(let nickname): return "/api/oauth2/\(nickname)"
         case .nicknameChange:              return "/api/my/info/nickname"
@@ -86,6 +87,11 @@ extension AuthAPI: TargetType {
     
     var headers: [String : String]? {
         switch self {
+        case .socialSignIn,
+             .appleSignIn:
+            return [
+                "Content-type": "application/json",
+            ]
         case .memberResign:
             let bearer = "Bearer \(KeyChainManager.shared.read(type: .accessToken))"
             return [

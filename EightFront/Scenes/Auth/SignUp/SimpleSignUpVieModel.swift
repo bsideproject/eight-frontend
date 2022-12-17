@@ -28,7 +28,7 @@ class SimpleSignUpVieModel {
     @Published var isNicknameCheck = false
     @Published var isSignUpButtonValid = false
     
-    @Published var isNicknameChecked = false
+    @Published var isSignUpSuccessed = false
 
     lazy var isNicknameValid: AnyPublisher<Bool, Never> = $inputNickname
         .compactMap {
@@ -80,16 +80,21 @@ class SimpleSignUpVieModel {
                             case .success(let response):
                                 LogUtil.d("회원가입 API 호출 성공")
                                 if let data = try? response.map(SimpleSignUpResponse.self).data {
-                                    guard let accessToken = data.content?.accessToken else { return }
+                                    guard
+                                        let accessToken = data.content?.accessToken
+                                    else {
+                                        return
+                                    }
                                     if KeyChainManager.shared.create(accessToken, type: .accessToken) {
                                         UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
-                                        self?.isNicknameChecked = true
+                                        self?.isSignUpSuccessed = true
                                     }
                                 }
                             case .failure(let error):
                                 LogUtil.e(error)
                             }
                         }
+                
             case .apple:
                 authProvider.request(
                     .appleSignUp(
@@ -104,7 +109,7 @@ class SimpleSignUpVieModel {
                                     guard let accessToken = data.content?.accessToken else { return }
                                     if KeyChainManager.shared.create(accessToken, type: .accessToken) {
                                         UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
-                                        self?.isNicknameChecked = true
+                                        self?.isSignUpSuccessed = true
                                     }
                                 }
                             case .failure(let error):

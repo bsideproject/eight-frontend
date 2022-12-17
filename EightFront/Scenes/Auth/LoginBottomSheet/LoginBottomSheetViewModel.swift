@@ -30,13 +30,64 @@ class LoginBottomSheetViewModel {
     @Published var deviceID: String = ""
     
     @Published var identityToken: String = ""
-    @Published var signType: SignInUp?
+    
+    @Published var signInUp: SignInUp?
     @Published var content: Content?
     
     lazy var isLoginButtonValid: AnyPublisher<Bool, Never> = Publishers
         .CombineLatest($emailInput, $passwordInput)
         .map { $0 == "" || $1 == "" ? false : true }
         .eraseToAnyPublisher()
+    
+    func kakaoLogin() {
+        UserApi.shared.loginWithKakaoTalk { [weak self] oauthToken, error in
+            self?.authProvider.request(.socialSignIn(
+                param: SocialSignInRequest(
+                    accessToken: oauthToken?.accessToken ?? "",
+                    social: "kakao"
+                ))) { reponse in
+                    switch reponse {
+                    case .success(let result):
+                        guard
+                            let data = try? result.map(SimpleSignInResponse.self).data,
+                            let content = data.content,
+                            let type = content.type
+                        else {
+                            assertionFailure("parsing 실패")
+                            return
+                        }
+                        
+                        if type == "sign-in" {
+                            // 로그인
+                            guard let accessToken = content.accessToken else { return }
+                            if KeyChainManager.shared.create(accessToken, type: .accessToken) {
+                                UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
+                                self?.signInUp = SignInUp(rawValue: type)
+                            } else {
+                                LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
+                            }
+                        } else if type == "sign-up" {
+                            // 회원가입
+                            guard let accessToken = content.accessToken else {
+                                assertionFailure("accessToken 없음")
+                                return
+                            }
+//                            if KeyChainManager.shared.create(accessToken, type: .accessToken) {
+//                                UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
+//                                self?.signInUp = SignInUp(rawValue: type)
+//                            } else {
+//                                LogUtil.e("액세스 토큰을 키체인에 저장하지 못했습니다.")
+//                            }
+                            KeyChainManager.shared.accessToken = accessToken
+                            UserDefaults.standard.set(SignType.kakao.rawValue, forKey: "signType")
+                            self?.signInUp = SignInUp(rawValue: type)
+                        }
+                    case .failure(let error):
+                        LogUtil.e("간편 로그인 실패 > \(error.localizedDescription)")
+                    }
+                }
+        }
+    }
     
     func appleSignIn(identityToken: String, authorizationCode: String) {
         
@@ -66,12 +117,12 @@ class LoginBottomSheetViewModel {
                 case .signIn:
                     if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
                         UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
-                        self?.signType = SignInUp.signIn
+                        self?.signInUp = SignInUp.signIn
                     }
                 case .signUp:
                     if KeyChainManager.shared.create(authorizationCode, type: .authorizationCode) {
                         UserDefaults.standard.set(SignType.apple.rawValue, forKey: "signType")
-                        self?.signType = SignInUp.signUp
+                        self?.signInUp = SignInUp.signUp
                     }
                 default:
                     break

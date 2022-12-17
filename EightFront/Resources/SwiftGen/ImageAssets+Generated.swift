@@ -25,12 +25,12 @@ internal enum Images {
   internal static let dropIcon = ImageAsset(name: "DropIcon")
   internal static let hole = ImageAsset(name: "Hole")
   internal enum ProfileImages {
-    internal static let 옷이라퍼 = ImageAsset(name: "옷이라퍼")
-    internal static let 우유부단 = ImageAsset(name: "우유부단")
-    internal static let 의세권주민 = ImageAsset(name: "의세권주민")
-    internal static let 풀소유 = ImageAsset(name: "풀소유")
-    internal static let 프로나눔러 = ImageAsset(name: "프로나눔러")
-    internal static let 프로이사러 = ImageAsset(name: "프로이사러")
+    internal static let default1 = ImageAsset(name: "default1")
+    internal static let default2 = ImageAsset(name: "default2")
+    internal static let default3 = ImageAsset(name: "default3")
+    internal static let default4 = ImageAsset(name: "default4")
+    internal static let default5 = ImageAsset(name: "default5")
+    internal static let default6 = ImageAsset(name: "default6")
   }
   internal static let threeDot = ImageAsset(name: "ThreeDot")
   internal static let currentLocation = ImageAsset(name: "current-location")

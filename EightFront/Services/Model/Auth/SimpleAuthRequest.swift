@@ -25,13 +25,3 @@ struct SocialSignUpRequest: Codable {
     var nickName: String
 }
 
-//struct AppleSignInRequest: Codable {
-//    var accessToken: String
-//    var identityToken: String
-//    var type: String?
-//}
-//
-//struct AppleSignUpRequest: Codable {
-//    var accessToken: String
-//    var nickName: String
-//}

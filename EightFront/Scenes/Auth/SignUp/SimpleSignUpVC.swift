@@ -168,11 +168,11 @@ class SimpleSignUpVC: UIViewController {
             }.store(in: &viewModel.bag)
         
         // 화면 이동
-        viewModel.$isNicknameChecked
+        viewModel.$isSignUpSuccessed
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
-            .sink { [weak self] in
-                if $0 {
+            .sink { [weak self] isSuccess in
+                if isSuccess {
                     let successVC = SignUpSuccessVC()
                     self?.navigationController?.pushViewController(successVC, animated: true)
                 }
