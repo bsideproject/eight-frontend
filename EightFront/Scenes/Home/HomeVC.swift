@@ -294,6 +294,14 @@ final class HomeVC: UIViewController {
         guard let location,
               let requestURL = viewModel.requestURL(targetLocation: location) else { return }
                 
+//        if let appUrl = URL(string: urlString) {
+//            if(UIApplication.shared.canOpenURL(appUrl)) {
+//                UIApplication.shared.open(appUrl, options: [:], completionHandler: nil)
+//            } else {
+//                let showAlert = UIAlertController(title: "안내", message: "앱이 설치 안되었거나 오류임", preferredStyle: .alert)
+//            }
+//        }
+        
         UIApplication.shared.open(requestURL, options: [:], completionHandler: nil)
     }
     

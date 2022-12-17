@@ -85,8 +85,14 @@ extension HomeViewModel {
     }
     
     func requestURL(targetLocation location: CLLocation?) -> URL? {
+//        guard let destinationLocation = location,
+//              let type = NaviType(rawValue: DataManager.shared.setting?.naviType ?? "") else { return nil }
+        
+        let naviType = UserDefaults.standard.object(forKey: "navigation") as? String
+        
         guard let destinationLocation = location,
-              let type = NaviType(rawValue: DataManager.shared.setting?.naviType ?? "") else { return nil }
+              let type = NaviType(rawValue: naviType ?? "") else { return nil }
+        
         
         var destinationURL: URL? = nil
         var appstoreURL: URL? = nil
