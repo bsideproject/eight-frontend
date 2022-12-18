@@ -96,7 +96,7 @@ class LoginBottomSheetViewModel {
         .sink { completion in
             switch completion {
             case .finished:
-                LogUtil.d("애플 로그인 API 호출 완료")
+                break
             case .failure(let moyaError):
                 LogUtil.e(moyaError)
             }

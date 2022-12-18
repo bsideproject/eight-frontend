@@ -52,8 +52,8 @@ final class ProfileImageChangeVC: UIViewController {
         
         $0.setTitleColor(UIColor.white, for: .disabled)
         $0.setBackgroundColor(Colors.gray006.color, for: .disabled)
-        
         $0.layer.cornerRadius = 4
+        $0.layer.masksToBounds = true
     }
     
     override func viewDidLoad() {
@@ -61,6 +61,8 @@ final class ProfileImageChangeVC: UIViewController {
         makeUI()
         configure()
         bind()
+        
+        viewModel.reqeustUserInfo()
     }
     // MARK: - configure {
     private func configure() {
@@ -137,8 +139,14 @@ final class ProfileImageChangeVC: UIViewController {
                 let image = profileImage.image
                 self?.selectedProfileImage.image = image
                 
-                let label = "현재\n"+profileImage.rawValue+" 사용 중"
-                self?.selectedTitlaLabel.text = label
+                let text = "현재\n"+profileImage.rawValue+" 사용 중"
+                let label = NSMutableAttributedString(string: text)
+                label.addAttribute(.foregroundColor,
+                                       value: Colors.gray001.color,
+                                       range: (text as NSString).range(of: profileImage.rawValue)
+                )
+                
+                self?.selectedTitlaLabel.attributedText = label
                 
                 self?.profileImageCollectionView.reloadData()
                 
@@ -162,6 +170,12 @@ final class ProfileImageChangeVC: UIViewController {
                 if $0 {
                     self?.navigationController?.popViewController(animated: true)
                 }
+            }.store(in: &viewModel.bag)
+        
+        commonNavigationView.backButton.gesture()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
             }.store(in: &viewModel.bag)
     }
 }

@@ -43,7 +43,7 @@ class SimpleSignUpVieModel {
                 .sink { completion in
                     switch completion {
                     case .finished:
-                        LogUtil.d("닉네임 변경 API 호출 완료")
+                        break
                     case .failure(let error):
                         LogUtil.e(error)
                     }
@@ -78,7 +78,6 @@ class SimpleSignUpVieModel {
                         ))) { [weak self] result in
                             switch result {
                             case .success(let response):
-                                LogUtil.d("회원가입 API 호출 성공")
                                 if let data = try? response.map(SimpleSignUpResponse.self).data {
                                     guard
                                         let accessToken = data.content?.accessToken
@@ -105,7 +104,7 @@ class SimpleSignUpVieModel {
                         ))) { [weak self] result in
                             switch result {
                             case .success(let response):
-                                LogUtil.d("회원가입 API 호출")
+                                
                                 if let data = try? response.map(SimpleSignUpResponse.self).data {
                                     guard let accessToken = data.content?.accessToken else { return }
                                     if KeyChainManager.shared.create(accessToken, type: .accessToken) {
