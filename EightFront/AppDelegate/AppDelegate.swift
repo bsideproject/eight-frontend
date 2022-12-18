@@ -39,6 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set(true, forKey: "isNotification")
         }
         
+        if UserDefaults.standard.object(forKey: "signType") == nil {
+            KeyChainManager.shared.keyChainClear()
+        }
+        
         return true
     }
     
