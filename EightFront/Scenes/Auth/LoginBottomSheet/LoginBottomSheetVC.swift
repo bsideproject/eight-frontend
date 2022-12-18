@@ -53,14 +53,17 @@ final class LoginBottomSheetVC: UIViewController {
         $0.text = "SNS로 간편하게 시작하세요!"
         $0.textAlignment = .center
     }
-    private let appleLoginButton = ASAuthorizationAppleIDButton(
-        authorizationButtonType: .signIn,
-        authorizationButtonStyle: .black
-    )
+    
+    private let appleLoginButton = UIButton().then {
+        $0.contentMode = .scaleAspectFit
+        $0.setImage(Images.LoginButtonCustom.appleLoginButton.image)
+    }
+    
     private let kakaoLoginButton = UIButton().then {
         $0.contentMode = .scaleAspectFit
-        $0.setImage(Images.KakaoLoginButton.largeWide.image, for: .normal)
+        $0.setImage(Images.LoginButtonCustom.kakaoLoginButton.image)
     }
+    
     // TODO: 디자인 시안에서 폰트 설정 안돼있음
     private let emailLoginButton = UIButton().then {
         $0.setTitle("이메일로 로그인하기", for: .normal)
@@ -69,6 +72,7 @@ final class LoginBottomSheetVC: UIViewController {
         // 이메일 API 나오면 그 때 false로 수정
         $0.isHidden = true
     }
+    
     private let emailSignUpButton = UIButton().then {
         $0.setTitle("계정이 없다면? 회원가입", for: .normal)
         $0.setTitleColor(Colors.gray005.color, for: .normal)
@@ -122,21 +126,23 @@ final class LoginBottomSheetVC: UIViewController {
         }
         
         loginBottomSheetSubtitleLabel.snp.makeConstraints {
-            $0.top.equalTo(bottomSheetView).inset(80)
+            $0.top.equalTo(loginBottomSheetTitleLabel.snp.bottom).offset(12)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
         appleLoginButton.snp.makeConstraints {
-            $0.top.equalTo(bottomSheetView).inset(106)
-            $0.width.equalTo(343)
+            $0.top.equalTo(loginBottomSheetSubtitleLabel.snp.bottom).offset(12)
+//            $0.width.equalTo(343)
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(48)
             $0.centerX.equalTo(bottomSheetView)
         }
         
         // TODO: 추후 디자인에 따라 이미지 크기 수정
         kakaoLoginButton.snp.makeConstraints {
-            $0.top.equalTo(bottomSheetView).inset(162)
-            $0.width.equalTo(343)
+            $0.top.equalTo(appleLoginButton.snp.bottom).offset(12)
+//            $0.width.equalTo(343)
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(48)
             $0.centerX.equalTo(bottomSheetView)
         }

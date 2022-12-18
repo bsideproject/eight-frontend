@@ -46,12 +46,9 @@ internal enum Images {
     internal static let refresh = ImageAsset(name: "refresh")
     internal static let search = ImageAsset(name: "search")
   }
-  internal enum KakaoLoginButton {
-    internal static let bottomSheetView = ImageAsset(name: "bottomSheetView")
-    internal static let largeNarrow = ImageAsset(name: "large_narrow")
-    internal static let largeWide = ImageAsset(name: "large_wide")
-    internal static let mediumNarrow = ImageAsset(name: "medium_narrow")
-    internal static let mediumWide = ImageAsset(name: "medium_wide")
+  internal enum LoginButtonCustom {
+    internal static let appleLoginButton = ImageAsset(name: "AppleLoginButton")
+    internal static let kakaoLoginButton = ImageAsset(name: "KakaoLoginButton")
   }
   internal enum Map {
     internal static let boxEdit = ImageAsset(name: "box-edit")
