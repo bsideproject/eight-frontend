@@ -44,6 +44,7 @@ class ReportCategoryView: UIView {
     }
     
     func makeUI() {
+        
         addSubview(allView)
         allView.snp.makeConstraints {
             $0.left.equalToSuperview().inset(16)
@@ -56,7 +57,7 @@ class ReportCategoryView: UIView {
             }
             allView.addSubview(allBottomDiver)
             allBottomDiver.snp.makeConstraints {
-                $0.bottom.equalToSuperview()
+                $0.bottom.equalToSuperview().offset(3)
                 $0.height.equalTo(3)
                 $0.horizontalEdges.equalToSuperview()
             }
@@ -68,14 +69,14 @@ class ReportCategoryView: UIView {
             $0.width.equalTo(52)
             $0.height.equalTo(29)
             
-            
             editView.addSubview(editLabel)
             editLabel.snp.makeConstraints {
                 $0.center.equalToSuperview()
             }
+            
             editView.addSubview(editBottomDiver)
             editBottomDiver.snp.makeConstraints {
-                $0.bottom.equalToSuperview()
+                $0.bottom.equalToSuperview().offset(3)
                 $0.height.equalTo(3)
                 $0.horizontalEdges.equalToSuperview()
             }
@@ -87,14 +88,14 @@ class ReportCategoryView: UIView {
             $0.width.equalTo(52)
             $0.height.equalTo(29)
             
-            
             addView.addSubview(addLabel)
             addLabel.snp.makeConstraints {
                 $0.center.equalToSuperview()
             }
+            
             addView.addSubview(addBottomDiver)
             addBottomDiver.snp.makeConstraints {
-                $0.bottom.equalToSuperview()
+                $0.bottom.equalToSuperview().offset(3)
                 $0.height.equalTo(3)
                 $0.horizontalEdges.equalToSuperview()
             }

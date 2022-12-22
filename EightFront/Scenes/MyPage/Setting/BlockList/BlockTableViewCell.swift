@@ -15,7 +15,6 @@ class BlockTableViewCell: UITableViewCell {
     static let identity = "BlockTableViewCell"
     
     private let usernameLabel = UILabel().then {
-        $0.text = "드랍 더 옷"
         $0.font = Fonts.Templates.subheader.font
     }
     
@@ -40,6 +39,10 @@ class BlockTableViewCell: UITableViewCell {
     }
     
     func configure() {
+        
+    }
+    
+    func bind() {
         
     }
     

@@ -367,26 +367,30 @@ class MyInfoVC: UIViewController {
         profileImage.gesture()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                let alertSheet = UIAlertController(title: "", message: "프로필 변경", preferredStyle: .actionSheet)
-                let customImage = UIAlertAction(title: "사진첩에서 가져오기", style: .default) { [weak self] _ in
-                    PHPhotoLibrary.requestAuthorization { status in
-                        switch status {
-                        case .authorized:
-                            self?.openPhoto()
-                        default:
-                            break
-                        }
-                    }
-                    
-                }
-                let defaultImage = UIAlertAction(title: "드랍 더 옷 이미지로 변경", style: .default) { _ in
-                    let profileImageChangeVC = ProfileImageChangeVC()
-                    self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
-                }
-                alertSheet.addAction(customImage)
-                alertSheet.addAction(defaultImage)
+                let profileImageChangeVC = ProfileImageChangeVC()
+                self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
                 
-                self?.present(alertSheet, animated: true)
+//                let alertSheet = UIAlertController(title: "", message: "프로필 변경", preferredStyle: .actionSheet)
+//                let customImage = UIAlertAction(title: "사진첩에서 가져오기", style: .default) { [weak self] _ in
+//                    PHPhotoLibrary.requestAuthorization { status in
+//                        switch status {
+//                        case .authorized:
+//                            self?.openPhoto()
+//                        default:
+//                            break
+//                        }
+//                    }
+//
+//                }
+//                let defaultImage = UIAlertAction(title: "드랍 더 옷 이미지로 변경", style: .default) { _ in
+//                    let profileImageChangeVC = ProfileImageChangeVC()
+//                    self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
+//                }
+//                let cancelAciton = UIAlertAction(title: "취소", style: .cancel)
+//                alertSheet.addAction(customImage)
+//                alertSheet.addAction(defaultImage)
+//                alertSheet.addAction(cancelAciton)
+//                self?.present(alertSheet, animated: true)
             }.store(in: &viewModel.bag)
     }
     
@@ -397,9 +401,7 @@ class MyInfoVC: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-//    @objc private func photoLibraryOpen(_ sender: Any) {
-//        present(imagePickerController, animated: true)
-//    }
+
     
     // MARK: - Functions
     
@@ -411,11 +413,7 @@ class MyInfoVC: UIViewController {
             // -----------------------------------------
         }
     }
-    
-    
-    
 }
-
 
 extension MyInfoVC: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

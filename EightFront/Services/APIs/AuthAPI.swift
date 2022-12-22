@@ -17,7 +17,7 @@ enum AuthAPI {
     case nicknameCheck(nickname: String)
     case nicknameChange(nickname: String)
     case userInfo
-    case profileImageChange(defaultImage: String)
+    case profileDefaultImageChange(defaultImage: String)
 }
 
 extension AuthAPI: TargetType {
@@ -36,7 +36,9 @@ extension AuthAPI: TargetType {
         case .nicknameCheck(let nickname): return "/api/oauth2/\(nickname)"
         case .nicknameChange:              return "/api/my/info/nickname"
         case .userInfo:                    return "/api/my/info"
-        case .profileImageChange:          return "/api/my/info/profile-image"
+        case .profileDefaultImageChange:   return "/api/my/info/profile-image"
+//        case .profileUploadImageChange:    return ""
+            
         }
     }
     
@@ -50,7 +52,7 @@ extension AuthAPI: TargetType {
         case .nicknameCheck:      return .get
         case .nicknameChange:     return .put
         case .userInfo:           return .get
-        case .profileImageChange: return .put
+        case .profileDefaultImageChange: return .put
         }
     }
     
@@ -78,7 +80,7 @@ extension AuthAPI: TargetType {
         case .appleSignIn(let param): return .requestJSONEncodable(param)
         case .appleSignUp(let param): return .requestJSONEncodable(param)
         case .userInfo: return .requestPlain
-        case .profileImageChange(let defaultImage):
+        case .profileDefaultImageChange(let defaultImage):
             return .requestParameters(parameters: [
                 "defaultProfileImage": defaultImage
             ], encoding: URLEncoding.queryString)
