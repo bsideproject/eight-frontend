@@ -5,8 +5,9 @@
 //  Created by Jeongwan Kim on 2022/10/16.
 //
 
-import Foundation
+import UIKit
 import Moya
+
 
 enum AuthAPI {
     case socialSignIn(param: SocialSignInRequest)
@@ -17,7 +18,9 @@ enum AuthAPI {
     case nicknameCheck(nickname: String)
     case nicknameChange(nickname: String)
     case userInfo
+    
     case profileDefaultImageChange(defaultImage: String)
+    case profileUploadImageChange(image: UIImage)
 }
 
 extension AuthAPI: TargetType {
@@ -37,8 +40,7 @@ extension AuthAPI: TargetType {
         case .nicknameChange:              return "/api/my/info/nickname"
         case .userInfo:                    return "/api/my/info"
         case .profileDefaultImageChange:   return "/api/my/info/profile-image"
-//        case .profileUploadImageChange:    return ""
-            
+        case .profileUploadImageChange:    return "/api/my/info/profile-image"
         }
     }
     
@@ -53,6 +55,7 @@ extension AuthAPI: TargetType {
         case .nicknameChange:     return .put
         case .userInfo:           return .get
         case .profileDefaultImageChange: return .put
+        case .profileUploadImageChange: return .put
         }
     }
     
@@ -81,9 +84,14 @@ extension AuthAPI: TargetType {
         case .appleSignUp(let param): return .requestJSONEncodable(param)
         case .userInfo: return .requestPlain
         case .profileDefaultImageChange(let defaultImage):
-            return .requestParameters(parameters: [
+            return .requestParameters(
+                parameters: [
                 "defaultProfileImage": defaultImage
-            ], encoding: URLEncoding.queryString)
+                ], encoding: URLEncoding.queryString)
+        case .profileUploadImageChange(let image):
+            let imageData = image.jpegData(compressionQuality: 0.3) ?? Data()
+            let formData = MultipartFormData(provider: .data(imageData), name: "image", fileName: "image.jpg", mimeType: "image/jpeg")
+            return .uploadCompositeMultipart([formData], urlParameters: [:])
         }
     }
     

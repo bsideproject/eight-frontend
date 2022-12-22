@@ -36,13 +36,11 @@ class MyInfoVC: UIViewController {
     }
     
     private let myInfoView = UIView()
-    private let profileImageView = UIView().then {
+    private let profileImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
         $0.backgroundColor = Colors.gray007.color
         $0.layer.cornerRadius = 109/2
-    }
-    
-    private let profileImage = UIImageView().then {
-        $0.contentMode = .scaleAspectFill
+        $0.layer.masksToBounds = true
     }
     
     private let editImageView = UIView()
@@ -158,22 +156,14 @@ class MyInfoVC: UIViewController {
             profileImageView.snp.makeConstraints {
                 $0.center.equalToSuperview()
                 $0.size.equalTo(109)
-                
-                profileImageView.addSubview(profileImage)
-                profileImage.snp.makeConstraints {
-                    $0.center.equalToSuperview()
-//                    $0.width.equalTo(57)
-//                    $0.height.equalTo(68)
-                    $0.size.equalTo(60)
-                }
-                
-                profileImageView.addSubview(editImage)
-                editImage.snp.makeConstraints {
-                    $0.right.equalTo(profileImageView.snp.right).inset(1)
-                    $0.bottom.equalTo(profileImageView.snp.bottom).inset(3)
-                    $0.size.equalTo(29)
-                }
             }
+        }
+        
+        view.addSubview(editImage)
+        editImage.snp.makeConstraints {
+            $0.right.equalTo(profileImageView.snp.right).inset(1)
+            $0.bottom.equalTo(profileImageView.snp.bottom).inset(3)
+            $0.size.equalTo(29)
         }
         
         view.addSubview(emailTitleLabel)
@@ -316,15 +306,21 @@ class MyInfoVC: UIViewController {
         viewModel.$profileImage
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
-            .sink { [weak self] imageName in
-                if imageName == "" {
-                    self?.profileImage.image = Images.dropIcon.image
+            .sink(receiveValue: { [weak self] imagename in
+                if imagename == "" {
+                    self?.profileImageView.image = Images.dropIcon.image
+                    self?.profileImageView.contentMode = .scaleAspectFit
                 } else {
-                    let imageURL = URL(string: imageName)
-                    self?.profileImage.kf.setImage(with: imageURL)
+                    let imageURL = URL(string: imagename)
+                    self?.profileImageView.kf.setImage(with: imageURL)
+                    if imagename.contains("default") {
+                        self?.profileImageView.contentMode = .scaleAspectFit
+                    } else {
+                        self?.profileImageView.contentMode = .scaleAspectFill
+                    }
                 }
-            }.store(in: &viewModel.bag)
-        
+            }).store(in: &viewModel.bag)
+
         viewModel.$isSignUpButtonValid
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
@@ -364,33 +360,30 @@ class MyInfoVC: UIViewController {
                 self?.navigationController?.popViewController(animated: true)
             }.store(in: &viewModel.bag)
         
-        profileImage.gesture()
+//        profileImage.gesture()
+        profileImageView.gesture()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                let profileImageChangeVC = ProfileImageChangeVC()
-                self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
-                
-//                let alertSheet = UIAlertController(title: "", message: "프로필 변경", preferredStyle: .actionSheet)
-//                let customImage = UIAlertAction(title: "사진첩에서 가져오기", style: .default) { [weak self] _ in
-//                    PHPhotoLibrary.requestAuthorization { status in
-//                        switch status {
-//                        case .authorized:
-//                            self?.openPhoto()
-//                        default:
-//                            break
-//                        }
-//                    }
-//
-//                }
-//                let defaultImage = UIAlertAction(title: "드랍 더 옷 이미지로 변경", style: .default) { _ in
-//                    let profileImageChangeVC = ProfileImageChangeVC()
-//                    self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
-//                }
-//                let cancelAciton = UIAlertAction(title: "취소", style: .cancel)
-//                alertSheet.addAction(customImage)
-//                alertSheet.addAction(defaultImage)
-//                alertSheet.addAction(cancelAciton)
-//                self?.present(alertSheet, animated: true)
+                let alertSheet = UIAlertController(title: "", message: "프로필 변경", preferredStyle: .actionSheet)
+                let customImage = UIAlertAction(title: "사진첩에서 가져오기", style: .default) { [weak self] _ in
+                    PHPhotoLibrary.requestAuthorization { status in
+                        switch status {
+                        case .authorized:
+                            self?.openPhoto()
+                        default:
+                            break
+                        }
+                    }
+                }
+                let defaultImage = UIAlertAction(title: "드랍 더 옷 이미지로 변경", style: .default) { _ in
+                    let profileImageChangeVC = ProfileImageChangeVC()
+                    self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
+                }
+                let cancelAciton = UIAlertAction(title: "취소", style: .cancel)
+                alertSheet.addAction(customImage)
+                alertSheet.addAction(defaultImage)
+                alertSheet.addAction(cancelAciton)
+                self?.present(alertSheet, animated: true)
             }.store(in: &viewModel.bag)
     }
     
@@ -401,16 +394,13 @@ class MyInfoVC: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-
-    
     // MARK: - Functions
     
     func openPhoto(){
         DispatchQueue.main.async {            
-            self.photo.sourceType = .photoLibrary // 앨범 지정 실시
-            self.photo.allowsEditing = false // 편집을 허용하지 않음
+            self.photo.sourceType = .photoLibrary
+            self.photo.allowsEditing = false
             self.present(self.photo, animated: false, completion: nil)
-            // -----------------------------------------
         }
     }
 }
@@ -418,7 +408,17 @@ class MyInfoVC: UIViewController {
 extension MyInfoVC: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let img = info[UIImagePickerController.InfoKey.originalImage] {
-            print(img)
+            authProvider.requestPublisher(.profileUploadImageChange(image: img as! UIImage))
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let moyaError):
+                        LogUtil.e(moyaError)
+                    }
+                } receiveValue: { [weak self] response in
+                    self?.viewModel.reqeustUserInfo()
+                }.store(in: &viewModel.bag)
             dismiss(animated: true)
         }
     }

@@ -26,12 +26,10 @@ final class MyPageVC: UIViewController {
         $0.backButton.isHidden = true
     }
     private let myInfoView = UIView()
-    private let profileImageView = UIView().then {
+    private let profileImageView = UIImageView().then {
         $0.backgroundColor = Colors.gray007.color
         $0.layer.cornerRadius = 109/2
-    }
-    private let profileImage = UIImageView().then {
-        $0.contentMode = .scaleAspectFill
+        $0.layer.masksToBounds = true
     }
     
     private let nicknameLabel = UILabel().then {
@@ -91,14 +89,6 @@ final class MyPageVC: UIViewController {
             profileImageView.snp.makeConstraints {
                 $0.center.equalToSuperview()
                 $0.size.equalTo(109)
-                
-                profileImageView.addSubview(profileImage)
-                profileImage.snp.makeConstraints {
-                    $0.center.equalToSuperview()
-//                    $0.width.equalTo(57)
-//                    $0.height.equalTo(68)
-                    $0.size.equalTo(60)
-                }
             }
             myInfoView.addSubview(nicknameLabel)
             nicknameLabel.snp.makeConstraints {
@@ -134,12 +124,19 @@ final class MyPageVC: UIViewController {
         viewModel.$profileImage
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
-            .sink { [weak self] in
-                guard let imageURL = URL(string: $0) else {
-                    self?.profileImage.image = Images.dropIcon.image
-                    return
+            .sink { [weak self] imagename in
+                if imagename == "" {
+                    self?.profileImageView.image = Images.dropIcon.image
+                    self?.profileImageView.contentMode = .scaleAspectFit
+                } else {
+                    let imageURL = URL(string: imagename)
+                    self?.profileImageView.kf.setImage(with: imageURL)
+                    if imagename.contains("default") {
+                        self?.profileImageView.contentMode = .scaleAspectFit
+                    } else {
+                        self?.profileImageView.contentMode = .scaleAspectFill
+                    }
                 }
-                self?.profileImage.kf.setImage(with: imageURL)
             }.store(in: &viewModel.bag)
         
         myInfoView
