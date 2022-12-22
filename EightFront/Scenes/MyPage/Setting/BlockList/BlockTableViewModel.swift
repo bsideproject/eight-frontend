@@ -39,6 +39,9 @@ class BlockTableViewModel {
     
     // 유저 차단 해제
     func unBlockUser(indexPath: IndexPath) {
+        
+        
+        
         LogUtil.d("\(indexPath.row)번째 유저 차단을 해제했습니다.")
     }
 }

@@ -11,7 +11,7 @@ import Moya
 enum BlockAPI {
     case blockList
     case block
-    case unBlock
+    case unBlock(param: String)
 }
 
 extension BlockAPI: TargetType {
@@ -45,8 +45,11 @@ extension BlockAPI: TargetType {
             return .requestPlain
         case .block:
             return .requestPlain
-        case .unBlock:
-            return .requestPlain
+        case .unBlock(let memberId):
+            let params = [
+                "memberId": memberId
+            ]
+            return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
         }
     }
     

@@ -83,7 +83,7 @@ class ProfileImageChangeViewModel {
     
     func profileImageChange() {
         guard let selectedImage else { return }
-        provider.requestPublisher(.profileImageChange(defaultImage: selectedImage.imageServerName))
+        provider.requestPublisher(.profileDefaultImageChange(defaultImage: selectedImage.imageServerName))
             .compactMap { $0 }
             .sink { completion in
                 switch completion {

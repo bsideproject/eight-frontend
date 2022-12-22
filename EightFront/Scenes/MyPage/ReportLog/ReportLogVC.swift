@@ -55,14 +55,15 @@ class ReportLogVC: UIViewController {
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(29)
         }
-        
+
         view.addSubview(reportTableView)
         reportTableView.snp.makeConstraints {
-            $0.top.equalTo(reportCategoryView.snp.bottom).offset(52)
+//            $0.top.equalTo(reportCategoryView.snp.bottom).offset(52)
+            $0.top.equalTo(commonNavigationView.snp.bottom).offset(19)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
-        
+
         view.addSubview(contentEmptyView)
         contentEmptyView.snp.makeConstraints { 
             $0.center.equalToSuperview()
@@ -85,10 +86,10 @@ class ReportLogVC: UIViewController {
             .sink { [weak self] in
                 self?.contentEmptyView.isHidden = $0.isEmpty ? false : true
                 self?.reportTableView.isHidden = $0.isEmpty ? true : false
-                self?.reportCategoryView.isHidden = $0.isEmpty ? true : false
+//                self?.reportCategoryView.isHidden = $0.isEmpty ? true : false
+                self?.reportCategoryView.isHidden = $0.isEmpty ? true : true
                 self?.reportTableView.reloadData()
             }.store(in: &viewModel.bag)
-        
     }
     
     // MARK: - Configure

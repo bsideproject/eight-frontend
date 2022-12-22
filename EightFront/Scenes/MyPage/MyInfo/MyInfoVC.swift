@@ -13,6 +13,9 @@ import KakaoSDKUser
 import JWTDecode
 import Kingfisher
 
+import AVFoundation
+import Photos
+
 protocol UserInfoReloadDelegate: AnyObject {
     func userInfoReload()
 }
@@ -20,10 +23,13 @@ protocol UserInfoReloadDelegate: AnyObject {
 class MyInfoVC: UIViewController {
     
     // MARK: - Properties
+    
+    weak var delegate: UserInfoReloadDelegate?
+    
     private let authProvider = MoyaProvider<AuthAPI>()
     private let viewModel = MyInfoViewModel()
     
-    weak var delegate: UserInfoReloadDelegate?
+    let photo = UIImagePickerController()
     
     private let commonNavigationView = CommonNavigationView().then {
         $0.titleLabel.text = "내 정보 수정"
@@ -124,6 +130,8 @@ class MyInfoVC: UIViewController {
         super.viewDidLoad()
         makeUI()
         bind()
+        
+        photo.delegate = self
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -359,22 +367,59 @@ class MyInfoVC: UIViewController {
         profileImage.gesture()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                let alertSheet = UIAlertController(title: "", message: "프로필 변경", preferredStyle: .actionSheet)
-                let action1 = UIAlertAction(title: "드랍 더 옷 이미지로 변경", style: .default) { _ in
-                    let profileImageChangeVC = ProfileImageChangeVC()
-                    self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
-                }
-//                let action2 = UIAlertAction(title: "사진첩에서 가져오기", style: .default)
-                alertSheet.addAction(action1)
-//                alertSheet.addAction(action2)
-                self?.present(alertSheet, animated: true)
+                let profileImageChangeVC = ProfileImageChangeVC()
+                self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
+                
+//                let alertSheet = UIAlertController(title: "", message: "프로필 변경", preferredStyle: .actionSheet)
+//                let customImage = UIAlertAction(title: "사진첩에서 가져오기", style: .default) { [weak self] _ in
+//                    PHPhotoLibrary.requestAuthorization { status in
+//                        switch status {
+//                        case .authorized:
+//                            self?.openPhoto()
+//                        default:
+//                            break
+//                        }
+//                    }
+//
+//                }
+//                let defaultImage = UIAlertAction(title: "드랍 더 옷 이미지로 변경", style: .default) { _ in
+//                    let profileImageChangeVC = ProfileImageChangeVC()
+//                    self?.navigationController?.pushViewController(profileImageChangeVC, animated: true)
+//                }
+//                let cancelAciton = UIAlertAction(title: "취소", style: .cancel)
+//                alertSheet.addAction(customImage)
+//                alertSheet.addAction(defaultImage)
+//                alertSheet.addAction(cancelAciton)
+//                self?.present(alertSheet, animated: true)
             }.store(in: &viewModel.bag)
-        
     }
     
     // MARK: - Configure
     
     // MARK: - Actions
+    @objc private func didTappedOutside(_ sender: UITapGestureRecognizer) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+
     
     // MARK: - Functions
+    
+    func openPhoto(){
+        DispatchQueue.main.async {            
+            self.photo.sourceType = .photoLibrary // 앨범 지정 실시
+            self.photo.allowsEditing = false // 편집을 허용하지 않음
+            self.present(self.photo, animated: false, completion: nil)
+            // -----------------------------------------
+        }
+    }
+}
+
+extension MyInfoVC: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let img = info[UIImagePickerController.InfoKey.originalImage] {
+            print(img)
+            dismiss(animated: true)
+        }
+    }
 }
