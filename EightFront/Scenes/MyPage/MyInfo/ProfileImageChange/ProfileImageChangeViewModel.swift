@@ -19,17 +19,6 @@ enum ProfileImage: String, CaseIterable {
     case 풀소유
     case 옷이라퍼
     
-    var url: String {
-        switch self {
-        case .프로나눔러: return ""
-        case .의세권주민: return ""
-        case .우유부단:   return ""
-        case .프로이사러: return ""
-        case .풀소유:     return ""
-        case .옷이라퍼:   return ""
-        }
-    }
-    
     var image: UIImage {
         switch self {
         case .프로나눔러: return Images.ProfileImages.default5.image
@@ -113,7 +102,6 @@ class ProfileImageChangeViewModel {
                     LogUtil.e(error)
                 }
             } receiveValue: { [weak self] response in
-                
                 guard let data = try? response.map(UserInfoResponse.self) else {
                     LogUtil.e("유저 정보 불러오기 실패")
                     return

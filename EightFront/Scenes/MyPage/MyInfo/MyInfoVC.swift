@@ -360,7 +360,6 @@ class MyInfoVC: UIViewController {
                 self?.navigationController?.popViewController(animated: true)
             }.store(in: &viewModel.bag)
         
-//        profileImage.gesture()
         profileImageView.gesture()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
