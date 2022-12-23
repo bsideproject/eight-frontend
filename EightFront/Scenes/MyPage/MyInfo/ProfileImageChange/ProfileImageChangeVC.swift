@@ -198,8 +198,9 @@ extension ProfileImageChangeVC: UICollectionViewDataSource {
         }
         let item = viewModel.cellForItemAt(indexPath: indexPath)
         cell.configure(item: item)
-        cell.viewModel = self.viewModel
-        
+        if item == viewModel.selectedImage {
+            cell.profileView.layer.borderColor = Colors.gray001.color.cgColor
+        }
         return cell
     }
     

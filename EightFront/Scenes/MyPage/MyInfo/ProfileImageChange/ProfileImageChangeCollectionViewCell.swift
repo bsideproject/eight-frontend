@@ -13,7 +13,6 @@ class ProfileImageChangeCollectionViewCell: UICollectionViewCell {
     
     var bag = Set<AnyCancellable>()
     var profileImage: ProfileImage?
-    var viewModel: ProfileImageChangeViewModel?
     static let identifier = "ProfileImageChangeCollectionViewCell"
     
     let profileView = UIView().then {
@@ -29,6 +28,10 @@ class ProfileImageChangeCollectionViewCell: UICollectionViewCell {
     let titleLabel = UILabel().then {
         $0.font = Fonts.Templates.caption1.font
         $0.textColor = Colors.gray005.color
+    }
+    
+    override func prepareForReuse() {
+        profileView.layer.borderColor = Colors.gray006.color.cgColor
     }
     
     override init(frame: CGRect) {
