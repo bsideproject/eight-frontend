@@ -187,6 +187,22 @@ final class HomeVC: UIViewController {
                 guard let lat = self?.mapView.latitude, let lng = self?.mapView.longitude else { return }
                 let location = CLLocation(latitude: lat, longitude: lng)
                 self?.viewModel.input.requestClothingBins.send(location)
+                
+                let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear)
+                
+                animator.addAnimations { [weak self] in
+                    self?.refreshButton.backgroundColor = Colors.gray006.color
+                    self?.refreshButton.titleLabel.textColor = Colors.gray005.color
+                    self?.refreshButton.logoImageView.tintColor = Colors.gray005.color
+                }
+                
+                animator.addCompletion { [weak self] _ in
+                    self?.refreshButton.backgroundColor = .white
+                    self?.refreshButton.titleLabel.textColor = .black
+                    self?.refreshButton.logoImageView.tintColor = .black
+                }
+                
+                animator.startAnimation()
             }
             .store(in: &viewModel.cancelBag)
         

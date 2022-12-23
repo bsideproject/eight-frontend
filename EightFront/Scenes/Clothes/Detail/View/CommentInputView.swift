@@ -14,8 +14,14 @@ final class CommentInputView: UIView {
     let topLineView = UIView().then {
         $0.backgroundColor = UIColor(colorSet: 234)
     }
+    let profileBackgroundView = UIView().then {
+        $0.backgroundColor = Colors.gray007.color
+        $0.layer.cornerRadius = 17
+    }
     let profileImageView = UIImageView().then {
-        $0.image = Images.Detail.defaultProfile.image
+        $0.image = Images.dropIcon.image
+        $0.contentMode = .scaleToFill
+        $0.backgroundColor = Colors.gray007.color
     }
     let inputBackgroundView = UIView().then {
         $0.backgroundColor = UIColor(colorSet: 245)
@@ -53,23 +59,30 @@ final class CommentInputView: UIView {
     //MARK: - Make UI
     private func makeUI() {
         addSubview(topLineView)
-        addSubview(profileImageView)
+        addSubview(profileBackgroundView)
         addSubview(inputBackgroundView)
+        
         inputBackgroundView.addSubview(inputTextField)
         inputBackgroundView.addSubview(sumitButton)
+        profileBackgroundView.addSubview(profileImageView)
         
         topLineView.snp.makeConstraints {
             $0.left.top.right.equalToSuperview()
             $0.height.equalTo(1)
         }
-        profileImageView.snp.makeConstraints {
-            $0.size.equalTo(46)
+        profileBackgroundView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(10)
+            $0.left.equalToSuperview().offset(16.33)
+            $0.size.equalTo(34)
+        }
+        profileImageView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.equalTo(16)
+            $0.height.equalTo(19.428571)
         }
         inputBackgroundView.snp.makeConstraints {
             $0.height.equalTo(42)
-            $0.left.equalTo(profileImageView.snp.right).offset(2)
+            $0.left.equalTo(profileBackgroundView.snp.right).offset(8.32)
             $0.right.equalToSuperview().offset(-19)
             $0.centerY.equalToSuperview()
         }

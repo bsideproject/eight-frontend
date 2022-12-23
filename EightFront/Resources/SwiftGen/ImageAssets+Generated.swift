@@ -42,6 +42,7 @@ internal enum Images {
     internal static let add = ImageAsset(name: "add")
     internal static let alarm = ImageAsset(name: "alarm")
     internal static let detail = ImageAsset(name: "detail")
+    internal static let iconEmpty = ImageAsset(name: "icon_empty")
     internal static let list = ImageAsset(name: "list")
     internal static let refresh = ImageAsset(name: "refresh")
     internal static let search = ImageAsset(name: "search")
